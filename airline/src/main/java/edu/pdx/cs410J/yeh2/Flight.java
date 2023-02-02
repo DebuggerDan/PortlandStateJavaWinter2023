@@ -119,6 +119,7 @@ public class Flight extends AbstractFlight {
    */
   @Override
   public String getArrivalString() {
+    /*
     if (this.arrive == null || this.arrive.equals("N/A"))
     {
       return "N/A";
@@ -127,7 +128,8 @@ public class Flight extends AbstractFlight {
     {
       return this.arrive;
     }
-    //throw new UnsupportedOperationException("This method is not implemented yet");
+    */
+    throw new UnsupportedOperationException("This method is not implemented yet");
   }
 
 
