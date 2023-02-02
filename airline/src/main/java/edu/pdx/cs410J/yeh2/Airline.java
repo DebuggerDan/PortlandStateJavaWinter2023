@@ -11,8 +11,9 @@ public class Airline extends AbstractAirline<Flight> {
 
   public Airline(String airline, String flightNumber, String src, String depart, String dest, String arrive)
   {
-    this.name = "Blank!";
+    this.name = airline;
     this.flights = 0;
+    this.name = airline;
     Flight firstFlight = new Flight(flightNumber, src, depart, dest, arrive);
     addFlight(firstFlight);
   }
@@ -33,9 +34,14 @@ public class Airline extends AbstractAirline<Flight> {
     {
       this.head = curr;
     }
+    if (this.head.getNext() == null)
+    {
+      this.head.setNext(curr);
+      this.head = curr;
+    }
     else
     {
-      addFlight(curr.getNext());
+      this.addFlight(curr.getNext());
     }
   }
 

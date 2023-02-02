@@ -16,15 +16,18 @@ public class Project1 {
 
   public static void main(String[] args) {
     //Flight flight = new Flight();  // Refer to one of Dave's classes so that we can be sure it is on the classpath
+    int argnum = 0;
+    Airline lufthansa = null;
+    if (args == null)
+    {
+        lufthansa = new Airline("N/A");
+    }
 
-
-
-    Airline lufthansa = new Airline(args[0], args[1], args[2], args[3], args[4], args[5]);
-    //AirlineParser read = new AirlineParser();
-
+    lufthansa = new Airline("N/A");//args[0], args[1], args[2], args[3], args[4], args[5]);
+        //AirlineParser read = new AirlineParser();
     //TextParser parser = new TextParser(lufthansa);
     //TextDumper dumper = new TextDumper();
-    //lufthansa.parse();
+
 
     if (args == null) {
       System.err.println("Missing command line arguments");
@@ -32,9 +35,35 @@ public class Project1 {
 
     for (String arg : args) {
         System.out.println(arg);
+
+        if (arg.startsWith("-"))
+        {
+          String parameter = arg.substring(1);
+          if (parameter.equals("print"))
+            {
+                    lufthansa.printAll();
+            }
+          if (parameter.equals("README"))
+            {
+
+            break;
+            }
+          else
+          {
+              System.err.println("Invalid airline program, o noes! (Option Specified: " + parameter + ")");
+
+          }
+        }
+        else
+        {
+          argnum++;
+        }
       }
 
-    lufthansa.printAll();
+      if (argnum != 6)
+      {
+        System.err.println("Missing command line arguments");
+      }
 
   }
 

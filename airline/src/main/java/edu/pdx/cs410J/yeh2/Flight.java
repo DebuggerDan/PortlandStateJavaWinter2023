@@ -4,12 +4,11 @@ import edu.pdx.cs410J.AbstractFlight;
 
 /**
  * This class implements Flight with a name, flightNumber, src, depart(ure time & date),
- * dest(ination time & date), and arrive(-e+al time&date)
+ * destination (time & date), and arrive(-e+al time&date)
  */
 public class Flight extends AbstractFlight {
   private Flight next = null;
-  protected String name;
-  protected String flightNumber;
+  protected String flightNumber = "69";
   protected String src;
   protected String depart;
   protected String dest;
@@ -17,6 +16,7 @@ public class Flight extends AbstractFlight {
 
   public Flight(String flightNumber, String src, String depart, String dest, String arrive)
   {
+    this.flightNumber = flightNumber;
     this.flightNumber = flightNumber;
     this.src = src;
     this.depart = depart;
@@ -33,11 +33,11 @@ public class Flight extends AbstractFlight {
     System.out.print(this.arrive);
   }
 
-  public Flight setNext(Flight curr)
+  public void setNext(Flight curr)
   {
     this.next = curr;
 
-    return this.next;
+    //return this.next;
   }
 
   public Flight getNext()
@@ -47,7 +47,8 @@ public class Flight extends AbstractFlight {
 
   @Override
   public int getNumber() {
-    return 42;
+    //return 42;
+    return Integer.parseInt(this.flightNumber);
   }
 
   @Override
