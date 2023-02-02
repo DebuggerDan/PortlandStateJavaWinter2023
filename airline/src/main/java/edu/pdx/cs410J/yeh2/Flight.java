@@ -18,7 +18,6 @@ public class Flight extends AbstractFlight {
   public Flight(String flightNumber, String src, String depart, String dest, String arrive)
   {
     this.flightNumber = flightNumber;
-    this.flightNumber = flightNumber;
     this.src = src;
     this.depart = depart;
     this.dest = dest;
@@ -98,6 +97,10 @@ public class Flight extends AbstractFlight {
     //throw new UnsupportedOperationException("This method is not implemented yet");
   }
 
+  /**
+   * Returns current flight's destination (three-letter code) or "N/A" if blank!
+   * @return dest
+   */
   @Override
   public String getDestination() {
     if (this.dest == null || this.dest.equals("N/A"))
@@ -110,10 +113,21 @@ public class Flight extends AbstractFlight {
     }
     //throw new UnsupportedOperationException("This method is not implemented yet");
   }
-
+  /**
+   * Returns current flight's arrival string (three-letter code) or "N/A" if blank!
+   * @return arrive
+   */
   @Override
   public String getArrivalString() {
-    throw new UnsupportedOperationException("This method is not implemented yet");
+    if (this.arrive == null || this.arrive.equals("N/A"))
+    {
+      return "N/A";
+    }
+    else
+    {
+      return this.arrive;
+    }
+    //throw new UnsupportedOperationException("This method is not implemented yet");
   }
 
 
