@@ -5,6 +5,7 @@ import edu.pdx.cs410J.AbstractFlight;
 /**
  * This class implements Flight with a name, flightNumber, src, depart(ure time & date),
  * destination (time & date), and arrive(-e+al time&date)
+ *
  */
 public class Flight extends AbstractFlight {
   private Flight next = null;
@@ -33,6 +34,9 @@ public class Flight extends AbstractFlight {
     System.out.print(this.arrive);
   }
 
+  /**
+   * Sets the next flight node.
+   */
   public void setNext(Flight curr)
   {
     this.next = curr;
@@ -40,17 +44,29 @@ public class Flight extends AbstractFlight {
     //return this.next;
   }
 
+  /**
+   * Returns the next flight node.
+   * @return Flight next
+   */
   public Flight getNext()
   {
     return this.next;
   }
 
+  /**
+   * Returns current flight number.
+   * @return flightNumber
+   */
   @Override
   public int getNumber() {
     //return 42;
     return Integer.parseInt(this.flightNumber);
   }
 
+  /**
+   * Returns current flight source (or "N/A" if blank!)
+   * @return src
+   */
   @Override
   public String getSource()
   {
@@ -65,9 +81,21 @@ public class Flight extends AbstractFlight {
     //throw new UnsupportedOperationException("This method is not implemented yet");
   }
 
+  /**
+   * Returns current flight's departure (three-letter code) or "N/A" if blank!
+   * @return depart
+   */
   @Override
   public String getDepartureString() {
-    throw new UnsupportedOperationException("This method is not implemented yet");
+    if (this.depart == null || this.depart.equals("N/A"))
+    {
+      return "N/A";
+    }
+    else
+    {
+      return this.depart;
+    }
+    //throw new UnsupportedOperationException("This method is not implemented yet");
   }
 
   @Override

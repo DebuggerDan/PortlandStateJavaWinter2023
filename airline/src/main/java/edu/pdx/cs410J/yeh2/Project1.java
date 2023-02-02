@@ -52,12 +52,12 @@ public class Project1 {
           String parameter = arg.substring(1);
           if (parameter.equals("print"))
             {
-                    lufthansa.printAll();
+                lufthansa.printAll();
             }
           if (parameter.equals("README"))
             {
-
-            break;
+                System.out.println("Welcome to Project 1, created by Dan Jang for CS410P: Advanced Java Programming!");
+                System.out.println("This project focuses on extended classes & a bit more complex commandline parsing stuffs.");
             }
           else
           {
