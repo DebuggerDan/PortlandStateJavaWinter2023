@@ -19,7 +19,11 @@ public class TextDumperTest {
 
     StringWriter sw = new StringWriter();
     TextDumper dumper = new TextDumper(sw);
-    dumper.dump(airline);
+    try {
+      dumper.dump(airline);
+    } catch (IOException e) {
+      throw new RuntimeException(e);
+    }
 
     String text = sw.toString();
     assertThat(text, containsString(airlineName));
