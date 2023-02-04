@@ -3,6 +3,7 @@ package edu.pdx.cs410J.yeh2;
 import edu.pdx.cs410J.AirlineParser;
 import edu.pdx.cs410J.ParserException;
 
+import javax.swing.text.html.parser.Parser;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -39,8 +40,10 @@ public class TextParser implements AirlineParser<Airline> {
     }
 
     try {
+
       File test = new File(file);
       testfile = new FileReader(test);
+
     } catch (FileNotFoundException e) {
       throw new IllegalArgumentException("Looks like the file does not exist!");
     }
@@ -48,11 +51,25 @@ public class TextParser implements AirlineParser<Airline> {
 
   @Override
   public Airline parse() throws ParserException {
-    try (
-      BufferedReader br = new BufferedReader(this.reader)
-    ) {
+      FileReader parse = null;
+      File parsefile = null;
+      try {
 
-      String airlineName = br.readLine();
+        File thefile = new File(file_name);
+        FileReader parsedfile = new FileReader(thefile);
+
+      } catch (FileNotFoundException e2) {
+      {
+        System.out.println("Looks like the file was not found!");
+        return null;
+      }
+
+      //String airlineName = br.readLine()
+        BufferedReader buffer = null;
+
+        try {
+            buffer = new BufferedReader(parsedfile);
+        }
 
       if (airlineName == null) {
         throw new ParserException("Missing airline name");
@@ -60,8 +77,8 @@ public class TextParser implements AirlineParser<Airline> {
 
       return new Airline(airlineName);
 
-    } catch (IOException e) {
-      throw new ParserException("While parsing airline text", e);
+    } catch (IOException e3) {
+      throw new ParserException("While parsing airline text", e3);
     }
   }
 }
