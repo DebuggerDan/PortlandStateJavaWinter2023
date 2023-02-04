@@ -5,7 +5,8 @@ import edu.pdx.cs410J.AirlineDumper;
 import java.util.Collection;
 
 import java.io.PrintWriter;
-//import java.io.Writer;
+import java.io.StringWriter;
+import java.io.Writer;
 
 import java.io.File;
 import java.io.FileWriter;
@@ -16,13 +17,14 @@ import java.io.IOException;
  * A skeletal implementation of the <code>TextDumper</code> class for Project 2.
  */
 public class TextDumper implements AirlineDumper<Airline> {
-  //private final Writer writer;
+//  private final StringWriter writer;
   private final String file_name;
 
-//  public TextDumper(Writer writer)
-//  {
-//    this.writer = writer;
-//  }
+  public TextDumper(StringWriter cw)
+  {
+    //this.writer = writer;
+    this.file_name = cw.toString();
+  }
 
   /**
    * Create a TextDumper for a specific file name in-mind, but checks if it is an invalid file name.
