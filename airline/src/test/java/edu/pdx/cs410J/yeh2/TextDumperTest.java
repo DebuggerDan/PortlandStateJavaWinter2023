@@ -31,15 +31,16 @@ public class TextDumperTest {
 
   @Test
   void canParseTextWrittenByTextDumper(@TempDir File tempDir) throws IOException, ParserException {
-    String airlineName = "Test Airline";
+    String airlineName = "Lufthansa";
     Airline airline = new Airline(airlineName);
 
-    File textFile = new File(tempDir, "airline.txt");
-    TextDumper dumper = new TextDumper(textFile);
+    //File test_file = new File("test.txt");
+    TextDumper dumper = new TextDumper("test.txt");
     dumper.dump(airline);
 
-    TextParser parser = new TextParser(textFile);
+    TextParser parser = new TextParser("test.txt");
     Airline read = parser.parse();
     assertThat(read.getName(), equalTo(airlineName));
+    //test_file.deleteOnExit();
   }
 }

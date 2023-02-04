@@ -89,13 +89,13 @@ public class TextParser implements AirlineParser<Airline> {
         String currstring = null;
         try {
 
-            this.parsedfile = new File(file_name);
+            this.parsedfile = new File(this.file_name);
             this.parse = new FileReader(parsedfile);
 
         } catch (FileNotFoundException e2)
         {
             //System.out.println("Looks like this file was not found:", e2);
-            return null;
+            throw new ParserException("File does not exist!", e2);
         }
 
         //String airlineName = br.readLine()
@@ -108,8 +108,13 @@ public class TextParser implements AirlineParser<Airline> {
 
             if (!first_airline_name.isEmpty()) {
                 //this.lufthansa = new Airline(first);
-                gate = new Airline(first_airline_name);
+                String[] first_airline_name_arg = first_airline_name.split("\\s*,\\s*");
+                gate = new Airline(first_airline_name_arg[0]);
                 currstring = buffer.readLine();
+            }
+            else
+            {
+                throw new ParserException("Empty file!");
             }
 //        } catch (Exception e3) {
 //            throw new RuntimeException("Uh oh. looks like there was a Runtime Exception:", e3);
@@ -193,6 +198,7 @@ public class TextParser implements AirlineParser<Airline> {
 //                }
 //            }
 //        }
+
         return gate;
     }
 }

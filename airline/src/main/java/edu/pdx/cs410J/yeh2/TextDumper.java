@@ -19,13 +19,14 @@ import java.io.IOException;
  */
 public class TextDumper implements AirlineDumper<Airline> {
 //  private final StringWriter writer;
-  private final String file_name;
+  private String file_name = null;
+  protected StringWriter dump;
   protected File currfile = null;
 
   public TextDumper(StringWriter cw)
   {
     //this.writer = writer;
-    this.file_name = cw.toString();
+    this.dump = cw;//cw.toString();
   }
 
   /**
@@ -55,11 +56,11 @@ public class TextDumper implements AirlineDumper<Airline> {
   {
     if (!file.exists())
     {
-      throw new IllegalArgumentException("Sorry, looks like the name of the file was incorrect.");
+      this.file_name = file.getName();
     }
     else
     {
-      this.file_name = file.getName();
+      throw new IllegalArgumentException("Sorry, looks like the file already exists!.");
       //this.currfile = file;
     }
   }
@@ -83,10 +84,20 @@ public class TextDumper implements AirlineDumper<Airline> {
     {
       throw new IOException("Airline given was blank!");
     }
-    File thefile = new File(this.file_name);
 
-    FileWriter fwriter = new FileWriter(thefile);
-    PrintWriter printer = new PrintWriter(fwriter);
+    PrintWriter printer = null;
+
+    if (file_name != null)
+    {
+      File thefile = new File(this.file_name);
+      FileWriter fwriter = new FileWriter(thefile);
+
+      printer = new PrintWriter(fwriter);
+    }
+    else
+    {
+      printer = new PrintWriter(this.dump);
+    }
 
     Collection<Flight> flightDump = airline.getFlights();
     String airline_name = airline.getName();

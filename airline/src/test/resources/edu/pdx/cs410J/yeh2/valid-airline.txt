@@ -1,1 +1,3 @@
-Test Airline
+Lufthansa, 123, PDX, XDP
+
+printer.println(runway.getNumber() + ", " + runway.getSource() + ", " + runway.getDepartureString() + ", " + runway.getDestination() + ", " + runway.getArrivalString());
