@@ -14,11 +14,13 @@ import java.io.FileWriter;
 import java.io.IOException;
 
 /**
- * A skeletal implementation of the <code>TextDumper</code> class for Project 2.
+ * A text-dumper based on the <code>AirlineDumper</code> interface, for Project #2.
+ * Takes the contents of an <code>airline</code> (and its <code>flight</code>s) and dumps it into a text file.
  */
 public class TextDumper implements AirlineDumper<Airline> {
 //  private final StringWriter writer;
   private final String file_name;
+  protected File currfile = null;
 
   public TextDumper(StringWriter cw)
   {
@@ -28,19 +30,19 @@ public class TextDumper implements AirlineDumper<Airline> {
 
   /**
    * Create a TextDumper for a specific file name in-mind, but checks if it is an invalid file name.
-   * @param file The name of the file to be dumped to.
+   * @param name The name of the file to be dumped to.
    * @throws IllegalArgumentException If the file name is invalid, it throws an Illegal Argument exception thingy.
    */
-  public TextDumper(String file)
+  public TextDumper(String name)
           throws IllegalArgumentException
   {
-    if (file.isEmpty())
+    if (name.isEmpty())
     {
       throw new IllegalArgumentException("Sorry, looks like the name of the file was incorrect.");
     }
     else
     {
-      this.file_name = file;
+      this.file_name = name;
     }
   }
 
@@ -58,6 +60,7 @@ public class TextDumper implements AirlineDumper<Airline> {
     else
     {
       this.file_name = file.getName();
+      //this.currfile = file;
     }
   }
 

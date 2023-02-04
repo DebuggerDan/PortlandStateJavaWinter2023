@@ -2,6 +2,11 @@ package edu.pdx.cs410J.yeh2;
 
 import com.google.common.annotations.VisibleForTesting;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+
 /**
  * The main class for the CS410J TextFile Project (#2)
  * usage: java -jar target/airline-2023.0.0.jar [options] <args>
@@ -58,8 +63,27 @@ public class Project2 {
                 }
                 if (parameter.equals("README"))
                 {
-                    System.out.println("Welcome to Project 1, created by Dan Jang for CS410P: Advanced Java Programming!");
-                    System.out.println("This project focuses on extended classes & a bit more complex commandline parsing stuffs.");
+                    //System.out.println("Welcome to Project 1, created by Dan Jang for CS410P: Advanced Java Programming!");
+                    //System.out.println("This project focuses on extended classes & a bit more complex commandline parsing stuffs.");
+                    try (InputStream readme = Project1.class.getResourceAsStream("README2.txt"))
+                    {
+                        InputStreamReader readmereader = new InputStreamReader(readme);
+
+                        try (BufferedReader readmebuffer = new BufferedReader(readmereader))
+                        {
+                            String readmeline = readmebuffer.readLine();
+
+                            while (readmeline != null)
+                            {
+                                System.out.println(readmeline);
+                                readmeline = readmebuffer.readLine();
+                            }
+                        }
+                    }
+                    catch (IOException m1)
+                    {
+                        //System.out.println("Error! README not found!", m1);
+                    }
                 }
                 else
                 {

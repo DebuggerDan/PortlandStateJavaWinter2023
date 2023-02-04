@@ -24,6 +24,18 @@ public class Flight extends AbstractFlight {
     this.arrive = arrive;
   }
 
+  public Flight(String[] args)
+  {
+    if (args.length == 5)
+    {
+      this.flightNumber = args[0];
+      this.src = args[1];
+      this.depart = args[2];
+      this.dest = args[3];
+      this.arrive = args[4];
+    }
+  }
+
   public void print()
   {
     System.out.print(this.flightNumber);

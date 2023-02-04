@@ -35,10 +35,10 @@ public class TextDumperTest {
     Airline airline = new Airline(airlineName);
 
     File textFile = new File(tempDir, "airline.txt");
-    TextDumper dumper = new TextDumper(new FileWriter(textFile));
+    TextDumper dumper = new TextDumper(textFile);
     dumper.dump(airline);
 
-    TextParser parser = new TextParser(new FileReader(textFile));
+    TextParser parser = new TextParser(textFile);
     Airline read = parser.parse();
     assertThat(read.getName(), equalTo(airlineName));
   }
