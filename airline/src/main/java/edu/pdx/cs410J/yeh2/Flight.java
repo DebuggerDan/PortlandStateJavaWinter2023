@@ -3,8 +3,8 @@ package edu.pdx.cs410J.yeh2;
 import edu.pdx.cs410J.AbstractFlight;
 
 /**
- * This class implements Flight with a name, flightNumber, src, depart(ure time & date),
- * destination (time & date), and arrive(-e+al time&date)
+ * This class implements Flight with a name, flightNumber, src, depart(ure time and date),
+ * destination (time and date), and arrive(-e+al time and date). Extends AbstractFlight.
  *
  */
 public class Flight extends AbstractFlight {
@@ -36,17 +36,21 @@ public class Flight extends AbstractFlight {
     }
   }
 
+  /**
+   * Prints the information of the flight.
+   */
   public void print()
   {
-    System.out.print(this.flightNumber);
-    System.out.print(this.src);
-    System.out.print(this.depart);
-    System.out.print(this.dest);
+    System.out.print(this.flightNumber + ", ");
+    System.out.print(this.src + ", ");
+    System.out.print(this.depart + ", ");
+    System.out.print(this.dest + ", ");
     System.out.print(this.arrive);
   }
 
   /**
    * Sets the next flight node.
+   * @param curr The next flight.
    */
   public void setNext(Flight curr)
   {

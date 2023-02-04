@@ -2,6 +2,7 @@ package edu.pdx.cs410J.yeh2;
 
 import edu.pdx.cs410J.AirlineParser;
 import edu.pdx.cs410J.ParserException;
+//import edu.pdx.cs410J.AirlineDumper;
 
 import javax.swing.text.html.parser.Parser;
 import java.io.BufferedReader;
@@ -13,6 +14,7 @@ import java.io.File;
 import java.io.FileReader;
 
 import java.io.FileNotFoundException;
+
 import java.io.IOException;
 
 /**
@@ -35,7 +37,7 @@ public class TextParser implements AirlineParser<Airline> {
      * Constructs a new TextParser object with the given file name, checks if it exists, but if it does not, throws
      * illegal argument exception, but if it exists, then set the name of the file to the constructed TextParser's file name.
      *
-     * @param filename
+     * @param filename The name of the file to be parsed.
      * @throws IllegalArgumentException
      */
     public TextParser(String filename) throws IllegalArgumentException {
@@ -61,7 +63,7 @@ public class TextParser implements AirlineParser<Airline> {
      * Constructs a new TextParser object with the given file, checks if it exists, but if it does not, throws
      * illegal argument exception, but if it exists, then set file to the constructed TextParser's file.
      *
-     * @param file
+     * @param file The file to be parsed.
      * @throws IllegalArgumentException
      */
     public TextParser(File file) throws IllegalArgumentException {
@@ -83,19 +85,44 @@ public class TextParser implements AirlineParser<Airline> {
         //}
     }
 
+    /**
+     * The main (Text)parse[r]() function.
+     * @return <code>Airline</code> Provides the airline with its associated, parsed-in flights.
+     * @throws ParserException For parser-specific errors.
+     */
     @Override
     public Airline parse() throws ParserException {
         //BufferedReader buffer = null;
         String currstring = null;
-        try {
+        try
+        {
 
             this.parsedfile = new File(this.file_name);
             this.parse = new FileReader(parsedfile);
 
-        } catch (FileNotFoundException e2)
+        }
+        catch (FileNotFoundException e2)
         {
+            throw new ParserException("File not found!");
+//            try (BufferedReader buffer = new BufferedReader(this.parse))
+//            {
+//                TextDumper dumper = new TextDumper(this.file_name);
+//                Airline emptyAirline = new Airline("Empty Airline");
+//                dumper.dump(emptyAirline);
+//                return emptyAirline;
+//            }
+//            catch (IOException e5)
+//            {
+//                throw new ParserException("Empty-Airline Parsing error detected: ", e5);//e3.getCause());
+//            }
+//            catch (IllegalArgumentException e6)
+//            {
+//                throw new ParserException("Empty-Airline Parsing error detected: ", e6);//e4.getCause());
+//            }
+            //return null;
             //System.out.println("Looks like this file was not found:", e2);
-            throw new ParserException("File does not exist!", e2);
+            //throw new ParserException("File does not exist!", e2);
+
         }
 
         //String airlineName = br.readLine()

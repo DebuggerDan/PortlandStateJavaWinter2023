@@ -66,7 +66,7 @@ public class TextDumper implements AirlineDumper<Airline> {
   }
 
   /**
-   * The main TextDumper dumper function that dumps the contents of an airline (& its flights) to a text file.
+   * The main TextDumper dumper function that dumps the contents of an airline (and its flights) to a text file.
    * @param airline The airline that will have its containing flights dumped to a text file.
    * @throws IOException If the file name is invalid, cannot be written to, or maybe if the airline is blank, etc., then throws a Input/Output Exception.
    */
