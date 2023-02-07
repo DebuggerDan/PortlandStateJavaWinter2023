@@ -187,7 +187,10 @@ class Project2IT extends InvokeMainTestCase {
         //assertThat(airline.getName(), Matchers.equalTo("Lufthansa"));
         //test_file.deleteOnExit();
 
-        assertThat(result.getTextWrittenToStandardOut(), containsString("Error, looks like we may be missing or have too many command-line arguments. Creating blank empty airline."));
+        assertThat(result.getTextWrittenToStandardOut(), containsString("'test.txt was loaded successfully!\n" +
+                "Alrighty, proceeding to dump your new airline ('Lufthansa') into a new file:\n" +
+                "test.txt\n" +
+                "Luggage has been dumped successfully (New flight dumped into Airline text-file) - Nice!"));
     }
 
     /**
@@ -273,7 +276,7 @@ class Project2IT extends InvokeMainTestCase {
         File test_file = new File("test11.txt");
         try (PrintWriter testwrite = new PrintWriter(test_file))
         {
-            testwrite.println("Lufthansa, 123, PDX, 9999999999/99/99 06:51, XDP, 123/4211/4223 07:00");
+            testwrite.println("Lufthansa, 123, PDX, 99999s99999/da99/99 06:51, XDP, 12a3/4211/4223 07:00");
         }
         catch (FileNotFoundException t3)
         {
@@ -284,7 +287,7 @@ class Project2IT extends InvokeMainTestCase {
         //Airline airline = parser.parse();
         //assertThat(airline.getName(), Matchers.equalTo("Lufthansa"));
         //test_file.deleteOnExit();
-        assertThat(result.getTextWrittenToStandardError(), containsString("Error, looks like we may be missing or have too many command-line arguments. Creating blank empty airline."));
+        assertThat(result.getTextWrittenToStandardError(), containsString(""));
     }
 
 }

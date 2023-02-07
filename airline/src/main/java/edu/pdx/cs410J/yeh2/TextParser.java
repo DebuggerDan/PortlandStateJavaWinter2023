@@ -258,17 +258,19 @@ public class TextParser implements AirlineParser<Airline> {
                     }
                     catch (IllegalArgumentException m4a)
                     {
+                        System.err.println("Error when attempting to parse the departure time & date arguments, " + currargs[3] + " and " + currargs[4]);
                         throw new ParserException("Error when attempting to parse the departure time & date arguments, " + currargs[3] + " and " + currargs[4]);
-                        //System.err.println("Error when attempting to parse the departure time & date arguments, " + currargs[3] + " and " + currargs[4]);
+
                         // Graceful Error: Departure Time & Date Argument(s) not formatted correctly!
                         //return;
                     }
                     catch (ArrayIndexOutOfBoundsException m4b)
                     {
+                        System.err.println("Error when attempting to parse the departure time & date arguments, " + currargs[3] + " and " + currargs[4]);
                         throw new ParserException("Error when attempting to parse the departure time & date arguments, " + currargs[3] + " and " + currargs[4]);
-                        //System.err.println("Error when attempting to parse the departure time & date arguments, " + currargs[3] + " and " + currargs[4]);
-                        // Graceful Error: Departure Time & Date Argument(s) not formatted correctly!
 
+                        // Graceful Error: Departure Time & Date Argument(s) not formatted correctly!
+                        //return;
                     }
 
                     /*
@@ -280,15 +282,17 @@ public class TextParser implements AirlineParser<Airline> {
                     }
                     catch (IllegalArgumentException m5a)
                     {
+                        System.err.println("Error when attempting to parse the arrival time & date arguments, " + currargs[6] + " and " + currargs[7]);
                         throw new ParserException(("Error when attempting to parse the arrival time & date arguments, " + currargs[6] + " and " + currargs[7]));
-                        //System.err.println("Error when attempting to parse the arrival time & date arguments, " + currargs[6] + " and " + currargs[7]);
+
                         // Graceful Error: Arrival Time & Date Argument(s) not formatted correctly!
                         //return;
                     }
                     catch (ArrayIndexOutOfBoundsException m4b)
                     {
+                        System.err.println("Error when attempting to parse the arrival time & date arguments, " + currargs[6] + " and " + currargs[7]);
                         throw new ParserException(("Error when attempting to parse the arrival time & date arguments, " + currargs[6] + " and " + currargs[7]));
-                        //System.err.println("Error when attempting to parse the arrival time & date arguments, " + currargs[6] + " and " + currargs[7]);
+
                         // Graceful Error: Arrival Time & Date Argument(s) not formatted correctly!
                         //return;
                     }
