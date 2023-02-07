@@ -79,11 +79,12 @@ public class TextParserTest {
     }
 
     @Test
-    void invalidTextFileThrowsParserException() {
+    void invalidTextFileReturnsNull() throws ParserException {
         //InputStream resource = getClass().getResourceAsStream("empty-airline.txt");
         //assertThat(testFilesPresent(this.testfile2), equalTo(true));
 
         TextParser parser = new TextParser(this.testfile2);//new InputStreamReader(resource));
-        assertThrows(ParserException.class, parser::parse);
+        //assertThrows(ParserException.class, parser::parse);
+        assertThat(parser.parse(), equalTo(null));
     }
 }
