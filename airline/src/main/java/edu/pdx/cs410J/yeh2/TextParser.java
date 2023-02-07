@@ -212,8 +212,6 @@ public class TextParser implements AirlineParser<Airline> {
             throw new ParserException("Parsing error detected: ", e4);//e4.getCause());
         }
 
-
-
 //        finally
 //        {
 //            if (buffer != null)

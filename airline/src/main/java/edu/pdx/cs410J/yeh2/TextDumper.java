@@ -2,7 +2,8 @@ package edu.pdx.cs410J.yeh2;
 
 import edu.pdx.cs410J.AirlineDumper;
 
-import java.util.Collection;
+//import java.util.Collection;
+import java.util.LinkedList;
 
 import java.io.PrintWriter;
 import java.io.StringWriter;
@@ -19,9 +20,9 @@ import java.io.IOException;
  */
 public class TextDumper implements AirlineDumper<Airline> {
 //  private final StringWriter writer;
-  private String file_name = null;
+  protected String file_name = null;
   protected StringWriter dump;
-  protected File currfile = null;
+  //protected File currfile = null;
 
   public TextDumper(StringWriter cw)
   {
@@ -67,11 +68,11 @@ public class TextDumper implements AirlineDumper<Airline> {
 
   /**
    * The main TextDumper dumper function that dumps the contents of an airline (and its flights) to a text file.
-   * @param airline The airline that will have its containing flights dumped to a text file.
+   * @param lufthansa The airline that will have its containing flights dumped to a text file.
    * @throws IOException If the file name is invalid, cannot be written to, or maybe if the airline is blank, etc., then throws a Input/Output Exception.
    */
   @Override
-  public void dump(Airline airline) throws IOException
+  public void dump(Airline lufthansa) throws IOException
   {
 //    try (
 //      PrintWriter pw = new PrintWriter(this.file_name)
@@ -80,27 +81,29 @@ public class TextDumper implements AirlineDumper<Airline> {
 //
 //      pw.flush();
 //    }
-    if (airline == null)
+    if (lufthansa == null)
     {
       throw new IOException("Airline given was blank!");
     }
 
     PrintWriter printer = null;
+    File thefile = null;
+    FileWriter filewrite = null;
 
-    if (file_name != null)
-    {
-      File thefile = new File(this.file_name);
-      FileWriter fwriter = new FileWriter(thefile);
+    //if (this.file_name != null)
+    //{
+    thefile = new File(this.file_name);
+    filewrite = new FileWriter(thefile);
 
-      printer = new PrintWriter(fwriter);
-    }
-    else
-    {
-      printer = new PrintWriter(this.dump);
-    }
+    printer = new PrintWriter(filewrite);
+    //}
+//    else
+//    {
+//      printer = new PrintWriter(this.dump);
+//    }
 
-    Collection<Flight> flightDump = airline.getFlights();
-    String airline_name = airline.getName();
+    LinkedList<Flight> flightDump = lufthansa.getFlights();
+    String airline_name = lufthansa.getName();
 
     printer.println(airline_name);
 

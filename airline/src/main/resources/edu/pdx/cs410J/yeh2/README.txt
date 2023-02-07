@@ -1,4 +1,4 @@
-CS410P: Advanced Java Programming, Winter 2023 - Dan Jang, February 2023
+CS410P: Advanced Java Programming, Winter 2023 - Dan Jang, February 2023 [#1]
 Description: Project #1 focuses on the extension of pre-existed Abstract Classes & the utilization of Java's functionalities to perform complex command-line parsing.
 
 usage: java -jar target/airline-2023.0.0.jar [options] <args>
