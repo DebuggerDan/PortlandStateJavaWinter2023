@@ -282,7 +282,7 @@ public class Project2 {
 
                 switch (action.toLowerCase())
                 {
-                    case "textFile":
+                    case "textfile":
                         file_name = args[(args.length <= idx++) ? (idx-1) : idx];
                         if (file_name.isEmpty())
                         {
@@ -437,13 +437,13 @@ public class Project2 {
         }
         catch (IllegalArgumentException m4a)
         {
-            System.err.println("Error when attempting to formatting the destination time & date arguments, " + landing[3] + " and " + landing[4]);
+            System.err.println("Error when attempting to formatting the departure time & date arguments, " + landing[3] + " and " + landing[4]);
             // Graceful Error: Departure Time & Date Argument(s) not formatted correctly!
             return;
         }
         catch (ArrayIndexOutOfBoundsException m4b)
         {
-            System.err.println("Error when attempting to formatting the destination time & date arguments, " + landing[3] + " and " + landing[4]);
+            System.err.println("Error when attempting to formatting the departure time & date arguments, " + landing[3] + " and " + landing[4]);
             // Graceful Error: Departure Time & Date Argument(s) not formatted correctly!
             return;
         }
