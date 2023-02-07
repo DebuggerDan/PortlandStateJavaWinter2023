@@ -174,7 +174,7 @@ class Project2IT extends InvokeMainTestCase {
     void testValid() {
         MainMethodResult result = invokeMain(Project2.class, "Lufthansa", "123", "PDX", "02/04/2023", "06:53", "XDP", "02/04/2023", "07:00", "-textFile", "test.txt", "-print");
 
-        assertThat(result.getTextWrittenToStandardError(), containsString("Error, looks like we may be missing or have too many command-line arguments. Creating blank empty airline."));
+        assertThat(result.getTextWrittenToStandardOut(), containsString("Error, looks like we may be missing or have too many command-line arguments. Creating blank empty airline."));
     }
 
     /**
@@ -197,7 +197,8 @@ class Project2IT extends InvokeMainTestCase {
         //Airline airline = parser.parse();
         //assertThat(airline.getName(), Matchers.equalTo("Lufthansa"));
         //test_file.deleteOnExit();
-        assertThat(result.getTextWrittenToStandardError(), containsString("Error, looks like we may be missing or have too many command-line arguments. Creating blank empty airline."));
+        assertThat(result.getTextWrittenToStandardOut(), containsString(""));
+        assertThat(result.getTextWrittenToStandardError(), containsString(""));
     }
 
     /**
@@ -220,7 +221,8 @@ class Project2IT extends InvokeMainTestCase {
         //Airline airline = parser.parse();
         //assertThat(airline.getName(), Matchers.equalTo("Lufthansa"));
         //test_file.deleteOnExit();
-        assertThat(result.getTextWrittenToStandardError(), containsString("Error, looks like we may be missing or have too many command-line arguments. Creating blank empty airline."));
+        assertThat(result.getTextWrittenToStandardError(), containsString("Oh noes! The command-line Airline name specified ('Lufthansa') does not match the Airline name on-file!\n" +
+                "The file, instead specifies an Airline name of, 'Project2.'"));
     }
 
     /**
@@ -246,7 +248,7 @@ class Project2IT extends InvokeMainTestCase {
         //Airline airline = parser.parse();
         //assertThat(airline.getName(), Matchers.equalTo("Lufthansa"));
         //test_file.deleteOnExit();
-        assertThat(result.getTextWrittenToStandardError(), containsString("Error, looks like we may be missing or have too many command-line arguments. Creating blank empty airline."));
+        assertThat(result.getTextWrittenToStandardError(), containsString("Error whilst processing textFile, 'test10.txt' - Specific Error: Parsing error detected:"));
     }
 
     /**

@@ -495,7 +495,7 @@ public class Project2 {
 
                         if (!airlineFileName.equals(landing[0]))
                         {
-                            System.err.println("Oh noes! The command-line Airline name specified ('" + landing[0] + "') does not match the Airline name on-file!\nThe file, instead specifies an Airline name of, '" + airlineFileName);
+                            System.err.println("Oh noes! The command-line Airline name specified ('" + landing[0] + "') does not match the Airline name on-file!\nThe file, instead specifies an Airline name of, '" + airlineFileName + ".'");
 
                             // Graceful Exit: If airline names of command-line argument & the file do not match!
                             return;
