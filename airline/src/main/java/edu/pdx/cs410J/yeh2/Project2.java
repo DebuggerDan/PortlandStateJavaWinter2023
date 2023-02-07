@@ -23,6 +23,11 @@ import java.text.*;
 
 public class Project2 {
 
+    /**
+     * A function that displays txt files!
+     * @param txtfile
+     * @param Option
+     */
     public static void displayer(String txtfile, Integer Option)
     {
 

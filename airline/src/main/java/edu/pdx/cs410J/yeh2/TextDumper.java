@@ -22,13 +22,13 @@ import java.io.IOException;
 public class TextDumper implements AirlineDumper<Airline> {
 //  private final StringWriter writer;
   protected String file_name = null;
-  protected StringWriter dump;
+  //protected String dump;
   //protected File currfile = null;
 
   public TextDumper(StringWriter cw)
   {
     //this.writer = writer;
-    this.dump = cw;//cw.toString();
+    this.file_name = cw.toString();//cw.toString();
   }
 
   /**
@@ -88,27 +88,31 @@ public class TextDumper implements AirlineDumper<Airline> {
     }
 
 //    PrintWriter printer = null;
-    File thefile = null;
+    File thefile = new File(this.file_name);
 //    FileWriter filewrite = null;
-
-    if (this.file_name != null)
-    {
-      thefile = new File(this.file_name);
-    }
-    else
-    {
-      StringBuilder thefilename = new StringBuilder();
-      thefilename.append(lufthansa.getName());
-      thefilename.append(".txt");
-
-      thefile = new File(lufthansa.getName());
-    }
+//
+//    if (this.file_name != null)
+//    {
+//      thefile = new File(this.file_name);
+//    }
+//    else if (this.dump == null)
+//    {
+//      StringBuilder thefilename = new StringBuilder();
+//      thefilename.append(lufthansa.getName());
+//      thefilename.append(".txt");
+//
+//      thefile = new File(lufthansa.getName());
+//    }
+//    else if (this.dump != null)
+//    {
+//      thefile = new File(this.dump);
+//    }
 
     FileWriter filewrite = new FileWriter(thefile);
 
     PrintWriter printer = new PrintWriter(filewrite);
-    //}
-//    else
+
+//    if (this.dump != null)
 //    {
 //      printer = new PrintWriter(this.dump);
 //    }

@@ -25,9 +25,9 @@ public class TextParser implements AirlineParser<Airline> {
     //private final Reader reader;
     private String file_name;
 
-    protected FileReader parse = null;
-    protected File parsedfile = null;
-    protected Airline lufthansa = null;
+    protected FileReader parse;
+    protected File parsedfile;
+    protected Airline lufthansa;
 
 //    public TextParser(Reader reader) {
 //        this.reader = reader;
@@ -38,7 +38,7 @@ public class TextParser implements AirlineParser<Airline> {
      * illegal argument exception, but if it exists, then set the name of the file to the constructed TextParser's file name.
      *
      * @param filename The name of the file to be parsed.
-     * @throws IllegalArgumentException
+     * @throws IllegalArgumentException If invalid file-names are given!
      */
     public TextParser(String filename) throws IllegalArgumentException {
         if (filename.isEmpty()) {
@@ -64,7 +64,7 @@ public class TextParser implements AirlineParser<Airline> {
      * illegal argument exception, but if it exists, then set file to the constructed TextParser's file.
      *
      * @param file The file to be parsed.
-     * @throws IllegalArgumentException
+     * @throws IllegalArgumentException If the file-path/name is invalid.
      */
 
     public TextParser(File file) throws IllegalArgumentException {
@@ -95,11 +95,12 @@ public class TextParser implements AirlineParser<Airline> {
     public Airline parse() throws ParserException {
         //BufferedReader buffer = null;
         String currstring = null;
+        FileReader parsely = null;
         try
         {
 
-            this.parsedfile = new File(this.file_name);
-            this.parse = new FileReader(parsedfile);
+            parsedfile = new File(this.file_name);
+            parsely = new FileReader(parsedfile);
 
         }
         catch (FileNotFoundException e2)
@@ -125,27 +126,44 @@ public class TextParser implements AirlineParser<Airline> {
             //return null;
             //System.out.println("Looks like this file was not found:", e2);
             //throw new ParserException("File does not exist!", e2);
-
         }
-
         //String airlineName = br.readLine()
         Airline gate = null;// = new Airline();
-        try (BufferedReader buffer = new BufferedReader(this.parse)){
+
+        try (BufferedReader buffer = new BufferedReader(parsely)){
+
             //BufferedReader test1 = null;
             //buffer = new BufferedReader(this.parse);
-            String first_airline_name = null;
-            first_airline_name = buffer.readLine();
+            //String first_airline_line = null;
 
-            if (!first_airline_name.isEmpty()) {
-                //this.lufthansa = new Airline(first);
-                String[] first_airline_name_arg = first_airline_name.split("\\s*,\\s*");
-                gate = new Airline(first_airline_name_arg[0]);
-                currstring = buffer.readLine();
-            }
-            else
+            String first_airline_line = buffer.readLine();
+            String line_buffer = buffer.readLine();
+
+            currstring = line_buffer;
+
+            if (first_airline_line != null)
             {
-                throw new ParserException("Empty file!");
+                String[] first_airline_name_args = first_airline_line.split("\\s*,\\s*");
+                gate = new Airline(first_airline_name_args[0]);
             }
+
+//
+//            if (line_buffer != null) {
+//                //this.lufthansa = new Airline(first);
+//                String[] first_airline_arg = line_buffer.split("\\s*,\\s*");
+//
+//                if (first_airline_arg.length != 4)
+//                {
+//                    throw new IllegalArgumentException("Invalid number of parameters!");
+//                }
+//
+//                gate = new Airline(first_airline_arg[0]);
+//                currstring = buffer.readLine();
+//            }
+//            else
+//            {
+//                throw new ParserException("Empty file!");
+//            }
 //        } catch (Exception e3) {
 //            throw new RuntimeException("Uh oh. looks like there was a Runtime Exception:", e3);
 //        }
@@ -159,14 +177,14 @@ public class TextParser implements AirlineParser<Airline> {
 
                     String[] currargs = currstring.split("\\s*,\\s*");
 
-                    if (currargs.length > 4) {
-                        throw new IllegalArgumentException("Need at least 4 arguments for airlines!");
+                    if (currargs.length > 5) {
+                        throw new IllegalArgumentException("Need at least 5 arguments for airlines!");
                     }
                     else
                     {
-                        if (currargs.length < 4)
+                        if (currargs.length < 5)
                         {
-                            throw new IllegalArgumentException("There can only be 4 arguments max per airline!");
+                            throw new IllegalArgumentException("There can only be 5 arguments max per airline!");
                         }
                     }
                     Flight runway = new Flight(currargs);
@@ -174,7 +192,7 @@ public class TextParser implements AirlineParser<Airline> {
                     currstring = buffer.readLine();
 
                     if (gate.getName() == null) {
-                        throw new ParserException("Missing airline name");
+                        throw new ParserException("Missing airline name!");
                     }
 
                     try {
@@ -185,7 +203,7 @@ public class TextParser implements AirlineParser<Airline> {
                         throw new ParserException("Hmm, looks like there was an issue with adding the following flight: ", e6);
                     }
 
-                    while (!currstring.isEmpty() && currstring != null)
+                    while (currstring != null && currstring.isEmpty())
                     {
                         currstring = buffer.readLine();
                     }
@@ -193,7 +211,7 @@ public class TextParser implements AirlineParser<Airline> {
                 }
             } catch (NullPointerException e5)
             {
-                currstring = null;
+                throw new ParserException("Error when parsing through the text file!", e5);
             }
 //        } catch (RuntimeException e4) {
 //            throw new RuntimeException("Uh oh. looks like there was a Runtime Exception:", e4);
