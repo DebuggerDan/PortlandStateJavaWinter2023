@@ -20,23 +20,7 @@ import java.text.*;
 import java.util.Collection;
 import edu.pdx.cs410J.ParserException;
 
-/**
- * The main class for the CS410J TextFile Project (#2)
- * usage: java -jar target/airline-2023.0.0.jar [options] <args>
- *      args are (in this order):
- *          airline      The name of the airline
- *          flightNumber     The flight number
- *          src      Three-letter code of departure airport
- *          depart      Departure date and time (24-hour time)
- *          dest     Three-letter code of arrival airport
- *          arrive      Arrival date and time (24-hour time)
- *      options are (options may appear in any order))
- *          -textFile      file Where to read/write the airline info
- *          -print      Prints a description of the new flight
- *          -README     Prints a README for this project and exits
- *      Date and time should be in the format: mm/dd/yyyy hh:mm
- *
- */
+
 public class Project2 {
 
     public static void displayer(String txtfile, Integer Option)
@@ -91,7 +75,7 @@ public class Project2 {
     /**
      * <p>
      * A whimsical, simple but a bit silly, 'unwraveler' function for <code>AbstractList</code>s,
-     * that "unthneeds" them into simple {@code String[]} arrays.
+     * that "unthneeds" them into simple {@code String[]}, string-arrays.
      * </p>
      * @param thneed {@code AbstractList<String>} In goes the list!
      * @return tuft Out goes a {@code String[]} array, unraveled from the {@code AbstractList<String>} {@param thneed}!
@@ -122,7 +106,10 @@ public class Project2 {
     }
 
     /**
-     * Time-and-Date Format stuffs - from coreAPI, pages 92 ~ 104, of <code>java.text.*</code>.
+     * Time-and-Date Format stuffs - from coreAPI, pages 92 ~ 104.
+     *
+     * @see java.text.DateFormat
+     * @see java.text.SimpleDateFormat
      */
     public static final String Timestamp_Format = "MM/dd/yyyy HH:mm";
     public static DateFormat TStamp = new SimpleDateFormat(Timestamp_Format, Locale.US);
@@ -130,24 +117,27 @@ public class Project2 {
     // Using coreAPI, pages 97 ~ 100 on DateFormat & SimpleDateFormat
 
     /**
+     * <p>
      * Validates a given string for a valid time-and-date format as specified, e.g. mm/dd/yyyy hh:mm
      * Based on: 1. {@code public static final String Timestamp_Format = "MM/dd/yyyy HH:mm";}
      * and 2. {@code public static final DateFormat testDate = new SimpleDateFormat(Timestamp_Format, Locale.US);}
+     * </p>
      *
      * Using coreAPI, pages 97 ~ 100 on DateFormat & SimpleDateFormat
+     * @see java.text.DateFormat
+     * @see java.text.SimpleDateFormat
      *
      * A void function (but a thrown exception infers 'false' of valid time-and-date format)
      * @param dateAndTime String
+     * @throws IllegalArgumentException If there is an invalid formatted time-and-date (bi-)string( combo)!
      *
      */
     @VisibleForTesting
     static void isValidDateAndTime(String dateAndTime) throws IllegalArgumentException
     {
-
+        Date test = null;
         try
         {
-            Date test = null;
-
             test = TStamp.parse(dateAndTime);
         }
         catch (ParseException m0)
@@ -158,27 +148,70 @@ public class Project2 {
     }
 
     // Using coreAPI, pages 92 ~ 104 on date, calendar, & variable-length args
+
+    /**
+     * <p>
+     * Creates a valid formatted for a valid time-and-date format as specified, e.g. mm/dd/yyyy hh:mm
+     * Based on: 1. {@code public static final String Timestamp_Format = "MM/dd/yyyy HH:mm";}
+     * and 2. {@code public static final DateFormat testDate = new SimpleDateFormat(Timestamp_Format, Locale.US);}
+     * </p>
+     *
+     * Using coreAPI, pages 97 ~ 100 on DateFormat & SimpleDateFormat
+     * @see java.text.DateFormat
+     * @see java.text.SimpleDateFormat
+     *
+     * @param date The first half of the bi-string combo-to-be!
+     * @param time The second half of the bi-string combo-to-be!
+     * @return timestamp The <code>Date</code> formatted bi-string timestmap combo!
+     * @throws IllegalArgumentException If there is an invalid formatted time-and-date bi-string combo!
+     *
+     */
+
     public static Date timeStamper(String date, String time) throws IllegalArgumentException
     {
-        StringBuilder glue = new StringBuilder();
-        glue.append(date);
-        glue.append(" ");
-        glue.append(time);
+        StringBuilder postage = new StringBuilder();
+        postage.append(date);
+        postage.append(" ");
+        postage.append(time);
+        //postage.append(date + " " + time);
 
-        String stamp = glue.toString();
+        String stamp = postage.toString();
         Date timestamp = null;
 
-        try {
+        try
+        {
             timestamp = TStamp.parse(stamp);
         }
         catch (ParseException m00)
         {
             throw new IllegalArgumentException("Hmm, looks like a invalid time-and-date stamp attempt: ", m00);
         }
-        //glue.append(date + " " + time);
+
 
         return timestamp;
     }
+
+    /**
+     * The main class for the CS410J Project #2: TextFile
+     *
+     * usage: java -jar target/airline-2023.0.0.jar [options] <args>
+     *
+     * @param args
+     *      <p>
+     *      <code>args</code> are (in this order):
+     *          airline      The name of the airline
+     *          flightNumber     The flight number
+     *          src      Three-letter code of departure airport
+     *          depart      Departure date and time (24-hour time)
+     *          dest     Three-letter code of arrival airport
+     *          arrive      Arrival date and time (24-hour time)
+     *      options are (options may appear in any order))
+     *          -textFile      file Where to read/write the airline info
+     *          -print      Prints a description of the new flight
+     *          -README     Prints a README for this project and exits
+     *      Date and time should be in the format: mm/dd/yyyy hh:mm
+     *      </p>
+     */
 
     public static void main(String[] args) {
         //Flight flight = new Flight();  // Refer to one of Dave's classes so that we can be sure it is on the classpath
@@ -186,19 +219,18 @@ public class Project2 {
         Airline lufthansa = null;
         String file_name = null;
 
-        // This boolean will be used to indicate the creation of an new, but blank Airline (e.g. Blank Airline)
+        // This boolean will be used to indicate the creation of a new, but blank Airline (e.g. Blank Airline)
         Boolean fresh = false;
         Integer freshnum = 0;
 
         StringBuilder yarn = null;
         // For temporary string concatenation stuffs
 
-        //String[] filelist = null;
-        //Collection<>
+        // String[] filelist = null;
+        // Collection<>
 
         List<String> arglist = new LinkedList<String>();
         LinkedList<String> filelist = new LinkedList<String>();
-
 
         int print_option_num = 0;
         int readme_option_num = 0;
@@ -395,7 +427,6 @@ public class Project2 {
         // int prints = readme_option_num;
         int filesnum = filelist.size();
 
-
         // Option B.) Handling [multiple possibly] -textFile parameters
         String[] fileStrings = unthneed(filelist);
         // for (int idx = 0; idx != total_actions_num; idx++)
@@ -412,30 +443,63 @@ public class Project2 {
                     if (lufthansa != null)
                     {
                         System.out.println("'" + fileStrings[idx] + " was loaded successfully!");
+
                         String airlineFileName = lufthansa.getName();
 
                         if (!airlineFileName.equals(landing[0]))
                         {
                             System.err.println("Oh noes! The command-line Airline name specified ('" + landing[0] + "') does not match the Airline name on-file!\nThe file, instead specifies an Airline name of, '" + airlineFileName);
+
                             // Graceful Exit: If airline names of command-line argument & the file do not match!
                             System.exit(1);
                         }
                         else
                         {
                             // Saving the new command-line specified flight into the airline!
-                            lufthansa.addFlight(runway);
+                            Flight sky = new Flight(runway);
+                            lufthansa.addFlight(sky);
                         }
 
                     }
                     else if (lufthansa == null)
                     {
                         System.out.println("Looks like " + fileStrings[idx] + " was not found!\nNo worries, we'll make ya a new text file with your command-line specifications, no problem!");
-                        lufthansa = new Airline(landing[0], runway);
+
+                        Flight sky = new Flight(runway);
+                        lufthansa = new Airline(landing[0], sky);
                     }
+
+                    /**
+                     * {@code TextDumper} in action!
+                     */
+                    System.out.println("Alrighty, proceeding to dump your new airline ('" + landing[0] + "') into a new file:\n" + fileStrings[idx]);
+
+                    TextDumper baggage_truck = new TextDumper(fileStrings[idx]);
+
+                    baggage_truck.dump(lufthansa);
+
+                    System.out.println("Luggage has been dumped successfully (New flight dumped into Airline text-file) - Nice!");
                 }
                 catch (Exception m5)
                 {
                     System.err.println("Error whilst processing textFile, '" + fileStrings[idx] + "' - Specific Error: " + m5.getMessage());
+                }
+            }
+        }
+
+        // Option C.) Handling (possible multiple!) -print option(s)
+        for (int idx = 0; idx != print_option_num; idx++)
+        {
+            if (lufthansa == null)
+            {
+                try
+                {
+                    Flight sky = new Flight(runway);
+                    lufthansa = new Airline(landing[0], sky);
+                }
+                catch (IllegalArgumentException m6)
+                {
+                    System.err.println("Uh oh, looks like the flight data was empty when attempting to be added to the airline!");
                 }
             }
         }

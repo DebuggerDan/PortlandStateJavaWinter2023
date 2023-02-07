@@ -41,9 +41,14 @@ public class Airline extends AbstractAirline<Flight> {
    * An <code>Airline</code> constructor for six (6) raw {@code args[]} parameters.
    * @param airline The name of the airline.
    * @param earlyBird The first flight, that will be added to the airline's list o' flights!
+   * @throws IllegalArgumentException If the {@code Flight earlyBird} is empty!
    */
-  public Airline(String airline, Flight earlyBird)
+  public Airline(String airline, Flight earlyBird) throws IllegalArgumentException
   {
+    if (earlyBird.getSource() == null)
+    {
+      throw new IllegalArgumentException("Uh oh, earlyBird was empty!");
+    }
     this.name = airline;
     this.flights = new LinkedList<Flight>();
     //Flight firstFlight = new Flight(flightNumber, src, depart, dest, arrive);
@@ -125,9 +130,9 @@ public class Airline extends AbstractAirline<Flight> {
     this.flights.add(plane);
   }
 
-/**
- * Prints all flights within the {@code this.flights} ({@code LinkedList<Flight>}).
- */
+  /**
+   * Prints all flights within the {@code this.flights} ({@code LinkedList<Flight>}).
+   */
   public void printAll()
   {
 //    if (this.head == null)

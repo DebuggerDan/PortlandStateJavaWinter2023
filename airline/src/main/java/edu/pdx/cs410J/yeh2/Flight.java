@@ -10,11 +10,19 @@ import edu.pdx.cs410J.AbstractFlight;
 public class Flight extends AbstractFlight {
   private Flight next = null;
   protected String flightNumber = "69";
-  protected String src;
-  protected String depart;
-  protected String dest;
-  protected String arrive;
+  protected String src = null;
+  protected String depart = null;
+  protected String dest = null;
+  protected String arrive = null;
 
+  /**
+   * A <code>Flight</code> constructor based on five (5) strings passed into it!
+   * @param flightNumber The flight number of the flight.
+   * @param src The source 3-letter code of the flight.
+   * @param depart The departure time-and-date of the flight.
+   * @param dest The destination 3-letter code of the flight.
+   * @param arrive The arrival time-and-date of the flight.
+   */
   public Flight(String flightNumber, String src, String depart, String dest, String arrive)
   {
     this.flightNumber = flightNumber;
@@ -24,6 +32,10 @@ public class Flight extends AbstractFlight {
     this.arrive = arrive;
   }
 
+  /**
+   * A <code>Flight</code> constructor based on a {@code String[]}, an array of command-line string-parameters!
+   * @param args A {@code String[]} based on command-line args[]!
+   */
   public Flight(String[] args)
   {
     if (args.length == 5)
@@ -33,6 +45,22 @@ public class Flight extends AbstractFlight {
       this.depart = args[2];
       this.dest = args[3];
       this.arrive = args[4];
+    }
+  }
+
+  /**
+   * A <code>Flight</code> constructor that is created as a clone of another!
+   * @param copilot The <code>Flight</code> clone source!
+   */
+  public Flight(Flight copilot)
+  {
+    if (copilot != null)
+    {
+      this.flightNumber = copilot.flightNumber;
+      this.src = copilot.src;
+      this.depart = copilot.depart;
+      this.dest = copilot.dest;
+      this.arrive = copilot.arrive;
     }
   }
 
