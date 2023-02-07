@@ -32,21 +32,21 @@ public class Flight extends AbstractFlight {
     this.arrive = arrive;
   }
 
-  /**
+  /*
    * A <code>Flight</code> constructor based on a {@code String[]}, an array of command-line string-parameters!
    * @param args A {@code String[]} based on command-line args[]!
    */
-  public Flight(String[] args)
-  {
-    if (args.length == 5)
-    {
-      this.flightNumber = args[0];
-      this.src = args[1];
-      this.depart = args[2];
-      this.dest = args[3];
-      this.arrive = args[4];
-    }
-  }
+//  public Flight(String[] args)
+//  {
+//    if (args.length == 5)
+//    {
+//      this.flightNumber = args[0];
+//      this.src = args[1];
+//      this.depart = args[2];
+//      this.dest = args[3];
+//      this.arrive = args[4];
+//    }
+//  }
 
   /**
    * A <code>Flight</code> constructor that is created as a clone of another!
@@ -80,25 +80,25 @@ public class Flight extends AbstractFlight {
     System.out.print(this.arrive);
   }
 
-  /**
+  /*
    * Sets the next flight node.
    * @param curr The next flight.
    */
-  public void setNext(Flight curr)
-  {
-    this.next = curr;
+//  public void setNext(Flight curr)
+//  {
+//    this.next = curr;
+//
+//    //return this.next;
+//  }
 
-    //return this.next;
-  }
-
-  /**
+  /*
    * Returns the next flight node.
    * @return Flight next
    */
-  public Flight getNext()
-  {
-    return this.next;
-  }
+//  public Flight getNext()
+//  {
+//    return this.next;
+//  }
 
   /**
    * Returns current flight number.

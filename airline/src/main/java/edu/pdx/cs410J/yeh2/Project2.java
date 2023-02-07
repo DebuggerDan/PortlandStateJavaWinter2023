@@ -549,6 +549,13 @@ public class Project2 {
                     System.err.println("Uh oh, looks like the flight data was empty when attempting to be added to the airline!");
                 }
             }
+            else
+            {
+//                for (Flight flight : ((LinkedList<Flight>) lufthansa.getFlights())) {
+//                    flight.print();
+//                }
+                lufthansa.printAll();
+            }
         }
     }
 

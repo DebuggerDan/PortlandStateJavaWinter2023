@@ -20,7 +20,7 @@ public class Airline extends AbstractAirline<Flight> {
   //private Flight head = null;
   protected int flightnum;
 
-  /**
+  /*
    * An <code>Airline</code> constructor for six (6) raw {@code args[]} parameters.
    * @param airline The name of the airline.
    * @param flightNumber The flight number (of the first flight).
@@ -29,13 +29,13 @@ public class Airline extends AbstractAirline<Flight> {
    * @param dest The destination 3-letter code (of the first flight).
    * @param arrive The arrival time-and-date (of the first flight).
    */
-  public Airline(String airline, String flightNumber, String src, String depart, String dest, String arrive)
-  {
-    this.name = airline;
-    this.flights = new LinkedList<Flight>();
-    Flight firstFlight = new Flight(flightNumber, src, depart, dest, arrive);
-    addFlight(firstFlight);
-  }
+//  public Airline(String airline, String flightNumber, String src, String depart, String dest, String arrive)
+//  {
+//    this.name = airline;
+//    this.flights = new LinkedList<Flight>();
+//    Flight firstFlight = new Flight(flightNumber, src, depart, dest, arrive);
+//    addFlight(firstFlight);
+//  }
 
   /**
    * An <code>Airline</code> constructor for six (6) raw {@code args[]} parameters.
@@ -107,11 +107,11 @@ public class Airline extends AbstractAirline<Flight> {
     this.flights.add(curr);
   }
 
-  /**
+  /*
    * Adds a flight to the {@code this.flights}, which is a {@code LinkedList<Flight>}.
    * @param specifications A {@code String[]} array of specifications for a new flight!
    */
-  public void addFlight(String[] specifications) {
+//  public void addFlight(String[] specifications) {
 //    if (this.head == null)
 //    {
 //      this.head = curr;
@@ -125,10 +125,10 @@ public class Airline extends AbstractAirline<Flight> {
 //    {
 //      this.addFlight(curr.getNext());
 //    }
-    this.flightnum++;
-    Flight plane = new Flight(specifications);
-    this.flights.add(plane);
-  }
+//    this.flightnum++;
+//    Flight plane = new Flight(specifications);
+//    this.flights.add(plane);
+//  }
 
   /**
    * Prints all flights within the {@code this.flights} ({@code LinkedList<Flight>}).
