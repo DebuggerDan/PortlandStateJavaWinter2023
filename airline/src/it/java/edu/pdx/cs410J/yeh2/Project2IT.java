@@ -1,6 +1,8 @@
 package edu.pdx.cs410J.yeh2;
 
 import edu.pdx.cs410J.InvokeMainTestCase;
+import edu.pdx.cs410J.ParserException;
+import org.hamcrest.Matchers;
 import org.junit.jupiter.api.Test;
 
 import static org.hamcrest.CoreMatchers.containsString;
@@ -16,7 +18,7 @@ import java.lang.StringBuilder;
  */
 class Project2IT extends InvokeMainTestCase {
 
-    
+
     /**
      * A function that reads (returns <code>String</code>s) txt files!
      * It also deletes the file afterwards so that there are no pesky txt files cluttering the resource folders!
@@ -138,7 +140,7 @@ class Project2IT extends InvokeMainTestCase {
     @Test
     void testDepartureFormat() {
         MainMethodResult result = invokeMain(Project2.class, "Lufthansa", "123", "PDX", "123123123", "123", "XDP", "02/04/2023", "07:00", "-textFile", "test.txt");
-        //StringBuilder readmex2 = new StringBuilder();
+
         assertThat(result.getTextWrittenToStandardError(), containsString("Error when attempting to formatting the departure time & date arguments, 123123123 and 123"));
     }
 
@@ -149,7 +151,7 @@ class Project2IT extends InvokeMainTestCase {
     @Test
     void testArrivalFormat() {
         MainMethodResult result = invokeMain(Project2.class, "Lufthansa", "123", "PDX", "02/04/2023", "07:00", "XDP", "123123123", "123", "-textFile", "test.txt");
-        //StringBuilder readmex2 = new StringBuilder();
+
         assertThat(result.getTextWrittenToStandardError(), containsString("Error when attempting to formatting the arrival time & date arguments, 123123123 and 123"));
     }
 
@@ -160,7 +162,7 @@ class Project2IT extends InvokeMainTestCase {
     @Test
     void testExtraArg() {
         MainMethodResult result = invokeMain(Project2.class, "Lufthansa", "123", "PDX", "02/04/2023", "07:00", "XDP", "g4j9j3g0j3g49jg49", "123123123", "123", "-textFile", "test.txt");
-        //StringBuilder readmex2 = new StringBuilder();
+
         assertThat(result.getTextWrittenToStandardError(), containsString("Error, looks like we may be missing or have too many command-line arguments. Creating blank empty airline."));
     }
 
@@ -171,7 +173,7 @@ class Project2IT extends InvokeMainTestCase {
     @Test
     void testValid() {
         MainMethodResult result = invokeMain(Project2.class, "Lufthansa", "123", "PDX", "02/04/2023", "06:53", "XDP", "02/04/2023", "07:00", "-textFile", "test.txt", "-print");
-        //StringBuilder readmex2 = new StringBuilder();
+
         assertThat(result.getTextWrittenToStandardError(), containsString("Error, looks like we may be missing or have too many command-line arguments. Creating blank empty airline."));
     }
 
@@ -180,9 +182,21 @@ class Project2IT extends InvokeMainTestCase {
      * Ran with valid flight information, but for a pre-existing file.
      */
     @Test
-    void testPreExisting() {
-        MainMethodResult result = invokeMain(Project2.class, "Lufthansa", "123", "PDX", "02/04/2023", "06:53", "XDP", "02/04/2023", "07:00", "-textFile", "valid-airline.txt");
-        //StringBuilder readmex2 = new StringBuilder();
+    void testPreExisting() throws ParserException {
+        File test_file = new File("test8.txt");
+        try (PrintWriter testwrite = new PrintWriter(test_file))
+        {
+            testwrite.println("Lufthansa, 123, PDX, 2/04/2023 06:51, XDP, 2/04/2023 07:00");
+        }
+        catch (FileNotFoundException t3)
+        {
+            throw new RuntimeException("Valid Test Text File was unable to be created: ", t3);
+        }
+        MainMethodResult result = invokeMain(Project2.class, "Lufthansa", "124", "PDX", "02/04/2023", "06:54", "XDP", "02/04/2023", "07:01", "-textFile", "test8.txt");
+        //TextParser parser = new TextParser(test_file);//new InputStreamReader(resource));
+        //Airline airline = parser.parse();
+        //assertThat(airline.getName(), Matchers.equalTo("Lufthansa"));
+        //test_file.deleteOnExit();
         assertThat(result.getTextWrittenToStandardError(), containsString("Error, looks like we may be missing or have too many command-line arguments. Creating blank empty airline."));
     }
 
@@ -192,8 +206,20 @@ class Project2IT extends InvokeMainTestCase {
      */
     @Test
     void testPreExistingP2() {
-        MainMethodResult result = invokeMain(Project2.class, "Lufthansa", "123", "PDX", "02/04/2023", "06:53", "XDP", "02/04/2023", "07:00", "-textFile", "valid-airline.txt");
-        //StringBuilder readmex2 = new StringBuilder();
+        File test_file = new File("test9.txt");
+        try (PrintWriter testwrite = new PrintWriter(test_file))
+        {
+            testwrite.println("Project2, 123, PDX, 2/04/2023 06:51, XDP, 2/04/2023 07:00");
+        }
+        catch (FileNotFoundException t3)
+        {
+            throw new RuntimeException("Valid Test Text File was unable to be created: ", t3);
+        }
+        MainMethodResult result = invokeMain(Project2.class, "Lufthansa", "123", "PDX", "02/04/2023", "06:53", "XDP", "02/04/2023", "07:00", "-textFile", "test9.txt");
+        //TextParser parser = new TextParser(test_file);//new InputStreamReader(resource));
+        //Airline airline = parser.parse();
+        //assertThat(airline.getName(), Matchers.equalTo("Lufthansa"));
+        //test_file.deleteOnExit();
         assertThat(result.getTextWrittenToStandardError(), containsString("Error, looks like we may be missing or have too many command-line arguments. Creating blank empty airline."));
     }
 
@@ -203,8 +229,23 @@ class Project2IT extends InvokeMainTestCase {
      */
     @Test
     void testMalformatted() {
-        MainMethodResult result = invokeMain(Project2.class, "Lufthansa", "123", "PDX", "02/04/2023", "06:53", "XDP", "02/04/2023", "07:00", "-textFile", "valid-airline.txt");
-        //StringBuilder readmex2 = new StringBuilder();
+
+        File test_file = new File("test10.txt");
+        try (PrintWriter testwrite = new PrintWriter(test_file))
+        {
+            testwrite.println("f89a3wh8f9ha2388afgh0983hg");
+            testwrite.println("c++isnotunnecessarilydifficult");
+            testwrite.println("therecanonlybe1sand0s");
+        }
+        catch (FileNotFoundException t3)
+        {
+            throw new RuntimeException("Valid Test Text File was unable to be created: ", t3);
+        }
+        MainMethodResult result = invokeMain(Project2.class, "Lufthansa", "123", "PDX", "02/04/2023", "06:53", "XDP", "02/04/2023", "07:00", "-textFile", "test10.txt");
+        //TextParser parser = new TextParser(test_file);//new InputStreamReader(resource));
+        //Airline airline = parser.parse();
+        //assertThat(airline.getName(), Matchers.equalTo("Lufthansa"));
+        //test_file.deleteOnExit();
         assertThat(result.getTextWrittenToStandardError(), containsString("Error, looks like we may be missing or have too many command-line arguments. Creating blank empty airline."));
     }
 
@@ -214,8 +255,20 @@ class Project2IT extends InvokeMainTestCase {
      */
     @Test
     void testInvalidYearParsing() {
-        MainMethodResult result = invokeMain(Project2.class, "Lufthansa", "123", "PDX", "02/04/2023", "06:53", "XDP", "02/04/2023", "07:00", "-textFile", "valid-airline.txt");
-        //StringBuilder readmex2 = new StringBuilder();
+        File test_file = new File("test11.txt");
+        try (PrintWriter testwrite = new PrintWriter(test_file))
+        {
+            testwrite.println("Lufthansa, 123, PDX, 9999/99/99 06:51, XDP, 123/4211/4223 07:00");
+        }
+        catch (FileNotFoundException t3)
+        {
+            throw new RuntimeException("Valid Test Text File was unable to be created: ", t3);
+        }
+        MainMethodResult result = invokeMain(Project2.class, "Lufthansa", "123", "PDX", "02/04/2023", "06:53", "XDP", "02/04/2023", "07:00", "-textFile", "test11.txt");
+        //TextParser parser = new TextParser(test_file);//new InputStreamReader(resource));
+        //Airline airline = parser.parse();
+        //assertThat(airline.getName(), Matchers.equalTo("Lufthansa"));
+        //test_file.deleteOnExit();
         assertThat(result.getTextWrittenToStandardError(), containsString("Error, looks like we may be missing or have too many command-line arguments. Creating blank empty airline."));
     }
 
