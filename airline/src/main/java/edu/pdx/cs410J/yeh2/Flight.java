@@ -36,17 +36,17 @@ public class Flight extends AbstractFlight {
    * A <code>Flight</code> constructor based on a {@code String[]}, an array of command-line string-parameters!
    * @param args A {@code String[]} based on command-line args[]!
    */
-//  public Flight(String[] args)
-//  {
-//    if (args.length == 5)
-//    {
-//      this.flightNumber = args[0];
-//      this.src = args[1];
-//      this.depart = args[2];
-//      this.dest = args[3];
-//      this.arrive = args[4];
-//    }
-//  }
+  public Flight(String[] args)
+  {
+    if (args.length == 5)
+    {
+      this.flightNumber = args[0];
+      this.src = args[1];
+      this.depart = args[2];
+      this.dest = args[3];
+      this.arrive = args[4];
+    }
+  }
 
   /**
    * A <code>Flight</code> constructor that is created as a clone of another!
