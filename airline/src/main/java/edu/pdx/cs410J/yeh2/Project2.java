@@ -8,9 +8,16 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 
 import java.util.*;
+//import java.util.ArrayList;
 //import java.util.List;
+//import java.util.Iterator;
 //import java.util.LinkedList;
-//import java.util.Collection;
+
+import java.text.*;
+//import java.text.DateFormat;
+//import java.text.SimpleDateFormat;
+
+import java.util.Collection;
 import edu.pdx.cs410J.ParserException;
 
 /**
@@ -114,9 +121,63 @@ public class Project2 {
         return tuft;
     }
 
+    /**
+     * Time-and-Date Format stuffs - from coreAPI, pages 92 ~ 104, of <code>java.text.*</code>.
+     */
+    public static final String Timestamp_Format = "MM/dd/yyyy HH:mm";
+    public static DateFormat TStamp = new SimpleDateFormat(Timestamp_Format, Locale.US);
+
+    // Using coreAPI, pages 97 ~ 100 on DateFormat & SimpleDateFormat
+
+    /**
+     * Validates a given string for a valid time-and-date format as specified, e.g. mm/dd/yyyy hh:mm
+     * Based on: 1. {@code public static final String Timestamp_Format = "MM/dd/yyyy HH:mm";}
+     * and 2. {@code public static final DateFormat testDate = new SimpleDateFormat(Timestamp_Format, Locale.US);}
+     *
+     * Using coreAPI, pages 97 ~ 100 on DateFormat & SimpleDateFormat
+     *
+     * A void function (but a thrown exception infers 'false' of valid time-and-date format)
+     * @param dateAndTime String
+     *
+     */
     @VisibleForTesting
-    static boolean isValidDateAndTime(String dateAndTime) {
-        return true;
+    static void isValidDateAndTime(String dateAndTime) throws IllegalArgumentException
+    {
+
+        try
+        {
+            Date test = null;
+
+            test = TStamp.parse(dateAndTime);
+        }
+        catch (ParseException m0)
+        {
+            throw new IllegalArgumentException("Hmmm, looks like the following was not a valid mm/dd/yyyy hh:mm time-and-date: ", m0);
+        }
+
+    }
+
+    // Using coreAPI, pages 92 ~ 104 on date, calendar, & variable-length args
+    public static Date timeStamper(String date, String time) throws IllegalArgumentException
+    {
+        StringBuilder glue = new StringBuilder();
+        glue.append(date);
+        glue.append(" ");
+        glue.append(time);
+
+        String stamp = glue.toString();
+        Date timestamp = null;
+
+        try {
+            timestamp = TStamp.parse(stamp);
+        }
+        catch (ParseException m00)
+        {
+            throw new IllegalArgumentException("Hmm, looks like a invalid time-and-date stamp attempt: ", m00);
+        }
+        //glue.append(date + " " + time);
+
+        return timestamp;
     }
 
     public static void main(String[] args) {
@@ -276,6 +337,7 @@ public class Project2 {
          *          {@code String src = landing[2]}
          *          {@code String depart = landing[3] + " " + landing[4];} Since Time-and-Date Stamps are two-ply args!
          *              E.g.{@code landing[3] + " " + landing[4];} = {@code "10/20/3040" + " " + "10:20";}
+         *              ! ...but dan, make sure to (first implement, then) use <code>isValidDateAndTime(String dateAndTime)</code> on time-stamp <code>strings</code> first!
          *          {@code String dest = landing[5];
          *          {@code String arrive = landing[6] + " " + landing[5];}
          * </p>
