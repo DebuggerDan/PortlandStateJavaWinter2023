@@ -104,7 +104,9 @@ public class TextParser implements AirlineParser<Airline> {
         }
         catch (FileNotFoundException e2)
         {
-            throw new ParserException("File not found!");
+            Airline concord = null;
+            return concord;
+            //throw new ParserException("File not found!");
 //            try (BufferedReader buffer = new BufferedReader(this.parse))
 //            {
 //                TextDumper dumper = new TextDumper(this.file_name);

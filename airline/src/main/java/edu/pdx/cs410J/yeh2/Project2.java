@@ -196,8 +196,9 @@ public class Project2 {
         //String[] filelist = null;
         //Collection<>
 
-        LinkedList<String> filelist = new LinkedList<String>();
         List<String> arglist = new LinkedList<String>();
+        LinkedList<String> filelist = new LinkedList<String>();
+
 
         int print_option_num = 0;
         int readme_option_num = 0;
@@ -339,39 +340,103 @@ public class Project2 {
          *              E.g.{@code landing[3] + " " + landing[4];} = {@code "10/20/3040" + " " + "10:20";}
          *              ! ...but dan, make sure to (first implement, then) use <code>isValidDateAndTime(String dateAndTime)</code> on time-stamp <code>strings</code> first!
          *          {@code String dest = landing[5];
-         *          {@code String arrive = landing[6] + " " + landing[5];}
+         *          {@code String arrive = landing[6] + " " + landing[7];}
          * </p>
          */
 
-        try
+        // Option A.) Handling [multiple possibly] -README option(s)
+        while (readme_option_num != 0)
         {
-            String[] landing = unthneed(arglist);
-            runway = new Flight(landing);
+            /* Assuming that this function, that uses the Resources API
+             * is permitted as it is only displaying a static text file,
+             * specific for the README/no-args-default-command-line-interface displaying of text.
+             */
+            displayer(readme_file, 0);
+            readme_option_num--;
         }
 
-        int total_actions_num = (print_option_num + readme_option_num + filelist.size());//argnum);
-//        int readmes = print_option_num;
-//        int prints = readme_option_num;
-        int files = filelist.size();
+        String[] landing = unthneed(arglist);
+        String gate = null;
+        String taxi = null;
 
-
-
-        for (int idx = 0; idx != total_actions_num; idx++)
+        /**
+         * Attempts to create the formatted time-and-date for departure time.
+         */
+        try
         {
-            // 1.) Handling [multiple possibly] -README option(s)
-            if (readme_option_num != 0)
-            {
-                /* Assuming that this function, that uses the Resources API
-                 * is permitted as it is only displaying a static text file,
-                 * specific for the README/no-args-default-command-line-interface displaying of text.
-                 */
-                displayer(readme_file, 0);
-                readme_option_num--;
-            }
-            // 2.) Handling [multiple possibly] -textFile parameters
-            if (files != 0)
-            {
+            gate = TStamp.format(timeStamper(landing[3], landing[4]));
+            //runway = new Flight(landing);
+        }
+        catch (IllegalArgumentException m4)
+        {
+            System.err.println("Error when attempting to formatting the destination time & date arguments, " + landing[3] + " and " + landing[4]);
+            // Graceful Error: Departure Time & Date Argument(s) not formatted correctly!
+            System.exit(1);
+        }
 
+        /**
+         * Attempts to create the formatted time-and-date for arrival time.
+         */
+        try
+        {
+            taxi = TStamp.format(timeStamper(landing[6], landing[7]));
+        }
+        catch (IllegalArgumentException m5)
+        {
+            System.err.println("Error when attempting to formatting the arrival time & date arguments, " + landing[6] + " and " + landing[7]);
+            // Graceful Error: Arrival Time & Date Argument(s) not formatted correctly!
+            System.exit(1);
+        }
+
+        runway = new Flight(landing[1], landing[2], gate, landing[5], taxi);
+
+        // int total_actions_num = (print_option_num + readme_option_num + filelist.size());//argnum);
+        // int readmes = print_option_num;
+        // int prints = readme_option_num;
+        int filesnum = filelist.size();
+
+
+        // Option B.) Handling [multiple possibly] -textFile parameters
+        String[] fileStrings = unthneed(filelist);
+        // for (int idx = 0; idx != total_actions_num; idx++)
+        for (int idx = 0; idx != fileStrings.length; idx++)//filesnum; idx++)
+        {
+
+            if (filesnum != 0)
+            {
+                try
+                {
+                    TextParser air_traffic_control = new TextParser(fileStrings[idx]);
+                    lufthansa = air_traffic_control.parse();
+
+                    if (lufthansa != null)
+                    {
+                        System.out.println("'" + fileStrings[idx] + " was loaded successfully!");
+                        String airlineFileName = lufthansa.getName();
+
+                        if (!airlineFileName.equals(landing[0]))
+                        {
+                            System.err.println("Oh noes! The command-line Airline name specified ('" + landing[0] + "') does not match the Airline name on-file!\nThe file, instead specifies an Airline name of, '" + airlineFileName);
+                            // Graceful Exit: If airline names of command-line argument & the file do not match!
+                            System.exit(1);
+                        }
+                        else
+                        {
+                            // Saving the new command-line specified flight into the airline!
+                            lufthansa.addFlight(runway);
+                        }
+
+                    }
+                    else if (lufthansa == null)
+                    {
+                        System.out.println("Looks like " + fileStrings[idx] + " was not found!\nNo worries, we'll make ya a new text file with your command-line specifications, no problem!");
+                        lufthansa = new Airline(landing[0], runway);
+                    }
+                }
+                catch (Exception m5)
+                {
+                    System.err.println("Error whilst processing textFile, '" + fileStrings[idx] + "' - Specific Error: " + m5.getMessage());
+                }
             }
         }
     }
@@ -427,10 +492,10 @@ public class Project2 {
 //        {
 //            System.exit(1);
 //        }
-        if (argnum != 6)
-    {
-        System.err.println("Missing command line arguments");
-    }
-//
-}
+//    if (argnum != 6)
+//    {
+//        System.err.println("Missing command line arguments");
+//    }
+////
+//}
 }
