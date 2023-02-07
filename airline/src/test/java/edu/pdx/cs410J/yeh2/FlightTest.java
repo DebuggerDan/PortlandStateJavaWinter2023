@@ -40,6 +40,9 @@ public class FlightTest {
 //    assertThat(flight.getDeparture(), is(nullValue()));
 //  }
 
+  /**
+   * Test for departure time.
+   */
   @Test
   void forProject2GetDepartureTime() {
     Flight flight = new Flight("123", "PDX", "4/20/2023 04:20", "XDP", "6/09/2023 13:37");
