@@ -54,6 +54,10 @@ public class TextDumperTest {
     return result.toString();
   }
 
+  /**
+   * A test that tests airlineName dumping.
+   * @throws IOException
+   */
   @Test
   void airlineNameIsDumpedInTextFormat() throws IOException {
     String filename = "dump_test.txt";
@@ -81,6 +85,12 @@ public class TextDumperTest {
 
   }
 
+  /**
+   * A parse-to-dump tester.
+   * @param tempDir
+   * @throws IOException
+   * @throws ParserException
+   */
   @Test
   void canParseTextWrittenByTextDumper(@TempDir File tempDir) throws IOException, ParserException {
     String airlineName = "Lufthansa";

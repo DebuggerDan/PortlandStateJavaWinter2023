@@ -246,7 +246,7 @@ public class Project2 {
         List<String> arglist = new LinkedList<String>();
         LinkedList<String> filelist = new LinkedList<String>();
 
-        /**
+        /*
          * Time-and-Date Format stuffs - from coreAPI, pages 92 ~ 104.
          *
          * @see java.text.DateFormat
@@ -427,7 +427,7 @@ public class Project2 {
             return;
         }
 
-        /**
+        /*
          * Attempts to create the formatted time-and-date for departure time.
          */
         try
@@ -448,7 +448,7 @@ public class Project2 {
             return;
         }
 
-        /**
+        /*
          * Attempts to create the formatted time-and-date for arrival time.
          */
         try

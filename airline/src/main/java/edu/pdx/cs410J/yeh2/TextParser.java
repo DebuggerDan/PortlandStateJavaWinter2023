@@ -16,6 +16,11 @@ import java.io.FileReader;
 import java.io.FileNotFoundException;
 
 import java.io.IOException;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
 
 /**
  * A text parser based on the <code>AirlineParser</code> interface, for Project #2.
@@ -28,6 +33,52 @@ public class TextParser implements AirlineParser<Airline> {
     protected FileReader parse;
     protected File parsedfile;
     protected Airline lufthansa;
+
+    // Using coreAPI, pages 92 ~ 104 on date, calendar, & variable-length args
+
+    /**
+     * <p>
+     * Creates a valid formatted for a valid time-and-date format as specified, e.g. mm/dd/yyyy hh:mm
+     * Based on: 1. {@code public static final String Timestamp_Format = "MM/dd/yyyy HH:mm";}
+     * and 2. {@code public static final DateFormat testDate = new SimpleDateFormat(Timestamp_Format, Locale.US);}
+     * </p>
+     *
+     * Using coreAPI, pages 97 ~ 100 on DateFormat & SimpleDateFormat
+     * @see java.text.DateFormat
+     * @see java.text.SimpleDateFormat
+     *
+     * @param date The first half of the bi-string combo-to-be!
+     * @param time The second half of the bi-string combo-to-be!
+     * @return timestamp The <code>Date</code> formatted bi-string timestmap combo!
+     * @throws IllegalArgumentException If there is an invalid formatted time-and-date bi-string combo!
+     *
+     */
+
+    public static Date timeStamper(String date, String time) throws IllegalArgumentException
+    {
+        String Timestamp_Format = "MM/dd/yyyy HH:mm";
+        DateFormat TStamp = new SimpleDateFormat(Timestamp_Format, Locale.US);
+        StringBuilder postage = new StringBuilder();
+        postage.append(date);
+        postage.append(" ");
+        postage.append(time);
+        //postage.append(date + " " + time);
+
+        String stamp = postage.toString();
+        Date timestamp = null;
+
+        try
+        {
+            timestamp = TStamp.parse(stamp);
+        }
+        catch (ParseException m00)
+        {
+            throw new IllegalArgumentException("Hmm, looks like a invalid time-and-date stamp attempt: ", m00);
+        }
+
+
+        return timestamp;
+    }
 
 //    public TextParser(Reader reader) {
 //        this.reader = reader;
@@ -94,6 +145,14 @@ public class TextParser implements AirlineParser<Airline> {
     @Override
     public Airline parse() throws ParserException {
         //BufferedReader buffer = null;
+        /*
+         * Time-and-Date Format stuffs - from coreAPI, pages 92 ~ 104.
+         *
+         * @see java.text.DateFormat
+         * @see java.text.SimpleDateFormat
+         */
+        String Timestamp_Format = "MM/dd/yyyy HH:mm";
+        DateFormat TStamp = new SimpleDateFormat(Timestamp_Format, Locale.US);
         String currstring = null;
         FileReader parsely = null;
         try
@@ -178,16 +237,64 @@ public class TextParser implements AirlineParser<Airline> {
                     String[] currargs = currstring.split("\\s*,\\s*");
 
                     if (currargs.length > 5) {
-                        throw new IllegalArgumentException("Need at least 5 arguments for airlines!");
+                        throw new IllegalArgumentException("Need at least 5 arguments for airlines/flights!");
                     }
                     else
                     {
                         if (currargs.length < 5)
                         {
-                            throw new IllegalArgumentException("There can only be 5 arguments max per airline!");
+                            throw new IllegalArgumentException("There can only be 5 arguments max per airline/flights!");
                         }
                     }
-                    Flight runway = new Flight(currargs);
+                    String stamp1 = null;
+                    String stamp2 = null;
+                    /*
+                     * Attempts to create the formatted time-and-date for departure time.
+                     */
+                    try
+                    {
+                        stamp1 = TStamp.format(timeStamper(currargs[3], currargs[4]));
+                        //runway = new Flight(landing);
+                    }
+                    catch (IllegalArgumentException m4a)
+                    {
+                        throw new ParserException("Error when attempting to parse the departure time & date arguments, " + currargs[3] + " and " + currargs[4]);
+                        //System.err.println("Error when attempting to parse the departure time & date arguments, " + currargs[3] + " and " + currargs[4]);
+                        // Graceful Error: Departure Time & Date Argument(s) not formatted correctly!
+                        //return;
+                    }
+                    catch (ArrayIndexOutOfBoundsException m4b)
+                    {
+                        throw new ParserException("Error when attempting to parse the departure time & date arguments, " + currargs[3] + " and " + currargs[4]);
+                        //System.err.println("Error when attempting to parse the departure time & date arguments, " + currargs[3] + " and " + currargs[4]);
+                        // Graceful Error: Departure Time & Date Argument(s) not formatted correctly!
+
+                    }
+
+                    /*
+                     * Attempts to create the formatted time-and-date for arrival time.
+                     */
+                    try
+                    {
+                        stamp2 = TStamp.format(timeStamper(currargs[6], currargs[7]));
+                    }
+                    catch (IllegalArgumentException m5a)
+                    {
+                        throw new ParserException(("Error when attempting to parse the arrival time & date arguments, " + currargs[6] + " and " + currargs[7]));
+                        //System.err.println("Error when attempting to parse the arrival time & date arguments, " + currargs[6] + " and " + currargs[7]);
+                        // Graceful Error: Arrival Time & Date Argument(s) not formatted correctly!
+                        //return;
+                    }
+                    catch (ArrayIndexOutOfBoundsException m4b)
+                    {
+                        throw new ParserException(("Error when attempting to parse the arrival time & date arguments, " + currargs[6] + " and " + currargs[7]));
+                        //System.err.println("Error when attempting to parse the arrival time & date arguments, " + currargs[6] + " and " + currargs[7]);
+                        // Graceful Error: Arrival Time & Date Argument(s) not formatted correctly!
+                        //return;
+                    }
+
+                    //Flight runway = new Flight(currargs);
+                    Flight runway = new Flight(currargs[1], currargs[2], stamp1, currargs[5], stamp2);
                     //this.lufthansa.add
                     currstring = buffer.readLine();
 
