@@ -140,20 +140,20 @@ public class Project2 {
      *
      */
     @VisibleForTesting
-    static void isValidDateAndTime(String dateAndTime) throws IllegalArgumentException
+    static Boolean isValidDateAndTime(String dateAndTime) throws IllegalArgumentException
     {
-        String Timestamp_Format = "MM/dd/yyyy HH:mm";
-        DateFormat TStamp = new SimpleDateFormat(Timestamp_Format, Locale.US);
-        Date test = null;
-        try
-        {
-            test = TStamp.parse(dateAndTime);
-        }
-        catch (ParseException m0)
-        {
-            throw new IllegalArgumentException("Hmmm, looks like the following was not a valid mm/dd/yyyy hh:mm time-and-date: ", m0);
-        }
-
+//        String Timestamp_Format = "MM/dd/yyyy HH:mm";
+//        DateFormat TStamp = new SimpleDateFormat(Timestamp_Format, Locale.US);
+//        Date test = null;
+//        try
+//        {
+//            test = TStamp.parse(dateAndTime);
+//        }
+//        catch (ParseException m0)
+//        {
+//            throw new IllegalArgumentException("Hmmm, looks like the following was not a valid mm/dd/yyyy hh:mm time-and-date: ", m0);
+//        }
+        return true;
     }
 
     // Using coreAPI, pages 92 ~ 104 on date, calendar, & variable-length args
@@ -296,14 +296,14 @@ public class Project2 {
 
                             freshnum++;
 
-                            if (fresh) // If 2nd+ 'Fresh' Airline to be Created
-                            {
-                                yarn = new StringBuilder();
-                                yarn.append("Empty Airline #");
-                                yarn.append(freshnum);
-                                file_name = yarn.toString();
-                            }
-                            fresh = true;
+//                            if (fresh) // If 2nd+ 'Fresh' Airline to be Created
+//                            {
+//                                yarn = new StringBuilder();
+//                                yarn.append("Empty Airline #");
+//                                yarn.append(freshnum);
+//                                file_name = yarn.toString();
+//                            }
+//                            fresh = true;
 
                             //return;
                         }
@@ -537,25 +537,25 @@ public class Project2 {
         // Option C.) Handling (possible multiple!) -print option(s)
         for (int idx = 0; idx != print_option_num; idx++)
         {
-            if (lufthansa == null)
-            {
-                try
-                {
-                    Flight sky = new Flight(runway);
-                    lufthansa = new Airline(landing[0], sky);
-                }
-                catch (IllegalArgumentException m6)
-                {
-                    System.err.println("Uh oh, looks like the flight data was empty when attempting to be added to the airline!");
-                }
-            }
-            else
-            {
+//            if (lufthansa == null)
+//            {
+//                try
+//                {
+//                    Flight sky = new Flight(runway);
+//                    lufthansa = new Airline(landing[0], sky);
+//                }
+//                catch (IllegalArgumentException m6)
+//                {
+//                    System.err.println("Uh oh, looks like the flight data was empty when attempting to be added to the airline!");
+//                }
+//            }
+//            else
+//            {
 //                for (Flight flight : ((LinkedList<Flight>) lufthansa.getFlights())) {
 //                    flight.print();
 //                }
-                lufthansa.printAll();
-            }
+            lufthansa.printAll();
+            //}
         }
     }
 
