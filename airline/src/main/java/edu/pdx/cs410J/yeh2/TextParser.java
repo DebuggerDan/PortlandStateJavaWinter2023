@@ -66,6 +66,7 @@ public class TextParser implements AirlineParser<Airline> {
      * @param file The file to be parsed.
      * @throws IllegalArgumentException
      */
+
     public TextParser(File file) throws IllegalArgumentException {
         if (!file.exists()) {
             throw new IllegalArgumentException("Name of the file is invalid!");
