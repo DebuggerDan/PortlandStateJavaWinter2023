@@ -25,8 +25,8 @@ public class Project2 {
 
     /**
      * A function that displays txt files!
-     * @param txtfile
-     * @param Option
+     * @param txtfile A text file name!
+     * @param Option A number indicating the type of displaying!
      */
     public static void displayer(String txtfile, Integer Option)
     {
@@ -110,12 +110,14 @@ public class Project2 {
         return tuft;
     }
 
-    /**
+    /*
      * Time-and-Date Format stuffs - from coreAPI, pages 92 ~ 104.
      *
      * @see java.text.DateFormat
      * @see java.text.SimpleDateFormat
+     *
      */
+
     //String Timestamp_Format = "MM/dd/yyyy HH:mm";
     //DateFormat TStamp = new SimpleDateFormat(Timestamp_Format, Locale.US);
 
@@ -260,10 +262,14 @@ public class Project2 {
         {
             // lufthansa = new Airline("N/A");
             displayer(readme_file, 1);
+            System.out.println("The Project #2 command-line interface has been provided above.");
             /* Assuming that this function, that uses the Resources API
              * is permitted as it is only displaying a static text file,
              * specific for the README/no-args-default-command-line-interface displaying of text.
              */
+
+            // Graceful Exit: No arguments passed to the program, thus, command-line interface is shown.
+            return;
         }
 
         for (int idx = 0; idx != args.length; idx++)
@@ -299,7 +305,7 @@ public class Project2 {
                             }
                             fresh = true;
 
-                            //System.exit(1);
+                            //return;
                         }
                         filelist.add(file_name);
 //                        try {
@@ -341,7 +347,7 @@ public class Project2 {
 //                            //System.out.println("Error! README not found!", m1);
 //                        }
 
-                        //System.exit(1);
+                        //return;
 
                         readme_option_num++;
                         // While I realize allowing the user to print the README multiple times may be kind of redundant
@@ -377,35 +383,49 @@ public class Project2 {
             fresh = true;
         }
 
-        /**
+        /*
          * <p>
-         *     Self-Note #1: Argument-array Key:
-         *          {@code String airline = landing[0];}
+         * Self-Note #1: Argument-array Key:
+         * {@code String airline = landing[0];}
          *
-         *          {@code String flightNumber = landing[1];}
-         *          {@code String src = landing[2]}
-         *          {@code String depart = landing[3] + " " + landing[4];} Since Time-and-Date Stamps are two-ply args!
-         *              E.g.{@code landing[3] + " " + landing[4];} = {@code "10/20/3040" + " " + "10:20";}
-         *              ! ...but dan, make sure to (first implement, then) use <code>isValidDateAndTime(String dateAndTime)</code> on time-stamp <code>strings</code> first!
-         *          {@code String dest = landing[5];
-         *          {@code String arrive = landing[6] + " " + landing[7];}
+         * {@code String flightNumber = landing[1];}
+         * {@code String src = landing[2]}
+         * {@code String depart = landing[3] + " " + landing[4];} Since Time-and-Date Stamps are two-ply args!
+         * E.g.{@code landing[3] + " " + landing[4];} = {@code "10/20/3040" + " " + "10:20";}
+         * ! ...but dan, make sure to (first implement, then) use <code>isValidDateAndTime(String dateAndTime)</code> on time-stamp <code>strings</code> first!
+         * {@code String dest = landing[5];
+         * {@code String arrive = landing[6] + " " + landing[7];}
          * </p>
          */
 
         // Option A.) Handling [multiple possibly] -README option(s)
-        while (readme_option_num != 0)
+        if (readme_option_num > 0)
         {
-            /* Assuming that this function, that uses the Resources API
-             * is permitted as it is only displaying a static text file,
-             * specific for the README/no-args-default-command-line-interface displaying of text.
-             */
-            displayer(readme_file, 0);
-            readme_option_num--;
+            while (readme_option_num != 0)
+            {
+                /* Assuming that this function, that uses the Resources API
+                 * is permitted as it is only displaying a static text file,
+                 * specific for the README/no-args-default-command-line-interface displaying of text.
+                 */
+                displayer(readme_file, 0);
+                readme_option_num--;
+            }
+            //System.out.println("The Project #2 README has been provided above, (" + readme_option_num + ") times.");
+            return;
         }
-
         String[] landing = unthneed(arglist);
         String gate = null;
         String taxi = null;
+
+        try
+        {
+            int testNum = Integer.parseInt(landing[1]);
+        }
+        catch (Exception m7)
+        {
+            System.err.println("The flight number seems to be, well, not a integer: " + m7.getMessage());
+            return;
+        }
 
         /**
          * Attempts to create the formatted time-and-date for departure time.
@@ -415,11 +435,17 @@ public class Project2 {
             gate = TStamp.format(timeStamper(landing[3], landing[4]));
             //runway = new Flight(landing);
         }
-        catch (IllegalArgumentException m4)
+        catch (IllegalArgumentException m4a)
         {
             System.err.println("Error when attempting to formatting the destination time & date arguments, " + landing[3] + " and " + landing[4]);
             // Graceful Error: Departure Time & Date Argument(s) not formatted correctly!
-            System.exit(1);
+            return;
+        }
+        catch (ArrayIndexOutOfBoundsException m4b)
+        {
+            System.err.println("Error when attempting to formatting the destination time & date arguments, " + landing[3] + " and " + landing[4]);
+            // Graceful Error: Departure Time & Date Argument(s) not formatted correctly!
+            return;
         }
 
         /**
@@ -429,13 +455,18 @@ public class Project2 {
         {
             taxi = TStamp.format(timeStamper(landing[6], landing[7]));
         }
-        catch (IllegalArgumentException m5)
+        catch (IllegalArgumentException m5a)
         {
             System.err.println("Error when attempting to formatting the arrival time & date arguments, " + landing[6] + " and " + landing[7]);
             // Graceful Error: Arrival Time & Date Argument(s) not formatted correctly!
-            System.exit(1);
+            return;
         }
-
+        catch (ArrayIndexOutOfBoundsException m4b)
+        {
+            System.err.println("Error when attempting to formatting the arrival time & date arguments, " + landing[6] + " and " + landing[7]);
+            // Graceful Error: Arrival Time & Date Argument(s) not formatted correctly!
+            return;
+        }
         runway = new Flight(landing[1], landing[2], gate, landing[5], taxi);
 
         // int total_actions_num = (print_option_num + readme_option_num + filelist.size());//argnum);
@@ -467,7 +498,7 @@ public class Project2 {
                             System.err.println("Oh noes! The command-line Airline name specified ('" + landing[0] + "') does not match the Airline name on-file!\nThe file, instead specifies an Airline name of, '" + airlineFileName);
 
                             // Graceful Exit: If airline names of command-line argument & the file do not match!
-                            System.exit(1);
+                            return;
                         }
                         else
                         {
@@ -558,7 +589,7 @@ public class Project2 {
 //                        } catch (IOException m1) {
 //                            //System.out.println("Error! README not found!", m1);
 //                        }
-//                        System.exit(1);
+//                        return;
 //                    } else {
 //                        System.err.println("Invalid airline program parameter, o noes! (Parameter Specified: " + parameter + ")");
 //
@@ -570,7 +601,7 @@ public class Project2 {
 //        }
 //        catch (NullPointerException m2)
 //        {
-//            System.exit(1);
+//            return;
 //        }
 //    if (argnum != 6)
 //    {
