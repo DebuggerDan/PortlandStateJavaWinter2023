@@ -172,7 +172,20 @@ class Project2IT extends InvokeMainTestCase {
      */
     @Test
     void testValid() {
+        File test_file = new File("test.txt");
+        try (PrintWriter testwrite = new PrintWriter(test_file))
+        {
+            testwrite.println("Lufthansa, 123, PDX, 2/04/2023 06:51, XDP, 2/04/2023 07:00");
+        }
+        catch (FileNotFoundException t3)
+        {
+            throw new RuntimeException("Valid Test Text File was unable to be created: ", t3);
+        }
         MainMethodResult result = invokeMain(Project2.class, "Lufthansa", "123", "PDX", "02/04/2023", "06:53", "XDP", "02/04/2023", "07:00", "-textFile", "test.txt", "-print");
+        //TextParser parser = new TextParser(test_file);//new InputStreamReader(resource));
+        //Airline airline = parser.parse();
+        //assertThat(airline.getName(), Matchers.equalTo("Lufthansa"));
+        //test_file.deleteOnExit();
 
         assertThat(result.getTextWrittenToStandardOut(), containsString("Error, looks like we may be missing or have too many command-line arguments. Creating blank empty airline."));
     }
@@ -260,7 +273,7 @@ class Project2IT extends InvokeMainTestCase {
         File test_file = new File("test11.txt");
         try (PrintWriter testwrite = new PrintWriter(test_file))
         {
-            testwrite.println("Lufthansa, 123, PDX, 9999/99/99 06:51, XDP, 123/4211/4223 07:00");
+            testwrite.println("Lufthansa, 123, PDX, 9999999999/99/99 06:51, XDP, 123/4211/4223 07:00");
         }
         catch (FileNotFoundException t3)
         {
