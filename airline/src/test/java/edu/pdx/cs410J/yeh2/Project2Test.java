@@ -20,7 +20,7 @@ class Project2Test {
   @Test
   void readmeCanBeReadAsResource() throws IOException {
     try (
-      InputStream readme = Project2.class.getResourceAsStream("README.txt")
+      InputStream readme = Project2.class.getResourceAsStream("README2.txt")
     ) {
       assertThat(readme, not(nullValue()));
       BufferedReader reader = new BufferedReader(new InputStreamReader(readme));

@@ -7,6 +7,7 @@ import java.util.LinkedList;
 
 import java.io.PrintWriter;
 import java.io.StringWriter;
+import java.lang.StringBuilder;
 import java.io.Writer;
 
 import java.io.File;
@@ -38,7 +39,7 @@ public class TextDumper implements AirlineDumper<Airline> {
   public TextDumper(String name)
           throws IllegalArgumentException
   {
-    if (name.isEmpty())
+    if (name == null || name.isEmpty())
     {
       throw new IllegalArgumentException("Sorry, looks like the name of the file was incorrect.");
     }
@@ -86,16 +87,26 @@ public class TextDumper implements AirlineDumper<Airline> {
       throw new IOException("Airline given was blank!");
     }
 
-    PrintWriter printer = null;
+//    PrintWriter printer = null;
     File thefile = null;
-    FileWriter filewrite = null;
+//    FileWriter filewrite = null;
 
-    //if (this.file_name != null)
-    //{
-    thefile = new File(this.file_name);
-    filewrite = new FileWriter(thefile);
+    if (this.file_name != null)
+    {
+      thefile = new File(this.file_name);
+    }
+    else
+    {
+      StringBuilder thefilename = new StringBuilder();
+      thefilename.append(lufthansa.getName());
+      thefilename.append(".txt");
 
-    printer = new PrintWriter(filewrite);
+      thefile = new File(lufthansa.getName());
+    }
+
+    FileWriter filewrite = new FileWriter(thefile);
+
+    PrintWriter printer = new PrintWriter(filewrite);
     //}
 //    else
 //    {
