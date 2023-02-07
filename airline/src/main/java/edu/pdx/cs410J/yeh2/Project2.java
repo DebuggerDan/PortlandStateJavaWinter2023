@@ -116,8 +116,8 @@ public class Project2 {
      * @see java.text.DateFormat
      * @see java.text.SimpleDateFormat
      */
-    public static final String Timestamp_Format = "MM/dd/yyyy HH:mm";
-    public static DateFormat TStamp = new SimpleDateFormat(Timestamp_Format, Locale.US);
+    //String Timestamp_Format = "MM/dd/yyyy HH:mm";
+    //DateFormat TStamp = new SimpleDateFormat(Timestamp_Format, Locale.US);
 
     // Using coreAPI, pages 97 ~ 100 on DateFormat & SimpleDateFormat
 
@@ -140,6 +140,8 @@ public class Project2 {
     @VisibleForTesting
     static void isValidDateAndTime(String dateAndTime) throws IllegalArgumentException
     {
+        String Timestamp_Format = "MM/dd/yyyy HH:mm";
+        DateFormat TStamp = new SimpleDateFormat(Timestamp_Format, Locale.US);
         Date test = null;
         try
         {
@@ -174,6 +176,8 @@ public class Project2 {
 
     public static Date timeStamper(String date, String time) throws IllegalArgumentException
     {
+        String Timestamp_Format = "MM/dd/yyyy HH:mm";
+        DateFormat TStamp = new SimpleDateFormat(Timestamp_Format, Locale.US);
         StringBuilder postage = new StringBuilder();
         postage.append(date);
         postage.append(" ");
@@ -239,6 +243,15 @@ public class Project2 {
 
         List<String> arglist = new LinkedList<String>();
         LinkedList<String> filelist = new LinkedList<String>();
+
+        /**
+         * Time-and-Date Format stuffs - from coreAPI, pages 92 ~ 104.
+         *
+         * @see java.text.DateFormat
+         * @see java.text.SimpleDateFormat
+         */
+        String Timestamp_Format = "MM/dd/yyyy HH:mm";
+        DateFormat TStamp = new SimpleDateFormat(Timestamp_Format, Locale.US);
 
         final String readme_file = "README2.txt";
 
