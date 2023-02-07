@@ -9,7 +9,7 @@ import edu.pdx.cs410J.AbstractFlight;
  */
 public class Flight extends AbstractFlight {
   private Flight next = null;
-  protected String flightNumber = "69";
+  protected String flightNumber = "123";
   protected String src = null;
   protected String depart = null;
   protected String dest = null;
@@ -129,7 +129,7 @@ public class Flight extends AbstractFlight {
   }
 
   /**
-   * Returns current flight's departure (three-letter code) or "N/A" if blank!
+   * Returns current flight's departure time-and-date timestamp or "N/A" if blank!
    * @return depart
    */
   @Override
@@ -146,7 +146,7 @@ public class Flight extends AbstractFlight {
   }
 
   /**
-   * Returns current flight's destination (three-letter code) or "N/A" if blank!
+   * Returns current flight's destination time-and-date timestamp or "N/A" if blank!
    * @return dest
    */
   @Override
@@ -161,13 +161,14 @@ public class Flight extends AbstractFlight {
     }
     //throw new UnsupportedOperationException("This method is not implemented yet");
   }
+
   /**
    * Returns current flight's arrival string (three-letter code) or "N/A" if blank!
    * @return arrive
    */
   @Override
   public String getArrivalString() {
-    /*
+
     if (this.arrive == null || this.arrive.equals("N/A"))
     {
       return "N/A";
@@ -176,8 +177,8 @@ public class Flight extends AbstractFlight {
     {
       return this.arrive;
     }
-    */
-    throw new UnsupportedOperationException("This method is not implemented yet");
+
+    //throw new UnsupportedOperationException("This method is not implemented yet");
   }
 
 

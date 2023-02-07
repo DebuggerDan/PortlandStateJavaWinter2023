@@ -77,7 +77,7 @@ public class TextDumperTest {
 
     String text = reader(filename);//sw.toString();
 
-    assertThat(text, containsString("Lufthansa, 123, PDX, 2/04/2023 6:51:34 AM, XDP, 2/04/2023 7:00:00 AM"));
+    assertThat(text, containsString("Lufthansa\n123, PDX, 2/04/2023 6:51:34 AM, XDP, 2/04/2023 7:00:00 AM"));
 
   }
 

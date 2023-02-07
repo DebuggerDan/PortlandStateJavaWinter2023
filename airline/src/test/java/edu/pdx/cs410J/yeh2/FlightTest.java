@@ -14,13 +14,14 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 public class FlightTest {
 
   /**
-   * This unit test will need to be modified (likely deleted) as you implement
-   * your project.
+   * This unit test has been modified (likely deleted) as I have implemented
+   * my project.
    */
   @Test
-  void getArrivalStringNeedsToBeImplemented() {
-    Flight flight = new Flight("69", "YES", "4/20/2023 04:20", "LOL", "6/09/2023 13:37");
-    assertThrows(UnsupportedOperationException.class, flight::getArrivalString);
+  void getArrivalStringIsImplemented() {
+    Flight flight = new Flight("123", "YES", "4/20/2023 04:20", "LOL", "6/09/2023 13:37");
+    //assertThrows(UnsupportedOperationException.class, flight::getArrivalString);
+    assertThat(flight.getArrivalString(), equalTo("6/09/2023 13:37"));
   }
 
   /**
@@ -29,14 +30,20 @@ public class FlightTest {
    */
   @Test
   void initiallyAllFlightsHaveTheSameNumber() {
-    Flight flight = new Flight("69", "YES", "69:04:20", "LOL", "69:42:39");
-    assertThat(flight.getNumber(), equalTo(69));
+    Flight flight = new Flight("123", "PDX", "4/20/2023 04:20", "XDP", "6/09/2023 13:37");
+    assertThat(flight.getNumber(), equalTo(123));
   }
 
+//  @Test
+//  void forProject1ItIsOkayIfGetDepartureTimeReturnsNull() {
+//    Flight flight = new Flight("69", "YES", "69:04:20", "LOL", "69:42:39");
+//    assertThat(flight.getDeparture(), is(nullValue()));
+//  }
+
   @Test
-  void forProject1ItIsOkayIfGetDepartureTimeReturnsNull() {
-    Flight flight = new Flight("69", "YES", "69:04:20", "LOL", "69:42:39");
-    assertThat(flight.getDeparture(), is(nullValue()));
+  void forProject2GetDepartureTime() {
+    Flight flight = new Flight("123", "PDX", "4/20/2023 04:20", "XDP", "6/09/2023 13:37");
+    assertThat(flight.getDepartureString(), equalTo("4/20/2023 04:20"));
   }
   
 }
