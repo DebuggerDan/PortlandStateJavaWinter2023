@@ -2,7 +2,7 @@ package edu.pdx.cs410J.yeh2;
 
 import edu.pdx.cs410J.AbstractAirline;
 
-import java.util.Collection;
+//import java.util.Collection;
 
 // Using a built-in <code>java.util.LinkedList</code> import instead of trying to create my own from scratch:
 import java.util.LinkedList;
@@ -57,7 +57,7 @@ public class Airline extends AbstractAirline<Flight> {
 
   /**
    * An <code>Airline</code> constructor
-   * @param name
+   * @param name The name of the <code>Airline</code>!
    */
   public Airline(String name) {
     this.name = name;
@@ -146,11 +146,7 @@ public class Airline extends AbstractAirline<Flight> {
 //      printAll();
 //    }
     //for (Object plane : this.flights)
-    Iterator airport = this.flights.iterator();
-
-    while (airport.hasNext())
-    {
-      Flight plane = (Flight) airport.next();
+    for (Flight plane : this.flights) {
       plane.print();
     }
   }

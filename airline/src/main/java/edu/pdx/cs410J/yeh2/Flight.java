@@ -61,6 +61,10 @@ public class Flight extends AbstractFlight {
       this.depart = copilot.depart;
       this.dest = copilot.dest;
       this.arrive = copilot.arrive;
+      if (copilot.next != null)
+      {
+        this.next = copilot.next;
+      }
     }
   }
 

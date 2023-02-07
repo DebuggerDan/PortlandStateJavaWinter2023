@@ -17,8 +17,8 @@ import java.text.*;
 //import java.text.DateFormat;
 //import java.text.SimpleDateFormat;
 
-import java.util.Collection;
-import edu.pdx.cs410J.ParserException;
+//import java.util.Collection;
+//import edu.pdx.cs410J.ParserException;
 
 
 public class Project2 {
@@ -193,7 +193,6 @@ public class Project2 {
 
     /**
      * The main class for the CS410J Project #2: TextFile
-     *
      * usage: java -jar target/airline-2023.0.0.jar [options] <args>
      *
      * @param args
@@ -220,8 +219,12 @@ public class Project2 {
         String file_name = null;
 
         // This boolean will be used to indicate the creation of a new, but blank Airline (e.g. Blank Airline)
-        Boolean fresh = false;
-        Integer freshnum = 0;
+        boolean fresh = false;
+        int freshnum = 0;
+
+        int print_option_num = 0;
+        int readme_option_num = 0;
+        int argnum = 0;
 
         StringBuilder yarn = null;
         // For temporary string concatenation stuffs
@@ -232,13 +235,9 @@ public class Project2 {
         List<String> arglist = new LinkedList<String>();
         LinkedList<String> filelist = new LinkedList<String>();
 
-        int print_option_num = 0;
-        int readme_option_num = 0;
-        int argnum = 0;
-
         final String readme_file = "README2.txt";
 
-        // if (args == null) // args will never equal null, but it can have 0 arguments, i think
+        // if (args == null) // args will never equal null, but it can have 0 arguments, I think
         if (args.length == 0)
         {
             // lufthansa = new Airline("N/A");
@@ -356,14 +355,13 @@ public class Project2 {
 
         if (argnum != 8)
         {
-            System.err.println("Error, looks like we are missing some command line arguments. Creating blank empty airline.");
+            System.err.println("Error, looks like we may be missing or have too many command-line arguments. Creating blank empty airline.");
             fresh = true;
         }
 
         /**
          * <p>
          *     Self-Note #1: Argument-array Key:
-         *
          *          {@code String airline = landing[0];}
          *
          *          {@code String flightNumber = landing[1];}
