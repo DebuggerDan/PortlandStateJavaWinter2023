@@ -64,7 +64,7 @@ fi
 if [ -f $pomFile ]; then
   cd ${projectDirectory}
   chmod +x ./mvnw
-  ./mvnw -Pgrader ${mavenGoals}
+  ./mvnw -e -X -Pgrader ${mavenGoals}
   cd -
 fi
 
