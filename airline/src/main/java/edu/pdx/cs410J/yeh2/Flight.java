@@ -12,7 +12,7 @@ import java.util.Locale;
  * destination (time and date), and arrive(-e+al time and date). Extends AbstractFlight.
  *
  */
-public class Flight extends AbstractFlight {
+public class Flight extends AbstractFlight implements Comparable<Flight> {
   protected static DateFormat date_format = DateFormat.getDateTimeInstance(3, 3, Locale.US);
   private Flight next = null;
   protected String flightNumber = "123";
@@ -20,8 +20,6 @@ public class Flight extends AbstractFlight {
   protected Date depart = null;
   protected String dest = null;
   protected Date arrive = null;
-
-
 
   /**
    * A <code>Flight</code> constructor based on five (5) strings passed into it!
@@ -117,6 +115,63 @@ public class Flight extends AbstractFlight {
   }
 
   /**
+   * <p>
+   *     Provides a way to compare two <code>Flight/code> objects based on the following:
+   *     1.) Firstly, by alphabetical order - based on source airport-code (ignoring case).
+   *     2.) [If same source airport-codes, then] secondly, by chronological order - based on departure time.
+   *     3.) [If both have the same source airport-code & take-off time], then they will be considered "equal."
+   * </p>
+   * @see Project3
+   * @param runway A second flight to be compared to the current <code>Flight</code> object that the {@code compareTo(runway)} is being run from.
+   * @return 1 Case I., if the current Flight object should be first.
+   * 2 Case II., if the runway (second flight) should be first.
+   * 3 Case III., if both objects are equal.
+   * @throws NullPointerException If the runway (second flight) is empty, throws the null pointer exception.
+   */
+  @Override
+  public int compareTo(Flight runway) throws NullPointerException
+  {
+    int result = 0;
+
+    String secondSrc = runway.getSource();
+
+    // Sort Test #1: Based on alphabetical source airport-codes (case-insensitive)!
+    // Where, if firstTest is 0 = equal, if firstTest < 0 = first (originate) Flight is first, if firstTest > 0 = second flight is first;
+    int firstTest = this.src.compareToIgnoreCase(secondSrc);
+
+    if (firstTest < 0)
+    {
+      result = 1;
+    }
+
+    if (firstTest > 0)
+    {
+      result = 2;
+    }
+
+    if (firstTest == 0)
+    {
+      result = 3;
+
+      // Sort Test #2: Based on chronological take-off timestamps!
+      int secondTest = this.depart.compareTo(this.getDepartureDate());
+
+      if (secondTest < 0)
+      {
+        result = 1;
+      }
+
+      if (secondTest > 0)
+      {
+        result = 2;
+      }
+
+    }
+
+    return result;
+  }
+
+  /**
    * Prints the information of the flight.
    */
   public void print()
@@ -180,7 +235,7 @@ public class Flight extends AbstractFlight {
    * Returns current flight's departure time-and-date timestamp or "N/A" if blank!
    * @return dest The date of the departure timestamp!
    */
-  public Date getDestinationDate() {
+  public Date getDepartureDate() {
     if (this.depart == null || this.depart.toString().equals("N/A"))
     {
       return null;
