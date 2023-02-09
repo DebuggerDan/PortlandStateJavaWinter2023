@@ -222,7 +222,7 @@ class Project1IT extends InvokeMainTestCase {
      * Airline code are too short.
      */
     @Test
-    void testAirportCode() {
+    void testAirportCodeShort() {
         MainMethodResult resultSrc = invokeMain(Project1.class, "Lufthansa", "123", "A", "02/04/2023", "06:53", "XDP", "02/04/2023", "07:00");
         MainMethodResult resultDest = invokeMain(Project1.class, "Lufthansa", "123", "PDX", "02/04/2023", "06:53", "B", "02/04/2023", "07:00");
 
@@ -235,7 +235,7 @@ class Project1IT extends InvokeMainTestCase {
      * Airline code are too short.
      */
     @Test
-    void testAirportCode() {
+    void testAirportCodeLong() {
         MainMethodResult resultSrc = invokeMain(Project1.class, "Lufthansa", "123", "ABCD", "02/04/2023", "06:53", "XDP", "02/04/2023", "07:00");
         MainMethodResult resultDest = invokeMain(Project1.class, "Lufthansa", "123", "PDX", "02/04/2023", "06:53", "BCDE", "02/04/2023", "07:00");
 
