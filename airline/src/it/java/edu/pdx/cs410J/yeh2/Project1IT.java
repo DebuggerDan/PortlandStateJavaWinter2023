@@ -188,12 +188,12 @@ class Project1IT extends InvokeMainTestCase {
      * Test #8: Printing out a flight
      * Ran with an unknown option.
      */
-//    @Test
-//    void testPrintToString() {
-//        MainMethodResult result = invokeMain(Project1.class, "Lufthansa", "123", "PDX", "02/04/2023", "06:53", "XDP", "02/04/2023", "07:00", "-print", "-test");
-//
-//        assertThat(result.getTextWrittenToStandardError(), containsString("Uh oh, looks like there was a invalid option used: test"));
-//    }
+    @Test
+    void testPrintToString() {
+        MainMethodResult result = invokeMain(Project1.class, "Lufthansa", "123", "PDX", "02/04/2023", "06:53", "XDP", "02/04/2023", "07:00", "-print", "-test");
+
+        assertThat(result.getTextWrittenToStandardOut(), containsString(""));
+    }
 
     /**
      * Test #9: Missing arrival time

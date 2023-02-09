@@ -71,14 +71,14 @@ public class Flight extends AbstractFlight {
   /**
    * Prints the information of the flight.
    */
-//  public void print()
-//  {
-//    System.out.print(this.flightNumber + ", ");
-//    System.out.print(this.src + ", ");
-//    System.out.print(this.depart + ", ");
-//    System.out.print(this.dest + ", ");
-//    System.out.print(this.arrive);
-//  }
+  public void print()
+  {
+    System.out.print(this.flightNumber + ", ");
+    System.out.print(this.src + ", ");
+    System.out.print(this.depart + ", ");
+    System.out.print(this.dest + ", ");
+    System.out.print(this.arrive);
+  }
 
   /*
    * Sets the next flight node.
