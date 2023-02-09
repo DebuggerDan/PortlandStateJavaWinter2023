@@ -154,7 +154,7 @@ public class Airline extends AbstractAirline<Flight> {
   /**
    * Prints all flights within the {@code this.flights} ({@code LinkedList<Flight>}).
    * (This version of printAll invokes the flight.toString() method for Project #1.)
-   * @see Project1
+   * (see Project1)
    * @param airline_name The name of the airline!
    */
   public void printAllString(String airline_name)

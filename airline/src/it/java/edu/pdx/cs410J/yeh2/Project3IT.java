@@ -22,10 +22,10 @@ class Project3IT extends InvokeMainTestCase {
     /**
      * A function that reads (returns <code>String</code>s) txt files!
      * It also deletes the file afterwards so that there are no pesky txt files cluttering the resource folders!
+     * (From Project2)
      * @param txtfile A text file name-string!
      * @return result A string from a file that was read by the function!
      * @throws IOException If the file cannot be read!
-     * @see Project2
      */
     private String reader(String txtfile) throws IOException
     {
@@ -61,36 +61,36 @@ class Project3IT extends InvokeMainTestCase {
         return result.toString();
     }
 
-    private static final String README = "CS410P: Advanced Java Programming, Winter 2023 - Dan Jang, February 2023 [#2]\n" +
-            "Description: Project #2 focuses on using the Input / Output functionalities of Java and throw-exception usages.\n" +
+    private static final String README = "CS410P: Advanced Java Programming, Winter 2023 - Dan Jang, February 2023 [#3]\n" +
+            "Description: Project #3 focuses on using sorting Java libraries as well as the usage of dates.\n" +
             "\n" +
             "usage: java -jar target/airline-2023.0.0.jar [options] <args>\n" +
             "       args are (in this order):\n" +
             "           airline The name of the airline\n" +
             "           flightNumber The flight number\n" +
             "           src Three-letter code of departure airport\n" +
-            "           depart Departure date and time (24-hour time)\n" +
+            "           depart Departure date and time (am/pm)\n" +
             "           dest Three-letter code of arrival airport\n" +
-            "           arrive Arrival date and time (24-hour time)\n" +
+            "           arrive Arrival date and time (am/pm)\n" +
             "       options are (options may appear in any order):\n" +
+            "           -pretty file Pretty print the airline’s flights to a text file or standard out\n" +
             "           -textFile file Where to read/write the airline info\n" +
             "           -print Prints a description of the new flight\n" +
-            "           -README Prints a README for this project and exits\n" +
-            "           Dates and times should be in the format: mm/dd/yyyy hh:mm";
+            "           -README Prints a README for this project and exits\n";
 
     private static final String commandline = "usage: java -jar target/airline-2023.0.0.jar [options] <args>\n" +
             "       args are (in this order):\n" +
             "           airline The name of the airline\n" +
             "           flightNumber The flight number\n" +
             "           src Three-letter code of departure airport\n" +
-            "           depart Departure date and time (24-hour time)\n" +
+            "           depart Departure date and time (am/pm)\n" +
             "           dest Three-letter code of arrival airport\n" +
-            "           arrive Arrival date and time (24-hour time)\n" +
+            "           arrive Arrival date and time (am/pm)\n" +
             "       options are (options may appear in any order):\n" +
+            "           -pretty file Pretty print the airline’s flights to a text file or standard out\n" +
             "           -textFile file Where to read/write the airline info\n" +
             "           -print Prints a description of the new flight\n" +
-            "           -README Prints a README for this project and exits\n" +
-            "           Dates and times should be in the format: mm/dd/yyyy hh:mm";
+            "           -README Prints a README for this project and exits\n";
 
     /**
      * Invokes the main method of {@link Project3} with the given arguments.

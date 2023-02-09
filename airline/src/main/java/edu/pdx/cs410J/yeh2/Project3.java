@@ -8,20 +8,26 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 
 import java.util.*;
-//import java.util.ArrayList;
-//import java.util.List;
-//import java.util.Iterator;
-//import java.util.LinkedList;
+/*
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Iterator;
+import java.util.LinkedList;
+*/
 
 import java.text.*;
-//import java.text.DateFormat;
-//import java.text.SimpleDateFormat;
-
-//import java.util.Collection;
-//import edu.pdx.cs410J.ParserException;
+// import java.text.DateFormat;
+// import java.text.SimpleDateFormat;
 
 
 public class Project3 {
+
+    /**
+     * Project #3 Timestamp Formatting:
+     * {@code MM/dd/yyyy HH:mm a}
+     * E.g., "02/08/2023 01:20 pm"
+     */
+    public static final String Timestamp_Format = "MM/dd/yyyy HH:mm a";
 
     /**
      * A function that displays txt files!
@@ -81,6 +87,7 @@ public class Project3 {
      * <p>
      * A whimsical, simple but a bit silly, 'unwraveler' function for <code>AbstractList</code>s,
      * that "unthneeds" them into simple {@code String[]}, string-arrays.
+     * (From Project #2)
      * </p>
      * @param thneed {@code AbstractList<String>} In goes the list!
      * @return tuft Out goes a {@code String[]} array, unraveled from the {@code AbstractList<String>} {@param thneed}!
@@ -110,19 +117,6 @@ public class Project3 {
         return tuft;
     }
 
-    /*
-     * Time-and-Date Format stuffs - from coreAPI, pages 92 ~ 104.
-     *
-     * @see java.text.DateFormat
-     * @see java.text.SimpleDateFormat
-     *
-     */
-
-    //String Timestamp_Format = "MM/dd/yyyy HH:mm";
-    //DateFormat TStamp = new SimpleDateFormat(Timestamp_Format, Locale.US);
-
-    // Using coreAPI, pages 97 ~ 100 on DateFormat & SimpleDateFormat
-
     /**
      * <p>
      * Validates a given string for a valid time-and-date format as specified, e.g. mm/dd/yyyy hh:mm
@@ -142,17 +136,17 @@ public class Project3 {
     @VisibleForTesting
     static Boolean isValidDateAndTime(String dateAndTime) throws IllegalArgumentException
     {
-//        String Timestamp_Format = "MM/dd/yyyy HH:mm";
-//        DateFormat TStamp = new SimpleDateFormat(Timestamp_Format, Locale.US);
-//        Date test = null;
-//        try
-//        {
-//            test = TStamp.parse(dateAndTime);
-//        }
-//        catch (ParseException m0)
-//        {
-//            throw new IllegalArgumentException("Hmmm, looks like the following was not a valid mm/dd/yyyy hh:mm time-and-date: ", m0);
-//        }
+        //String Timestamp_Format = "MM/dd/yyyy HH:mm";
+        DateFormat TStamp = new SimpleDateFormat(Timestamp_Format, Locale.US);
+        Date test = null;
+        try
+        {
+            test = TStamp.parse(dateAndTime);
+        }
+        catch (ParseException m0)
+        {
+            throw new IllegalArgumentException("Hmmm, looks like the following was not a valid mm/dd/yyyy hh:mm time-and-date: ", m0);
+        }
         return true;
     }
 
@@ -178,7 +172,7 @@ public class Project3 {
 
     public static Date timeStamper(String date, String time) throws IllegalArgumentException
     {
-        String Timestamp_Format = "MM/dd/yyyy HH:mm";
+        //String Timestamp_Format = "MM/dd/yyyy HH:mm";
         DateFormat TStamp = new SimpleDateFormat(Timestamp_Format, Locale.US);
         StringBuilder postage = new StringBuilder();
         postage.append(date);
@@ -203,7 +197,7 @@ public class Project3 {
     }
 
     /**
-     * The main class for the CS410J Project #2: TextFile
+     * The main class for the CS410J Project #3: PrettyPrinter
      * usage: java -jar target/airline-2023.0.0.jar [options] <args>
      *
      * @param args
@@ -212,14 +206,15 @@ public class Project3 {
      *          airline      The name of the airline
      *          flightNumber     The flight number
      *          src      Three-letter code of departure airport
-     *          depart      Departure date and time (24-hour time)
+     *          depart      Departure date and time (am/pm)
      *          dest     Three-letter code of arrival airport
-     *          arrive      Arrival date and time (24-hour time)
+     *          arrive      Arrival date and time (am/pm)
      *      options are (options may appear in any order))
+     *          -pretty      Pretty print the airline’s flights to
+     *                       a text file or standard out (file -)
      *          -textFile      file Where to read/write the airline info
      *          -print      Prints a description of the new flight
      *          -README     Prints a README for this project and exits
-     *      Date and time should be in the format: mm/dd/yyyy hh:mm
      *      </p>
      */
 
@@ -231,6 +226,9 @@ public class Project3 {
 
         // This boolean will be used to indicate the creation of a new, but blank Airline (e.g. Blank Airline)
         boolean fresh = false;
+        // This boolean will be used to indicate if PrettyPrinter will be printing to a text file or have it print to a file!
+        boolean prettyoption = false;
+
         int freshnum = 0;
 
         int print_option_num = 0;
@@ -243,8 +241,9 @@ public class Project3 {
         // String[] filelist = null;
         // Collection<>
 
-        List<String> arglist = new LinkedList<String>();
-        LinkedList<String> filelist = new LinkedList<String>();
+        List<String> arglist = new LinkedList<>();
+        LinkedList<String> filelist = new LinkedList<>();
+        LinkedList<String> prettylist = new LinkedList<>();
 
         /*
          * Time-and-Date Format stuffs - from coreAPI, pages 92 ~ 104.
@@ -255,14 +254,15 @@ public class Project3 {
         String Timestamp_Format = "MM/dd/yyyy HH:mm";
         DateFormat TStamp = new SimpleDateFormat(Timestamp_Format, Locale.US);
 
-        final String readme_file = "README2.txt";
+        // Project #3 README3.txt file!
+        final String readme_file = "README3.txt";
 
         // if (args == null) // args will never equal null, but it can have 0 arguments, I think
         if (args.length == 0)
         {
             // lufthansa = new Airline("N/A");
             displayer(readme_file, 1);
-            System.out.println("The Project #2 command-line interface has been provided above.");
+            System.out.println("The Project #3 command-line interface has been provided above.");
             /* Assuming that this function, that uses the Resources API
              * is permitted as it is only displaying a static text file,
              * specific for the README/no-args-default-command-line-interface displaying of text.
@@ -286,73 +286,86 @@ public class Project3 {
                         file_name = args[(args.length <= idx++) ? (idx-1) : idx];
                         if (file_name.isEmpty())
                         {
-                            file_name = "Empty Airline";
+                            //file_name = "Empty.txt";
+                            System.err.println("Hmm, looks like the -textfile option was used, but there was no textfile specified!");
+                            return;
                         }
                         if (file_name.startsWith("-"))
                         {
                             //file_name = "-";
-                            System.err.println("Hmm, a invalid file name was detected for the textFile (valid names include, e.g. lufthansa.txt)!\nTreating as empty name, creating default Empty Airline!");
+                            System.err.println("Hmm, a invalid file name was detected for the -textFile option (valid names include, e.g. lufthansa.txt)!\nTreating as empty name, creating default Empty Airline!");
                             file_name = "Empty Airline";
 
                             freshnum++;
 
-//                            if (fresh) // If 2nd+ 'Fresh' Airline to be Created
-//                            {
-//                                yarn = new StringBuilder();
-//                                yarn.append("Empty Airline #");
-//                                yarn.append(freshnum);
-//                                file_name = yarn.toString();
-//                            }
-//                            fresh = true;
+                            if (fresh) // If 2nd+ 'Fresh' Airline to be Created
+                            {
+                                yarn = new StringBuilder();
+                                yarn.append("Empty Airline #");
+                                yarn.append(freshnum);
+                                file_name = yarn.toString();
+                            }
+                            fresh = true;
 
                             //return;
                         }
                         filelist.add(file_name);
-//                        try {
-//                            TextParser parsley = new TextParser(file_name);
-//
-//                            lufthansa = parsley.parse();
-//
-//                            if (lufthansa == null)
-//                            {
-//                                lufthansa = new Airline(args[0+idx], args[10+idx], args[20+idx], args[30+idx], args[40+idx], args[50+idx]);
-//                            }
-//
-//                        }
-//                        catch (ParserException m3)
+                        break;
+
+                    case "pretty":
+                        String pretty_file = args[(args.length <= idx++) ? (idx-1) : idx];//.toLowerCase();
+//                        if (pretty_file.equals("file"))
 //                        {
-//                            lufthansa = new Airline(args[0]);
+//                            //pretty_file = "Empty Airline";
+//                            System.out.println("We will write to the textFile specified!");
 //                        }
 
+                        if (pretty_file.isEmpty())
+                        {
+                            System.err.println("Hey there, looks like there was no filename [or a '-' to specify console pretty-printing only] specified after the -pretty option!");// +
+                            // ", but that's okay, we will assume you would simply like a pretty console output (instead of a file!");
+                            //prettyoption = false;
+                            return;
+                        }
+
+                        if (pretty_file.startsWith("-"))
+                        {
+                            //file_option = "-";
+                            if (pretty_file.equals("-"))
+                            {
+                                System.out.println("Alrighty, the PrettyPrinter will print to the command-line instead of writing to a file!");
+                                //prettyoption = false;
+                            }
+                            else
+                            {
+                                System.err.println("Hmm, an invalid file name was detected for the -pretty option (valid names include, e.g. lufthansa.txt)!\nTreating as empty name, creating default Empty Airline!");
+                                pretty_file = "Empty Airline";
+
+                                freshnum++;
+
+                                if (fresh) // If 2nd+ 'Fresh' Airline to be Created
+                                {
+                                    yarn = new StringBuilder();
+                                    yarn.append("Empty Airline #");
+                                    yarn.append(freshnum);
+                                    pretty_file = yarn.toString();
+                                }
+                                fresh = true;
+
+                                //return;
+                            }
+                        }
+                        else
+                        {
+                            prettylist.add(pretty_file);
+                        }
                         break;
 
                     case "readme":
                         //displayer(readme_file, 0);
-                        /* Assuming that this function, that uses the Resources API
-                         * is permitted as it is only displaying a static text file,
-                         * specific for the README/no-args-default-command-line-interface displaying of text.
-                         */
-//                        try (InputStream readme = Project3.class.getResourceAsStream("README2.txt")) {
-//                            InputStreamReader reader_me = new InputStreamReader(readme);
-//
-//                            try (BufferedReader readme_buffer = new BufferedReader(reader_me)) {
-//                                String readme_line = readme_buffer.readLine();
-//
-//                                while (readme_line != null) {
-//                                    System.out.println(readme_line);
-//                                    readme_line = readme_buffer.readLine();
-//                                }
-//                            }
-//                        } catch (IOException m1) {
-//                            //System.out.println("Error! README not found!", m1);
-//                        }
-
                         //return;
 
                         readme_option_num++;
-                        // While I realize allowing the user to print the README multiple times may be kind of redundant
-                        // and/or something that may become so, playing around with iterative option-handling now,
-                        // just in case future projects may require repetitive options-handling stuffs.
                         break;
 
                     case "print":
@@ -410,7 +423,7 @@ public class Project3 {
                 displayer(readme_file, 0);
                 readme_option_num--;
             }
-            //System.out.println("The Project #2 README has been provided above, (" + readme_option_num + ") times.");
+            //System.out.println("The Project #3 README has been provided above, (" + readme_option_num + ") times.");
             return;
         }
         String[] landing = unthneed(arglist);
@@ -467,7 +480,8 @@ public class Project3 {
 //            return;
 //        }
 
-        /* Input-Validation #3: Checking if airport code is not 3-digits in characters.
+        /*
+         * Input-Validation #3: Checking if airport code is not 3-digits in characters.
          * landing[2] should equal src & landing[5] should equal dest.
          */
 
@@ -499,8 +513,6 @@ public class Project3 {
         }
 
         // Input-Validation #2b&c: Check if airport codes include numbers.
-//        StringBuilder srcCodeTest = new StringBuilder(landing[2]);
-//        StringBuilder destCodeTest = new StringBuilder(landing[5]);
         char[] srcCodeTest = landing[2].toCharArray();
         char[] destCodeTest = landing[5].toCharArray();
 
@@ -574,7 +586,7 @@ public class Project3 {
                         lufthansa = new Airline(landing[0], sky);
                     }
 
-                    /**
+                    /*
                      * {@code TextDumper} in action!
                      */
                     System.out.println("Alrighty, proceeding to dump your new airline ('" + landing[0] + "') into a new file:\n" + fileStrings[idx]);
@@ -612,7 +624,18 @@ public class Project3 {
 //                for (Flight flight : ((LinkedList<Flight>) lufthansa.getFlights())) {
 //                    flight.print();
 //                }
-            lufthansa.printAll();
+//            try
+//            {
+            if (lufthansa != null)
+            {
+                lufthansa.printAll();
+            }
+
+//            }
+//            catch (NullPointerException m8)
+//            {
+//                System.err.println("Uh oh, there was an attempt to print a blank airline: " + m8);
+//            }
             //}
         }
     }
@@ -622,56 +645,4 @@ public class Project3 {
     //TextParser parser = new TextParser(lufthansa);
     //TextDumper dumper = new TextDumper();
 
-
-
-//        if (args == null) {
-//            System.err.println("Missing command line arguments");
-//        }
-
-//        try {
-//            for (String arg : args) {
-//                System.out.println(arg);
-//
-//                if (arg.startsWith("-")) {
-//                    String parameter = arg.substring(1);
-//                    if (parameter.equals("print")) {
-//                        lufthansa.printAll();
-//                    }
-//                    if (parameter.equals("README")) {
-//                        //System.out.println("Welcome to Project 1, created by Dan Jang for CS410P: Advanced Java Programming!");
-//                        //System.out.println("This project focuses on extended classes & a bit more complex commandline parsing stuffs.");
-//                        try (InputStream readme = Project1.class.getResourceAsStream("README2.txt")) {
-//                            InputStreamReader readmereader = new InputStreamReader(readme);
-//
-//                            try (BufferedReader readmebuffer = new BufferedReader(readmereader)) {
-//                                String readmeline = readmebuffer.readLine();
-//
-//                                while (readmeline != null) {
-//                                    System.out.println(readmeline);
-//                                    readmeline = readmebuffer.readLine();
-//                                }
-//                            }
-//                        } catch (IOException m1) {
-//                            //System.out.println("Error! README not found!", m1);
-//                        }
-//                        return;
-//                    } else {
-//                        System.err.println("Invalid airline program parameter, o noes! (Parameter Specified: " + parameter + ")");
-//
-//                    }
-//                } else {
-//                    argnum++;
-//                }
-//            }
-//        }
-//        catch (NullPointerException m2)
-//        {
-//            return;
-//        }
-//    if (argnum != 6)
-//    {
-//        System.err.println("Missing command line arguments");
-//    }
-////
-//}
 }
