@@ -3,6 +3,7 @@ package edu.pdx.cs410J.yeh2;
 import edu.pdx.cs410J.AbstractFlight;
 
 import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.text.DateFormat;
 import java.util.Locale;
@@ -14,13 +15,15 @@ import java.util.Objects;
  *
  */
 public class Flight extends AbstractFlight implements Comparable<Flight> {
-  protected static DateFormat date_format = DateFormat.getDateTimeInstance(3, 3, Locale.US);
+  protected static DateFormat date_formatter = DateFormat.getDateTimeInstance(3, 3, Locale.US);
+  protected static final String date_formatting = "MM/dd/yyyy h:mm a";
+  protected static SimpleDateFormat date_format = new SimpleDateFormat(date_formatting, Locale.US);
   private Flight next = null;
   protected String flightNumber = "123";
   protected String src = null;
-  protected Date depart = null;
+  private Date depart = null;
   protected String dest = null;
-  protected Date arrive = null;
+  private Date arrive = null;
 
   /**
    * A <code>Flight</code> constructor based on five (5) strings passed into it!
@@ -157,7 +160,9 @@ public class Flight extends AbstractFlight implements Comparable<Flight> {
     {
 
       // Sort Test #2: Based on chronological take-off timestamps!
-      int secondTest = this.depart.compareTo(this.getDepartureDate());
+      Date secondDate = runway.getDepartureDate();
+      
+      int secondTest = this.depart.compareTo(secondDate);
 
       if (secondTest < 0)
       {
@@ -267,16 +272,16 @@ public class Flight extends AbstractFlight implements Comparable<Flight> {
    */
   @Override
   public String getDepartureString() {
-    if (this.depart == null || this.depart.toString().equals("N/A"))
-    {
-      return null;
-    }
-    else
-    {
+//    if (this.depart == null || this.depart.toString().equals("N/A"))
+//    {
+//      return null;
+//    }
+//    else
+//    {
       // Format as java.text.DateFormat.SHORT;
-
-      return date_format.format(this.depart);
-    }
+    String takeoff_string = date_formatter.format(this.depart);
+    return takeoff_string;
+    //}
     //throw new UnsupportedOperationException("This method is not implemented yet");
   }
 
@@ -304,17 +309,18 @@ public class Flight extends AbstractFlight implements Comparable<Flight> {
   @Override
   public String getArrivalString() {
 
-    if (this.arrive == null || this.arrive.toString().equals("N/A"))
-    {
-      return "N/A";
-    }
-    else
-    {
+//    if (this.arrive == null || this.arrive.toString().equals("N/A"))
+//    {
+//      return "N/A";
+//    }
+//    else
+//    {
       //return this.arrive.toString();
 
       // Format as java.text.DateFormat.SHORT;
-      return date_format.format(this.arrive);
-    }
+      String arrival_string = date_formatter.format(this.arrive);
+      return arrival_string;
+    //}
 
     //throw new UnsupportedOperationException("This method is not implemented yet");
   }

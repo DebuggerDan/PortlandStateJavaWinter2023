@@ -31,7 +31,7 @@ public class FlightTest {
    * Test for correct DateFormat.SHORT->String output for departure time.
    */
   @Test
-  void forProject3GetDepartureTime() {
+  void forProject3GetDepartureString() {
     Flight flight = new Flight("123", "PDX", "04/20/2023 4:20 pm", "XDP", "06/09/2023 1:37 pm");
     assertThat(flight.getDepartureString(), equalTo("4/20/2023 4:20 PM"));
   }
