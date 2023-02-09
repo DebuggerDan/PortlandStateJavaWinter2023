@@ -304,6 +304,17 @@ public class Project1 {
         String gate = null;
         String taxi = null;
 
+        // Input-Validation #1: Checking if flight number is an integer.
+        try
+        {
+            int testNum = Integer.parseInt(landing[1]);
+        }
+        catch (Exception m7)
+        {
+            System.err.println("The flight number seems to be, well, not a integer!");
+            return;
+        }
+
         try
         {
             gate = TStamp.format(timeStamper(landing[3], landing[4]));
@@ -315,23 +326,12 @@ public class Project1 {
             // Graceful Error: Departure Time & Date Argument(s) not formatted correctly!
             return;
         }
-        catch (ArrayIndexOutOfBoundsException m4b)
-        {
-            System.err.println("Error when attempting to formatting the departure time & date arguments, " + landing[3] + " and " + landing[4]);
-            // Graceful Error: Departure Time & Date Argument(s) not formatted correctly!
-            return;
-        }
-
-        // Input-Validation #1: Checking if flight number is an integer.
-        try
-        {
-            int testNum = Integer.parseInt(landing[1]);
-        }
-        catch (Exception m7)
-        {
-            System.err.println("The flight number seems to be, well, not a integer!");
-            return;
-        }
+//        catch (ArrayIndexOutOfBoundsException m4b)
+//        {
+//            System.err.println("Error when attempting to formatting the departure time & date arguments, " + landing[3] + " and " + landing[4]);
+//            // Graceful Error: Departure Time & Date Argument(s) not formatted correctly!
+//            return;
+//        }
 
         /*
          * Input-Validation #2: Check Date & Time formatting.
@@ -347,12 +347,12 @@ public class Project1 {
             // Graceful Error: Arrival Time & Date Argument(s) not formatted correctly!
             return;
         }
-        catch (ArrayIndexOutOfBoundsException m4b)
-        {
-            System.err.println("Error when attempting to formatting the arrival time & date arguments, " + landing[6] + " and " + landing[7]);
-            // Graceful Error: Arrival Time & Date Argument(s) not formatted correctly!
-            return;
-        }
+//        catch (ArrayIndexOutOfBoundsException m4b)
+//        {
+//            System.err.println("Error when attempting to formatting the arrival time & date arguments, " + landing[6] + " and " + landing[7]);
+//            // Graceful Error: Arrival Time & Date Argument(s) not formatted correctly!
+//            return;
+//        }
 
         /* Input-Validation #3: Checking if airport code is not 3-digits in characters.
          * landing[2] should equal src & landing[5] should equal dest.
