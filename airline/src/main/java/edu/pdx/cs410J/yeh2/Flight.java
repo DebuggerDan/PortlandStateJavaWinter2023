@@ -277,7 +277,7 @@ public class Flight extends AbstractFlight implements Comparable<Flight> {
   }
 
   /**
-   * Returns current flight's destination time-and-date timestamp or "N/A" if blank!
+   * Returns current flight's destination three-letter airport code or "N/A" if blank!
    * @return dest A string version of the destination date-timestamp!
    */
   @Override
@@ -331,6 +331,24 @@ public class Flight extends AbstractFlight implements Comparable<Flight> {
     }
 
     //throw new UnsupportedOperationException("This method is not implemented yet");
+  }
+
+  /**
+   * A simple function that calculates flight minutes by dividing the difference between departure and arrival timestamps, dividing that difference by 1000, then that result as a whole by 60, to calculate the minutes from the milliseconds!
+   * @return The flight time in minutes!
+   * -1337 is returned if the flight_minutes where calculated to be negative, so as to indicate a calculation mismatch (since properly calculated flight time minutes should be greater than 0!)
+   */
+  public long getFlightTime()
+  {
+
+    long flight_minutes = (((this.arrive.getTime() - this.depart.getTime()) / (1000)) / 60);
+    if (flight_minutes < 0)
+    {
+      System.err.println("Is this Back To The Future, but with flying? Because it looks like the total flight time is somehow negative: " + flight_minutes);
+      flight_minutes = -1337;
+    }
+
+    return flight_minutes;
   }
 
 }

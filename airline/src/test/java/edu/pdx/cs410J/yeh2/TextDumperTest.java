@@ -18,7 +18,6 @@ public class TextDumperTest {
    * @param txtfile The text file name-string!
    * @return result A string from a file that was read by the function!
    * @throws IOException If the file cannot be read!
-   * @see Project2
    */
   private String reader(String txtfile) throws IOException
   {
@@ -64,9 +63,9 @@ public class TextDumperTest {
     String airlineName = "Lufthansa";
     String flightNumber = "123";
     String src = "PDX";
-    String depart = "2/04/2023 6:51:34 AM";
+    String depart = "02/04/2023 6:51 am";
     String dest = "XDP";
-    String arrive = "2/04/2023 7:00:00 AM";
+    String arrive = "02/04/2023 7:00 am";
 
     Flight testdrive = new Flight(flightNumber, src, depart, dest, arrive);
     Airline airline = new Airline(airlineName, testdrive);
@@ -81,7 +80,7 @@ public class TextDumperTest {
 
     String text = reader(filename);//sw.toString();
 
-    assertThat(text, containsString("Lufthansa\n123, PDX, 2/04/2023 6:51:34 AM, XDP, 2/04/2023 7:00:00 AM"));
+    assertThat(text, containsString("Lufthansa\n123, PDX, 02/04/2023 6:51 am, XDP, 02/04/2023 7:00 am"));
 
   }
 

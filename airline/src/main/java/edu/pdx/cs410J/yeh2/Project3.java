@@ -165,7 +165,7 @@ public class Project3 {
      *
      * @param date The first half of the bi-string combo-to-be!
      * @param time The second half of the bi-string combo-to-be!
-     * @return timestamp The <code>Date</code> formatted bi-string timestmap combo!
+     * @return timestamp The <code>Date</code> formatted bi-string timestamp combo!
      * @throws IllegalArgumentException If there is an invalid formatted time-and-date bi-string combo!
      *
      */

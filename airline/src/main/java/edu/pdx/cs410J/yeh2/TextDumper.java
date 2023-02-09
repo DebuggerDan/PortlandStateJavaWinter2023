@@ -116,7 +116,6 @@ public class TextDumper implements AirlineDumper<Airline> {
 //    if (this.dump != null)
 //    {
 //      printer = new PrintWriter(this.dump);
-//    }
 
     TreeSet<Flight> flightDump = lufthansa.getFlights();
     String airline_name = lufthansa.getName();
