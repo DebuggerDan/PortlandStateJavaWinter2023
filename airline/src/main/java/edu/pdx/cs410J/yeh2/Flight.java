@@ -2,18 +2,26 @@ package edu.pdx.cs410J.yeh2;
 
 import edu.pdx.cs410J.AbstractFlight;
 
+import java.text.ParseException;
+import java.util.Date;
+import java.text.DateFormat;
+import java.util.Locale;
+
 /**
  * This class implements Flight with a name, flightNumber, src, depart(ure time and date),
  * destination (time and date), and arrive(-e+al time and date). Extends AbstractFlight.
  *
  */
 public class Flight extends AbstractFlight {
+  protected static DateFormat date_format = DateFormat.getDateTimeInstance(3, 3, Locale.US);
   private Flight next = null;
   protected String flightNumber = "123";
   protected String src = null;
-  protected String depart = null;
+  protected Date depart = null;
   protected String dest = null;
-  protected String arrive = null;
+  protected Date arrive = null;
+
+
 
   /**
    * A <code>Flight</code> constructor based on five (5) strings passed into it!
@@ -25,11 +33,33 @@ public class Flight extends AbstractFlight {
    */
   public Flight(String flightNumber, String src, String depart, String dest, String arrive)
   {
+
     this.flightNumber = flightNumber;
     this.src = src;
-    this.depart = depart;
+    //this.depart = depart;
+    try
+    {
+      this.depart = date_format.parse(depart);
+    }
+    catch (ParseException e1)
+    {
+      System.err.println("Error when attempting to formatting the departure time & date combo-argument: " + depart);
+      return;
+    }
+
     this.dest = dest;
-    this.arrive = arrive;
+    //this.arrive = arrive;
+    //Date temp = date_format.parse(dest);
+
+    try
+    {
+      this.arrive = date_format.parse(arrive);
+    }
+    catch (ParseException e2)
+    {
+      System.err.println("Error when attempting to formatting the arrival time & date combo-argument: " + arrive);
+      //return;
+    }
   }
 
   /*
@@ -42,9 +72,27 @@ public class Flight extends AbstractFlight {
     {
       this.flightNumber = args[0];
       this.src = args[1];
-      this.depart = args[2];
+//      this.depart = args[2];
+      try
+      {
+        this.depart = date_format.parse(args[2]);
+      }
+      catch (ParseException e3)
+      {
+        System.err.println("Error when attempting to formatting the departure time & date combo-argument: " + args[2]);
+        return;
+      }
       this.dest = args[3];
-      this.arrive = args[4];
+//      this.arrive = args[4];
+      try
+      {
+        this.arrive = date_format.parse(args[4]);
+      }
+      catch (ParseException e4)
+      {
+        System.err.println("Error when attempting to formatting the arrival time & date combo-argument: " + args[4]);
+        //return;
+      }
     }
   }
 
@@ -130,13 +178,12 @@ public class Flight extends AbstractFlight {
 
   /**
    * Returns current flight's departure time-and-date timestamp or "N/A" if blank!
-   * @return depart
+   * @return dest The date of the departure timestamp!
    */
-  @Override
-  public String getDepartureString() {
-    if (this.depart == null || this.depart.equals("N/A"))
+  public Date getDestinationDate() {
+    if (this.depart == null || this.depart.toString().equals("N/A"))
     {
-      return "N/A";
+      return null;
     }
     else
     {
@@ -146,8 +193,27 @@ public class Flight extends AbstractFlight {
   }
 
   /**
+   * Returns current flight's departure time-and-date timestamp or "N/A" if blank!
+   * @return dest The date of the departure timestamp!
+   */
+  @Override
+  public String getDepartureString() {
+    if (this.depart == null || this.depart.toString().equals("N/A"))
+    {
+      return null;
+    }
+    else
+    {
+      // Format as java.text.DateFormat.SHORT;
+
+      return date_format.format(this.depart);
+    }
+    //throw new UnsupportedOperationException("This method is not implemented yet");
+  }
+
+  /**
    * Returns current flight's destination time-and-date timestamp or "N/A" if blank!
-   * @return dest
+   * @return dest A string version of the destination date-timestamp!
    */
   @Override
   public String getDestination() {
@@ -169,9 +235,30 @@ public class Flight extends AbstractFlight {
   @Override
   public String getArrivalString() {
 
-    if (this.arrive == null || this.arrive.equals("N/A"))
+    if (this.arrive == null || this.arrive.toString().equals("N/A"))
     {
       return "N/A";
+    }
+    else
+    {
+      //return this.arrive.toString();
+
+      // Format as java.text.DateFormat.SHORT;
+      return date_format.format(this.arrive);
+    }
+
+    //throw new UnsupportedOperationException("This method is not implemented yet");
+  }
+
+  /**
+   * Returns current flight's arrival string (three-letter code) or "N/A" if blank!
+   * @return arrive A string version of the arrival date-timestamp!
+   */
+  public Date getArrivalDate() {
+
+    if (this.arrive == null || this.arrive.toString().equals("N/A"))
+    {
+      return null;
     }
     else
     {
@@ -180,6 +267,5 @@ public class Flight extends AbstractFlight {
 
     //throw new UnsupportedOperationException("This method is not implemented yet");
   }
-
 
 }
