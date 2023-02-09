@@ -59,11 +59,11 @@ public class Airline extends AbstractAirline<Flight> {
    * An <code>Airline</code> constructor
    * @param name The name of the <code>Airline</code>!
    */
-  public Airline(String name) {
-    this.name = name;
-    this.flights = new LinkedList<Flight>();
-    this.flightnum = 0;
-  }
+//  public Airline(String name) {
+//    this.name = name;
+//    this.flights = new LinkedList<Flight>();
+//    this.flightnum = 0;
+//  }
 
   /**
    * Returns an <code>Integer</code>-count of flights in the {@code LinkedList<Flight>} of the <code>Airline</code>.

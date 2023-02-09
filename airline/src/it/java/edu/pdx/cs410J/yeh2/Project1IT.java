@@ -174,7 +174,7 @@ class Project1IT extends InvokeMainTestCase {
     }
 
     /**
-     * Test #7: Extra (Unknown) command-line argument.
+     * Test #7a: Extra (Unknown) command-line argument.
      * Ran with an extra argument.
      */
     @Test
@@ -182,6 +182,17 @@ class Project1IT extends InvokeMainTestCase {
         MainMethodResult result = invokeMain(Project1.class, "Lufthansa", "123", "PDX", "02/04/2023", "06:53", "XDP", "02/04/2023", "07:00", "-print", "test");
 
         assertThat(result.getTextWrittenToStandardError(), containsString("Error, looks like we may have too many command-line arguments."));
+    }
+
+    /**
+     * Test #7b: Missing an command-line argument.
+     * Ran with an missing argument.
+     */
+    @Test
+    void testMissingArg() {
+        MainMethodResult result = invokeMain(Project1.class, "Lufthansa", "123", "PDX");
+
+        assertThat(result.getTextWrittenToStandardError(), containsString("Error, looks like we may be missing command-line arguments."));
     }
 
     /**
@@ -207,7 +218,7 @@ class Project1IT extends InvokeMainTestCase {
     }
 
     /**
-     * Test #10: Airline codes are too short
+     * Test #10a: Airline codes are too short
      * Airline code are too short.
      */
     @Test
@@ -215,8 +226,21 @@ class Project1IT extends InvokeMainTestCase {
         MainMethodResult resultSrc = invokeMain(Project1.class, "Lufthansa", "123", "A", "02/04/2023", "06:53", "XDP", "02/04/2023", "07:00");
         MainMethodResult resultDest = invokeMain(Project1.class, "Lufthansa", "123", "PDX", "02/04/2023", "06:53", "B", "02/04/2023", "07:00");
 
-        assertThat(resultSrc.getTextWrittenToStandardError(), containsString("Uh oh, looks like the source airport code is too short, it should be 3-digits: A"));
-        assertThat(resultDest.getTextWrittenToStandardError(), containsString("Uh oh, looks like the destination airport code is too short, it should be 3-digits: B"));
+        assertThat(resultSrc.getTextWrittenToStandardError(), containsString("Uh oh, looks like the source airport code is too short, it should be 3-digits of letters: A"));
+        assertThat(resultDest.getTextWrittenToStandardError(), containsString("Uh oh, looks like the destination airport code is too short, it should be 3-digits of letters: B"));
+    }
+
+    /**
+     * Test #10a: Airline codes are too large
+     * Airline code are too short.
+     */
+    @Test
+    void testAirportCode() {
+        MainMethodResult resultSrc = invokeMain(Project1.class, "Lufthansa", "123", "ABCD", "02/04/2023", "06:53", "XDP", "02/04/2023", "07:00");
+        MainMethodResult resultDest = invokeMain(Project1.class, "Lufthansa", "123", "PDX", "02/04/2023", "06:53", "BCDE", "02/04/2023", "07:00");
+
+        assertThat(resultSrc.getTextWrittenToStandardError(), containsString("Uh oh, looks like the source airport code is too long, it should be 3-digits of letters: ABCD"));
+        assertThat(resultDest.getTextWrittenToStandardError(), containsString("Uh oh, looks like the destination airport code is too long, it should be 3-digits of letters: BCDE"));
     }
 
     /**

@@ -51,17 +51,17 @@ public class Project1 {
     @VisibleForTesting
     static Boolean isValidDateAndTime(String dateAndTime) throws IllegalArgumentException
     {
-        String Timestamp_Format = "MM/dd/yyyy HH:mm";
-        DateFormat TStamp = new SimpleDateFormat(Timestamp_Format, Locale.US);
-        Date test = null;
-        try
-        {
-            test = TStamp.parse(dateAndTime);
-        }
-        catch (ParseException m0)
-        {
-            throw new IllegalArgumentException("Hmmm, looks like the following was not a valid mm/dd/yyyy hh:mm time-and-date: ", m0);
-        }
+//        String Timestamp_Format = "MM/dd/yyyy HH:mm";
+//        DateFormat TStamp = new SimpleDateFormat(Timestamp_Format, Locale.US);
+//        Date test = null;
+//        try
+//        {
+//            test = TStamp.parse(dateAndTime);
+//        }
+//        catch (ParseException m0)
+//        {
+//            throw new IllegalArgumentException("Hmmm, looks like the following was not a valid mm/dd/yyyy hh:mm time-and-date: ", m0);
+//        }
         return true;
     }
 
@@ -362,11 +362,11 @@ public class Project1 {
         {
             if (landing[2].length() < 3)
             {
-                System.err.println("Uh oh, looks like the source airport code is too short, it should be 3-digits: " + landing[2]);
+                System.err.println("Uh oh, looks like the source airport code is too short, it should be 3-digits of letters: " + landing[2]);
             }
             else
             {
-                System.err.println("Uh oh, looks like the source airport code is long, it should be 3-digits: " + landing[2]);
+                System.err.println("Uh oh, looks like the source airport code is too long, it should be 3-digits of letters: " + landing[2]);
             }
             // Graceful Exit: If the source airport code is not 3-digits.
             return;
@@ -375,11 +375,11 @@ public class Project1 {
         {
             if (landing[5].length() < 3)
             {
-                System.err.println("Uh oh, looks like the destination airport code is too short, it should be 3-digits: " + landing[5]);
+                System.err.println("Uh oh, looks like the destination airport code is too short, it should be 3-digits of letters: " + landing[5]);
             }
             else
             {
-                System.err.println("Uh oh, looks like the destination airport code is long, it should be 3-digits: " + landing[5]);
+                System.err.println("Uh oh, looks like the destination airport code is too long, it should be 3-digits of letters: " + landing[5]);
             }
             // Graceful Exit: If the destination airport code is not 3-digits.
             return;
