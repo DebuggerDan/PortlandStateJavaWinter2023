@@ -158,7 +158,7 @@ class Project1IT extends InvokeMainTestCase {
      */
     @Test
     void testArrivalFormat() {
-        MainMethodResult result = invokeMain(Project1.class, "Lufthansa", "123", "PDX", "02/04/2023", "07:00", "XDP", "123123123", "123", "-textFile", "test.txt");
+        MainMethodResult result = invokeMain(Project1.class, "Lufthansa", "123", "PDX", "02/04/2023", "07:00", "XDP", "123123123", "123");
 
         assertThat(result.getTextWrittenToStandardError(), containsString("Error when attempting to formatting the arrival time & date arguments, 123123123 and 123"));
     }
@@ -202,7 +202,7 @@ class Project1IT extends InvokeMainTestCase {
      */
     @Test
     void testMissingArrival() {
-        MainMethodResult result = invokeMain(Project1.class, "Lufthansa", "123", "PDX", "test1", "test2", "XDP", "02/04/2023", "07:00");
+        MainMethodResult result = invokeMain(Project1.class, "Lufthansa", "123", "PDX", "02/04/2023", "07:00", "XDP", "test1", "test2");
 
         assertThat(result.getTextWrittenToStandardError(), containsString("Error when attempting to formatting the arrival time & date arguments, test1test2"));
     }
@@ -214,7 +214,7 @@ class Project1IT extends InvokeMainTestCase {
     @Test
     void testAirportCode() {
         MainMethodResult resultSrc = invokeMain(Project1.class, "Lufthansa", "123", "A", "02/04/2023", "06:53", "XDP", "02/04/2023", "07:00");
-        MainMethodResult resultDest = invokeMain(Project1.class, "Lufthansa", "123", "B", "02/04/2023", "06:53", "XDP", "02/04/2023", "07:00");
+        MainMethodResult resultDest = invokeMain(Project1.class, "Lufthansa", "123", "PDX", "02/04/2023", "06:53", "B", "02/04/2023", "07:00");
 
         assertThat(resultSrc.getTextWrittenToStandardError(), containsString("Uh oh, looks like the source airport code is too short, it should be 3-digits: A"));
         assertThat(resultDest.getTextWrittenToStandardError(), containsString("Uh oh, looks like the destination airport code is too short, it should be 3-digits: B"));
@@ -227,7 +227,7 @@ class Project1IT extends InvokeMainTestCase {
     @Test
     void testAirportCodeNumbers() {
         MainMethodResult resultSrc = invokeMain(Project1.class, "Lufthansa", "123", "AA1", "02/04/2023", "06:53", "XDP", "02/04/2023", "07:00");
-        MainMethodResult resultDest = invokeMain(Project1.class, "Lufthansa", "123", "BB2", "02/04/2023", "06:53", "XDP", "02/04/2023", "07:00");
+        MainMethodResult resultDest = invokeMain(Project1.class, "Lufthansa", "123", "PDX", "02/04/2023", "06:53", "BB2", "02/04/2023", "07:00");
 
         assertThat(resultSrc.getTextWrittenToStandardError(), containsString("Uh oh, looks like the source airport code has numbers(s), it should be 3-digits of letters only: AA1"));
         assertThat(resultDest.getTextWrittenToStandardError(), containsString("Uh oh, looks like the destination airport code is too short, it should be 3-digits: BB2"));

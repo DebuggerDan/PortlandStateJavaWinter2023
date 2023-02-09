@@ -227,13 +227,13 @@ public class Project1 {
                 {
 
                     case "readme":
-                        //displayer(readme_file, 0);
+                        displayer(readme_file, 0);
 
-                        readme_option_num++;
+                        //readme_option_num++;
                         // While I realize allowing the user to print the README multiple times may be kind of redundant
                         // and/or something that may become so, playing around with iterative option-handling now,
                         // just in case future projects may require repetitive options-handling stuffs.
-                        break;
+                        return;
 
                     case "print":
 
@@ -285,20 +285,20 @@ public class Project1 {
          */
 
         // Option B.) Handling [multiple possibly] -README option(s)
-        if (readme_option_num > 0)
-        {
-            while (readme_option_num != 0)
-            {
-                /* Assuming that this function, that uses the Resources API
-                 * is permitted as it is only displaying a static text file,
-                 * specific for the README/no-args-default-command-line-interface displaying of text.
-                 */
-                displayer(readme_file, 0);
-                readme_option_num--;
-            }
-            //System.out.println("The Project #2 README has been provided above, (" + readme_option_num + ") times.");
-            return;
-        }
+//        if (readme_option_num > 0)
+//        {
+//            while (readme_option_num != 0)
+//            {
+//                /* Assuming that this function, that uses the Resources API
+//                 * is permitted as it is only displaying a static text file,
+//                 * specific for the README/no-args-default-command-line-interface displaying of text.
+//                 */
+//                displayer(readme_file, 0);
+//                readme_option_num--;
+//            }
+//            //System.out.println("The Project #1 README has been provided above, (" + readme_option_num + ") times.");
+//            return;
+//        }
 
         String[] landing = args;
         String gate = null;
