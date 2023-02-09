@@ -123,15 +123,15 @@ public class Flight extends AbstractFlight implements Comparable<Flight> {
    * </p>
    * @see Project3
    * @param runway A second flight to be compared to the current <code>Flight</code> object that the {@code compareTo(runway)} is being run from.
-   * @return 1 Case I., if the current Flight object should be first.
-   * 2 Case II., if the runway (second flight) should be first.
-   * 3 Case III., if both objects are equal.
+   * @return -1 Case I., if the current Flight object should be first.
+   * 1 Case II., if the runway (second flight) should be first.
+   * 0 Case III., if both objects are equal.
    * @throws NullPointerException If the runway (second flight) is empty, throws the null pointer exception.
    */
   @Override
   public int compareTo(Flight runway) throws NullPointerException
   {
-    int result = 0;
+    int result = 404;
 
     String secondSrc = runway.getSource();
 
@@ -141,31 +141,41 @@ public class Flight extends AbstractFlight implements Comparable<Flight> {
 
     if (firstTest < 0)
     {
-      result = 1;
+      result = -1;
     }
 
     if (firstTest > 0)
     {
-      result = 2;
+      result = 1;
     }
 
     if (firstTest == 0)
     {
-      result = 3;
 
       // Sort Test #2: Based on chronological take-off timestamps!
       int secondTest = this.depart.compareTo(this.getDepartureDate());
 
       if (secondTest < 0)
       {
-        result = 1;
+        result = -1;
       }
 
       if (secondTest > 0)
       {
-        result = 2;
+        result = 1;
       }
 
+      if (secondTest == 0)
+      {
+        result = 0;
+      }
+
+    }
+
+    if (result == 404)
+    {
+      System.err.println("Error! Comparator was not able to compare the two flights!");
+      return result;
     }
 
     return result;
