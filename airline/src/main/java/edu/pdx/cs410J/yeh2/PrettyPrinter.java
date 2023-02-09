@@ -158,7 +158,7 @@ public class PrettyPrinter implements AirlineDumper<Airline> {
         String poster = null;
         if (this.plotter != null)
         {
-            poster = new String(this.plotter);
+            poster = this.plotter;
         }
         else
         {
@@ -206,7 +206,8 @@ public class PrettyPrinter implements AirlineDumper<Airline> {
             printer = new PrintWriter(stringy);
         }
             //LinkedList<Flight> flightDump = lufthansa.getFlights();
-            TreeSet<Flight> flightDump = lufthansa.getFlights();
+            //TreeSet<Flight> flightDump = lufthansa.getFlights();
+            Collection<Flight> flightDump = lufthansa.getFlights();
             String airline_name = lufthansa.getName();
             int flightnum = 1;
             //printer.println(airline_name);
@@ -243,47 +244,79 @@ public class PrettyPrinter implements AirlineDumper<Airline> {
 
             long flightTime;
 
-
-
             printer.println("Thank you for using the PrettyPrinter!");
 
             printer.println("For airline, '" + airline_name + "', we have the following flight(s) scheduled...\n");
             printer.println("-----");
 
-            for (Flight runway : flightDump)
-            {
-                airport1 = IATA(runway.getSource());
-                airport2 = IATA(runway.getDestination());
-//                date1 = (pretty_format.format(runway.getDepartureDate())).toLowerCase();
-//                date2 = (pretty_format.format(runway.getArrivalDate())).toLowerCase();
+        for (Flight runway : flightDump)
+        {
+            airport1 = IATA(runway.getSource());
+            airport2 = IATA(runway.getDestination());
+            //                date1 = (pretty_format.format(runway.getDepartureDate())).toLowerCase();
+            //                date2 = (pretty_format.format(runway.getArrivalDate())).toLowerCase();
 
-                date1 = segment_format.format(runway.getDepartureDate()) + (ampm_format.format(runway.getDepartureDate())).toLowerCase();
-                date2 = segment_format.format(runway.getArrivalDate()) + (ampm_format.format(runway.getArrivalDate())).toLowerCase();
-                flightTime = runway.getFlightTime();
+            date1 = segment_format.format(runway.getDepartureDate()) + (ampm_format.format(runway.getDepartureDate())).toLowerCase();
+            date2 = segment_format.format(runway.getArrivalDate()) + (ampm_format.format(runway.getArrivalDate())).toLowerCase();
+            flightTime = runway.getFlightTime();
 
-                printer.println(flightnum + ".) " + "Flight Number: " + runway.getNumber());
-                printer.println("---");
-                printer.println("Departing from... " + airport1 + "@ " + date1);
-                printer.println("To arrive at destination... " + airport2 + "@ " + date2 + "\n");
-//              printer.println("@ " + date1 + "\t@ " + date2);
-                if (flightTime == -1337)
-                {
-                    printer.println("Approximate Flight Duration (in minutes):\t" + "'N/A' (negative flight minutes detected)");
-                }
-                else
-                {
-                    printer.println("Approximate Flight Duration (in minutes):\t" + flightTime);
-                }
-
-                printer.println("---\n");
-
-//                        ", " + runway.getSource() +
-//                        ", " + runway.getDepartureString() +
-//                        ", " + runway.getDestination() +
-//                        ", " + runway.getArrivalString());
-                flightnum++;
+            printer.println("#" + flightnum + ".) ");
+            printer.println("Official Flight Number:\t" + runway.getNumber());
+            printer.println("---");
+            printer.println("Departing from...\t'" + airport1 + "', on\t" + date1);
+            printer.println("To arrive at destination...\t'" + airport2 + "', on\t" + date2 + "\n");
+            //              printer.println("@ " + date1 + "\t@ " + date2);
+            if (flightTime == -1337) {
+                printer.println("Approximate Flight Duration:\t" + "'N/A' (negative flight minutes detected)");
+            } else {
+                printer.println("Approximate Flight Duration:\t" + flightTime + " minute(s)!");
             }
-            printer.close();
+
+            printer.println("---\n");
+
+            //                        ", " + runway.getSource() +
+            //                        ", " + runway.getDepartureString() +
+            //                        ", " + runway.getDestination() +
+            //                        ", " + runway.getArrivalString());
+            flightnum++;
+        }
+        printer.close();
+
+//        if (!this.save)
+//        {
+//            for (Flight runway : flightDump)
+//            {
+//                airport1 = IATA(runway.getSource());
+//                airport2 = IATA(runway.getDestination());
+//                //                date1 = (pretty_format.format(runway.getDepartureDate())).toLowerCase();
+//                //                date2 = (pretty_format.format(runway.getArrivalDate())).toLowerCase();
+//
+//                date1 = segment_format.format(runway.getDepartureDate()) + (ampm_format.format(runway.getDepartureDate())).toLowerCase();
+//                date2 = segment_format.format(runway.getArrivalDate()) + (ampm_format.format(runway.getArrivalDate())).toLowerCase();
+//                flightTime = runway.getFlightTime();
+//
+//                System.out.println(flightnum + ".) " + "Flight Number: " + runway.getNumber());
+//                System.out.println("---");
+//                System.out.println("Departing from... '" + airport1 + "', on " + date1);
+//                System.out.println("To arrive at destination... '" + airport2 + "', on " + date2 + "\n");
+//                //              System.out.println("@ " + date1 + "\t@ " + date2);
+//                if (flightTime == -1337) {
+//                    System.out.println("Approximate Flight Duration (in minutes):\t" + "'N/A' (negative flight minutes detected)");
+//                } else {
+//                    System.out.println("Approximate Flight Duration (in minutes):\t" + flightTime);
+//                }
+//
+//                System.out.println("---\n");
+//
+//                //                        ", " + runway.getSource() +
+//                //                        ", " + runway.getDepartureString() +
+//                //                        ", " + runway.getDestination() +
+//                //                        ", " + runway.getArrivalString());
+//                flightnum++;
+//            }
+//
+//        }
+//        printer.close();
 
             if (!this.save)
             {

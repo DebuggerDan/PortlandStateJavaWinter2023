@@ -3,6 +3,7 @@ package edu.pdx.cs410J.yeh2;
 import edu.pdx.cs410J.AirlineDumper;
 
 //import java.util.Collection;
+import java.util.Collection;
 import java.util.LinkedList;
 
 import java.io.PrintWriter;
@@ -117,7 +118,7 @@ public class TextDumper implements AirlineDumper<Airline> {
 //    {
 //      printer = new PrintWriter(this.dump);
 
-    TreeSet<Flight> flightDump = lufthansa.getFlights();
+    Collection<Flight> flightDump = lufthansa.getFlights();
     String airline_name = lufthansa.getName();
 
     printer.println(airline_name);

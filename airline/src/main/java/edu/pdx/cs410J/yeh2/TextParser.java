@@ -236,18 +236,18 @@ public class TextParser implements AirlineParser<Airline> {
 
                     String[] currargs = currstring.split("\\s*,\\s*");
 
-                    if (currargs.length > 5) {
-                        throw new IllegalArgumentException("Need at least 5 arguments for airlines/flights!");
+                    if (currargs.length > 7) {
+                        throw new IllegalArgumentException("Need at least 7 arguments for airlines/flights!");
                     }
                     else
                     {
-                        if (currargs.length < 5)
+                        if (currargs.length < 7)
                         {
-                            throw new IllegalArgumentException("There can only be 5 arguments max per airline/flights!");
+                            throw new IllegalArgumentException("There can only be 7 arguments max per airline/flights!");
                         }
                     }
-//                    String stamp1 = null;
-//                    String stamp2 = null;
+                    //String stamp1 = null;
+                    //String stamp2 = null;
 //                    /*
 //                     * Attempts to create the formatted time-and-date for departure time.
 //                     */
@@ -297,7 +297,10 @@ public class TextParser implements AirlineParser<Airline> {
 //                        //return;
 //                    }
 
-                    Flight runway = new Flight(currargs);
+                    //Flight runway = new Flight(currargs);
+                    String date1 = currargs[2] + currargs[3];
+                    String date2 = currargs[5] + currargs[6];
+                    Flight runway = new Flight(currargs[0], currargs[1], date1, currargs[4], date2);
 
                     // Input-Validation #5: If flight arrival is before the departure time:
                     if (runway.getFlightTime() < 0)

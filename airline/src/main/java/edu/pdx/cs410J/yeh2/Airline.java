@@ -16,7 +16,7 @@ import java.util.*;
 public class Airline extends AbstractAirline<Flight> {
   private String name = "N/A";
   //private LinkedList<Flight> flights = null;
-  private TreeSet<Flight> flights = null;
+  private Collection<Flight> flights;
   //private Collection<Flight> flights = null;
 
   //private Flight head = null;
@@ -212,11 +212,11 @@ public class Airline extends AbstractAirline<Flight> {
 //  }
 
   /**
-   * Returns {@code this.flights} of the <code>Airline</code>, as ({@code TreeSet<Flight><Flight>}).
+   * Returns {@code this.flights} of the <code>Airline</code>, as ({@code Collection<Flight>}).
    * @return schedule {@code LinkedList<Flight>}
    */
   @Override
-  public TreeSet<Flight> getFlights() {
+  public Collection<Flight> getFlights() {
 //    if (this.head == null)
 //    {
 //      System.out.print("\nDone! (or no flights)");
@@ -238,7 +238,8 @@ public class Airline extends AbstractAirline<Flight> {
     //  }
     //LinkedList<Flight> schedule = new LinkedList<Flight>(this.flights);
 
-    TreeSet<Flight> schedule = new TreeSet<> (new air_traffic_controller());
-    return schedule;
+    //TreeSet<Flight> schedule = new TreeSet<> (new air_traffic_controller());
+    //return schedule;
+    return this.flights;
   }
 }

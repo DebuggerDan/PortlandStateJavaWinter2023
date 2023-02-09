@@ -1,0 +1,12 @@
+Thank you for using the PrettyPrinter!
+For airline, 'Lufthansa', we have the following flight(s) scheduled...
+
+-----
+1.) Flight Number: 123
+---
+Departing from... Portland, OR@ Saturday, February 4, 2023 @ 6:53 pm
+To arrive at destination... Seattle, WA@ Saturday, February 4, 2023 @ 7:00 pm
+
+Approximate Flight Duration (in minutes):	7
+---
+

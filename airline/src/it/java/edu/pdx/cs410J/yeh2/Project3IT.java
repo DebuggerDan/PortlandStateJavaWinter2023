@@ -111,6 +111,27 @@ class Project3IT extends InvokeMainTestCase {
     }
 
     /**
+     * Test #0a: Valid invocation of main method (Project #3) with all possible valid arguments & options
+     * (But specifies the command-line printing method for -pretty option)
+     */
+    @Test
+    void AtestFullValid1() {
+        MainMethodResult result = invokeMain(Project3.class, "Lufthansa", "123", "PDX", "02/04/2023", "6:53", "pm", "SEA", "02/04/2023", "7:00", "pm", "-textFile", "test0a.txt", "-pretty", "-");
+        assertThat(result.getTextWrittenToStandardOut(), containsString("Alrighty, the PrettyPrinter will print to the command-line instead of writing to a file!\n"));
+    }
+
+    /**
+     * Test #0b: Valid invocation of main method (Project #3) with all possible valid arguments & options
+     * (But specifies the file-writing method for -pretty option)
+     */
+    @Test
+    void AtestFullValid2() {
+        MainMethodResult result = invokeMain(Project3.class, "Lufthansa", "123", "PDX", "02/04/2023", "6:53", "pm", "SEA", "02/04/2023", "7:00", "pm", "-textFile", "test0a.txt", "-pretty", "text0b2.txt");
+        assertThat(result.getTextWrittenToStandardOut(), containsString("Alrighty, proceeding to pretty-dump your new airline ('Lufthansa') into a new file:\n" +
+                "text0b2.txt\n"));
+    }
+
+    /**
      * Test #2: README2.txt
      * Ran with no arguments, but just the -README option.
      */
