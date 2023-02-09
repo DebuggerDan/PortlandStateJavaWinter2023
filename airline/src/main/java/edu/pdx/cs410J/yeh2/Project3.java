@@ -493,7 +493,7 @@ public class Project3 {
 
         /*
          * Input-Validation #3: Checking if airport code is not 3-digits in characters.
-         * landing[2] should equal src & landing[5] should equal dest.
+         * landing[2] should equal src & landing[6] should equal dest.
          */
 
         if (landing[2].length() != 3)
@@ -509,15 +509,15 @@ public class Project3 {
             // Graceful Exit: If the source airport code is not 3-digits.
             return;
         }
-        if (landing[5].length() != 3)
+        if (landing[6].length() != 3)
         {
-            if (landing[5].length() < 3)
+            if (landing[6].length() < 3)
             {
-                System.err.println("Uh oh, looks like the destination airport code is too short, it should be 3-digits of letters: " + landing[5]);
+                System.err.println("Uh oh, looks like the destination airport code is too short, it should be 3-digits of letters: " + landing[6]);
             }
             else
             {
-                System.err.println("Uh oh, looks like the destination airport code is too long, it should be 3-digits of letters: " + landing[5]);
+                System.err.println("Uh oh, looks like the destination airport code is too long, it should be 3-digits of letters: " + landing[6]);
             }
             // Graceful Exit: If the destination airport code is not 3-digits.
             return;
@@ -525,7 +525,7 @@ public class Project3 {
 
         // Input-Validation #2b&c: Check if airport codes include numbers.
         char[] srcCodeTest = landing[2].toCharArray();
-        char[] destCodeTest = landing[5].toCharArray();
+        char[] destCodeTest = landing[6].toCharArray();
 
         for (char src : srcCodeTest)
         {
@@ -538,11 +538,11 @@ public class Project3 {
             }
         }
 
-        for (char src : destCodeTest)
+        for (char dest : destCodeTest)
         {
-            if (Character.isDigit(src))
+            if (Character.isDigit(dest))
             {
-                System.err.println("Uh oh, looks like the destination airport code has numbers(s), it should be 3-digits of letters only: " + landing[5]);
+                System.err.println("Uh oh, looks like the destination airport code has numbers(s), it should be 3-digits of letters only: " + landing[6]);
 
                 // Graceful Exit: If the destination airport code has numbers.
                 return;
@@ -632,13 +632,13 @@ public class Project3 {
                         /*
                          * {@code TextDumper} in action!
                          */
-                        System.out.println("Alrighty, proceeding to dump your new airline ('" + landing[0] + "') into a new file:\n" + prettyStrings[idx]);
+                        System.out.println("Alrighty, proceeding to pretty-dump your new airline ('" + landing[0] + "') into a new file:\n" + prettyStrings[idx]);
 
                         PrettyPrinter xerox = new PrettyPrinter(prettyStrings[idx], prettyoption);
 
                         xerox.dump(lufthansa);
 
-                        System.out.println("Luggage has been dumped successfully (New flight dumped into Airline text-file) - Nice!");
+                        System.out.println("Luggage has been pretty-dumped successfully (New flight dumped into Airline pretty-file) - Nice!");
                     }
                 }
                 catch (IOException m6)

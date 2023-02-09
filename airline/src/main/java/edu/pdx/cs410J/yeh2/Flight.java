@@ -6,6 +6,7 @@ import java.text.ParseException;
 import java.util.Date;
 import java.text.DateFormat;
 import java.util.Locale;
+import java.util.Objects;
 
 /**
  * This class implements Flight with a name, flightNumber, src, depart(ure time and date),
@@ -123,15 +124,18 @@ public class Flight extends AbstractFlight implements Comparable<Flight> {
    * </p>
    * @see Project3
    * @param runway A second flight to be compared to the current <code>Flight</code> object that the {@code compareTo(runway)} is being run from.
-   * @return -1 Case I., if the current Flight object should be first.
-   * 1 Case II., if the runway (second flight) should be first.
-   * 0 Case III., if both objects are equal.
+   * @return <p>1 Case I., if the current Flight object should be first.
+   *      1 Case II., if the runway (second flight) should be first.
+   *      0 Case III., if both objects are equal.</p>
    * @throws NullPointerException If the runway (second flight) is empty, throws the null pointer exception.
    */
   @Override
   public int compareTo(Flight runway) throws NullPointerException
   {
     int result = 404;
+
+    // NullPointerException guard!
+    Objects.requireNonNull(runway);
 
     String secondSrc = runway.getSource();
 
@@ -172,11 +176,11 @@ public class Flight extends AbstractFlight implements Comparable<Flight> {
 
     }
 
-    if (result == 404)
-    {
-      System.err.println("Error! Comparator was not able to compare the two flights!");
-      return result;
-    }
+//    if (result == 404)
+//    {
+//      System.err.println("Error! Comparator was not able to compare the two flights!");
+//      return result;
+//    }
 
     return result;
   }

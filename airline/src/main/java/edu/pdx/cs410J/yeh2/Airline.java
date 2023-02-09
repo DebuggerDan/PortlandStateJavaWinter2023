@@ -28,13 +28,27 @@ public class Airline extends AbstractAirline<Flight> {
    */
   static class air_traffic_controller implements Comparator<Flight>
   {
+    /**
+     * Compares two flights for sorting stuffs.
+     * <p>
+     *     Provides a way to compare two <code>Flight/code> objects based on the following:
+     *     1.) Firstly, by alphabetical order - based on source airport-code (ignoring case).
+     *     2.) [If same source airport-codes, then] secondly, by chronological order - based on departure time.
+     *     3.) [If both have the same source airport-code & take-off time], then they will be considered "equal."
+     * </p>
+     * @param gateA Flight #1
+     * @param gateB Flight #2
+     * @return <p>1 Case I., if the current Flight object should be first.
+     *      1 Case II., if the runway (second flight) should be first.
+     *      0 Case III., if both objects are equal.</p>
+     */
     public int compare(Flight gateA, Flight gateB)
     {
       int result = gateA.compareTo(gateB);
-      if (result == 404)
-      {
-        System.err.println("ATC confirms the error shown regarding conflicting flight comparisons above this message.");
-      }
+//      if (result == 404)
+//      {
+//        System.err.println("ATC confirms the error shown regarding conflicting flight comparisons above this message.");
+//      }
       return result;
     }
   }
@@ -71,8 +85,8 @@ public class Airline extends AbstractAirline<Flight> {
     this.name = airline;
     //this.flights = new LinkedList<Flight>();
     this.flights = new TreeSet<> (new air_traffic_controller());
-    //Flight firstFlight = new Flight(flightNumber, src, depart, dest, arrive);
-    addFlight(earlyBird);
+    Flight firstFlight = new Flight(earlyBird);//flightNumber, src, depart, dest, arrive);
+    addFlight(firstFlight);
   }
 
   /**

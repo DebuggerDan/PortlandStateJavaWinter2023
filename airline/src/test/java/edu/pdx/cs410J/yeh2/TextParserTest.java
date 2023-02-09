@@ -71,7 +71,7 @@ public class TextParserTest {
         File test_file = new File("test.txt");
         try (PrintWriter testwrite = new PrintWriter(test_file))
         {
-            testwrite.println("Lufthansa, 123, PDX, 2/04/2023 6:51:34 AM, XDP, 2/04/2023 7:00:00 AM");
+            testwrite.println("Lufthansa, 123, PDX, 2/04/2023 6:51:34 AM, SEA, 2/04/2023 7:00:00 AM");
         }
         catch (FileNotFoundException t3)
         {
@@ -136,7 +136,7 @@ public class TextParserTest {
         File test_file = new File("test.txt");
         try (PrintWriter testwrite = new PrintWriter(test_file))
         {
-            testwrite.println("Lufthansa, 123, PDX, 2/04/2023 6:51:34 AM, XDP, 2414, 34525322/0325234/3202523, 7:25235235:00322 AM, 351253, 4543");
+            testwrite.println("Lufthansa, 123, PDX, 2/04/2023 6:51:34 AM, SEA, 2414, 34525322/0325234/3202523, 7:25235235:00322 AM, 351253, 4543");
             testwrite.println("g4g43g43gg,43g,4g334g34,g,34g,34 g, 34 ,g3,4 g3, 34,g ,3g4, 3g, 253, 4543");
         }
         catch (FileNotFoundException t3)
