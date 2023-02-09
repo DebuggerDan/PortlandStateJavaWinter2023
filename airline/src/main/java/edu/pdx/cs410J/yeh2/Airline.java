@@ -152,6 +152,31 @@ public class Airline extends AbstractAirline<Flight> {
   }
 
   /**
+   * Prints all flights within the {@code this.flights} ({@code LinkedList<Flight>}).
+   * (This version of printAll invokes the flight.toString() method for Project #1.)
+   * @see Project1
+   * @param airline_name The name of the airline!
+   */
+  public void printAllString(String airline_name)
+  {
+//    if (this.head == null)
+//    {
+//      System.out.print("\nDone! (or no flights)");
+//    }
+//    else
+//    {
+//      head.print();
+//      this.head = head.getNext();
+//      printAll();
+//    }
+    //for (Object plane : this.flights)
+    for (Flight plane : this.flights) {
+      String flight_line = plane.toString();
+      System.out.println("Airline: " + airline_name + ", Flight Information: " + flight_line);
+    }
+  }
+
+  /**
    * Returns {@code this.flights} of the <code>Airline</code>, as ({@code LinkedList<Flight>}).
    * @return schedule {@code LinkedList<Flight>}
    */
