@@ -19,6 +19,8 @@ import java.text.*;
 // import java.text.DateFormat;
 // import java.text.SimpleDateFormat;
 
+import edu.pdx.cs410J.AirportNames;
+
 
 public class Project3 {
 
@@ -558,7 +560,29 @@ public class Project3 {
                 return;
             }
         }
+
+        // Input-Validation #6: Check the AirportNames database if the airport codes actually exist!
+        if (AirportNames.getName(landing[2]) == null)
+        {
+            System.err.println("Uh oh, looks like the source airport code, '" + landing[2] + "', was not found in our airport-names database!");
+            // Graceful Exit: If the source airport code was not found in AirportNames!
+            return;
+        }
+        if (AirportNames.getName(landing[6]) == null)
+        {
+            System.err.println("Uh oh, looks like the destination airport code, '" + landing[6] + "', was not found in our airport-names database!");
+            // Graceful Exit: If the destination airport code was not found in AirportNames!
+            return;
+        }
+
         runway = new Flight(landing[1], landing[2], gate, landing[6], taxi);
+
+        // Input-Validation #5: If flight arrival is before the departure time:
+        if (runway.getFlightTime() < 0)
+        {
+            // Graceful Exit: If negative flightTime (in minutes)
+            return;
+        }
 
         // int total_actions_num = (print_option_num + readme_option_num + filelist.size());//argnum);
         // int readmes = print_option_num;
@@ -632,7 +656,7 @@ public class Project3 {
         String prettyString = null;
 
         // for (int idx = 0; idx != total_actions_num; idx++)
-        if (prettyoption == true)
+        if (prettyoption)
         {
             for (int idx = 0; idx != prettyStrings.length; idx++)//prettynum; idx++)
             {

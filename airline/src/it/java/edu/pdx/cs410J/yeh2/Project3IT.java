@@ -294,13 +294,13 @@ class Project3IT extends InvokeMainTestCase {
 
     /**
      * Test #12: Airline codes are too short
-     * Airline code are too short.
+     * Airline code are too short (vs. 3-letters).
      * (From Project1IT.java)
      */
     @Test
     void testAirportCodeShort() {
-        MainMethodResult resultSrc = invokeMain(Project3.class, "Lufthansa", "123", "A", "02/04/2023", "6:53", "pm", "SEA", "02/04/2023", "7:00", "pm", "-textFile", "test11.txt");
-        MainMethodResult resultDest = invokeMain(Project3.class, "Lufthansa", "123", "PDX", "02/04/2023", "6:53", "pm", "B", "02/04/2023", "7:00", "pm", "-textFile", "test11.txt");
+        MainMethodResult resultSrc = invokeMain(Project3.class, "Lufthansa", "123", "A", "02/04/2023", "6:53", "pm", "SEA", "02/04/2023", "7:00", "pm", "-textFile", "test12a.txt");
+        MainMethodResult resultDest = invokeMain(Project3.class, "Lufthansa", "123", "PDX", "02/04/2023", "6:53", "pm", "B", "02/04/2023", "7:00", "pm", "-textFile", "test12b.txt");
 
         assertThat(resultSrc.getTextWrittenToStandardError(), containsString("Uh oh, looks like the source airport code is too short, it should be 3-digits of letters: A"));
         assertThat(resultDest.getTextWrittenToStandardError(), containsString("Uh oh, looks like the destination airport code is too short, it should be 3-digits of letters: B"));
@@ -308,30 +308,58 @@ class Project3IT extends InvokeMainTestCase {
 
     /**
      * Test #13: Airline codes are too large
-     * Airline code are too short.
+     * Airline code are too long (vs. 3-letters).
      * (From Project1IT.java)
      */
     @Test
     void testAirportCodeLong() {
-        MainMethodResult resultSrc = invokeMain(Project3.class, "Lufthansa", "123", "ABCD", "02/04/2023", "6:53", "pm", "SEA", "02/04/2023", "7:00", "pm", "-textFile", "test11.txt");
-        MainMethodResult resultDest = invokeMain(Project3.class, "Lufthansa", "123", "PDX", "02/04/2023", "6:53", "pm", "BCDE", "02/04/2023", "7:00", "pm", "-textFile", "test11.txt");
+        MainMethodResult resultSrc = invokeMain(Project3.class, "Lufthansa", "123", "ABCD", "02/04/2023", "6:53", "pm", "SEA", "02/04/2023", "7:00", "pm", "-textFile", "test13a.txt");
+        MainMethodResult resultDest = invokeMain(Project3.class, "Lufthansa", "123", "PDX", "02/04/2023", "6:53", "pm", "BCDE", "02/04/2023", "7:00", "pm", "-textFile", "test13a.txt");
 
         assertThat(resultSrc.getTextWrittenToStandardError(), containsString("Uh oh, looks like the source airport code is too long, it should be 3-digits of letters: ABCD"));
         assertThat(resultDest.getTextWrittenToStandardError(), containsString("Uh oh, looks like the destination airport code is too long, it should be 3-digits of letters: BCDE"));
     }
 
     /**
-     * Test #14: Airline code have numbers.
-     * Airline code have numbers.
+     * Test #14: Airline codes have numbers.
+     * Airline codes have numbers, which is very confusing (and invalid).
      * (From Project1IT.java)
      */
     @Test
     void testAirportCodeNumbers() {
-        MainMethodResult resultSrc = invokeMain(Project3.class, "Lufthansa", "123", "AA1", "02/04/2023", "6:53", "pm", "SEA", "02/04/2023", "7:00", "pm", "-textFile", "test11.txt");
-        MainMethodResult resultDest = invokeMain(Project3.class, "Lufthansa", "123", "PDX", "02/04/2023", "6:53", "pm", "BB2", "02/04/2023", "7:00", "pm", "-textFile", "test11.txt");
+        MainMethodResult resultSrc = invokeMain(Project3.class, "Lufthansa", "123", "AA1", "02/04/2023", "6:53", "pm", "SEA", "02/04/2023", "7:00", "pm", "-textFile", "test14a.txt");
+        MainMethodResult resultDest = invokeMain(Project3.class, "Lufthansa", "123", "PDX", "02/04/2023", "6:53", "pm", "BB2", "02/04/2023", "7:00", "pm", "-textFile", "test14a.txt");
 
         assertThat(resultSrc.getTextWrittenToStandardError(), containsString("Uh oh, looks like the source airport code has numbers(s), it should be 3-digits of letters only: AA1"));
         assertThat(resultDest.getTextWrittenToStandardError(), containsString("Uh oh, looks like the destination airport code has numbers(s), it should be 3-digits of letters only: BB2"));
+    }
+
+    /**
+     * Test #15: Airline codes are invalid.
+     * Airline codes do not exist in reality, very spooky.
+     * @see edu.pdx.cs410J.AirportNames
+     */
+    @Test
+    void testAirportNonValidCodes() {
+        MainMethodResult resultSrc = invokeMain(Project3.class, "Lufthansa", "123", "AAZ", "02/04/2023", "6:53", "pm", "SEA", "02/04/2023", "7:00", "pm", "-textFile", "test15a.txt");
+        MainMethodResult resultDest = invokeMain(Project3.class, "Lufthansa", "123", "PDX", "02/04/2023", "6:53", "pm", "BBZ", "02/04/2023", "7:00", "pm", "-textFile", "test15a.txt");
+
+        assertThat(resultSrc.getTextWrittenToStandardError(), containsString("Uh oh, looks like the source airport code, 'AAZ', was not found in our airport-names database!"));
+        assertThat(resultDest.getTextWrittenToStandardError(), containsString("Uh oh, looks like the destination airport code, 'BBZ', was not found in our airport-names database!"));
+    }
+
+    /**
+     * Test #16: Negative Flight Duration (Arrival - Departure)
+     * If the flight has a negative flight-duration (in minutes)
+     * (From Project1IT.java)
+     */
+    @Test
+    void testInvalidFlightDuration() {
+        MainMethodResult resultSrc = invokeMain(Project3.class, "Lufthansa", "123", "PDX", "02/04/2023", "2:53", "pm", "SEA", "02/04/2023", "7:00", "am", "-textFile", "test16a.txt");
+        MainMethodResult resultDest = invokeMain(Project3.class, "Lufthansa", "123", "PDX", "02/04/2023", "4:34", "pm", "SEA", "02/04/2023", "7:00", "am", "-textFile", "test16b.txt");
+
+        assertThat(resultSrc.getTextWrittenToStandardError(), containsString("Is this Back To The Future, but with flying? Because it looks like the total flight time is somehow negative: "));
+        assertThat(resultDest.getTextWrittenToStandardError(), containsString("Is this Back To The Future, but with flying? Because it looks like the total flight time is somehow negative: "));
     }
 
 }

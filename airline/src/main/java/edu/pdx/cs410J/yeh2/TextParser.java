@@ -298,6 +298,13 @@ public class TextParser implements AirlineParser<Airline> {
 //                    }
 
                     Flight runway = new Flight(currargs);
+
+                    // Input-Validation #5: If flight arrival is before the departure time:
+                    if (runway.getFlightTime() < 0)
+                    {
+                        throw new ParserException("(flight-minute calculation during parsing process)");
+                    }
+
                     //Flight runway = new Flight(currargs[1], currargs[2], stamp1, currargs[5], stamp2);
                     //this.lufthansa.add
                     currstring = buffer.readLine();

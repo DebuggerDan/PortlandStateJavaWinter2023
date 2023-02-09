@@ -143,7 +143,7 @@ public class PrettyPrinter implements AirlineDumper<Airline> {
             this.file_name = file.getName();
             this.save = true;
         } else {
-            throw new IllegalArgumentException("Sorry, looks like the file already exists!.");
+            throw new IllegalArgumentException("Sorry, looks like the file already exists!");
             //this.currfile = file;
         }
     }

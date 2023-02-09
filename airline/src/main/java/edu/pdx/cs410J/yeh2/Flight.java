@@ -355,7 +355,7 @@ public class Flight extends AbstractFlight implements Comparable<Flight> {
     if (flight_minutes < 0)
     {
       System.err.println("Is this Back To The Future, but with flying? Because it looks like the total flight time is somehow negative: " + flight_minutes);
-      flight_minutes = -1337;
+      //flight_minutes = -1337;
     }
 
     return flight_minutes;

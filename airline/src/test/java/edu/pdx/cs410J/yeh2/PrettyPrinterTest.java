@@ -2,6 +2,7 @@ package edu.pdx.cs410J.yeh2;
 
 import edu.pdx.cs410J.ParserException;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.function.Executable;
 import org.junit.jupiter.api.io.TempDir;
 
 import java.io.*;
@@ -9,6 +10,7 @@ import java.io.*;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.containsString;
 import static org.hamcrest.Matchers.equalTo;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 public class PrettyPrinterTest {
 
@@ -118,6 +120,26 @@ public class PrettyPrinterTest {
                 "For airline, 'Lufthansa', we have the following flight(s) scheduled...\n" +
                 "\n" +
                 "-----\n"));
+
+    }
+
+    /**
+     * A test that tests the different PrettyPrinter constructors, e.g. {@code PrettyPrinter(String, Boolean)} constructor!
+     */
+    @Test
+    void createPrettyPrinterConstructors() throws IllegalArgumentException
+    {
+        PrettyPrinter xerox1 = new PrettyPrinter("delta", false);
+        PrettyPrinter xerox2 = new PrettyPrinter(null, true);
+
+        //File test_file1 = new File("test.txt");
+        File test_file2 = null;
+
+        //PrettyPrinter brother1 = null;// PrettyPrinter(test_file1);
+        PrettyPrinter brother2 = null;
+
+        //assertThrows(IllegalArgumentException.class, (Executable) (brother1 = new PrettyPrinter(test_file1)));
+        //assertThrows(IllegalArgumentException.class, (Executable) (brother2 = new PrettyPrinter(test_file2)));
 
     }
 
