@@ -14,6 +14,7 @@ import java.io.File;
 import java.io.FileWriter;
 
 import java.io.IOException;
+import java.util.TreeSet;
 
 /**
  * A text-dumper based on the <code>AirlineDumper</code> interface, for Project #2.
@@ -117,7 +118,7 @@ public class TextDumper implements AirlineDumper<Airline> {
 //      printer = new PrintWriter(this.dump);
 //    }
 
-    LinkedList<Flight> flightDump = lufthansa.getFlights();
+    TreeSet<Flight> flightDump = lufthansa.getFlights();
     String airline_name = lufthansa.getName();
 
     printer.println(airline_name);

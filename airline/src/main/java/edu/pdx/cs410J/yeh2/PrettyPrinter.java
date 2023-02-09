@@ -99,7 +99,8 @@ public class PrettyPrinter implements AirlineDumper<Airline> {
 
         PrintWriter printer = new PrintWriter(filewrite);
 
-        LinkedList<Flight> flightDump = lufthansa.getFlights();
+        //LinkedList<Flight> flightDump = lufthansa.getFlights();
+        TreeSet<Flight> flightDump = lufthansa.getFlights();
         String airline_name = lufthansa.getName();
 
         printer.println(airline_name);

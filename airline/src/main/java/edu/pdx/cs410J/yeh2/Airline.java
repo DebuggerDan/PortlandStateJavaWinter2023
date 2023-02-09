@@ -3,22 +3,41 @@ package edu.pdx.cs410J.yeh2;
 import edu.pdx.cs410J.AbstractAirline;
 
 //import java.util.Collection;
+//import java.util.LinkedList;
 
-// Using a built-in <code>java.util.LinkedList</code> import instead of trying to create my own from scratch:
-import java.util.LinkedList;
 import java.util.*;
+//import java.util.TreeSet;
 
 
 /**
- * The <code>Airline</code> class has (should have collection) a {@code LinkedList<Flight>},
+ * The <code>Airline</code> class has (should have collection) a {@code TreeSet<Flight><Flight>},
  * ...which is a linked-list of <code>flight</code>-classes.
  */
 public class Airline extends AbstractAirline<Flight> {
   private String name = "N/A";
-  private LinkedList<Flight> flights = null;
+  //private LinkedList<Flight> flights = null;
+  private TreeSet<Flight> flights = null;
+  //private Collection<Flight> flights = null;
 
   //private Flight head = null;
   protected int flightnum;
+
+  /**
+   * Implements the {@code Comparator<Flight>} as implemented in the Flight class.
+   * @see Flight
+   */
+  static class air_traffic_controller implements Comparator<Flight>
+  {
+    public int compare(Flight gateA, Flight gateB)
+    {
+      int result = gateA.compareTo(gateB);
+      if (result == 404)
+      {
+        System.err.println("ATC confirms the error shown regarding conflicting flight comparisons above this message.");
+      }
+      return result;
+    }
+  }
 
   /*
    * An <code>Airline</code> constructor for six (6) raw {@code args[]} parameters.
@@ -50,7 +69,8 @@ public class Airline extends AbstractAirline<Flight> {
       throw new IllegalArgumentException("Uh oh, earlyBird was empty!");
     }
     this.name = airline;
-    this.flights = new LinkedList<Flight>();
+    //this.flights = new LinkedList<Flight>();
+    this.flights = new TreeSet<> (new air_traffic_controller());
     //Flight firstFlight = new Flight(flightNumber, src, depart, dest, arrive);
     addFlight(earlyBird);
   }
@@ -61,13 +81,14 @@ public class Airline extends AbstractAirline<Flight> {
    */
   public Airline(String name) {
     this.name = name;
-    this.flights = new LinkedList<Flight>();
+    //this.flights = new LinkedList<Flight>();
+    this.flights = new TreeSet<> (new air_traffic_controller());
     this.flightnum = 0;
   }
 
   /**
-   * Returns an <code>Integer</code>-count of flights in the {@code LinkedList<Flight>} of the <code>Airline</code>.
-   * @return flights The number of flights in the <code>Airline</code>.
+   * Returns an <code>Integer</code>-count of flights in the {@code TreeSet<Flight>} of the <code>Airline</code>.
+   * @return The number of flights in the <code>Airline</code>.
    */
   public Integer getFlightNum()
   {
@@ -85,7 +106,7 @@ public class Airline extends AbstractAirline<Flight> {
   }
 
   /**
-   * Adds a flight to the {@code this.flights}, which is a {@code LinkedList<Flight>}.
+   * Adds a flight to the {@code this.flights}, which is a {@code TreeSet<Flight><Flight>}.
    * @param curr The flight to be added.
    */
   @Override
@@ -108,7 +129,7 @@ public class Airline extends AbstractAirline<Flight> {
   }
 
   /*
-   * Adds a flight to the {@code this.flights}, which is a {@code LinkedList<Flight>}.
+   * Adds a flight to the {@code this.flights}, which is a {@code TreeSet<Flight><Flight>}.
    * @param specifications A {@code String[]} array of specifications for a new flight!
    */
 //  public void addFlight(String[] specifications) {
@@ -131,7 +152,7 @@ public class Airline extends AbstractAirline<Flight> {
 //  }
 
   /**
-   * Prints all flights within the {@code this.flights} ({@code LinkedList<Flight>}).
+   * Prints all flights within the {@code this.flights} ({@code TreeSet<Flight><Flight>}).
    */
   public void printAll()
   {
@@ -152,36 +173,36 @@ public class Airline extends AbstractAirline<Flight> {
   }
 
   /**
-   * Prints all flights within the {@code this.flights} ({@code LinkedList<Flight>}).
+   * Prints all flights within the {@code this.flights} ({@code TreeSet<Flight><Flight>}).
    * (This version of printAll invokes the flight.toString() method for Project #1.)
    * (see Project1)
    * @param airline_name The name of the airline!
    */
-  public void printAllString(String airline_name)
-  {
-//    if (this.head == null)
-//    {
-//      System.out.print("\nDone! (or no flights)");
+//  public void printAllString(String airline_name)
+//  {
+////    if (this.head == null)
+////    {
+////      System.out.print("\nDone! (or no flights)");
+////    }
+////    else
+////    {
+////      head.print();
+////      this.head = head.getNext();
+////      printAll();
+////    }
+//    //for (Object plane : this.flights)
+//    for (Flight plane : this.flights) {
+//      String flight_line = plane.toString();
+//      System.out.println("Airline: " + airline_name + ", Flight Information: " + flight_line);
 //    }
-//    else
-//    {
-//      head.print();
-//      this.head = head.getNext();
-//      printAll();
-//    }
-    //for (Object plane : this.flights)
-    for (Flight plane : this.flights) {
-      String flight_line = plane.toString();
-      System.out.println("Airline: " + airline_name + ", Flight Information: " + flight_line);
-    }
-  }
+//  }
 
   /**
-   * Returns {@code this.flights} of the <code>Airline</code>, as ({@code LinkedList<Flight>}).
+   * Returns {@code this.flights} of the <code>Airline</code>, as ({@code TreeSet<Flight><Flight>}).
    * @return schedule {@code LinkedList<Flight>}
    */
   @Override
-  public LinkedList<Flight> getFlights() {
+  public TreeSet<Flight> getFlights() {
 //    if (this.head == null)
 //    {
 //      System.out.print("\nDone! (or no flights)");
@@ -201,7 +222,9 @@ public class Airline extends AbstractAirline<Flight> {
     //    return null;
     //
     //  }
-    LinkedList<Flight> schedule = new LinkedList<Flight>(this.flights);
+    //LinkedList<Flight> schedule = new LinkedList<Flight>(this.flights);
+
+    TreeSet<Flight> schedule = new TreeSet<> (new air_traffic_controller());
     return schedule;
   }
 }
