@@ -209,7 +209,7 @@ public class PrettyPrinter implements AirlineDumper<Airline> {
             TreeSet<Flight> flightDump = lufthansa.getFlights();
             String airline_name = lufthansa.getName();
             int flightnum = 1;
-            printer.println(airline_name);
+            //printer.println(airline_name);
 
             try (InputStream displayme = Project3.class.getResourceAsStream(prettyASCII)) {
                 InputStreamReader display_me = new InputStreamReader(displayme);

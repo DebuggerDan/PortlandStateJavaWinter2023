@@ -73,7 +73,8 @@ class Project3IT extends InvokeMainTestCase {
             "           dest Three-letter code of arrival airport\n" +
             "           arrive Arrival date and time (am/pm)\n" +
             "       options are (options may appear in any order):\n" +
-            "           -pretty file Pretty print the airline’s flights to a text file or standard out\n" +
+            "           -pretty file Pretty print the airline’s flights to\n" +
+            "                        a text file or standard out (file -)\n" +
             "           -textFile file Where to read/write the airline info\n" +
             "           -print Prints a description of the new flight\n" +
             "           -README Prints a README for this project and exits\n";
@@ -87,7 +88,8 @@ class Project3IT extends InvokeMainTestCase {
             "           dest Three-letter code of arrival airport\n" +
             "           arrive Arrival date and time (am/pm)\n" +
             "       options are (options may appear in any order):\n" +
-            "           -pretty file Pretty print the airline’s flights to a text file or standard out\n" +
+            "           -pretty file Pretty print the airline’s flights to\n" +
+            "                        a text file or standard out (file -)\n" +
             "           -textFile file Where to read/write the airline info\n" +
             "           -print Prints a description of the new flight\n" +
             "           -README Prints a README for this project and exits\n";
@@ -105,7 +107,7 @@ class Project3IT extends InvokeMainTestCase {
     @Test
     void testNoCommandLineArguments() {
         MainMethodResult result = invokeMain();
-        assertThat(result.getTextWrittenToStandardOut(), containsString("The Project #2 command-line interface has been provided above."));
+        assertThat(result.getTextWrittenToStandardOut(), containsString("The Project #3 command-line interface has been provided above."));
     }
 
     /**
@@ -118,20 +120,20 @@ class Project3IT extends InvokeMainTestCase {
         assertThat(result.getTextWrittenToStandardOut(), containsString(README));
     }
 
-
-    /**
-     * Test #3: README2.txt (x2)
-     * Ran with no arguments, but just the -README option but twice, intentionally.
-     */
-    @Test
-    void testREADMEx5() {
-        MainMethodResult result = invokeMain(Project3.class, "-README", "-README");
-        StringBuilder readmex2 = new StringBuilder();
-        readmex2.append(README);
-        readmex2.append("\n");
-        readmex2.append(README);
-        assertThat(result.getTextWrittenToStandardOut(), containsString(readmex2.toString()));
-    }
+//
+//    /**
+//     * Test #3: README2.txt (x2)
+//     * Ran with no arguments, but just the -README option but twice, intentionally.
+//     */
+//    @Test
+//    void testREADMEx5() {
+//        MainMethodResult result = invokeMain(Project3.class, "-README", "-README");
+//        StringBuilder readmex2 = new StringBuilder();
+//        readmex2.append(README);
+//        readmex2.append("\n");
+//        readmex2.append(README);
+//        assertThat(result.getTextWrittenToStandardOut(), containsString(readmex2.toString()));
+//    }
 
     /**
      * Test #4: Departure Time Malformatted
@@ -139,9 +141,9 @@ class Project3IT extends InvokeMainTestCase {
      */
     @Test
     void testDepartureFormat() {
-        MainMethodResult result = invokeMain(Project3.class, "Lufthansa", "123", "PDX", "123123123", "123", "SEA", "02/04/2023", "07:00", "-textFile", "test.txt");
+        MainMethodResult result = invokeMain(Project3.class, "Lufthansa", "123", "PDX", "123123123", "123", "pm", "SEA", "02/04/2023", "7:00", "pm", "-textFile", "test.txt");
 
-        assertThat(result.getTextWrittenToStandardError(), containsString("Error when attempting to formatting the departure time & date arguments, 123123123 and 123"));
+        assertThat(result.getTextWrittenToStandardError(), containsString("Error when attempting to formatting the departure time & date arguments, 123123123, 123, and pm."));
     }
 
     /**
@@ -150,9 +152,9 @@ class Project3IT extends InvokeMainTestCase {
      */
     @Test
     void testArrivalFormat() {
-        MainMethodResult result = invokeMain(Project3.class, "Lufthansa", "123", "PDX", "02/04/2023", "07:00", "SEA", "123123123", "123", "-textFile", "test.txt");
+        MainMethodResult result = invokeMain(Project3.class, "Lufthansa", "123", "PDX", "02/04/2023", "7:00", "pm", "SEA", "123123123", "123", "pm", "-textFile", "test.txt");
 
-        assertThat(result.getTextWrittenToStandardError(), containsString("Error when attempting to formatting the arrival time & date arguments, 123123123 and 123"));
+        assertThat(result.getTextWrittenToStandardError(), containsString("Error when attempting to formatting the arrival time & date arguments, 123123123, 123, and pm."));
     }
 
     /**
@@ -161,9 +163,9 @@ class Project3IT extends InvokeMainTestCase {
      */
     @Test
     void testExtraArg() {
-        MainMethodResult result = invokeMain(Project3.class, "Lufthansa", "123", "PDX", "02/04/2023", "07:00", "SEA", "g4j9j3g0j3g49jg49", "123123123", "123", "-textFile", "test.txt");
+        MainMethodResult result = invokeMain(Project3.class, "Lufthansa", "123", "PDX", "02/04/2023", "7:00", "pm", "SEA", "g4j9j3g0j3g49jg49", "123123123", "123", "pm", "-textFile", "test.txt");
 
-        assertThat(result.getTextWrittenToStandardError(), containsString("Error, looks like we may be missing or have too many command-line arguments. Creating blank empty airline."));
+        assertThat(result.getTextWrittenToStandardError(), containsString("Error, looks like we may have too many command-line arguments."));
     }
 
     /**
@@ -175,13 +177,13 @@ class Project3IT extends InvokeMainTestCase {
         File test_file = new File("test.txt");
         try (PrintWriter testwrite = new PrintWriter(test_file))
         {
-            testwrite.println("Lufthansa, 123, PDX, 2/04/2023 06:51, SEA, 2/04/2023 07:00");
+            testwrite.println("Lufthansa, 123, PDX, 2/04/2023 06:51, SEA, 2/04/2023 7:00");
         }
         catch (FileNotFoundException t3)
         {
             throw new RuntimeException("Valid Test Text File was unable to be created: ", t3);
         }
-        MainMethodResult result = invokeMain(Project3.class, "Lufthansa", "123", "PDX", "02/04/2023", "06:53", "SEA", "02/04/2023", "07:00", "-textFile", "test.txt", "-print");
+        MainMethodResult result = invokeMain(Project3.class, "Lufthansa", "123", "PDX", "02/04/2023", "6:53", "pm", "SEA", "02/04/2023", "7:00", "pm", "-textFile", "test.txt", "-print");
         //TextParser parser = new TextParser(test_file);//new InputStreamReader(resource));
         //Airline airline = parser.parse();
         //assertThat(airline.getName(), Matchers.equalTo("Lufthansa"));
@@ -202,13 +204,13 @@ class Project3IT extends InvokeMainTestCase {
         File test_file = new File("test8.txt");
         try (PrintWriter testwrite = new PrintWriter(test_file))
         {
-            testwrite.println("Lufthansa, 123, PDX, 2/04/2023 06:51, SEA, 2/04/2023 07:00");
+            testwrite.println("Lufthansa, 123, PDX, 2/04/2023 06:51, SEA, 2/04/2023 7:00");
         }
         catch (FileNotFoundException t3)
         {
             throw new RuntimeException("Valid Test Text File was unable to be created: ", t3);
         }
-        MainMethodResult result = invokeMain(Project3.class, "Lufthansa", "124", "PDX", "02/04/2023", "06:54", "SEA", "02/04/2023", "07:01", "-textFile", "test8.txt");
+        MainMethodResult result = invokeMain(Project3.class, "Lufthansa", "124", "PDX", "02/04/2023", "06:54", "pm", "SEA", "02/04/2023", "07:01", "pm", "-textFile", "test8.txt");
         //TextParser parser = new TextParser(test_file);//new InputStreamReader(resource));
         //Airline airline = parser.parse();
         //assertThat(airline.getName(), Matchers.equalTo("Lufthansa"));
@@ -226,13 +228,13 @@ class Project3IT extends InvokeMainTestCase {
         File test_file = new File("test9.txt");
         try (PrintWriter testwrite = new PrintWriter(test_file))
         {
-            testwrite.println("Project3, 123, PDX, 2/04/2023 06:51, SEA, 2/04/2023 07:00");
+            testwrite.println("Project3, 123, PDX, 2/04/2023 06:51, SEA, 2/04/2023 7:00");
         }
         catch (FileNotFoundException t3)
         {
             throw new RuntimeException("Valid Test Text File was unable to be created: ", t3);
         }
-        MainMethodResult result = invokeMain(Project3.class, "Lufthansa", "123", "PDX", "02/04/2023", "06:53", "SEA", "02/04/2023", "07:00", "-textFile", "test9.txt");
+        MainMethodResult result = invokeMain(Project3.class, "Lufthansa", "123", "PDX", "02/04/2023", "6:53", "pm", "SEA", "02/04/2023", "7:00", "pm", "-textFile", "test9.txt");
         //TextParser parser = new TextParser(test_file);//new InputStreamReader(resource));
         //Airline airline = parser.parse();
         //assertThat(airline.getName(), Matchers.equalTo("Lufthansa"));
@@ -259,7 +261,7 @@ class Project3IT extends InvokeMainTestCase {
         {
             throw new RuntimeException("Valid Test Text File was unable to be created: ", t3);
         }
-        MainMethodResult result = invokeMain(Project3.class, "Lufthansa", "123", "PDX", "02/04/2023", "06:53", "SEA", "02/04/2023", "07:00", "-textFile", "test10.txt");
+        MainMethodResult result = invokeMain(Project3.class, "Lufthansa", "123", "PDX", "02/04/2023", "6:53", "pm", "SEA", "02/04/2023", "7:00", "pm", "-textFile", "test10.txt");
         //TextParser parser = new TextParser(test_file);//new InputStreamReader(resource));
         //Airline airline = parser.parse();
         //assertThat(airline.getName(), Matchers.equalTo("Lufthansa"));
@@ -276,13 +278,13 @@ class Project3IT extends InvokeMainTestCase {
         File test_file = new File("test11.txt");
         try (PrintWriter testwrite = new PrintWriter(test_file))
         {
-            testwrite.println("Lufthansa, 123, PDX, 99999s99999/da99/99 06:51, SEA, 12a3/4211/4223 07:00");
+            testwrite.println("Lufthansa, 123, PDX, 99999s99999/da99/99 06:51, SEA, 12a3/4211/4223 7:00");
         }
         catch (FileNotFoundException t3)
         {
             throw new RuntimeException("Valid Test Text File was unable to be created: ", t3);
         }
-        MainMethodResult result = invokeMain(Project3.class, "Lufthansa", "123", "PDX", "02/04/2023", "06:53", "SEA", "02/04/2023", "07:00", "-textFile", "test11.txt");
+        MainMethodResult result = invokeMain(Project3.class, "Lufthansa", "123", "PDX", "02/04/2023", "6:53", "pm", "SEA", "02/04/2023", "7:00", "pm", "-textFile", "test11.txt");
         //TextParser parser = new TextParser(test_file);//new InputStreamReader(resource));
         //Airline airline = parser.parse();
         //assertThat(airline.getName(), Matchers.equalTo("Lufthansa"));
@@ -297,8 +299,8 @@ class Project3IT extends InvokeMainTestCase {
      */
     @Test
     void testAirportCodeShort() {
-        MainMethodResult resultSrc = invokeMain(Project3.class, "Lufthansa", "123", "A", "02/04/2023", "06:53", "SEA", "02/04/2023", "07:00", "-textFile", "test11.txt");
-        MainMethodResult resultDest = invokeMain(Project3.class, "Lufthansa", "123", "PDX", "02/04/2023", "06:53", "B", "02/04/2023", "07:00", "-textFile", "test11.txt");
+        MainMethodResult resultSrc = invokeMain(Project3.class, "Lufthansa", "123", "A", "02/04/2023", "6:53", "pm", "SEA", "02/04/2023", "7:00", "pm", "-textFile", "test11.txt");
+        MainMethodResult resultDest = invokeMain(Project3.class, "Lufthansa", "123", "PDX", "02/04/2023", "6:53", "pm", "B", "02/04/2023", "7:00", "pm", "-textFile", "test11.txt");
 
         assertThat(resultSrc.getTextWrittenToStandardError(), containsString("Uh oh, looks like the source airport code is too short, it should be 3-digits of letters: A"));
         assertThat(resultDest.getTextWrittenToStandardError(), containsString("Uh oh, looks like the destination airport code is too short, it should be 3-digits of letters: B"));
@@ -311,8 +313,8 @@ class Project3IT extends InvokeMainTestCase {
      */
     @Test
     void testAirportCodeLong() {
-        MainMethodResult resultSrc = invokeMain(Project3.class, "Lufthansa", "123", "ABCD", "02/04/2023", "06:53", "SEA", "02/04/2023", "07:00", "-textFile", "test11.txt");
-        MainMethodResult resultDest = invokeMain(Project3.class, "Lufthansa", "123", "PDX", "02/04/2023", "06:53", "BCDE", "02/04/2023", "07:00", "-textFile", "test11.txt");
+        MainMethodResult resultSrc = invokeMain(Project3.class, "Lufthansa", "123", "ABCD", "02/04/2023", "6:53", "pm", "SEA", "02/04/2023", "7:00", "pm", "-textFile", "test11.txt");
+        MainMethodResult resultDest = invokeMain(Project3.class, "Lufthansa", "123", "PDX", "02/04/2023", "6:53", "pm", "BCDE", "02/04/2023", "7:00", "pm", "-textFile", "test11.txt");
 
         assertThat(resultSrc.getTextWrittenToStandardError(), containsString("Uh oh, looks like the source airport code is too long, it should be 3-digits of letters: ABCD"));
         assertThat(resultDest.getTextWrittenToStandardError(), containsString("Uh oh, looks like the destination airport code is too long, it should be 3-digits of letters: BCDE"));
@@ -325,8 +327,8 @@ class Project3IT extends InvokeMainTestCase {
      */
     @Test
     void testAirportCodeNumbers() {
-        MainMethodResult resultSrc = invokeMain(Project3.class, "Lufthansa", "123", "AA1", "02/04/2023", "06:53", "SEA", "02/04/2023", "07:00", "-textFile", "test11.txt");
-        MainMethodResult resultDest = invokeMain(Project3.class, "Lufthansa", "123", "PDX", "02/04/2023", "06:53", "BB2", "02/04/2023", "07:00", "-textFile", "test11.txt");
+        MainMethodResult resultSrc = invokeMain(Project3.class, "Lufthansa", "123", "AA1", "02/04/2023", "6:53", "pm", "SEA", "02/04/2023", "7:00", "pm", "-textFile", "test11.txt");
+        MainMethodResult resultDest = invokeMain(Project3.class, "Lufthansa", "123", "PDX", "02/04/2023", "6:53", "pm", "BB2", "02/04/2023", "7:00", "pm", "-textFile", "test11.txt");
 
         assertThat(resultSrc.getTextWrittenToStandardError(), containsString("Uh oh, looks like the source airport code has numbers(s), it should be 3-digits of letters only: AA1"));
         assertThat(resultDest.getTextWrittenToStandardError(), containsString("Uh oh, looks like the destination airport code has numbers(s), it should be 3-digits of letters only: BB2"));

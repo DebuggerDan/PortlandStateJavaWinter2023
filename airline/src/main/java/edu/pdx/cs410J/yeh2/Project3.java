@@ -27,7 +27,9 @@ public class Project3 {
      * {@code MM/dd/yyyy HH:mm a}
      * E.g., "02/08/2023 01:20 pm"
      */
-    public static final String Timestamp_Format = "MM/dd/yyyy HH:mm a";
+    //protected static DateFormat date_formatter = DateFormat.getDateTimeInstance(3, 3, Locale.US);
+    protected static final String Timestamp_Format = "MM/dd/yyyy h:mm a";
+    //protected static SimpleDateFormat date_format = new SimpleDateFormat(Timestamp_Format, Locale.US);
 
     /**
      * A function that displays txt files!
@@ -179,6 +181,7 @@ public class Project3 {
         postage.append(date);
         postage.append(" ");
         postage.append(time);
+        postage.append(" ");
         postage.append(ampm.toUpperCase());
         //postage.append(date + " " + time);
 
@@ -284,6 +287,13 @@ public class Project3 {
 
                 switch (action.toLowerCase())
                 {
+                    case "readme":
+                        displayer(readme_file, 0);
+                        return;
+
+                        //readme_option_num++;
+                        //break;
+
                     case "textfile":
                         file_name = args[(args.length <= idx++) ? (idx-1) : idx];
                         if (file_name.isEmpty())
@@ -363,12 +373,12 @@ public class Project3 {
                         }
                         break;
 
-                    case "readme":
-                        //displayer(readme_file, 0);
-                        //return;
-
-                        readme_option_num++;
-                        break;
+//                    case "readme":
+//                        //displayer(readme_file, 0);
+//                        //return;
+//
+//                        readme_option_num++;
+//                        break;
 
                     case "print":
 //                        if (lufthansa == null)
@@ -427,16 +437,16 @@ public class Project3 {
          */
 
         // Option A.) Handling [multiple possibly] -README option(s)
-        if (readme_option_num > 0)
-        {
-            while (readme_option_num != 0)
-            {
-                displayer(readme_file, 0);
-                readme_option_num--;
-            }
-            //System.out.println("The Project #3 README has been provided above, (" + readme_option_num + ") times.");
-            return;
-        }
+//        if (readme_option_num > 0)
+//        {
+//            while (readme_option_num != 0)
+//            {
+//                displayer(readme_file, 0);
+//                readme_option_num--;
+//            }
+//            //System.out.println("The Project #3 README has been provided above, (" + readme_option_num + ") times.");
+//            return;
+//        }
         String[] landing = unthneed(arglist);
         String gate = null;
         String taxi = null;
