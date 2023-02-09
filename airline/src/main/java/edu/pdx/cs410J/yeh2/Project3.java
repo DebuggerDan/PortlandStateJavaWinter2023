@@ -163,14 +163,15 @@ public class Project3 {
      * @see java.text.DateFormat
      * @see java.text.SimpleDateFormat
      *
-     * @param date The first half of the bi-string combo-to-be!
-     * @param time The second half of the bi-string combo-to-be!
+     * @param date The first part of the tri-string combo-to-be!
+     * @param time The second part of the tri-string combo-to-be!
+     * @param ampm The third part of the tri-string combo-to-be!
      * @return timestamp The <code>Date</code> formatted bi-string timestamp combo!
      * @throws IllegalArgumentException If there is an invalid formatted time-and-date bi-string combo!
      *
      */
 
-    public static Date timeStamper(String date, String time) throws IllegalArgumentException
+    public static Date timeStamper(String date, String time, String ampm) throws IllegalArgumentException
     {
         //String Timestamp_Format = "MM/dd/yyyy HH:mm";
         DateFormat TStamp = new SimpleDateFormat(Timestamp_Format, Locale.US);
@@ -178,6 +179,7 @@ public class Project3 {
         postage.append(date);
         postage.append(" ");
         postage.append(time);
+        postage.append(ampm.toUpperCase());
         //postage.append(date + " " + time);
 
         String stamp = postage.toString();
@@ -191,7 +193,6 @@ public class Project3 {
         {
             throw new IllegalArgumentException("Hmm, looks like a invalid time-and-date stamp attempt: ", m00);
         }
-
 
         return timestamp;
     }
@@ -227,7 +228,8 @@ public class Project3 {
         // This boolean will be used to indicate the creation of a new, but blank Airline (e.g. Blank Airline)
         boolean fresh = false;
         // This boolean will be used to indicate if PrettyPrinter will be printing to a text file or have it print to a file!
-        boolean prettyoption = false;
+        // True = save to file & False = only print to command-line
+        boolean prettyoption = true;
 
         int freshnum = 0;
 
@@ -251,7 +253,7 @@ public class Project3 {
          * @see java.text.DateFormat
          * @see java.text.SimpleDateFormat
          */
-        String Timestamp_Format = "MM/dd/yyyy HH:mm";
+        //String Timestamp_Format = "MM/dd/yyyy HH:mm a";
         DateFormat TStamp = new SimpleDateFormat(Timestamp_Format, Locale.US);
 
         // Project #3 README3.txt file!
@@ -334,25 +336,25 @@ public class Project3 {
                             if (pretty_file.equals("-"))
                             {
                                 System.out.println("Alrighty, the PrettyPrinter will print to the command-line instead of writing to a file!");
-                                //prettyoption = false;
+                                prettyoption = false;
                             }
                             else
                             {
-                                System.err.println("Hmm, an invalid file name was detected for the -pretty option (valid names include, e.g. lufthansa.txt)!\nTreating as empty name, creating default Empty Airline!");
-                                pretty_file = "Empty Airline";
+                                System.err.println("Hmm, an invalid file name was detected for the -pretty option (valid names include, e.g. lufthansa.txt)!");//\nTreating as empty name, creating default Empty Airline!");
+                                //pretty_file = "Empty Airline";
 
-                                freshnum++;
+//                                freshnum++;
+//
+//                                if (fresh) // If 2nd+ 'Fresh' Airline to be Created
+//                                {
+//                                    yarn = new StringBuilder();
+//                                    yarn.append("Empty Airline #");
+//                                    yarn.append(freshnum);
+//                                    pretty_file = yarn.toString();
+//                                }
+//                                fresh = true;
 
-                                if (fresh) // If 2nd+ 'Fresh' Airline to be Created
-                                {
-                                    yarn = new StringBuilder();
-                                    yarn.append("Empty Airline #");
-                                    yarn.append(freshnum);
-                                    pretty_file = yarn.toString();
-                                }
-                                fresh = true;
-
-                                //return;
+                                return;
                             }
                         }
                         else
@@ -390,10 +392,23 @@ public class Project3 {
             }
         }
 
-        if (argnum != 8)
+//        if (argnum != 10)
+//        {
+//            System.err.println("Error, looks like we may be missing or have too many command-line arguments. Creating blank empty airline.");
+//            fresh = true;
+//        }
+        if (argnum < 10)
         {
-            System.err.println("Error, looks like we may be missing or have too many command-line arguments. Creating blank empty airline.");
-            fresh = true;
+            // Graceful Exit: If there are missing command-line arguments.
+            System.err.println("Error, looks like we may be missing command-line arguments.");// Creating blank empty airline.");
+            return;
+            //fresh = true;
+        }
+        else if (argnum > 10)
+        {
+            // Graceful Exit: If there are too many command-line arguments.
+            System.err.println("Error, looks like we may have too many command-line arguments.");// Creating blank empty airline.");
+            return;
         }
 
         /*
@@ -403,11 +418,11 @@ public class Project3 {
          *
          * {@code String flightNumber = landing[1];}
          * {@code String src = landing[2]}
-         * {@code String depart = landing[3] + " " + landing[4];} Since Time-and-Date Stamps are two-ply args!
-         * E.g.{@code landing[3] + " " + landing[4];} = {@code "10/20/3040" + " " + "10:20";}
+         * {@code String depart = landing[3] + " " + landing[4] + " " + landing[5];} Since Time-and-Date Stamps are tri-ply args!
+         * E.g.{@code landing[3] + " " + landing[4] + " " + landing[5];} = {@code "10/20/3040" + " " + "10:20" + " " + "am";}
          * ! ...but dan, make sure to (first implement, then) use <code>isValidDateAndTime(String dateAndTime)</code> on time-stamp <code>strings</code> first!
-         * {@code String dest = landing[5];
-         * {@code String arrive = landing[6] + " " + landing[7];}
+         * {@code String dest = landing[6];
+         * {@code String arrive = landing[7] + " " + landing[8] + " " + landing[9];}
          * </p>
          */
 
@@ -416,10 +431,6 @@ public class Project3 {
         {
             while (readme_option_num != 0)
             {
-                /* Assuming that this function, that uses the Resources API
-                 * is permitted as it is only displaying a static text file,
-                 * specific for the README/no-args-default-command-line-interface displaying of text.
-                 */
                 displayer(readme_file, 0);
                 readme_option_num--;
             }
@@ -443,12 +454,12 @@ public class Project3 {
 
         try
         {
-            gate = TStamp.format(timeStamper(landing[3], landing[4]));
+            gate = TStamp.format(timeStamper(landing[3], landing[4], landing[5]));
             //runway = new Flight(landing);
         }
         catch (IllegalArgumentException m4a)
         {
-            System.err.println("Error when attempting to formatting the departure time & date arguments, " + landing[3] + " and " + landing[4]);
+            System.err.println("Error when attempting to formatting the departure time & date arguments, " + landing[3] + ", " + landing[4] + ", and " + landing[5] + ".");
             // Graceful Error: Departure Time & Date Argument(s) not formatted correctly!
             return;
         }
@@ -465,11 +476,11 @@ public class Project3 {
          */
         try
         {
-            taxi = TStamp.format(timeStamper(landing[6], landing[7]));
+            taxi = TStamp.format(timeStamper(landing[7], landing[8], landing[9]));
         }
         catch (IllegalArgumentException m5a)
         {
-            System.err.println("Error when attempting to formatting the arrival time & date arguments, " + landing[6] + " and " + landing[7]);
+            System.err.println("Error when attempting to formatting the arrival time & date arguments, " + landing[7] + ", " + landing[8] + ", and " + landing[9] + ".");
             // Graceful Error: Arrival Time & Date Argument(s) not formatted correctly!
             return;
         }
@@ -537,7 +548,7 @@ public class Project3 {
                 return;
             }
         }
-        runway = new Flight(landing[1], landing[2], gate, landing[5], taxi);
+        runway = new Flight(landing[1], landing[2], gate, landing[6], taxi);
 
         // int total_actions_num = (print_option_num + readme_option_num + filelist.size());//argnum);
         // int readmes = print_option_num;
@@ -604,39 +615,66 @@ public class Project3 {
             }
         }
 
+        // Option A.) Handling [multiple possibly] -pretty parameters
+        int prettynum = prettylist.size();
+
+        String[] prettyStrings = unthneed(prettylist);
+        String prettyString = null;
+
+        // for (int idx = 0; idx != total_actions_num; idx++)
+        if (prettyoption == true)
+        {
+            for (int idx = 0; idx != prettyStrings.length; idx++)//prettynum; idx++)
+            {
+                try
+                {
+                    if (prettynum != 0) {
+                        /*
+                         * {@code TextDumper} in action!
+                         */
+                        System.out.println("Alrighty, proceeding to dump your new airline ('" + landing[0] + "') into a new file:\n" + prettyStrings[idx]);
+
+                        PrettyPrinter xerox = new PrettyPrinter(prettyStrings[idx], prettyoption);
+
+                        xerox.dump(lufthansa);
+
+                        System.out.println("Luggage has been dumped successfully (New flight dumped into Airline text-file) - Nice!");
+                    }
+                }
+                catch (IOException m6)
+                {
+                    System.err.println("Error whilst processing -pretty file, '" + prettyStrings[idx] + "' - Specific Error: " + m6.getMessage());
+                    // Graceful Exit: If PrettyPrinter has an error while processing a pretty_file!
+                    return;
+                }
+            }
+        }
+        else
+        {
+            try
+            {
+                PrettyPrinter xerox = new PrettyPrinter();
+                xerox.dump(lufthansa);
+                prettyString = xerox.getPlottedPrint();
+                System.out.print(prettyString);
+            }
+            catch (IOException m7)
+            {
+                System.err.println("Error whilst processing the -pretty airline!");
+                // Graceful Exit: If PrettyPrinter has an error while processing the -pretty airline for printing!
+                return;
+            }
+        }
+
         // Option C.) Handling (possible multiple!) -print option(s)
+        // Prints the newly defined flight specifically by command-line!
         for (int idx = 0; idx != print_option_num; idx++)
         {
-//            if (lufthansa == null)
+//            if (lufthansa != null)
 //            {
-//                try
-//                {
-//                    Flight sky = new Flight(runway);
-//                    lufthansa = new Airline(landing[0], sky);
-//                }
-//                catch (IllegalArgumentException m6)
-//                {
-//                    System.err.println("Uh oh, looks like the flight data was empty when attempting to be added to the airline!");
-//                }
+//                lufthansa.printAll();
 //            }
-//            else
-//            {
-//                for (Flight flight : ((LinkedList<Flight>) lufthansa.getFlights())) {
-//                    flight.print();
-//                }
-//            try
-//            {
-            if (lufthansa != null)
-            {
-                lufthansa.printAll();
-            }
-
-//            }
-//            catch (NullPointerException m8)
-//            {
-//                System.err.println("Uh oh, there was an attempt to print a blank airline: " + m8);
-//            }
-            //}
+            runway.print();
         }
     }
 

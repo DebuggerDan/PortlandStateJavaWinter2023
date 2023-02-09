@@ -113,7 +113,7 @@ public class PrettyPrinter implements AirlineDumper<Airline> {
     public PrettyPrinter(String name, Boolean save)
             throws IllegalArgumentException
     {
-        if (name == null || name.isEmpty())
+        if (name == null || name.isEmpty() || !save)
         {
             this.file_name = null;
             this.save = false;
@@ -191,7 +191,7 @@ public class PrettyPrinter implements AirlineDumper<Airline> {
         StringWriter stringy = null;
 
         // PrettyPrinter Option A: Save to File
-        if (this.file_name != null || this.save)
+        if (this.file_name != null && this.save)
         {
             thefile = new File(this.file_name);
 
@@ -200,7 +200,7 @@ public class PrettyPrinter implements AirlineDumper<Airline> {
             printer = new PrintWriter(filewrite);
         }
         // PrettyPrinter Option B: Save a String (to String this.plotter), so as to print to command-line!
-        else
+        else if (!this.save)
         {
             stringy = new StringWriter();
             printer = new PrintWriter(stringy);
@@ -238,6 +238,9 @@ public class PrettyPrinter implements AirlineDumper<Airline> {
             String date1 = null;
             String date2 = null;
 
+            DateFormat segment_format = new SimpleDateFormat("EEEE, MMMM d, yyyy '@' h:mm");
+            DateFormat ampm_format = new SimpleDateFormat(" a");
+
             long flightTime;
 
 
@@ -251,10 +254,12 @@ public class PrettyPrinter implements AirlineDumper<Airline> {
             {
                 airport1 = IATA(runway.getSource());
                 airport2 = IATA(runway.getDestination());
-                date1 = pretty_format.format(runway.getDepartureDate());
-                date2 = pretty_format.format(runway.getArrivalDate());
-                flightTime = runway.getFlightTime();
+//                date1 = (pretty_format.format(runway.getDepartureDate())).toLowerCase();
+//                date2 = (pretty_format.format(runway.getArrivalDate())).toLowerCase();
 
+                date1 = segment_format.format(runway.getDepartureDate()) + (ampm_format.format(runway.getDepartureDate())).toLowerCase();
+                date2 = segment_format.format(runway.getArrivalDate()) + (ampm_format.format(runway.getArrivalDate())).toLowerCase();
+                flightTime = runway.getFlightTime();
 
                 printer.println(flightnum + ".) " + "Flight Number: " + runway.getNumber());
                 printer.println("---");
