@@ -86,10 +86,9 @@ class Project1IT extends InvokeMainTestCase {
             "           dest Three-letter code of arrival airport\n" +
             "           arrive Arrival date and time (24-hour time)\n" +
             "       options are (options may appear in any order):\n" +
-            "           -textFile file Where to read/write the airline info\n" +
             "           -print Prints a description of the new flight\n" +
             "           -README Prints a README for this project and exits\n" +
-            "           Dates and times should be in the format: mm/dd/yyyy hh:mm";
+            "           Dates and times should be in the format: mm/dd/yyyy hh:mm\n";
 
     private static final String commandline = "usage: java -jar target/airline-2023.0.0.jar [options] <args>\n" +
             "       args are (in this order):\n" +
@@ -204,7 +203,7 @@ class Project1IT extends InvokeMainTestCase {
     void testMissingArrival() {
         MainMethodResult result = invokeMain(Project1.class, "Lufthansa", "123", "PDX", "02/04/2023", "07:00", "XDP", "test1", "test2");
 
-        assertThat(result.getTextWrittenToStandardError(), containsString("Error when attempting to formatting the arrival time & date arguments, test1test2"));
+        assertThat(result.getTextWrittenToStandardError(), containsString("Error when attempting to formatting the arrival time & date arguments, test1 and test2"));
     }
 
     /**
@@ -230,7 +229,7 @@ class Project1IT extends InvokeMainTestCase {
         MainMethodResult resultDest = invokeMain(Project1.class, "Lufthansa", "123", "PDX", "02/04/2023", "06:53", "BB2", "02/04/2023", "07:00");
 
         assertThat(resultSrc.getTextWrittenToStandardError(), containsString("Uh oh, looks like the source airport code has numbers(s), it should be 3-digits of letters only: AA1"));
-        assertThat(resultDest.getTextWrittenToStandardError(), containsString("Uh oh, looks like the destination airport code is too short, it should be 3-digits: BB2"));
+        assertThat(resultDest.getTextWrittenToStandardError(), containsString("Uh oh, looks like the destination airport code has numbers(s), it should be 3-digits of letters only: BB2"));
     }
 
     /**

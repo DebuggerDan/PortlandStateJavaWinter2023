@@ -255,14 +255,14 @@ public class Project1 {
             }
         }
 
-        if (argnum > 8)
+        if (argnum < 8)
         {
             // Graceful Exit: If there are missing command-line arguments.
             System.err.println("Error, looks like we may be missing command-line arguments.");// Creating blank empty airline.");
             return;
             //fresh = true;
         }
-        else if (argnum < 8)
+        else if (argnum > 8)
         {
             // Graceful Exit: If there are too many command-line arguments.
             System.err.println("Error, looks like we may have too many command-line arguments.");// Creating blank empty airline.");
