@@ -45,7 +45,7 @@ public class Flight extends AbstractFlight implements Comparable<Flight> {
     }
     catch (ParseException e1)
     {
-      System.err.println("Error when attempting to formatting the departure time & date combo-argument: " + depart);
+      System.err.println("[Flight Construction, Type #1] Error when attempting to format the departure time & date combo-argument: " + depart);
       return;
     }
 
@@ -59,7 +59,7 @@ public class Flight extends AbstractFlight implements Comparable<Flight> {
     }
     catch (ParseException e2)
     {
-      System.err.println("Error when attempting to formatting the arrival time & date combo-argument: " + arrive);
+      System.err.println("[Flight Construction, Type #1] Error when attempting to formatting the arrival time & date combo-argument: " + arrive);
       //return;
     }
   }
@@ -81,7 +81,7 @@ public class Flight extends AbstractFlight implements Comparable<Flight> {
       }
       catch (ParseException e3)
       {
-        System.err.println("Error when attempting to formatting the departure time & date combo-argument: " + args[2]);
+        System.err.println("[Flight Construction, Type #2] Error when attempting to formatting the departure time & date combo-argument: " + args[2]);
         return;
       }
       this.dest = args[3];
@@ -92,7 +92,7 @@ public class Flight extends AbstractFlight implements Comparable<Flight> {
       }
       catch (ParseException e4)
       {
-        System.err.println("Error when attempting to formatting the arrival time & date combo-argument: " + args[4]);
+        System.err.println("[Flight Construction, Type #2] Error when attempting to formatting the arrival time & date combo-argument: " + args[4]);
         //return;
       }
     }
