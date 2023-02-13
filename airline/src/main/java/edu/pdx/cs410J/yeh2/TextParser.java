@@ -236,12 +236,12 @@ public class TextParser implements AirlineParser<Airline> {
 
                     String[] currargs = currstring.split("\\s*,\\s*");
 
-                    if (currargs.length > 7) {
+                    if (currargs.length > 9) {
                         throw new IllegalArgumentException("Need at least 7 arguments for airlines/flights!");
                     }
                     else
                     {
-                        if (currargs.length < 7)
+                        if (currargs.length < 9)
                         {
                             throw new IllegalArgumentException("There can only be 7 arguments max per airline/flights!");
                         }

@@ -7,10 +7,10 @@ import java.io.*;
 //import java.io.InputStreamReader;
 import java.io.PrintWriter;
 
-import static org.hamcrest.CoreMatchers.containsString;
+//import static org.hamcrest.CoreMatchers.containsString;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
-import static org.hamcrest.Matchers.notNullValue;
+//import static org.hamcrest.Matchers.notNullValue;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 public class TextParserTest {
@@ -61,8 +61,8 @@ public class TextParserTest {
     }
 
     /**
-     * valid text file test.
-     * @throws ParserException
+     * Valid text file test.
+     * @throws ParserException If the file cannot be created.
      */
     @Test
     void validTextFileCanBeParsed() throws ParserException {
@@ -85,7 +85,7 @@ public class TextParserTest {
 
     /**
      * Invalid text file test.
-     * @throws ParserException
+     * @throws ParserException If the file cannot be created.
      */
     @Test
     void invalidTextFileReturnsNull() throws ParserException {
@@ -99,8 +99,8 @@ public class TextParserTest {
 
     /**
      * invalid text file test, v2.
-     * @throws ParserException
-     * @throws IllegalArgumentException
+     * @throws ParserException If the file cannot be parsed.
+     * @throws IllegalArgumentException If there was an invalid argument.
      */
 
     @Test
@@ -126,8 +126,8 @@ public class TextParserTest {
 
     /**
      * Invalid text file test, v3.
-     * @throws ParserException
-     * @throws IllegalArgumentException
+     * @throws ParserException If the file cannot be parsed.
+     * @throws IllegalArgumentException If there was an invalid argument.
      */
     @Test
     void invalidTextFileCannotBeParsedv3() throws ParserException, IllegalArgumentException {
