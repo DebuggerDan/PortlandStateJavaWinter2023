@@ -1,43 +1,5 @@
 Project3
 200, CWA, 1/3/23, 12:14 PM, DRO, 1/13/23, 2:45 PM
-
-Thank you for using the PrettyPrinter!
-For airline, 'Project3', we have the following flight(s) scheduled...
-
------
-#1.) 
-Official Flight Number:	100
----
-Departing from...	'Cincinnati, OH', on	Tuesday, March 2, 0023 @ 12:57 pm
-To arrive at destination...	'Dubuque, IA', on	Tuesday, March 2, 0023 @ 4:00 pm
-
-Approximate Flight Duration:	183 minute(s)!
----
-
-#2.) 
-Official Flight Number:	200
----
-Departing from...	'Wausau/Stevens Point, WI', on	Sunday, January 3, 0023 @ 12:14 pm
-To arrive at destination...	'Durango, CO', on	Wednesday, January 13, 0023 @ 2:45 pm
-
-Approximate Flight Duration:	14551 minute(s)!
----
-
-#3.) 
-Official Flight Number:	400
----
-Departing from...	'Evansville, IN', on	Thursday, March 4, 0023 @ 12:36 pm
-To arrive at destination...	'Lafayette, LA', on	Friday, March 5, 0023 @ 8:19 pm
-
-Approximate Flight Duration:	1903 minute(s)!
----
-
-#4.) 
-Official Flight Number:	1200
----
-Departing from...	'Lincoln, NE', on	Tuesday, January 10, 2023 @ 10:00 am
-To arrive at destination...	'Mcallen, TX', on	Tuesday, January 10, 2023 @ 12:16 pm
-
-Approximate Flight Duration:	136 minute(s)!
----
-
+400, EVV, 3/4/23, 12:36 PM, LFT, 3/5/23, 8:19 PM
+400, EVV, 3/4/23, 12:36 PM, LFT, 3/5/23, 8:19 PM
+400, EVV, 3/3/23, 12:36 PM, LFT, 3/3/23, 8:19 PM

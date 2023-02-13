@@ -44,12 +44,12 @@ public class Airline extends AbstractAirline<Flight> {
      */
     public int compare(Flight gateA, Flight gateB)
     {
-      int result = gateA.compareTo(gateB);
+      //int result = gateA.compareTo(gateB);
 //      if (result == 404)
 //      {
 //        System.err.println("ATC confirms the error shown regarding conflicting flight comparisons above this message.");
 //      }
-      return result;
+      return gateA.compareTo(gateB);//result;
     }
   }
 
@@ -84,9 +84,10 @@ public class Airline extends AbstractAirline<Flight> {
     }
     this.name = airline;
     //this.flights = new LinkedList<Flight>();
-    this.flights = new TreeSet<> (new air_traffic_controller());
-    Flight firstFlight = new Flight(earlyBird);//flightNumber, src, depart, dest, arrive);
-    addFlight(firstFlight);
+    this.flights = new TreeSet<Flight>(new air_traffic_controller());
+
+    //Flight firstFlight = new Flight(earlyBird);//flightNumber, src, depart, dest, arrive);
+    this.addFlight(earlyBird);
   }
 
   /**
@@ -96,7 +97,7 @@ public class Airline extends AbstractAirline<Flight> {
   public Airline(String name) {
     this.name = name;
     //this.flights = new LinkedList<Flight>();
-    this.flights = new TreeSet<> (new air_traffic_controller());
+    this.flights = new TreeSet<Flight>(new air_traffic_controller());
     this.flightnum = 0;
   }
 
@@ -106,8 +107,8 @@ public class Airline extends AbstractAirline<Flight> {
    */
   public Integer getFlightNum()
   {
-    int flights = this.flightnum;
-    return flights;
+    //int flights = this.flightnum;
+    return this.flightnum;//flights;
   }
 
   /**

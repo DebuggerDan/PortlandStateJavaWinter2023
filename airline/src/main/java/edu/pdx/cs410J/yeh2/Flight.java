@@ -20,9 +20,9 @@ public class Flight extends AbstractFlight implements Comparable<Flight> {
   protected static SimpleDateFormat date_format = new SimpleDateFormat(date_formatting, Locale.US);
   private Flight next = null;
   protected String flightNumber = "123";
-  protected String src = null;
+  private String src = null;
   private Date depart = null;
-  protected String dest = null;
+  private String dest = null;
   private Date arrive = null;
 
   /**
@@ -133,7 +133,7 @@ public class Flight extends AbstractFlight implements Comparable<Flight> {
    * </p>
    * @see Project3
    * @param runway A second flight to be compared to the current <code>Flight</code> object that the {@code compareTo(runway)} is being run from.
-   * @return <p>1 Case I., if the current Flight object should be first.
+   * @return <p>-1 Case I., if the current Flight object should be first.
    *      1 Case II., if the runway (second flight) should be first.
    *      0 Case III., if both objects are equal.</p>
    * @throws NullPointerException If the runway (second flight) is empty, throws the null pointer exception.
@@ -150,7 +150,7 @@ public class Flight extends AbstractFlight implements Comparable<Flight> {
 
     // Sort Test #1: Based on alphabetical source airport-codes (case-insensitive)!
     // Where, if firstTest is 0 = equal, if firstTest < 0 = first (originate) Flight is first, if firstTest > 0 = second flight is first;
-    int firstTest = this.src.compareTo(runway.getSource());//IgnoreCase(runway.getSource());//secondSrc);
+    int firstTest = this.src.toLowerCase().compareTo(runway.getSource().toLowerCase());//IgnoreCase(runway.getSource());//secondSrc);
 
     if (firstTest < 0)
     {
@@ -291,7 +291,7 @@ public class Flight extends AbstractFlight implements Comparable<Flight> {
 //    }
 //    else
 //    {
-      // Format as java.text.DateFormat.SHORT;
+    // Format as java.text.DateFormat.SHORT;
     String takeoff_string = date_formatter.format(this.depart);
     return takeoff_string;
     //}
@@ -328,11 +328,11 @@ public class Flight extends AbstractFlight implements Comparable<Flight> {
 //    }
 //    else
 //    {
-      //return this.arrive.toString();
+    //return this.arrive.toString();
 
-      // Format as java.text.DateFormat.SHORT;
-      String arrival_string = date_formatter.format(this.arrive);
-      return arrival_string;
+    // Format as java.text.DateFormat.SHORT;
+    String arrival_string = date_formatter.format(this.arrive);
+    return arrival_string;
     //}
 
     //throw new UnsupportedOperationException("This method is not implemented yet");
