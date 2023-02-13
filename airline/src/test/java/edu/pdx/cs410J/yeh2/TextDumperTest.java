@@ -5,6 +5,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.io.TempDir;
 
 import java.io.*;
+import java.text.ParseException;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.containsString;
@@ -58,7 +59,7 @@ public class TextDumperTest {
    * @throws IOException
    */
   @Test
-  void airlineNameIsDumpedInTextFormat() throws IOException {
+  void airlineNameIsDumpedInTextFormat() throws IOException, ParseException {
     String filename = "dump_test.txt";
     String airlineName = "Lufthansa";
     String flightNumber = "123";

@@ -6,6 +6,7 @@ import org.junit.jupiter.api.function.Executable;
 import org.junit.jupiter.api.io.TempDir;
 
 import java.io.*;
+import java.text.ParseException;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.containsString;
@@ -13,6 +14,32 @@ import static org.hamcrest.Matchers.equalTo;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 public class PrettyPrinterTest {
+
+//    /**
+//     * A helper function to act as a packaged executable function for {@code assertThrows} that helps to create & test Flight creation!
+//     * @see FlightTest
+//     * @param flightNumber The flight number of the flight.
+//     * @param src The source 3-letter code of the flight.
+//     * @param depart The departure time-and-date of the flight.
+//     * @param dest The destination 3-letter code of the flight.
+//     * @param arrive The arrival time-and-date of the flight.
+//     * @param runway The to-be-created & tested (in try-catch) for validity!
+//     * @return runway (if successful!)
+//     * @throws ParseException If there was an error from parsing timestamp(s)!
+//     */
+//    protected static Flight air_traffic_controller(String flightNumber, String src, String depart, String dest, String arrive, Flight runway) throws ParseException
+//    {
+//        try
+//        {
+//            runway = new Flight(flightNumber, src, depart, dest, arrive);
+//        }
+//        catch (ParseException t00)
+//        {
+//            throw new ParseException("ATC: Looks like there was an error during the test [flight]: ", t00.getErrorOffset());
+//        }
+//
+//        return runway;
+//    }
 
     /**
      * A function that reads (returns <code>String</code>s) txt files!
@@ -61,7 +88,7 @@ public class PrettyPrinterTest {
      * @throws IOException If file was unable to be processed.
      */
     @Test
-    void airlineNameIsPrettyDumpedInTextFormat() throws IOException {
+    void airlineNameIsPrettyDumpedInTextFormat() throws IOException, ParseException {
         String filename = "pp_test.txt";
         String airlineName = "Lufthansa";
         String flightNumber = "123";
@@ -92,7 +119,7 @@ public class PrettyPrinterTest {
      * A test that tests airline pretty-printing.
      */
     @Test
-    void airlineNameIsPrintedPretty() throws IOException {
+    void airlineNameIsPrintedPretty() throws IOException, ParseException {
         //String filename = "dump_test.txt";
         String airlineName = "Lufthansa";
         String flightNumber = "123";

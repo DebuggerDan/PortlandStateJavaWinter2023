@@ -33,7 +33,7 @@ public class Flight extends AbstractFlight implements Comparable<Flight> {
    * @param dest The destination 3-letter code of the flight.
    * @param arrive The arrival time-and-date of the flight.
    */
-  public Flight(String flightNumber, String src, String depart, String dest, String arrive)
+  public Flight(String flightNumber, String src, String depart, String dest, String arrive) throws ParseException
   {
 
     this.flightNumber = flightNumber;
@@ -45,8 +45,10 @@ public class Flight extends AbstractFlight implements Comparable<Flight> {
     }
     catch (ParseException e1)
     {
-      System.err.println("[Flight Construction, Type #1] Error when attempting to format the departure time & date combo-argument: " + depart);
-      return;
+      //System.err.println("[Flight Construction, Type #1] Error when attempting to format the departure time & date combo-argument: " + depart);
+      //return;
+      throw new ParseException("[Flight Constructor, Type #1a] Error when attempting to format the departure time & date combo-argument.", e1.getErrorOffset());
+
     }
 
     this.dest = dest;
@@ -59,8 +61,9 @@ public class Flight extends AbstractFlight implements Comparable<Flight> {
     }
     catch (ParseException e2)
     {
-      System.err.println("[Flight Construction, Type #1] Error when attempting to formatting the arrival time & date combo-argument: " + arrive);
+      //System.err.println("[Flight Construction, Type #1] Error when attempting to formatting the arrival time & date combo-argument: " + arrive);
       //return;
+      throw new ParseException("[Flight Constructor, Type #1b] Error when attempting to format the arrival time & date combo-argument.", e2.getErrorOffset());
     }
   }
 
@@ -68,7 +71,7 @@ public class Flight extends AbstractFlight implements Comparable<Flight> {
    * A <code>Flight</code> constructor based on a {@code String[]}, an array of command-line string-parameters!
    * @param args A {@code String[]} based on command-line args[]!
    */
-  public Flight(String[] args)
+  public Flight(String[] args) throws ParseException
   {
     if (args.length == 5)
     {
@@ -81,8 +84,9 @@ public class Flight extends AbstractFlight implements Comparable<Flight> {
       }
       catch (ParseException e3)
       {
-        System.err.println("[Flight Construction, Type #2] Error when attempting to formatting the departure time & date combo-argument: " + args[2]);
-        return;
+        //System.err.println("[Flight Construction, Type #2a] Error when attempting to formatting the departure time & date combo-argument: " + args[2]);
+        //return;
+        throw new ParseException("[Flight Construction, Type #2a] Error when attempting to formatting the departure time & date combo-argument: ", e3.getErrorOffset());
       }
       this.dest = args[3];
 //      this.arrive = args[4];
@@ -92,8 +96,10 @@ public class Flight extends AbstractFlight implements Comparable<Flight> {
       }
       catch (ParseException e4)
       {
-        System.err.println("[Flight Construction, Type #2] Error when attempting to formatting the arrival time & date combo-argument: " + args[4]);
+        //System.err.println("[Flight Construction, Type #b] Error when attempting to formatting the arrival time & date combo-argument: " + args[4]);
         //return;
+        throw new ParseException("[Flight Construction, Type #2b] Error when attempting to formatting the arrival time & date combo-argument: ", e4.getErrorOffset());
+
       }
     }
   }

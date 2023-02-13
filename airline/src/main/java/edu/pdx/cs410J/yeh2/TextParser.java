@@ -298,9 +298,29 @@ public class TextParser implements AirlineParser<Airline> {
 //                    }
 
                     //Flight runway = new Flight(currargs);
+
+                    /*
+                    Legacy Project #2 date-stamp formatting
                     String date1 = currargs[2] + currargs[3];
-                    String date2 = currargs[5] + currargs[6];
-                    Flight runway = new Flight(currargs[0], currargs[1], date1, currargs[4], date2);
+                    //String date2 = currargs[5] + currargs[6];
+                    */
+
+                    /*
+                     * date1 & date2 represents the tri-string combo strings for our two full timestamps!
+                     * @see Project3
+                     */
+                    String date1 = currargs[3] + " " + currargs[4] + " " + currargs[5];
+                    String date2 = currargs[7] + " " + currargs[8] + " " + currargs[9];
+                    Flight runway = null;
+
+                    try
+                    {
+                        runway = new Flight(currargs[0], currargs[1], date1, currargs[4], date2);
+                    }
+                    catch (ParseException e8)
+                    {
+                        throw new ParserException("[TextParser Initialization Error]" + e8.getErrorOffset());
+                    }
 
                     // Input-Validation #5: If flight arrival is before the departure time:
                     if (runway.getFlightTime() < 0)

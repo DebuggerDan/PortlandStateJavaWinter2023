@@ -575,8 +575,15 @@ public class Project3 {
             return;
         }
 
-        runway = new Flight(landing[1], landing[2], gate, landing[6], taxi);
-
+        try
+        {
+            runway = new Flight(landing[1], landing[2], gate, landing[6], taxi);
+        }
+        catch (ParseException m8)
+        {
+            System.err.println("Error when creating new temporary flight, specifically, when parsing invalid timestamps!");
+            return;
+        }
         // Input-Validation #5: If flight arrival is before the departure time:
         if (runway.getFlightTime() < 0)
         {
