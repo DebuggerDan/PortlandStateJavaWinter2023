@@ -471,7 +471,7 @@ public class Project3 {
         }
         catch (IllegalArgumentException m4a)
         {
-            System.err.println("[Main Date Initialization] Error when attempting to formatting the departure time & date arguments, " + landing[3] + ", " + landing[4] + ", and " + landing[5] + ".");
+            System.err.println("[Main Date Initialization #1] Error when attempting to formatting the departure time & date arguments, " + landing[3] + ", " + landing[4] + ", and " + landing[5] + ".");
             // Graceful Error: Departure Time & Date Argument(s) not formatted correctly!
             return;
         }
@@ -492,7 +492,7 @@ public class Project3 {
         }
         catch (IllegalArgumentException m5a)
         {
-            System.err.println("[Main Date Initialization] Error when attempting to formatting the arrival time & date arguments, " + landing[7] + ", " + landing[8] + ", and " + landing[9] + ".");
+            System.err.println("[Main Date Initialization #1] Error when attempting to formatting the arrival time & date arguments, " + landing[7] + ", " + landing[8] + ", and " + landing[9] + ".");
             // Graceful Error: Arrival Time & Date Argument(s) not formatted correctly!
             return;
         }
