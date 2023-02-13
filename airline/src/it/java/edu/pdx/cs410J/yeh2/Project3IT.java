@@ -175,7 +175,7 @@ class Project3IT extends InvokeMainTestCase {
     void testArrivalFormat() {
         MainMethodResult result = invokeMain(Project3.class, "Lufthansa", "123", "PDX", "02/04/2023", "7:00", "pm", "SEA", "123123123", "123", "pm", "-textFile", "test.txt");
 
-        assertThat(result.getTextWrittenToStandardError(), containsString("[Main Date Initialization #1] Error when attempting to formatt the arrival time & date arguments, 123123123, 123, and pm."));
+        assertThat(result.getTextWrittenToStandardError(), containsString("[Main Date Initialization #1] Error when attempting to format the arrival time & date arguments, 123123123, 123, and pm."));
     }
 
     /**
