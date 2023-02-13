@@ -236,12 +236,12 @@ public class TextParser implements AirlineParser<Airline> {
 
                     String[] currargs = currstring.split("\\s*,\\s*");
 
-                    if (currargs.length > 9) {
+                    if (currargs.length > 7) {
                         throw new IllegalArgumentException("Need at least 7 arguments for airlines/flights!");
                     }
                     else
                     {
-                        if (currargs.length < 9)
+                        if (currargs.length < 7)
                         {
                             throw new IllegalArgumentException("There can only be 7 arguments max per airline/flights!");
                         }
@@ -309,8 +309,8 @@ public class TextParser implements AirlineParser<Airline> {
                      * date1 & date2 represents the tri-string combo strings for our two full timestamps!
                      * @see Project3
                      */
-                    String date1 = currargs[3] + " " + currargs[4] + " " + currargs[5];
-                    String date2 = currargs[7] + " " + currargs[8] + " " + currargs[9];
+                    String date1 = currargs[2] + " " + currargs[3];// + " " + currargs[4];
+                    String date2 = currargs[5] + " " + currargs[6];// + " " + currargs[6];
                     Flight runway = null;
 
                     try
