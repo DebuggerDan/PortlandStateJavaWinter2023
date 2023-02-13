@@ -5,8 +5,8 @@ For airline, 'Lufthansa', we have the following flight(s) scheduled...
 #1.) 
 Official Flight Number:	123
 ---
-Departing from...	'Portland, OR', on	Saturday, February 4, 2023 @ 6:53 pm
-To arrive at destination...	'Seattle, WA', on	Saturday, February 4, 2023 @ 7:00 pm
+Departing from...	'Portland, OR', on	Thursday, February 4, 0023 @ 6:53 pm
+To arrive at destination...	'Seattle, WA', on	Thursday, February 4, 0023 @ 7:00 pm
 
 Approximate Flight Duration:	7 minute(s)!
 ---
@@ -14,8 +14,8 @@ Approximate Flight Duration:	7 minute(s)!
 #2.) 
 Official Flight Number:	123
 ---
-Departing from...	'Portland, OR', on	Thursday, February 4, 0023 @ 6:53 pm
-To arrive at destination...	'Seattle, WA', on	Thursday, February 4, 0023 @ 7:00 pm
+Departing from...	'Portland, OR', on	Saturday, February 4, 2023 @ 6:53 pm
+To arrive at destination...	'Seattle, WA', on	Saturday, February 4, 2023 @ 7:00 pm
 
 Approximate Flight Duration:	7 minute(s)!
 ---

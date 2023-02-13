@@ -632,7 +632,7 @@ public class Project3 {
                     }
                     else// if (lufthansa == null)
                     {
-                        System.out.println("Looks like " + fileStrings[idx] + " was not found!\nNo worries, we'll make ya a new text file with your command-line specifications, no problem!");
+                        System.out.println("Looks like " + fileStrings[idx] + " was not found (or was a blank file)!\nNo worries, we'll make ya a new text file with your command-line specifications, no problem!");
 
                         Flight sky = new Flight(runway);
                         lufthansa = new Airline(landing[0], sky);
