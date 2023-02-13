@@ -141,48 +141,55 @@ public class Flight extends AbstractFlight implements Comparable<Flight> {
   @Override
   public int compareTo(Flight runway) throws NullPointerException
   {
-    int result = 404;
+    //int result = 404;
 
     // NullPointerException guard!
     Objects.requireNonNull(runway);
 
-    String secondSrc = runway.getSource();
+    //String secondSrc = runway.getSource();
 
     // Sort Test #1: Based on alphabetical source airport-codes (case-insensitive)!
     // Where, if firstTest is 0 = equal, if firstTest < 0 = first (originate) Flight is first, if firstTest > 0 = second flight is first;
-    int firstTest = this.src.compareToIgnoreCase(secondSrc);
+    int firstTest = this.src.compareTo(runway.getSource());//IgnoreCase(runway.getSource());//secondSrc);
 
     if (firstTest < 0)
     {
-      result = -1;
+      //result = -1;
+      return -1;
     }
 
-    if (firstTest > 0)
+    else if (firstTest > 0)
     {
-      result = 1;
+      //result = 1;
+      return 1;
     }
 
-    if (firstTest == 0)
+    //if (firstTest == 0)
+    else
     {
 
       // Sort Test #2: Based on chronological take-off timestamps!
-      Date secondDate = runway.getDepartureDate();
-      
-      int secondTest = this.depart.compareTo(secondDate);
+      //Date secondDate = runway.getDepartureDate();
+
+      int secondTest = this.depart.compareTo(runway.getDepartureDate());//secondDate);
 
       if (secondTest < 0)
       {
-        result = -1;
+        //result = -1;
+        return -1;
       }
 
-      if (secondTest > 0)
+      else if (secondTest > 0)
       {
-        result = 1;
+        //result = 1;
+        return 1;
       }
 
-      if (secondTest == 0)
+      //if (secondTest == 0)
+      else
       {
-        result = 0;
+        //result = 0;
+        return 0;
       }
 
     }
@@ -193,7 +200,7 @@ public class Flight extends AbstractFlight implements Comparable<Flight> {
 //      return result;
 //    }
 
-    return result;
+    //return result;
   }
 
   /**
