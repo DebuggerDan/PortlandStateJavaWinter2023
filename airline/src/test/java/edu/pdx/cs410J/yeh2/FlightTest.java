@@ -37,22 +37,20 @@ public class FlightTest {
    * @param depart The departure time-and-date of the flight.
    * @param dest The destination 3-letter code of the flight.
    * @param arrive The arrival time-and-date of the flight.
-   * @param runway The to-be-created & tested (in try-catch) for validity!
-   * @return runway (if successful!)
    * @throws ParseException If there was an error from parsing timestamp(s)!
    */
-  protected static Flight air_traffic_controller(String flightNumber, String src, String depart, String dest, String arrive, Flight runway) throws ParseException
+  public static void air_traffic_controller(String flightNumber, String src, String depart, String dest, String arrive) throws ParseException
   {
-    try
-    {
-      runway = new Flight(flightNumber, src, depart, dest, arrive);
-    }
-    catch (ParseException t00)
-    {
-      throw new ParseException("ATC: Looks like there was an error during the test [flight]: ", t00.getErrorOffset());
-    }
+//    try
+//    {
+      Flight test = new Flight(flightNumber, src, depart, dest, arrive);
+//    }
+//    catch (ParseException t00)
+//    {
+//      throw new ParseException("ATC: Looks like there was an error during the test [flight]: ", t00.getErrorOffset());
+//    }
 
-    return runway;
+    //return runway;
   }
 
   protected static DateFormat date_format = DateFormat.getDateTimeInstance(3, 3, Locale.US);
@@ -117,24 +115,24 @@ public class FlightTest {
    * Test #6 with incorrect departure time.
    */
   @Test//(expected = ParserException.class) silly me, the expected attribute was from previous JUnit version, 4, but we are currently using JUnit version 5
-  void forProject3testIncorrectDepartureDate() throws ParseException {
+  void forProject3testIncorrectDepartureDate() {
     Flight flight = null;// new Flight("123", "PDX", "02224/20/20222223 4:22222220 pm", "XDP", "06/09/2023 1:37 pm");
     //String dateTest = date_format.format(flight.getDepartureDate());
     //assertThrows(ParserException.class, );
     //assertThat(dateTest, equalTo("4/20/23, 4:20 PM"));
-    assertThrows(ParseException.class, () -> air_traffic_controller("123", "PDX", "02224/20/20222223 4:22222220 pm", "XDP", "06/09/2023 1:37 pm", flight));
+    assertThrows(ParseException.class, () -> air_traffic_controller("123", "PDX", "02224/20/20222223 4:22222220 pm", "XDP", "06/09/2023 1:37 pm"));
   }
 
   /**
    * Test #7 with incorrect arrival time.
    */
   @Test//(expected = ParserException.class)
-  void forProject3testIncorrectArrivalDate()  throws ParseException {
+  void forProject3testIncorrectArrivalDate() {
     Flight flight = null; //new Flight("123", "PDX", "04/20/2023 4:20 pm", "XDP", "2316/09/23120223 1:37 pm");
     //assertThrows(UnsupportedOperationException.class, flight::getArrivalString);
     //String dateTest = date_format.format(flight.getArrivalDate());
     //assertThat(dateTest, equalTo("6/9/23, 1:37 PM"));
-  assertThrows(ParseException.class, () -> air_traffic_controller("123", "PDX", "04/20/2023 4:20 pm", "XDP", "2316/09/23120223 1:37 pm", flight));
+  assertThrows(ParseException.class, () -> air_traffic_controller("123", "PDX", "04/20/2023 4:20 pm", "XDP", "2316/09/23120223 1:37 pm"));
   }
 
 
