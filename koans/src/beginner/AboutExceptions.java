@@ -108,7 +108,7 @@ public class AboutExceptions {
         }
         catch (Exception e0)
         {
-            System.out.println("bruh");
+            //System.out.println("bruh");
         }
 
     }

@@ -100,15 +100,20 @@ public class AboutFileIO {
             String buffer = br.readLine();
             while (buffer != null)
             {
+                if (buffer == null)
+                {
+                    break;
+                }
                 sb.append(buffer);
                 buffer = br.readLine();
             }
         }
         catch (Exception e0)
         {
-            System.out.println("what the" + e0.toString());
+            //System.out.println("what the" + e0.toString());
         }
 
+        //closeStream(br);
 
         assertEquals(sb.toString(), "1. line2. line");
     }
