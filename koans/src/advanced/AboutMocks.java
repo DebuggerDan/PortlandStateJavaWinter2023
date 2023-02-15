@@ -35,12 +35,26 @@ public class AboutMocks {
         }
     }
 
+    /**
+     * A non-explosive version of the Collaborator interface!
+     */
+    static class CalmCollaborator implements Collaborator
+    {
+        public void doBusinessStuff()
+        {
+
+        }
+    }
+
     @Koan
     public void simpleAnonymousMock() {
         // HINT: pass a safe Collaborator implementation to constructor
         // new ClassUnderTest(new Collaborator(){... it should not be the
         // objective of this test to test that collaborator, so replace it
-        new ClassUnderTest().doSomething();
+
+        Collaborator calmCollaborator = new CalmCollaborator();
+        new ClassUnderTest( calmCollaborator).doSomething();
+        //new ClassUnderTest().doSomething();
     }
 
 }
