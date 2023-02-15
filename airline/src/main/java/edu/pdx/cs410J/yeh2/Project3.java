@@ -54,7 +54,7 @@ public class Project3 {
                     while (display_line != null && idx != 3)
                     {
                         display_line = display_buffer.readLine();
-                        idx--;
+                        idx++;
                     }
 
                     while (display_line != null) {
