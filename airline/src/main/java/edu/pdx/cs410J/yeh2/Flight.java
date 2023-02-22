@@ -299,6 +299,26 @@ public class Flight extends AbstractFlight implements Comparable<Flight> {
   }
 
   /**
+   * <p>
+   *     Returns current flight's departure time-and-date as a five-part {@code String[]} array for easy XML parsing or null if blank!
+   * </p>
+   * @return dest The time & date (as five-part {@code String[]} array) of the departure timestamp!
+   */
+//  public String[] getDepartureXml() {
+////    if (this.depart == null || this.depart.toString().equals("N/A"))
+////    {
+////      return null;
+////    }
+////    else
+////    {
+//    // Format as java.text.DateFormat.SHORT;
+//    String takeoff_string = date_formatter.format(this.depart);
+//    return takeoff_string;
+//    //}
+//    //throw new UnsupportedOperationException("This method is not implemented yet");
+//  }
+
+  /**
    * Returns current flight's destination three-letter airport code or "N/A" if blank!
    * @return dest A string version of the destination date-timestamp!
    */
@@ -312,6 +332,24 @@ public class Flight extends AbstractFlight implements Comparable<Flight> {
     {
       return this.dest;
     }
+    //throw new UnsupportedOperationException("This method is not implemented yet");
+  }
+
+  /**
+   * Returns current flight's arrival string (three-letter code) or "N/A" if blank!
+   * @return arrive A string version of the arrival date-timestamp!
+   */
+  public Date getArrivalDate() {
+
+    if (this.arrive == null || this.arrive.toString().equals("N/A"))
+    {
+      return null;
+    }
+    else
+    {
+      return this.arrive;
+    }
+
     //throw new UnsupportedOperationException("This method is not implemented yet");
   }
 
@@ -339,22 +377,24 @@ public class Flight extends AbstractFlight implements Comparable<Flight> {
   }
 
   /**
-   * Returns current flight's arrival string (three-letter code) or "N/A" if blank!
-   * @return arrive A string version of the arrival date-timestamp!
+   * <p>
+   *     Returns current flight's arrival time-and-date as a five-part {@code String[]} array for easy XML parsing or "N/A" if blank!
+   * </p>
+   * @return arrive The time & date (as five-part {@code String[]} array) of the arrival timestamp!
    */
-  public Date getArrivalDate() {
-
-    if (this.arrive == null || this.arrive.toString().equals("N/A"))
-    {
-      return null;
-    }
-    else
-    {
-      return this.arrive;
-    }
-
-    //throw new UnsupportedOperationException("This method is not implemented yet");
-  }
+//  public String[] getArrivalXml() {
+//
+//    if (this.arrive == null || this.arrive.toString().equals("N/A"))
+//    {
+//      return null;
+//    }
+//    else
+//    {
+//      return this.arrive;
+//    }
+//
+//    //throw new UnsupportedOperationException("This method is not implemented yet");
+//  }
 
   /**
    * A simple function that calculates flight minutes by dividing the difference between departure and arrival timestamps, dividing that difference by 1000, then that result as a whole by 60, to calculate the minutes from the milliseconds!
