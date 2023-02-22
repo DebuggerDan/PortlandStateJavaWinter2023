@@ -216,9 +216,10 @@ public class Project4 {
      *          dest     Three-letter code of arrival airport
      *          arrive      Arrival date and time (am/pm)
      *      options are (options may appear in any order))
+     *          -xmlFile      file Where to read/write the airline info
+     *          -textFile      file Where to read/write the airline info
      *          -pretty      Pretty print the airline’s flights to
      *                       a text file or standard out (file -)
-     *          -textFile      file Where to read/write the airline info
      *          -print      Prints a description of the new flight
      *          -README     Prints a README for this project and exits
      *      </p>
@@ -250,7 +251,10 @@ public class Project4 {
 
         List<String> arglist = new LinkedList<>();
         LinkedList<String> filelist = new LinkedList<>();
+
         LinkedList<String> prettylist = new LinkedList<>();
+
+        LinkedList<String> xmllist = new LinkedList<>();
 
         /*
          * Time-and-Date Format stuffs - from coreAPI, pages 92 ~ 104.
@@ -295,6 +299,36 @@ public class Project4 {
 
                     //readme_option_num++;
                     //break;
+
+                    case "xmlfile":
+                        file_name = args[(args.length <= idx++) ? (idx-1) : idx];
+                        if (file_name.isEmpty())
+                        {
+                            //file_name = "Empty.txt";
+                            System.err.println("Hmm, looks like the -xmlfile option was used, but there was no xmlfile specified!");
+                            return;
+                        }
+                        if (file_name.startsWith("-"))
+                        {
+                            //file_name = "-";
+                            System.err.println("Hmm, a invalid xml name was detected for the -textFile option (valid names include, e.g. lufthansa.xml)!\nTreating as empty name, creating default Empty Airline!");
+                            file_name = "Empty Airline";
+
+                            freshnum++;
+
+                            if (fresh) // If 2nd+ 'Fresh' Airline to be Created
+                            {
+                                yarn = new StringBuilder();
+                                yarn.append("Empty Airline #");
+                                yarn.append(freshnum);
+                                file_name = yarn.toString();
+                            }
+                            fresh = true;
+
+                            //return;
+                        }
+                        filelist.add(file_name);
+                        break;
 
                     case "textfile":
                         file_name = args[(args.length <= idx++) ? (idx-1) : idx];
@@ -641,13 +675,13 @@ public class Project4 {
                     /*
                      * {@code TextDumper} in action!
                      */
-                    System.out.println("Alrighty, proceeding to dump your new airline ('" + landing[0] + "') into a new file:\n" + fileStrings[idx]);
+                    //System.out.println("Alrighty, proceeding to dump your new airline ('" + landing[0] + "') into a new file:\n" + fileStrings[idx]);
 
                     TextDumper baggage_truck = new TextDumper(fileStrings[idx]);
 
                     baggage_truck.dump(lufthansa);
 
-                    System.out.println("Luggage has been dumped successfully (New flight dumped into Airline text-file) - Nice!");
+                    //System.out.println("Luggage has been dumped successfully (New flight dumped into Airline text-file) - Nice!");
                 }
                 catch (Exception m5)
                 {
@@ -673,13 +707,13 @@ public class Project4 {
                         /*
                          * {@code TextDumper} in action!
                          */
-                        System.out.println("Alrighty, proceeding to pretty-dump your new airline ('" + landing[0] + "') into a new file:\n" + prettyStrings[idx]);
+                        //System.out.println("Alrighty, proceeding to pretty-dump your new airline ('" + landing[0] + "') into a new file:\n" + prettyStrings[idx]);
 
                         PrettyPrinter xerox = new PrettyPrinter(prettyStrings[idx], prettyoption);
 
                         xerox.dump(lufthansa);
 
-                        System.out.println("Luggage has been pretty-dumped successfully (New flight dumped into Airline pretty-file) - Nice!");
+                        //System.out.println("Luggage has been pretty-dumped successfully (New flight dumped into Airline pretty-file) - Nice!");
                     }
                 }
                 catch (IOException m6)
