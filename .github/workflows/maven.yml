@@ -20,7 +20,7 @@ jobs:
 
     strategy:
       matrix:
-        java: [ '17', '19' ]
+        java: [ '11' ]
     name: JDK ${{ matrix.Java }}
     steps:
       - uses: actions/checkout@v2
@@ -29,5 +29,5 @@ jobs:
         with:
           distribution: 'adopt'
           java-version: ${{ matrix.java }}
-      - name: Build Maven project
+      - name: Build Maven project (Modified for Linux Machine Specific JDK 11.0.17)
         run: ./mvnw --batch-mode verify --file pom.xml
