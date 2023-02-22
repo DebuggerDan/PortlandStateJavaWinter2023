@@ -120,7 +120,7 @@ class Project4IT extends InvokeMainTestCase {
     @Test
     void AtestFullValid1() {
         MainMethodResult result = invokeMain(Project4.class, "Lufthansa", "123", "PDX", "02/04/2023", "6:53", "pm", "SEA", "02/04/2023", "7:00", "pm", "-textFile", "test0a.txt", "-pretty", "-");
-        assertThat(result.getTextWrittenToStandardOut(), containsString("Alrighty, proceeding to dump your new airline ('Lufthansa') into a new file:"));
+        assertThat(result.getTextWrittenToStandardOut(), containsString("'test0a.txt' was loaded successfully!"));
     }
 
     /**
@@ -129,8 +129,8 @@ class Project4IT extends InvokeMainTestCase {
      */
     @Test
     void AtestFullValid2() {
-        MainMethodResult result = invokeMain(Project4.class, "Lufthansa", "123", "PDX", "02/04/2023", "6:53", "pm", "SEA", "02/04/2023", "7:00", "pm", "-textFile", "test0a.txt", "-pretty", "text0b2.txt");
-        assertThat(result.getTextWrittenToStandardOut(), containsString("Alrighty, proceeding to dump your new airline ('Lufthansa') into a new file:"));
+        MainMethodResult result = invokeMain(Project4.class, "Lufthansa", "123", "PDX", "02/04/2023", "6:53", "pm", "SEA", "02/04/2023", "7:00", "pm", "-textFile", "test0b.txt", "-pretty", "text0b2.txt");
+        assertThat(result.getTextWrittenToStandardOut(), containsString("'test0b.txt' was loaded successfully!"));
     }
 
     /**

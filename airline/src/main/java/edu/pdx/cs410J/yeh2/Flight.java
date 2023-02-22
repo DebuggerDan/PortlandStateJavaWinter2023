@@ -9,6 +9,8 @@ import java.text.DateFormat;
 import java.util.Locale;
 import java.util.Objects;
 
+import java.util.Calendar;
+
 /**
  * This class implements Flight with a name, flightNumber, src, depart(ure time and date),
  * destination (time and date), and arrive(-e+al time and date). Extends AbstractFlight.
@@ -319,6 +321,28 @@ public class Flight extends AbstractFlight implements Comparable<Flight> {
 //  }
 
   /**
+   * <p>
+   *     Returns current flight's departure time-and-date as a <code>Calendar</code> object for easy XML parsing or null if blank!
+   * </p>
+   * @return dest The time & date (as a <code>Calendar</code> object) of the departure timestamp!
+   */
+  public Calendar getDepartureXml() {
+//    if (this.depart == null || this.depart.toString().equals("N/A"))
+//    {
+//      return null;
+//    }
+//    else
+//    {
+    // Format as java.text.DateFormat.SHORT;
+   // String takeoff_string = date_formatter.format(this.depart);
+    Calendar takeoff_calendar = Calendar.getInstance();
+    takeoff_calendar.setTime(this.depart);
+    return takeoff_calendar;
+    //}
+    //throw new UnsupportedOperationException("This method is not implemented yet");
+  }
+
+  /**
    * Returns current flight's destination three-letter airport code or "N/A" if blank!
    * @return dest A string version of the destination date-timestamp!
    */
@@ -395,6 +419,29 @@ public class Flight extends AbstractFlight implements Comparable<Flight> {
 //
 //    //throw new UnsupportedOperationException("This method is not implemented yet");
 //  }
+
+  /**
+   * <p>
+   *     Returns current flight's arrival time-and-date as a <code>Calendar</code> object for easy XML parsing or "N/A" if blank!
+   * </p>
+   * @return arrive The time & date (as a <code>Calendar</code> object) of the arrival timestamp!
+   */
+  public Calendar getArrivalXml() {
+
+//    if (this.arrive == null || this.arrive.toString().equals("N/A"))
+//    {
+//      return null;
+//    }
+//    else
+//    {
+      //return this.arrive;
+        Calendar arrival_calendar = Calendar.getInstance();
+        arrival_calendar.setTime(this.arrive);
+        return arrival_calendar;
+   // }
+
+    //throw new UnsupportedOperationException("This method is not implemented yet");
+  }
 
   /**
    * A simple function that calculates flight minutes by dividing the difference between departure and arrival timestamps, dividing that difference by 1000, then that result as a whole by 60, to calculate the minutes from the milliseconds!

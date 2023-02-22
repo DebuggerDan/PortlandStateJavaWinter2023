@@ -4,6 +4,7 @@ import org.junit.jupiter.api.Test;
 
 import java.text.DateFormat;
 import java.util.Locale;
+import java.util.Calendar;
 
 import static org.hamcrest.CoreMatchers.*;
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -52,9 +53,10 @@ public class FlightTest {
   protected static DateFormat date_format = DateFormat.getDateTimeInstance(3, 3, Locale.US);
   /**
    * Test #1 for correct DateFormat.SHORT->String output for arrival time.
+   * @throws ParseException If flight details were not able to be parsed!
    */
   @Test
-  void forProject3getArrivalString() throws ParseException {
+  void forProject3GetArrivalString() throws ParseException {
 
     Flight flight = new Flight("123", "PDX", "04/20/2023 4:20 pm", "XDP", "06/09/2023 1:37 pm");
     //assertThrows(UnsupportedOperationException.class, flight::getArrivalString);
@@ -63,9 +65,10 @@ public class FlightTest {
 
   /**
    * Test #2 for correct date output for arrival time.
+   * @throws ParseException If flight details were not able to be parsed!
    */
   @Test
-  void forProject3getArrivalDate() throws ParseException {
+  void forProject3GetArrivalDate() throws ParseException {
     Flight flight = new Flight("123", "PDX", "04/20/2023 4:20 pm", "XDP", "06/09/2023 1:37 pm");
     //assertThrows(UnsupportedOperationException.class, flight::getArrivalString);
     String dateTest = date_format.format(flight.getArrivalDate());
@@ -74,6 +77,7 @@ public class FlightTest {
 
   /**
    * Test #3 for correct DateFormat.SHORT->String output for departure time.
+   * @throws ParseException If flight details were not able to be parsed!
    */
   @Test
   void forProject3GetDepartureString() throws ParseException {
@@ -83,6 +87,7 @@ public class FlightTest {
   
   /**
    * Test #4 for correct date output for departure time.
+   * @throws ParseException If flight details were not able to be parsed!
    */
   @Test
   void forProject3GetDepartureDate() throws ParseException {
@@ -94,6 +99,7 @@ public class FlightTest {
   /**
    * This unit test #5 will need to be modified (likely deleted) as you implement
    * your project.
+   * @throws ParseException If flight details were not able to be parsed!
    */
   @Test
   void initiallyAllFlightsHaveTheSameNumber() throws ParseException {
@@ -109,6 +115,7 @@ public class FlightTest {
 
   /**
    * Test #6 with incorrect departure time.
+   * @throws ParseException If departure time cannot be parsed!
    */
   @Test//(expected = ParserException.class) silly me, the expected attribute was from previous JUnit version, 4, but we are currently using JUnit version 5
   void forProject3testIncorrectDepartureDate() throws ParseException {
@@ -121,6 +128,7 @@ public class FlightTest {
 
   /**
    * Test #7 with incorrect arrival time.
+   * @throws ParseException If arrival time cannot be parsed!
    */
   @Test//(expected = ParserException.class)
   void forProject3testIncorrectArrivalDate() throws ParseException  {
@@ -131,7 +139,30 @@ public class FlightTest {
     //(ParseException.class, () -> air_traffic_controller("123", "PDX", "04/20/2023 4:20 pm", "XDP", "2316/09/23120223 1:37 pm"));
   }
 
+  /**
+   * Test #8 for correct Calendar for valid departure time.
+   * @throws ParseException If departure time cannot be parsed!
+   */
+  @Test
+  void forProject3GetDepartureCalendar() throws ParseException {
+    Flight flight = new Flight("123", "PDX", "04/20/2023 4:20 pm", "XDP", "06/09/2023 1:37 pm");
+    Calendar dateTest = flight.getDepartureXml();
+    String dateCalendarTest = date_format.format(dateTest.getTime());
+    assertThat(dateCalendarTest, equalTo("4/20/23, 4:20 PM"));
+  }
 
+  /**
+   * Test #9 for correct Calendar for valid arrival time.
+   * @throws ParseException If arrival time cannot be parsed!
+   */
+  @Test
+  void forProject3GetArrivalCalendar() throws ParseException {
+    Flight flight = new Flight("123", "PDX", "04/20/2023 4:20 pm", "XDP", "06/09/2023 1:37 pm");
+    //assertThrows(UnsupportedOperationException.class, flight::getArrivalString);
+    Calendar dateTest = flight.getArrivalXml();
+    String dateCalendarTest = date_format.format(dateTest.getTime());
+    assertThat(dateCalendarTest, equalTo("6/9/23, 1:37 PM"));
+  }
 
   
 }

@@ -9,5 +9,10 @@ import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 import java.io.IOException;
 
-public class XmlParserTest {
+class XmlParserTest {
+
+    @Test
+    void canParseValidXml() throws ParserConfigurationException, IOException, SAXException {
+        XmlParser xmlParserTest = new XmlParser();
+    }
 }
