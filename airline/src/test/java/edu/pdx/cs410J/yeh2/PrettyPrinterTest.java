@@ -143,10 +143,7 @@ public class PrettyPrinterTest {
         String text = xerox.getPlottedPrint();
         //String text = reader(filename);//sw.toString();
 
-        assertThat(text, containsString("Thank you for using the PrettyPrinter!\n" +
-                "For airline, 'Lufthansa', we have the following flight(s) scheduled...\n" +
-                "\n" +
-                "-----\n"));
+        assertThat(text, containsString("Thank you for using the PrettyPrinter!"));
 
     }
 

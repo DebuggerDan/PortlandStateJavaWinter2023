@@ -611,7 +611,7 @@ public class Project3 {
 
                     if (lufthansa != null)
                     {
-                        System.out.println("'" + fileStrings[idx] + " was loaded successfully!");
+                        System.out.println("'" + fileStrings[idx] + "' was loaded successfully!");
 
                         String airlineFileName = lufthansa.getName();
 
