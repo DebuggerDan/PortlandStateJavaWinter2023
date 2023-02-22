@@ -1,7 +1,11 @@
 package edu.pdx.cs410J.yeh2;
 
 import org.junit.jupiter.api.Test;
+import org.xml.sax.SAXException;
 
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
@@ -55,10 +59,18 @@ class XmlDumperTest {
             return result.toString();
         }
 
+        /**
+         * <code>XML</code>Dumper Test #1: Valid <code>XML</code> file checks!
+         * A test that tests valid <code>XML</code>-dumped files!.
+         * @throws IOException If there are file related errors!
+         * @throws ParseException If there are parsing related errors!
+         * @throws ParserConfigurationException If there are <code>XML</code>-specific parsing errors!
+         * @throws SAXException If there are <code>SAX</code>-<code>XML</code> API specific errors!
+         */
         @Test
-    void canDumpValidAirline2XML() throws IOException, ParseException
+    void canDumpValidAirline2XML() throws IOException, ParseException, ParserConfigurationException, SAXException
     {
-        String filename = "dump_test.txt";
+        String filename = "dump_test.xml";
         String airlineName = "Lufthansa";
         String flightNumber = "123";
         String src = "PDX";
@@ -68,6 +80,8 @@ class XmlDumperTest {
 
         Flight testdrive = new Flight(flightNumber, src, depart, dest, arrive);
         Airline airline = new Airline(airlineName, testdrive);
+
+        File file = new File(filename);
 
         //StringWriter sw = new StringWriter();
         XmlDumper dumper = new XmlDumper(filename);//sw.toString());
@@ -79,8 +93,23 @@ class XmlDumperTest {
 
         String text = reader(filename);//sw.toString();
 
-        //assertThat(text, containsString("Lufthansa"));// +
+        assertThat(text, containsString("<!DOCTYPE airline SYSTEM \"http://www.cs.pdx.edu/~whitlock/dtds/airline.dtd\">"));// +
         // "\n123, PDX, 02/04/2023 6:51 am, SEA, 02/04/2023 7:00 am"));
+        AirlineXmlHelper dtdTest = new AirlineXmlHelper();
+        DocumentBuilderFactory dtdTestFactory = DocumentBuilderFactory.newInstance();
+        dtdTestFactory.setValidating(true);
+
+        DocumentBuilder dtdTestBuilder = dtdTestFactory.newDocumentBuilder();
+        dtdTestBuilder.setErrorHandler(dtdTest);
+        dtdTestBuilder.setEntityResolver(dtdTest);
+        try (FileReader dtdTestReader = new FileReader(file))
+        {
+            dtdTestBuilder.parse(filename);
+        }
+        catch (IOException m1)
+        {
+           System.err.println("[XmlDumperTest #1 Error, IOException]" + m1.getMessage());
+        }
 
     }
 }

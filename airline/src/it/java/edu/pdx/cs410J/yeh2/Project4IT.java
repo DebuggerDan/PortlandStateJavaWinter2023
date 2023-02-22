@@ -4,6 +4,11 @@ import edu.pdx.cs410J.InvokeMainTestCase;
 import edu.pdx.cs410J.ParserException;
 import org.hamcrest.Matchers;
 import org.junit.jupiter.api.Test;
+import org.xml.sax.SAXException;
+
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
 
 import static org.hamcrest.CoreMatchers.containsString;
 import static org.hamcrest.CoreMatchers.equalTo;
@@ -386,13 +391,33 @@ class Project4IT extends InvokeMainTestCase {
      * Test #17: <code>XML</code>-infoz Test(s) for <code>XML</code>Dumper
      * If valid, If the flight has a valid <code>XML</code>-airline information, then create the <code>XML</code> file.
      * Au contrar, if invalid (?).
+     * @throws IOException If there are file related errors!
+     * @throws ParserConfigurationException If there are <code>XML</code> related errors!
      */
     @Test
-    void testXMLDumping() {
+    void testXMLDumping() throws IOException, ParserConfigurationException, SAXException {
         MainMethodResult resultValidXML = invokeMain(Project4.class, "Lufthansa", "123", "PDX", "02/04/2023", "2:53", "am", "SEA", "02/04/2023", "7:00", "am", "-xmlFile", "test17.xml");
         //MainMethodResult resultInvalidXML = invokeMain(Project4.class, "Lufthansa", "123", "PDX", "02/04/2023", "4:34", "pm", "SEA", "02/04/2023", "7:00", "am", "-textFile", "test16b.txt");
+        String text = reader("test17.xml");//sw.toString();
 
-        assertThat(resultValidXML.getTextWrittenToStandardOut(), containsString("<!DOCTYPE airline SYSTEM \"http://www.cs.pdx.edu/~whitlock/dtds/airline.dtd\">"));
+        assertThat(text, Matchers.containsString("<!DOCTYPE airline SYSTEM \"http://www.cs.pdx.edu/~whitlock/dtds/airline.dtd\">"));// +
+        // "\n123, PDX, 02/04/2023 6:51 am, SEA, 02/04/2023 7:00 am"));
+        AirlineXmlHelper dtdTest = new AirlineXmlHelper();
+        DocumentBuilderFactory dtdTestFactory = DocumentBuilderFactory.newInstance();
+        dtdTestFactory.setValidating(true);
+
+        DocumentBuilder dtdTestBuilder = dtdTestFactory.newDocumentBuilder();
+        dtdTestBuilder.setErrorHandler(dtdTest);
+        dtdTestBuilder.setEntityResolver(dtdTest);
+        try (FileReader dtdTestReader = new FileReader("test17.xml"))
+        {
+            dtdTestBuilder.parse("test17.xml");
+        }
+        catch (IOException m1)
+        {
+            System.err.println("[Project Integration Test #17 Error, IOException]" + m1.getMessage());
+        }
+        //assertThat(resultValidXML.getTextWrittenToStandardOut(), containsString("<!DOCTYPE airline SYSTEM \"http://www.cs.pdx.edu/~whitlock/dtds/airline.dtd\">"));
         //assertThat(resultInvalidXML.getTextWrittenToStandardError(), containsString("Is this Back To The Future, but with flying? Because it looks like the total flight time is somehow negative: "));
     }
 
