@@ -5,6 +5,6 @@ import org.junit.jupiter.api.Test;
 public class ConverterTest {
     @Test
     void canConvertToXml() {
-        Converter convertTest = new Converter();
+        Converter convertTest = new Converter();//"test8.txt", "test8.xml");
     }
 }

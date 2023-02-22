@@ -660,8 +660,8 @@ public class Project4 {
                 try
                 {
                     // TEMP DEBUG: Uncomment & re-implement once XmlParser is implemented!
-                    //XmlParser air_traffic_control = new XmlParser(xmlStrings[idx]);
-                    //lufthansa = air_traffic_control.parse();
+                    XmlParser air_traffic_control = new XmlParser(xmlStrings[idx]);
+                    lufthansa = air_traffic_control.parse();
 
                     if (lufthansa != null)
                     {
