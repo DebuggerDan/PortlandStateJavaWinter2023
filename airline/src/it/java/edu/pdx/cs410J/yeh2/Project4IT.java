@@ -382,4 +382,32 @@ class Project4IT extends InvokeMainTestCase {
         assertThat(resultDest.getTextWrittenToStandardError(), containsString("Is this Back To The Future, but with flying? Because it looks like the total flight time is somehow negative: "));
     }
 
+    /**
+     * Test #17: <code>XML</code>-infoz Test(s) for <code>XML</code>Dumper
+     * If valid, If the flight has a valid <code>XML</code>-airline information, then create the <code>XML</code> file.
+     * Au contrar, if invalid (?).
+     */
+    @Test
+    void testXMLDumping() {
+        MainMethodResult resultValidXML = invokeMain(Project4.class, "Lufthansa", "123", "PDX", "02/04/2023", "2:53", "am", "SEA", "02/04/2023", "7:00", "am", "-xmlFile", "test17.xml");
+        //MainMethodResult resultInvalidXML = invokeMain(Project4.class, "Lufthansa", "123", "PDX", "02/04/2023", "4:34", "pm", "SEA", "02/04/2023", "7:00", "am", "-textFile", "test16b.txt");
+
+        assertThat(resultValidXML.getTextWrittenToStandardOut(), containsString("<!DOCTYPE airline SYSTEM \"http://www.cs.pdx.edu/~whitlock/dtds/airline.dtd\">"));
+        //assertThat(resultInvalidXML.getTextWrittenToStandardError(), containsString("Is this Back To The Future, but with flying? Because it looks like the total flight time is somehow negative: "));
+    }
+
+    /**
+     * Test #18: Concurrent -<code>XML</code>File & -textFile Test(s)
+     * If both <code>XML</code>File & textFile arguments were specified, then graceful exit!
+     * Au contrar, if invalid (?).
+     */
+    @Test
+    void testDualityXMLTextFiles() {
+        MainMethodResult resultDualityOfJava = invokeMain(Project4.class, "Lufthansa", "123", "PDX", "02/04/2023", "2:53", "am", "SEA", "02/04/2023", "7:00", "am", "-xmlFile", "test17.xml", "-textFile", "test17.txt");
+        //MainMethodResult resultInvalidXML = invokeMain(Project4.class, "Lufthansa", "123", "PDX", "02/04/2023", "4:34", "pm", "SEA", "02/04/2023", "7:00", "am", "-textFile", "test16b.txt");
+
+        assertThat(resultDualityOfJava.getTextWrittenToStandardError(), containsString("Oh noes, looks like both the textFile & xmlFile arguments were specified! Only one at a time, pretty please!"));
+        //assertThat(resultInvalidXML.getTextWrittenToStandardError(), containsString("Is this Back To The Future, but with flying? Because it looks like the total flight time is somehow negative: "));
+    }
+
 }

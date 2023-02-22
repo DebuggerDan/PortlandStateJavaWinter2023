@@ -109,31 +109,119 @@ public class XmlDumper implements AirlineDumper<Airline> {
         catch (ParserConfigurationException e2)
         {
             //System.err.println("[XML Parser Configuration Error]" + e2.getMessage());
-            this.DomoOhNo.println("[XML Parser Configuration Error]" + e2.getMessage());
+            DomoOhNo.println("[XML Parser Configuration Error]" + e2.getMessage());
             return;
         }
         catch (DOMException e3)
         {
-            //System.err.println("[XML DOM-Related Error]" + e3.getMessage());
-            this.DomoOhNo.println("[XML DOM-Related Error]" + e3.getMessage());
-            return;
+            //System.err.println("[XML DOM-Related Error, Stage B]" + e3.getMessage());
+            DomoOhNo.println("[XML DOM-Related Error, Stage A]" + e3.getMessage());
+            //return;
+        }
+        // Boeing = root element
+        Element boeing = null;
+        try
+        {
+            //boeing = itinerary.createElement("airline");//itinerary.getDocumentElement();
+            boeing = itinerary.getDocumentElement();
+            //itinerary.appendChild(boeing);
+
+            Element airlineName = itinerary.createElement("name");
+            boeing.appendChild(airlineName);
+            airlineName.appendChild(itinerary.createTextNode(lufthansa.getName()));
+        }
+        catch (DOMException e4)
+        {
+            //System.err.println("[XML DOM-Related Error, Stage B]" + e4.getMessage());
+            DomoOhNo.println("[XML DOM-Related Error, Stage B]" + e4.getMessage());
+            //return;
         }
 
-
-
-
-        FileWriter filewrite = new FileWriter(thefile);
-
+        //FileWriter filewrite = new FileWriter(thefile);
         //PrintWriter printer = new PrintWriter(filewrite); // since Project #4 is going to dump the stuff into XML format instead of text-file dumpin'
 
         Collection<Flight> flightDump = lufthansa.getFlights();
-        String airline_name = lufthansa.getName();
+        //String airline_name = lufthansa.getName();
 
         //printer.println(airline_name);
 
         for (Flight runway : flightDump)
         {
+            try {
+                Element runwayFlight = itinerary.createElement("flight");
+                boeing.appendChild(runwayFlight);
+
+                Element flightNumber = itinerary.createElement("number");
+                runwayFlight.appendChild(flightNumber);
+                flightNumber.appendChild(itinerary.createTextNode(String.valueOf(runway.getNumber())));
+
+                Element flightsrc = itinerary.createElement("src");
+                runwayFlight.appendChild(flightsrc);
+                flightsrc.appendChild(itinerary.createTextNode(runway.getSource()));
+
+                Element flightdep = itinerary.createElement("depart");
+                runwayFlight.appendChild(flightdep);
+
+                Element flightdep_date = itinerary.createElement("date");
+                flightdep.appendChild(flightdep_date);
+                flightdep_date.setAttribute("day", String.valueOf(runway.getDepartureXml().get(Calendar.DAY_OF_MONTH)));
+                flightdep_date.setAttribute("month", String.valueOf(runway.getDepartureXml().get(Calendar.MONTH)));
+                flightdep_date.setAttribute("year", String.valueOf(runway.getDepartureXml().get(Calendar.YEAR)));
+
+                Element flightdep_time = itinerary.createElement("time");
+                flightdep.appendChild(flightdep_time);
+                flightdep_time.setAttribute("hour", String.valueOf(runway.getDepartureXml().get(Calendar.HOUR_OF_DAY)));
+                flightdep_time.setAttribute("minute", String.valueOf(runway.getDepartureXml().get(Calendar.MINUTE)));
+
+                Element flightdest = itinerary.createElement("dest");
+                runwayFlight.appendChild(flightdest);
+                flightdest.appendChild(itinerary.createTextNode(runway.getDestination()));
+
+                Element flightarrive = itinerary.createElement("arrive");
+                runwayFlight.appendChild(flightarrive);
+
+                Element flightarrive_date = itinerary.createElement("date");
+                flightarrive.appendChild(flightarrive_date);
+                flightarrive_date.setAttribute("day", String.valueOf(runway.getArrivalXml().get(Calendar.DAY_OF_MONTH)));
+                flightarrive_date.setAttribute("month", String.valueOf(runway.getArrivalXml().get(Calendar.MONTH)));
+                flightarrive_date.setAttribute("year", String.valueOf(runway.getArrivalXml().get(Calendar.YEAR)));
+
+                Element flightarrive_time = itinerary.createElement("time");
+                flightarrive.appendChild(flightarrive_time);
+                flightarrive_time.setAttribute("hour", String.valueOf(runway.getArrivalXml().get(Calendar.HOUR_OF_DAY)));
+                flightarrive_time.setAttribute("minute", String.valueOf(runway.getArrivalXml().get(Calendar.MINUTE)));
+
+
+            }
+            catch (DOMException e5)
+            {
+                //System.err.println("[XML DOM-Related Error, Stage C]" + e5.getMessage());
+                DomoOhNo.println("[XML DOM-Related Error, Stage C]" + e5.getMessage());
+                //return;
+            }
             //printer.println(runway.getNumber() + ", " + runway.getSource() + ", " + runway.getDepartureString() + ", " + runway.getDestination() + ", " + runway.getArrivalString());
+        }
+
+        try
+        {
+            DOMSource cybertron = new DOMSource(itinerary);
+            //StreamResult prism = new StreamResult(System.out);//new StreamResult(thefile);
+            StreamResult darksideofthemoon = new StreamResult(thefile);
+
+            TransformerFactory allSpark = TransformerFactory.newInstance();
+            Transformer optimusPamAm = allSpark.newTransformer();
+
+            optimusPamAm.setOutputProperty(OutputKeys.INDENT, "yes");
+            optimusPamAm.setOutputProperty(OutputKeys.DOCTYPE_SYSTEM, AirlineXmlHelper.SYSTEM_ID);
+            // Debug for preliminary Project #4 integration tests
+            //optimusPamAm.transform(cybertron, prism);
+            optimusPamAm.transform(cybertron, darksideofthemoon);
+
+        }
+        catch (TransformerException e6)
+        {
+            System.err.println("[XML Dumper, Transformer Error]" + e6.getMessage());
+            return;
         }
         //printer.close();
     }

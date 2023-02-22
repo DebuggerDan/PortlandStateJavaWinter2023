@@ -230,12 +230,18 @@ public class Project4 {
         Flight runway = null;
         Airline lufthansa = null;
         String file_name = null;
+        String pretty_name = null;
+        String xml_name = null;
 
         // This boolean will be used to indicate the creation of a new, but blank Airline (e.g. Blank Airline)
         boolean fresh = false;
         // This boolean will be used to indicate if PrettyPrinter will be printing to a text file or have it print to a file!
         // True = save to file & False = only print to command-line
         boolean prettyoption = true;
+
+        // Project #4 check for both xmlFile & textFile options, which would be an error!
+        boolean fileoption = false;
+        boolean xmloption = false;
 
         int freshnum = 0;
 
@@ -301,33 +307,35 @@ public class Project4 {
                     //break;
 
                     case "xmlfile":
-                        file_name = args[(args.length <= idx++) ? (idx-1) : idx];
-                        if (file_name.isEmpty())
+                        xml_name = args[(args.length <= idx++) ? (idx-1) : idx];
+                        if (xml_name.isEmpty())
                         {
                             //file_name = "Empty.txt";
                             System.err.println("Hmm, looks like the -xmlfile option was used, but there was no xmlfile specified!");
                             return;
                         }
-                        if (file_name.startsWith("-"))
+                        if (xml_name.startsWith("-"))
                         {
                             //file_name = "-";
-                            System.err.println("Hmm, a invalid xml name was detected for the -textFile option (valid names include, e.g. lufthansa.xml)!\nTreating as empty name, creating default Empty Airline!");
-                            file_name = "Empty Airline";
-
-                            freshnum++;
-
-                            if (fresh) // If 2nd+ 'Fresh' Airline to be Created
-                            {
-                                yarn = new StringBuilder();
-                                yarn.append("Empty Airline #");
-                                yarn.append(freshnum);
-                                file_name = yarn.toString();
-                            }
-                            fresh = true;
+                            System.err.println("Hmm, a invalid xml name was detected for the -xmlFile option (valid names include, e.g. lufthansa.xml)!");//\nTreating as empty name, creating default Empty Airline!");
+                            return;
+//                            xml_name = "Empty Airline";
+//
+//                            freshnum++;
+//
+//                            if (fresh) // If 2nd+ 'Fresh' Airline to be Created
+//                            {
+//                                yarn = new StringBuilder();
+//                                yarn.append("Empty Airline #");
+//                                yarn.append(freshnum);
+//                                xml_name = yarn.toString();
+//                            }
+//                            fresh = true;
 
                             //return;
                         }
-                        filelist.add(file_name);
+                        xmllist.add(xml_name);
+                        xmloption = true;
                         break;
 
                     case "textfile":
@@ -358,17 +366,18 @@ public class Project4 {
                             //return;
                         }
                         filelist.add(file_name);
+                        fileoption = true;
                         break;
 
                     case "pretty":
-                        String pretty_file = args[(args.length <= idx++) ? (idx-1) : idx];//.toLowerCase();
+                        pretty_name = args[(args.length <= idx++) ? (idx-1) : idx];//.toLowerCase();
 //                        if (pretty_file.equals("file"))
 //                        {
 //                            //pretty_file = "Empty Airline";
 //                            System.out.println("We will write to the textFile specified!");
 //                        }
 
-                        if (pretty_file.isEmpty())
+                        if (pretty_name.isEmpty())
                         {
                             System.err.println("Hey there, looks like there was no filename [or a '-' to specify console pretty-printing only] specified after the -pretty option!");// +
                             // ", but that's okay, we will assume you would simply like a pretty console output (instead of a file!");
@@ -376,10 +385,10 @@ public class Project4 {
                             return;
                         }
 
-                        if (pretty_file.startsWith("-"))
+                        if (pretty_name.startsWith("-"))
                         {
                             //file_option = "-";
-                            if (pretty_file.equals("-"))
+                            if (pretty_name.equals("-"))
                             {
                                 System.out.println("Alrighty, the PrettyPrinter will print to the command-line instead of writing to a file!");
                                 prettyoption = false;
@@ -405,7 +414,7 @@ public class Project4 {
                         }
                         else
                         {
-                            prettylist.add(pretty_file);
+                            prettylist.add(pretty_name);
                         }
                         break;
 
@@ -437,6 +446,8 @@ public class Project4 {
                 arglist.add(current_arg);
             }
         }
+
+        // Input-Validation #
 
 //        if (argnum != 10)
 //        {
@@ -487,7 +498,13 @@ public class Project4 {
         String gate = null;
         String taxi = null;
 
-        // Input-Validation #1: Checking if flight number is an integer.
+        // Input-Validation #7: Checking if both xmlFile & textFile were specified!
+        if (fileoption && xmloption)
+        {
+            System.err.println("Oh noes, looks like both the textFile & xmlFile arguments were specified! Only one at a time, pretty please!");
+            return;
+        }
+
         try
         {
             int testNum = Integer.parseInt(landing[1]);
@@ -628,6 +645,72 @@ public class Project4 {
         // int total_actions_num = (print_option_num + readme_option_num + filelist.size());//argnum);
         // int readmes = print_option_num;
         // int prints = readme_option_num;
+
+        // Option A.) Handling [multiple possibly] -xmlFile parameters
+        int xmlNum = xmllist.size();
+
+        String[] xmlStrings = unthneed(xmllist);
+        String xmlString = null;
+
+        // for (int idx = 0; idx != total_actions_num; idx++)
+        for (int idx = 0; idx != xmlStrings.length; idx++)//xmlsnum; idx++)
+        {
+            if (xmlNum != 0)
+            {
+                try
+                {
+                    // TEMP DEBUG: Uncomment & re-implement once XmlParser is implemented!
+                    //XmlParser air_traffic_control = new XmlParser(xmlStrings[idx]);
+                    //lufthansa = air_traffic_control.parse();
+
+                    if (lufthansa != null)
+                    {
+                        System.out.println("'" + xmlStrings[idx] + "' was loaded successfully!");
+
+                        String airlineFileName = lufthansa.getName();
+
+                        if (!airlineFileName.equals(landing[0]))
+                        {
+                            System.err.println("Oh noes! The command-line Airline name specified ('" + landing[0] + "') does not match the Airline name on-file!\nThe XML file, instead specifies an Airline name of, '" + airlineFileName + ".'");
+
+                            // Graceful Exit: If airline names of command-line argument & the file do not match!
+                            return;
+                        }
+                        else
+                        {
+                            // Saving the new command-line specified flight into the airline!
+                            Flight sky = new Flight(runway);
+                            lufthansa.addFlight(sky);
+                        }
+
+                    }
+                    else// if (lufthansa == null)
+                    {
+                        //System.out.println("Looks like " + xmlStrings[idx] + " was not found (or was a blank file)!\nNo worries, we'll make ya a new text file with your command-line specifications, no problem!");
+
+                        Flight sky = new Flight(runway);
+                        lufthansa = new Airline(landing[0], sky);
+                    }
+
+                    /*
+                     * {@code TextDumper} in action!
+                     */
+                    //System.out.println("Alrighty, proceeding to dump your new airline ('" + landing[0] + "') into a new xml:\n" + xmlStrings[idx]);
+
+                    XmlDumper baggage_truck = new XmlDumper(xmlStrings[idx]);
+
+                    baggage_truck.dump(lufthansa);
+
+                    //System.out.println("Luggage has been dumped successfully (New flight dumped into Airline XML-file) - Nice!");
+                }
+                catch (Exception m5)
+                {
+                    System.err.println("Error whilst processing XML-file, '" + xmlStrings[idx] + "' - Specific Error: " + m5.getMessage());
+                }
+            }
+        }
+
+
         int filesnum = filelist.size();
 
         // Option B.) Handling [multiple possibly] -textFile parameters
@@ -666,7 +749,7 @@ public class Project4 {
                     }
                     else// if (lufthansa == null)
                     {
-                        System.out.println("Looks like " + fileStrings[idx] + " was not found (or was a blank file)!\nNo worries, we'll make ya a new text file with your command-line specifications, no problem!");
+                        //System.out.println("Looks like " + fileStrings[idx] + " was not found (or was a blank file)!\nNo worries, we'll make ya a new text file with your command-line specifications, no problem!");
 
                         Flight sky = new Flight(runway);
                         lufthansa = new Airline(landing[0], sky);
@@ -690,7 +773,7 @@ public class Project4 {
             }
         }
 
-        // Option A.) Handling [multiple possibly] -pretty parameters
+        // Option C.) Handling [multiple possibly] -pretty parameters
         int prettynum = prettylist.size();
 
         String[] prettyStrings = unthneed(prettylist);
