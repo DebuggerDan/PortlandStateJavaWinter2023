@@ -1,10 +1,17 @@
 package edu.pdx.cs410J.yeh2;
 
 import edu.pdx.cs410J.AbstractAirline;
+import java.io.*;
+import java.util.*;
+import javax.xml.parsers.*;
+import org.w3c.dom.Element;
+import org.w3c.dom.*;
+import org.xml.sax.*;
 
 //import java.util.Collection;
 //import java.util.LinkedList;
 
+import java.text.ParseException;
 import java.util.*;
 //import java.util.TreeSet;
 
@@ -17,6 +24,8 @@ public class Airline extends AbstractAirline<Flight> {
   private String name = "N/A";
   //private LinkedList<Flight> flights = null;
   private Collection<Flight> flights;
+  private Collection flightsXML = new ArrayList<>();
+
   //private Collection<Flight> flights = null;
 
   //private Flight head = null;
@@ -101,6 +110,45 @@ public class Airline extends AbstractAirline<Flight> {
     this.flightnum = 0;
   }
 
+  /**
+   * An <code>Airline</code> Element-specific constructor
+   * For Project #4!
+   * @see XmlParser
+   * @see Project4
+   * @see "xml-2x2.pdf, page 35"
+   * @param root The root of the <code>XML</code> parsed-file!
+   */
+//  public Airline(Element root) {
+//    NodeList flightXML = root.getChildNodes();
+//    this.name = root.getAttribute("name");
+//    this.flights = new TreeSet<Flight>(new air_traffic_controller());
+//    this.flightnum = 0;
+//
+//    for (int idx = 0; idx != flightXML.getLength(); idx++)
+//    {
+//      if (flightXML.item(idx) instanceof Element)
+//      {
+//        Element runway = (Element) flightXML.item(idx);
+//        if (runway.getNodeName().equals("flight"))
+//        {
+//          Flight curr = null;
+//          this.flightsXML.add(curr);
+//          //curr = new Flight(runway.getAttribute("number"), runway.getAttribute("src"), runway.getAttribute("depart"), runway.getAttribute("dest"), runway.getAttribute("arrive"));
+//          //this.addFlight(curr);
+//          this.flightnum++;
+//
+//            //System.err.println("[Flight XML Constructor Error]: " + e1.getMessage());
+//        }
+//      }
+//    }
+//
+//    //this.flights = new LinkedList<Flight>();
+//    this.flights = new TreeSet<Flight>(new air_traffic_controller());
+//
+//    NodeList flightXML2
+//
+//    //this.flightnum = 0;
+//  }
   /**
    * Returns an <code>Integer</code>-count of flights in the {@code TreeSet<Flight>} of the <code>Airline</code>.
    * @return The number of flights in the <code>Airline</code>.

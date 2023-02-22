@@ -20,6 +20,11 @@ public class TextParserTest {
     //protected File file1 = null;
     //protected File file2 = null;
 
+    /**
+     * A test that tests existence of testing files.
+     * @param testname
+     * @return
+     */
     @Test
     boolean testFilesPresent(String testname)
     {
@@ -99,12 +104,11 @@ public class TextParserTest {
 
     /**
      * invalid text file test, v2.
-     * @throws ParserException If the file cannot be parsed.
      * @throws IllegalArgumentException If there was an invalid argument.
      */
 
     @Test
-    void invalidTextFileCannotBeParsedv2() throws ParserException, IllegalArgumentException {
+    void invalidTextFileCannotBeParsedv2() throws IllegalArgumentException {
         //InputStream resource = getClass().getResourceAsStream("valid-airline.txt");
         //assertThat(testFilesPresent(this.testfile1), equalTo(true));
         File test_file = new File("test.txt");
@@ -126,11 +130,10 @@ public class TextParserTest {
 
     /**
      * Invalid text file test, v3.
-     * @throws ParserException If the file cannot be parsed.
      * @throws IllegalArgumentException If there was an invalid argument.
      */
     @Test
-    void invalidTextFileCannotBeParsedv3() throws ParserException, IllegalArgumentException {
+    void invalidTextFileCannotBeParsedv3() throws IllegalArgumentException {
         //InputStream resource = getClass().getResourceAsStream("valid-airline.txt");
         //assertThat(testFilesPresent(this.testfile1), equalTo(true));
         File test_file = new File("test.txt");
