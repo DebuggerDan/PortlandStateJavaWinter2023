@@ -22,7 +22,7 @@ import java.text.*;
 import edu.pdx.cs410J.AirportNames;
 
 
-//public class Project3 {
+public class Project3 {
 
     /**
      * Project #3 Timestamp Formatting:
