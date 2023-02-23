@@ -51,7 +51,7 @@ public class Project4 {
                 try (BufferedReader display_buffer = new BufferedReader(display_me)) {
                     String display_line = display_buffer.readLine();
                     int idx = 0;
-                    while (display_line != null && idx != 4) // Additional line for Project #4
+                    while (display_line != null && idx != 5) // Additional line for Project #4
                     {
                         display_line = display_buffer.readLine();
                         idx++;

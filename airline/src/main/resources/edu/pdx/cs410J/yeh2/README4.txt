@@ -1,6 +1,7 @@
 CS410P: Advanced Java Programming, Winter 2023 - Dan Jang, February 2023 [#4]
 Description: Project #4 focuses on the storage of airline information into XML files.
 Project #4 will both be able to dump, parse, and convert(er) into & of XML files.
+Specifically, we will be able to interconvert between valid airline data, airline objects, XML files, & text files (vice-versa with the included Converter class!)
 
 usage: java -jar target/airline-2023.0.0.jar [options] <args>
        args are (in this order):
