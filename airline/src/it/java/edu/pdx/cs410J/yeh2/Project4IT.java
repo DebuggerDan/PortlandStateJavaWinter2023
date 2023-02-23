@@ -435,4 +435,18 @@ class Project4IT extends InvokeMainTestCase {
         //assertThat(resultInvalidXML.getTextWrittenToStandardError(), containsString("Is this Back To The Future, but with flying? Because it looks like the total flight time is somehow negative: "));
     }
 
+    /**
+     * Test #19: Concurrent -<code>XML</code>File & -textFile Test(s)
+     * If both <code>XML</code>File & textFile arguments were specified, then graceful exit!
+     * Au contrar, if invalid (?).
+     */
+    @Test
+    void testInvalidXMLTextFiles() {
+        MainMethodResult resultDualityOfJava = invokeMain(Project4.class, "Lufthansa", "123", "PDX", "02/04/2023", "2:53", "am", "SEA", "02/04/2023", "7:00", "am", "-xmlFile", "test17.xml", "-textFile", "test17.txt");
+        //MainMethodResult resultInvalidXML = invokeMain(Project4.class, "Lufthansa", "123", "PDX", "02/04/2023", "4:34", "pm", "SEA", "02/04/2023", "7:00", "am", "-textFile", "test16b.txt");
+
+        assertThat(resultDualityOfJava.getTextWrittenToStandardError(), containsString("Oh noes, looks like both the textFile & xmlFile arguments were specified! Only one at a time, pretty please!"));
+        //assertThat(resultInvalidXML.getTextWrittenToStandardError(), containsString("Is this Back To The Future, but with flying? Because it looks like the total flight time is somehow negative: "));
+    }
+
 }

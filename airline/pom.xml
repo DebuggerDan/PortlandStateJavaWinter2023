@@ -60,6 +60,7 @@
           <archive>
             <manifest>
               <mainClass>edu.pdx.cs410J.yeh2.Project4</mainClass>
+              <mainClass>edu.pdx.cs410J.yeh2.Converter</mainClass>
             </manifest>
           </archive>
         </configuration>
