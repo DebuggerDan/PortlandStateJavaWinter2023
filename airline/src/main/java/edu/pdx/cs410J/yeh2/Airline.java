@@ -217,23 +217,23 @@ public class Airline extends AbstractAirline<Flight> {
   /**
    * Prints all flights within the {@code this.flights} ({@code TreeSet<Flight><Flight>}).
    */
-  public void printAll()
-  {
-//    if (this.head == null)
-//    {
-//      System.out.print("\nDone! (or no flights)");
+//  public void printAll()
+//  {
+////    if (this.head == null)
+////    {
+////      System.out.print("\nDone! (or no flights)");
+////    }
+////    else
+////    {
+////      head.print();
+////      this.head = head.getNext();
+////      printAll();
+////    }
+//    //for (Object plane : this.flights)
+//    for (Flight plane : this.flights) {
+//      plane.print();
 //    }
-//    else
-//    {
-//      head.print();
-//      this.head = head.getNext();
-//      printAll();
-//    }
-    //for (Object plane : this.flights)
-    for (Flight plane : this.flights) {
-      plane.print();
-    }
-  }
+//  }
 
   /**
    * Prints all flights within the {@code this.flights} ({@code TreeSet<Flight><Flight>}).

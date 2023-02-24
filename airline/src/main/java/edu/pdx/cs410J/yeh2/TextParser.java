@@ -4,22 +4,22 @@ import edu.pdx.cs410J.AirlineParser;
 import edu.pdx.cs410J.ParserException;
 //import edu.pdx.cs410J.AirlineDumper;
 
-//import javax.swing.text.html.parser.Parser;
+import javax.swing.text.html.parser.Parser;
 import java.io.BufferedReader;
 import java.io.IOException;
-//import java.io.InputStreamReader;
-//import java.io.Reader;
+import java.io.InputStreamReader;
+import java.io.Reader;
 
 import java.io.File;
 import java.io.FileReader;
 
 import java.io.FileNotFoundException;
 
-//import java.io.IOException;
+import java.io.IOException;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-//import java.util.Date;
+import java.util.Date;
 import java.util.Locale;
 
 /**
@@ -101,8 +101,8 @@ public class TextParser implements AirlineParser<Airline> {
         }
         //try {
 
-            //File test = new File(file);
-            //testfile = new FileReader(test);
+        //File test = new File(file);
+        //testfile = new FileReader(test);
 
         //} catch (FileNotFoundException e1) {
         //    throw new IllegalArgumentException("Looks like this file does not exist:", e1);
@@ -144,249 +144,221 @@ public class TextParser implements AirlineParser<Airline> {
      */
     @Override
     public Airline parse() throws ParserException {
-        //BufferedReader buffer = null;
-        /*
-         * Time-and-Date Format stuffs - from coreAPI, pages 92 ~ 104.
-         *
-         * @see java.text.DateFormat
-         * @see java.text.SimpleDateFormat
-         */
-        String Timestamp_Format = "MM/dd/yyyy HH:mm";
-        DateFormat TStamp = new SimpleDateFormat(Timestamp_Format, Locale.US);
-        String currstring = null;
-        FileReader parsely = null;
-        try
-        {
-
-            parsedfile = new File(this.file_name);
-            parsely = new FileReader(parsedfile);
-
-        }
-        catch (FileNotFoundException e2)
-        {
-            Airline concord = null;
-            return concord;
-            //throw new ParserException("File not found!");
-//            try (BufferedReader buffer = new BufferedReader(this.parse))
-//            {
-//                TextDumper dumper = new TextDumper(this.file_name);
-//                Airline emptyAirline = new Airline("Empty Airline");
-//                dumper.dump(emptyAirline);
-//                return emptyAirline;
-//            }
-//            catch (IOException e5)
-//            {
-//                throw new ParserException("Empty-Airline Parsing error detected: ", e5);//e3.getCause());
-//            }
-//            catch (IllegalArgumentException e6)
-//            {
-//                throw new ParserException("Empty-Airline Parsing error detected: ", e6);//e4.getCause());
-//            }
-            //return null;
-            //System.out.println("Looks like this file was not found:", e2);
-            //throw new ParserException("File does not exist!", e2);
-        }
-        //String airlineName = br.readLine()
-        Airline gate = null;// = new Airline();
-
-        try (BufferedReader buffer = new BufferedReader(parsely)){
-
-            //BufferedReader test1 = null;
-            //buffer = new BufferedReader(this.parse);
-            //String first_airline_line = null;
-
-            String first_airline_line = buffer.readLine();
-            String line_buffer = buffer.readLine();
-
-            currstring = line_buffer;
-
-            if (first_airline_line != null)
-            {
-                String[] first_airline_name_args = first_airline_line.split("\\s*,\\s*");
-                gate = new Airline(first_airline_name_args[0]);
-            }
-
-//
-//            if (line_buffer != null) {
-//                //this.lufthansa = new Airline(first);
-//                String[] first_airline_arg = line_buffer.split("\\s*,\\s*");
-//
-//                if (first_airline_arg.length != 4)
-//                {
-//                    throw new IllegalArgumentException("Invalid number of parameters!");
-//                }
-//
-//                gate = new Airline(first_airline_arg[0]);
-//                currstring = buffer.readLine();
-//            }
-//            else
-//            {
-//                throw new ParserException("Empty file!");
-//            }
-//        } catch (Exception e3) {
-//            throw new RuntimeException("Uh oh. looks like there was a Runtime Exception:", e3);
-//        }
-            //buffer = new BufferedReader(this.parse);
-            //StringBuffer bufferline = new StringBuffer();
-            //try {
-            try {
-                while (currstring != null) {
-
-                    //currstring = buffer.readLine();
-
-                    String[] currargs = currstring.split("\\s*,\\s*");
-
-                    if (currargs.length > 7) {
-                        throw new IllegalArgumentException("Need at least 7 arguments for airlines/flights!");
-                    }
-                    else
-                    {
-                        if (currargs.length < 7)
-                        {
-                            throw new IllegalArgumentException("There can only be 7 arguments max per airline/flights!");
-                        }
-                    }
-                    //String stamp1 = null;
-                    //String stamp2 = null;
-//                    /*
-//                     * Attempts to create the formatted time-and-date for departure time.
-//                     */
-//                    try
-//                    {
-//                        stamp1 = TStamp.format(timeStamper(currargs[3], currargs[4]));
-//                        //runway = new Flight(landing);
-//                    }
-//                    catch (IllegalArgumentException m4a)
-//                    {
-//                        System.err.println("Error when attempting to parse the departure time & date arguments, " + currargs[3] + " and " + currargs[4]);
-//                        throw new ParserException("Error when attempting to parse the departure time & date arguments, " + currargs[3] + " and " + currargs[4]);
-//
-//                        // Graceful Error: Departure Time & Date Argument(s) not formatted correctly!
-//                        //return;
-//                    }
-//                    catch (ArrayIndexOutOfBoundsException m4b)
-//                    {
-//                        System.err.println("Error when attempting to parse the departure time & date arguments, " + currargs[3] + " and " + currargs[4]);
-//                        throw new ParserException("Error when attempting to parse the departure time & date arguments, " + currargs[3] + " and " + currargs[4]);
-//
-//                        // Graceful Error: Departure Time & Date Argument(s) not formatted correctly!
-//                        //return;
-//                    }
-//
-//                    /*
-//                     * Attempts to create the formatted time-and-date for arrival time.
-//                     */
-//                    try
-//                    {
-//                        stamp2 = TStamp.format(timeStamper(currargs[6], currargs[7]));
-//                    }
-//                    catch (IllegalArgumentException m5a)
-//                    {
-//                        System.err.println("Error when attempting to parse the arrival time & date arguments, " + currargs[6] + " and " + currargs[7]);
-//                        throw new ParserException(("Error when attempting to parse the arrival time & date arguments, " + currargs[6] + " and " + currargs[7]));
-//
-//                        // Graceful Error: Arrival Time & Date Argument(s) not formatted correctly!
-//                        //return;
-//                    }
-//                    catch (ArrayIndexOutOfBoundsException m4b)
-//                    {
-//                        System.err.println("Error when attempting to parse the arrival time & date arguments, " + currargs[6] + " and " + currargs[7]);
-//                        throw new ParserException(("Error when attempting to parse the arrival time & date arguments, " + currargs[6] + " and " + currargs[7]));
-//
-//                        // Graceful Error: Arrival Time & Date Argument(s) not formatted correctly!
-//                        //return;
-//                    }
-
-                    //Flight runway = new Flight(currargs);
-
-                    /*
-                    Legacy Project #2 date-stamp formatting
-                    String date1 = currargs[2] + currargs[3];
-                    //String date2 = currargs[5] + currargs[6];
-                    */
-
-                    /*
-                     * date1 & date2 represents the tri-string combo strings for our two full timestamps!
-                     * @see Project3
-                     */
-                    String date1 = currargs[2] + " " + currargs[3];// + " " + currargs[4];
-                    String date2 = currargs[5] + " " + currargs[6];// + " " + currargs[6];
-                    Flight runway = null;
-
-                    runway = new Flight(currargs[0], currargs[1], date1, currargs[4], date2);
-//                    try
-//                    {
-//                        runway = new Flight(currargs[0], currargs[1], date1, currargs[4], date2);
-//                    }
-//                    catch (ParseException e8)
-//                    {
-//                        throw new ParserException("[TextParser Initialization Error]" + e8.getErrorOffset());
-//                    }
-//
-//                    // Input-Validation #5: If flight arrival is before the departure time:
-//                    if (runway.getFlightTime() < 0)
-//                    {
-//                        throw new ParserException("(flight-minute calculation during parsing process)");
-//                    }
-
-                    //Flight runway = new Flight(currargs[1], currargs[2], stamp1, currargs[5], stamp2);
-                    //this.lufthansa.add
-                    currstring = buffer.readLine();
-
-                    if (gate.getName() == null) {
-                        throw new ParserException("Missing airline name!");
-                    }
-
-                    try {
-                        gate.addFlight(runway);
-                    }
-                    catch (NullPointerException e6)
-                    {
-                        throw new ParserException("Hmm, looks like there was an issue with adding the following flight: ", e6);
-                    }
-
-                    while (currstring != null && currstring.isEmpty())
-                    {
-                        currstring = buffer.readLine();
-                    }
-
-                }
-            } catch (NullPointerException e5)
-            {
-                throw new ParserException("Error when parsing through the text file!", e5);
-            }
-//        } catch (RuntimeException e4) {
-//            throw new RuntimeException("Uh oh. looks like there was a Runtime Exception:", e4);
-//        }
-//        return new Airline(airlineName);
-
-        }
-
-        catch (IOException e3)
-        {
-            throw new ParserException("Parsing error detected: ", e3);//e3.getCause());
-        }
-
-        catch (IllegalArgumentException e4)
-        {
-            throw new ParserException("Parsing error detected: ", e4);//e4.getCause());
-        }
-
-//        finally
-//        {
-//            if (buffer != null)
-//            {
-//                try
-//                {
-//                    buffer.close();
-//                }
-//                catch (IOException e7)
-//                {
-//                    throw new ParserException("Hmm, looks like the buffer ain't closing: ", e7);
-//                }
-//            }
-//        }
-
-        return gate;
+        return null;
     }
+//        //BufferedReader buffer = null;
+//        /*
+//         * Time-and-Date Format stuffs - from coreAPI, pages 92 ~ 104.
+//         *
+//         * @see java.text.DateFormat
+//         * @see java.text.SimpleDateFormat
+//         */
+//        String Timestamp_Format = "MM/dd/yyyy HH:mm";
+//        DateFormat TStamp = new SimpleDateFormat(Timestamp_Format, Locale.US);
+//        String currstring = null;
+//        FileReader parsely = null;
+//        try
+//        {
+//
+//            parsedfile = new File(this.file_name);
+//            parsely = new FileReader(parsedfile);
+//
+//        }
+//        catch (FileNotFoundException e2)
+//        {
+//            Airline concord = null;
+//            return concord;
+//            //throw new ParserException("File not found!");
+////            try (BufferedReader buffer = new BufferedReader(this.parse))
+////            {
+////                TextDumper dumper = new TextDumper(this.file_name);
+////                Airline emptyAirline = new Airline("Empty Airline");
+////                dumper.dump(emptyAirline);
+////                return emptyAirline;
+////            }
+////            catch (IOException e5)
+////            {
+////                throw new ParserException("Empty-Airline Parsing error detected: ", e5);//e3.getCause());
+////            }
+////            catch (IllegalArgumentException e6)
+////            {
+////                throw new ParserException("Empty-Airline Parsing error detected: ", e6);//e4.getCause());
+////            }
+//            //return null;
+//            //System.out.println("Looks like this file was not found:", e2);
+//            //throw new ParserException("File does not exist!", e2);
+//        }
+//        //String airlineName = br.readLine()
+//        Airline gate = null;// = new Airline();
+//
+//        try (BufferedReader buffer = new BufferedReader(parsely)){
+//
+//            //BufferedReader test1 = null;
+//            //buffer = new BufferedReader(this.parse);
+//            //String first_airline_line = null;
+//
+//            String first_airline_line = buffer.readLine();
+//            String line_buffer = buffer.readLine();
+//
+//            currstring = line_buffer;
+//
+//            if (first_airline_line != null)
+//            {
+//                String[] first_airline_name_args = first_airline_line.split("\\s*,\\s*");
+//                gate = new Airline(first_airline_name_args[0]);
+//            }
+//
+////
+////            if (line_buffer != null) {
+////                //this.lufthansa = new Airline(first);
+////                String[] first_airline_arg = line_buffer.split("\\s*,\\s*");
+////
+////                if (first_airline_arg.length != 4)
+////                {
+////                    throw new IllegalArgumentException("Invalid number of parameters!");
+////                }
+////
+////                gate = new Airline(first_airline_arg[0]);
+////                currstring = buffer.readLine();
+////            }
+////            else
+////            {
+////                throw new ParserException("Empty file!");
+////            }
+////        } catch (Exception e3) {
+////            throw new RuntimeException("Uh oh. looks like there was a Runtime Exception:", e3);
+////        }
+//            //buffer = new BufferedReader(this.parse);
+//            //StringBuffer bufferline = new StringBuffer();
+//            //try {
+//            try {
+//                while (currstring != null) {
+//
+//                    //currstring = buffer.readLine();
+//
+//                    String[] currargs = currstring.split("\\s*,\\s*");
+//
+//                    if (currargs.length > 5) {
+//                        throw new IllegalArgumentException("Need at least 5 arguments for airlines/flights!");
+//                    }
+//                    else
+//                    {
+//                        if (currargs.length < 5)
+//                        {
+//                            throw new IllegalArgumentException("There can only be 5 arguments max per airline/flights!");
+//                        }
+//                    }
+////                    String stamp1 = null;
+////                    String stamp2 = null;
+////                    /*
+////                     * Attempts to create the formatted time-and-date for departure time.
+////                     */
+////                    try
+////                    {
+////                        stamp1 = TStamp.format(timeStamper(currargs[3], currargs[4]));
+////                        //runway = new Flight(landing);
+////                    }
+////                    catch (IllegalArgumentException m4a)
+////                    {
+////                        System.err.println("Error when attempting to parse the departure time & date arguments, " + currargs[3] + " and " + currargs[4]);
+////                        throw new ParserException("Error when attempting to parse the departure time & date arguments, " + currargs[3] + " and " + currargs[4]);
+////
+////                        // Graceful Error: Departure Time & Date Argument(s) not formatted correctly!
+////                        //return;
+////                    }
+////                    catch (ArrayIndexOutOfBoundsException m4b)
+////                    {
+////                        System.err.println("Error when attempting to parse the departure time & date arguments, " + currargs[3] + " and " + currargs[4]);
+////                        throw new ParserException("Error when attempting to parse the departure time & date arguments, " + currargs[3] + " and " + currargs[4]);
+////
+////                        // Graceful Error: Departure Time & Date Argument(s) not formatted correctly!
+////                        //return;
+////                    }
+////
+////                    /*
+////                     * Attempts to create the formatted time-and-date for arrival time.
+////                     */
+////                    try
+////                    {
+////                        stamp2 = TStamp.format(timeStamper(currargs[6], currargs[7]));
+////                    }
+////                    catch (IllegalArgumentException m5a)
+////                    {
+////                        System.err.println("Error when attempting to parse the arrival time & date arguments, " + currargs[6] + " and " + currargs[7]);
+////                        throw new ParserException(("Error when attempting to parse the arrival time & date arguments, " + currargs[6] + " and " + currargs[7]));
+////
+////                        // Graceful Error: Arrival Time & Date Argument(s) not formatted correctly!
+////                        //return;
+////                    }
+////                    catch (ArrayIndexOutOfBoundsException m4b)
+////                    {
+////                        System.err.println("Error when attempting to parse the arrival time & date arguments, " + currargs[6] + " and " + currargs[7]);
+////                        throw new ParserException(("Error when attempting to parse the arrival time & date arguments, " + currargs[6] + " and " + currargs[7]));
+////
+////                        // Graceful Error: Arrival Time & Date Argument(s) not formatted correctly!
+////                        //return;
+////                    }
+//
+//                    Flight runway = new Flight(currargs[1], currargs[2], currargs[3], currargs[4], currargs[5]);
+//                    // Flight runway = new Flight();
+//                    //Flight runway = new Flight(currargs[1], currargs[2], stamp1, currargs[5], stamp2);
+//                    //this.lufthansa.add
+//                    currstring = buffer.readLine();
+//
+//                    if (gate.getName() == null) {
+//                        throw new ParserException("Missing airline name!");
+//                    }
+//
+//                    try {
+//                        gate.addFlight(runway);
+//                    }
+//                    catch (NullPointerException e6)
+//                    {
+//                        throw new ParserException("Hmm, looks like there was an issue with adding the following flight: ", e6);
+//                    }
+//
+//                    while (currstring != null && currstring.isEmpty())
+//                    {
+//                        currstring = buffer.readLine();
+//                    }
+//
+//                }
+//            } catch (NullPointerException e5)
+//            {
+//                throw new ParserException("Error when parsing through the text file!", e5);
+//            }
+////        } catch (RuntimeException e4) {
+////            throw new RuntimeException("Uh oh. looks like there was a Runtime Exception:", e4);
+////        }
+////        return new Airline(airlineName);
+//
+//        }
+//
+//        catch (IOException e3)
+//        {
+//            throw new ParserException("Parsing error detected: ", e3);//e3.getCause());
+//        }
+//
+//        catch (IllegalArgumentException e4)
+//        {
+//            throw new ParserException("Parsing error detected: ", e4);//e4.getCause());
+//        }
+//
+////        finally
+////        {
+////            if (buffer != null)
+////            {
+////                try
+////                {
+////                    buffer.close();
+////                }
+////                catch (IOException e7)
+////                {
+////                    throw new ParserException("Hmm, looks like the buffer ain't closing: ", e7);
+////                }
+////            }
+////        }
+//
+//        return gate;
+//    }
 }
