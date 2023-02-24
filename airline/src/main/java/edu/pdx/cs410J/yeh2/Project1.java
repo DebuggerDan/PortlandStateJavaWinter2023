@@ -168,6 +168,41 @@ public class Project1 {
     }
 
     /**
+     * <p>
+     * A whimsical, simple but a bit silly, 'unwraveler' function for <code>AbstractList</code>s,
+     * that "unthneeds" them into simple {@code String[]}, string-arrays.
+     * (From Project #2)
+     * </p>
+     * @param thneed {@code AbstractList<String>} In goes the list!
+     * @return tuft Out goes a {@code String[]} array, unraveled from the {@code AbstractList<String>} {@param thneed}!
+     */
+    public static String[] unthneed(List<String> thneed) // Dr. Seuss reference heh
+    {
+        String[] tuft = new String[thneed.size()];
+        Iterator<String> lorax = thneed.iterator();
+//        int idx = 0;
+//        for (Object truffula : thneed)
+//        {
+//            tuft[idx] = truffula;
+//            idx++;
+//        }
+        for (int truffula = 0; truffula != thneed.size(); truffula++)
+        {
+            if (lorax.hasNext())
+            {
+                tuft[truffula] = lorax.next();
+            }
+            else
+            {
+                System.err.println("An arwy truffula tree tuft! The Lorax says, check the that loop, For-where this came!");
+            }
+        }
+
+        return tuft;
+    }
+
+
+    /**
      * Project 1 takes in a {@code String[]}, creates an airline based on those parameters, and optionally prints the flight information.
      * @param args
      *      <p>
@@ -188,6 +223,8 @@ public class Project1 {
         final String readme_file = "README.txt";
         String Timestamp_Format = "MM/dd/yyyy HH:mm";
         DateFormat TStamp = new SimpleDateFormat(Timestamp_Format, Locale.US);
+        List<String> arglist = new LinkedList<>();
+        Boolean printBool = false;
 
         Airline lufthansa = null;
         Flight runway = null;  // Refer to one of Dave's classes so that we can be sure it is on the classpath
@@ -237,7 +274,8 @@ public class Project1 {
 
                     case "print":
 
-                        print_option_num++;
+                        //print_option_num++;
+                        printBool = true;
 
                         break;
 
@@ -251,7 +289,7 @@ public class Project1 {
             {
                 argnum++;
 
-                //arglist.add(current_arg);
+                arglist.add(current_arg);
             }
         }
 
@@ -300,7 +338,7 @@ public class Project1 {
 //            return;
 //        }
 
-        String[] landing = args;
+        String[] landing = unthneed(arglist);
         String gate = null;
         String taxi = null;
 
@@ -417,10 +455,15 @@ public class Project1 {
         lufthansa = new Airline(landing[0], runway);
 
         // Option A.) Handling [possibly multiple] -print Option(s)
-        for (int idx = print_option_num; idx != 0; idx++)
+        //for (int idx = print_option_num; idx != 0; idx++)
+        //{
+        //  lufthansa.printAllString(landing[0]);
+        //}
+        if (printBool)
         {
             lufthansa.printAllString(landing[0]);
         }
+
 
         /*
          * Attempts to create the formatted time-and-date for departure time.

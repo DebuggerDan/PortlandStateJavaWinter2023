@@ -111,6 +111,15 @@ class Project1IT extends InvokeMainTestCase {
     }
 
     /**
+     * Test #0 Fixing parsing error for a valid airline's information.
+     */
+    @Test
+    void testValidPrintFirst() {
+        MainMethodResult result = invokeMain(Project1.class, "-print", "Test8", "123", "PDX", "03/03/2023", "12:00", "ORD", "05/04/2023", "16:00");
+        assertThat(result.getTextWrittenToStandardOut(), containsString("Test8, 123, PDX, 03/03/2023 12:00, ORD, 05/04/2023 16:00"));
+    }
+
+    /**
      * Tests that invoking the main method with no arguments issues an error
      */
     @Test

@@ -254,9 +254,12 @@ public class Airline extends AbstractAirline<Flight> {
 //      printAll();
 //    }
     //for (Object plane : this.flights)
+    System.out.print(this.name + ", ");
     for (Flight plane : this.flights) {
-      String flight_line = plane.toString();
-      System.out.println("Airline: " + airline_name + ", Flight Information: " + flight_line);
+//      String flight_line = plane.toString();
+//      System.out.println("Airline: " + airline_name + ", Flight Information: " + flight_line);
+      plane.print();
+      //System.out.println(plane.getNumber() + ", " + plane.getSource() + ", " + plane.getDepartureString() + ", " + plane.getDestination() + ", " + plane.getArrivalString());
     }
   }
 
