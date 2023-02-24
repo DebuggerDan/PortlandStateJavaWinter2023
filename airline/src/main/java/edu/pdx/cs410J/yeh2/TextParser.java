@@ -313,20 +313,21 @@ public class TextParser implements AirlineParser<Airline> {
                     String date2 = currargs[5] + " " + currargs[6];// + " " + currargs[6];
                     Flight runway = null;
 
-                    try
-                    {
-                        runway = new Flight(currargs[0], currargs[1], date1, currargs[4], date2);
-                    }
-                    catch (ParseException e8)
-                    {
-                        throw new ParserException("[TextParser Initialization Error]" + e8.getErrorOffset());
-                    }
-
-                    // Input-Validation #5: If flight arrival is before the departure time:
-                    if (runway.getFlightTime() < 0)
-                    {
-                        throw new ParserException("(flight-minute calculation during parsing process)");
-                    }
+                    runway = new Flight(currargs[0], currargs[1], date1, currargs[4], date2);
+//                    try
+//                    {
+//                        runway = new Flight(currargs[0], currargs[1], date1, currargs[4], date2);
+//                    }
+//                    catch (ParseException e8)
+//                    {
+//                        throw new ParserException("[TextParser Initialization Error]" + e8.getErrorOffset());
+//                    }
+//
+//                    // Input-Validation #5: If flight arrival is before the departure time:
+//                    if (runway.getFlightTime() < 0)
+//                    {
+//                        throw new ParserException("(flight-minute calculation during parsing process)");
+//                    }
 
                     //Flight runway = new Flight(currargs[1], currargs[2], stamp1, currargs[5], stamp2);
                     //this.lufthansa.add

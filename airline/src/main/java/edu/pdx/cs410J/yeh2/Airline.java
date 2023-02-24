@@ -35,32 +35,32 @@ public class Airline extends AbstractAirline<Flight> {
    * Implements the {@code Comparator<Flight>} as implemented in the Flight class.
    * @see Flight
    */
-  static class air_traffic_controller implements Comparator<Flight>
-  {
-    /**
-     * Compares two flights for sorting stuffs.
-     * <p>
-     *     Provides a way to compare two <code>Flight/code> objects based on the following:
-     *     1.) Firstly, by alphabetical order - based on source airport-code (ignoring case).
-     *     2.) [If same source airport-codes, then] secondly, by chronological order - based on departure time.
-     *     3.) [If both have the same source airport-code & take-off time], then they will be considered "equal."
-     * </p>
-     * @param gateA Flight #1
-     * @param gateB Flight #2
-     * @return <p>1 Case I., if the current Flight object should be first.
-     *      1 Case II., if the runway (second flight) should be first.
-     *      0 Case III., if both objects are equal.</p>
-     */
-    public int compare(Flight gateA, Flight gateB)
-    {
-      //int result = gateA.compareTo(gateB);
-//      if (result == 404)
-//      {
-//        System.err.println("ATC confirms the error shown regarding conflicting flight comparisons above this message.");
-//      }
-      return gateA.compareTo(gateB);//result;
-    }
-  }
+//  static class air_traffic_controller implements Comparator<Flight>
+//  {
+//    /**
+//     * Compares two flights for sorting stuffs.
+//     * <p>
+//     *     Provides a way to compare two <code>Flight/code> objects based on the following:
+//     *     1.) Firstly, by alphabetical order - based on source airport-code (ignoring case).
+//     *     2.) [If same source airport-codes, then] secondly, by chronological order - based on departure time.
+//     *     3.) [If both have the same source airport-code & take-off time], then they will be considered "equal."
+//     * </p>
+//     * @param gateA Flight #1
+//     * @param gateB Flight #2
+//     * @return <p>1 Case I., if the current Flight object should be first.
+//     *      1 Case II., if the runway (second flight) should be first.
+//     *      0 Case III., if both objects are equal.</p>
+//     */
+//    public int compare(Flight gateA, Flight gateB)
+//    {
+//      //int result = gateA.compareTo(gateB);
+////      if (result == 404)
+////      {
+////        System.err.println("ATC confirms the error shown regarding conflicting flight comparisons above this message.");
+////      }
+//      return gateA.compareTo(gateB);//result;
+//    }
+//  }
 
   /*
    * An <code>Airline</code> constructor for six (6) raw {@code args[]} parameters.
@@ -92,8 +92,8 @@ public class Airline extends AbstractAirline<Flight> {
       throw new IllegalArgumentException("Uh oh, earlyBird was empty!");
     }
     this.name = airline;
-    //this.flights = new LinkedList<Flight>();
-    this.flights = new TreeSet<Flight>(new air_traffic_controller());
+    this.flights = new LinkedList<Flight>();
+    //this.flights = new TreeSet<Flight>(new air_traffic_controller());
 
     //Flight firstFlight = new Flight(earlyBird);//flightNumber, src, depart, dest, arrive);
     this.addFlight(earlyBird);
@@ -105,8 +105,8 @@ public class Airline extends AbstractAirline<Flight> {
    */
   public Airline(String name) {
     this.name = name;
-    //this.flights = new LinkedList<Flight>();
-    this.flights = new TreeSet<Flight>(new air_traffic_controller());
+    this.flights = new LinkedList<Flight>();
+    //this.flights = new TreeSet<Flight>(new air_traffic_controller());
     this.flightnum = 0;
   }
 
@@ -241,24 +241,24 @@ public class Airline extends AbstractAirline<Flight> {
    * (see Project1)
    * @param airline_name The name of the airline!
    */
-//  public void printAllString(String airline_name)
-//  {
-////    if (this.head == null)
-////    {
-////      System.out.print("\nDone! (or no flights)");
-////    }
-////    else
-////    {
-////      head.print();
-////      this.head = head.getNext();
-////      printAll();
-////    }
-//    //for (Object plane : this.flights)
-//    for (Flight plane : this.flights) {
-//      String flight_line = plane.toString();
-//      System.out.println("Airline: " + airline_name + ", Flight Information: " + flight_line);
+  public void printAllString(String airline_name)
+  {
+//    if (this.head == null)
+//    {
+//      System.out.print("\nDone! (or no flights)");
 //    }
-//  }
+//    else
+//    {
+//      head.print();
+//      this.head = head.getNext();
+//      printAll();
+//    }
+    //for (Object plane : this.flights)
+    for (Flight plane : this.flights) {
+      String flight_line = plane.toString();
+      System.out.println("Airline: " + airline_name + ", Flight Information: " + flight_line);
+    }
+  }
 
   /**
    * Returns {@code this.flights} of the <code>Airline</code>, as ({@code Collection<Flight>}).

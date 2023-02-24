@@ -16,16 +16,18 @@ import java.util.Calendar;
  * destination (time and date), and arrive(-e+al time and date). Extends AbstractFlight.
  *
  */
-public class Flight extends AbstractFlight implements Comparable<Flight> {
+public class Flight extends AbstractFlight {// implements Comparable<Flight> {
   protected static DateFormat date_formatter = DateFormat.getDateTimeInstance(3, 3, Locale.US);
   protected static final String date_formatting = "MM/dd/yyyy h:mm a";
   protected static SimpleDateFormat date_format = new SimpleDateFormat(date_formatting, Locale.US);
   private Flight next = null;
   protected String flightNumber = "123";
   private String src = null;
-  private Date depart = null;
+  //private Date depart = null;
+  private String depart = null;
   private String dest = null;
-  private Date arrive = null;
+  //private Date arrive = null;
+  private String arrive = null;
 
   /**
    * A <code>Flight</code> constructor based on five (5) strings passed into it!
@@ -35,76 +37,93 @@ public class Flight extends AbstractFlight implements Comparable<Flight> {
    * @param dest The destination 3-letter code of the flight.
    * @param arrive The arrival time-and-date of the flight.
    */
-  public Flight(String flightNumber, String src, String depart, String dest, String arrive) throws ParseException
+  public Flight(String flightNumber, String src, String depart, String dest, String arrive)
   {
-
     this.flightNumber = flightNumber;
     this.src = src;
-    //this.depart = depart;
-    try
-    {
-      this.depart = date_format.parse(depart);
-    }
-    catch (ParseException e1)
-    {
-      //System.err.println("[Flight Construction, Type #1] Error when attempting to format the departure time & date combo-argument: " + depart);
-      //return;
-      throw new ParseException("[Flight Constructor, Type #1a] Error when attempting to format the departure time & date combo-argument.", e1.getErrorOffset());
-
-    }
-
+    this.depart = depart;
     this.dest = dest;
-    //this.arrive = arrive;
-    //Date temp = date_format.parse(dest);
-
-    try
-    {
-      this.arrive = date_format.parse(arrive);
-    }
-    catch (ParseException e2)
-    {
-      //System.err.println("[Flight Construction, Type #1] Error when attempting to formatting the arrival time & date combo-argument: " + arrive);
-      //return;
-      throw new ParseException("[Flight Constructor, Type #1b] Error when attempting to format the arrival time & date combo-argument.", e2.getErrorOffset());
-    }
+    this.arrive = arrive;
   }
+
+//  /** {@see Project4 Version}
+//   * A <code>Flight</code> constructor based on five (5) strings passed into it!
+//   * @param flightNumber The flight number of the flight.
+//   * @param src The source 3-letter code of the flight.
+//   * @param depart The departure time-and-date of the flight.
+//   * @param dest The destination 3-letter code of the flight.
+//   * @param arrive The arrival time-and-date of the flight.
+//   */
+//  public Flight(String flightNumber, String src, String depart, String dest, String arrive) throws ParseException
+//  {
+//
+//    this.flightNumber = flightNumber;
+//    this.src = src;
+//    //this.depart = depart;
+//    try
+//    {
+//      this.depart = date_format.parse(depart);
+//    }
+//    catch (ParseException e1)
+//    {
+//      //System.err.println("[Flight Construction, Type #1] Error when attempting to format the departure time & date combo-argument: " + depart);
+//      //return;
+//      throw new ParseException("[Flight Constructor, Type #1a] Error when attempting to format the departure time & date combo-argument.", e1.getErrorOffset());
+//
+//    }
+//
+//    this.dest = dest;
+//    //this.arrive = arrive;
+//    //Date temp = date_format.parse(dest);
+//
+//    try
+//    {
+//      this.arrive = date_format.parse(arrive);
+//    }
+//    catch (ParseException e2)
+//    {
+//      //System.err.println("[Flight Construction, Type #1] Error when attempting to formatting the arrival time & date combo-argument: " + arrive);
+//      //return;
+//      throw new ParseException("[Flight Constructor, Type #1b] Error when attempting to format the arrival time & date combo-argument.", e2.getErrorOffset());
+//    }
+//  }
 
   /*
    * A <code>Flight</code> constructor based on a {@code String[]}, an array of command-line string-parameters!
    * @param args A {@code String[]} based on command-line args[]!
    */
-  public Flight(String[] args) throws ParseException
-  {
-    if (args.length == 5)
-    {
-      this.flightNumber = args[0];
-      this.src = args[1];
-//      this.depart = args[2];
-      try
-      {
-        this.depart = date_format.parse(args[2]);
-      }
-      catch (ParseException e3)
-      {
-        //System.err.println("[Flight Construction, Type #2a] Error when attempting to formatting the departure time & date combo-argument: " + args[2]);
-        //return;
-        throw new ParseException("[Flight Construction, Type #2a] Error when attempting to formatting the departure time & date combo-argument: ", e3.getErrorOffset());
-      }
-      this.dest = args[3];
-//      this.arrive = args[4];
-      try
-      {
-        this.arrive = date_format.parse(args[4]);
-      }
-      catch (ParseException e4)
-      {
-        //System.err.println("[Flight Construction, Type #b] Error when attempting to formatting the arrival time & date combo-argument: " + args[4]);
-        //return;
-        throw new ParseException("[Flight Construction, Type #2b] Error when attempting to formatting the arrival time & date combo-argument: ", e4.getErrorOffset());
-
-      }
-    }
-  }
+//  public Flight(String[] args) throws ParseException
+//  {
+//    if (args.length == 5)
+//    {
+//      this.flightNumber = args[0];
+//      this.src = args[1];
+////      this.depart = args[2];
+//      try
+//      {
+//        this.depart = date_format.parse(args[2]);
+//      }
+//      catch (ParseException e3)
+//      {
+//        //System.err.println("[Flight Construction, Type #2a] Error when attempting to formatting the departure time & date combo-argument: " + args[2]);
+//        //return;
+//        throw new ParseException("[Flight Construction, Type #2a] Error when attempting to formatting the departure time & date combo-argument: ", e3.getErrorOffset());
+//      }
+//      this.dest = args[3];
+////      this.arrive = args[4];
+//      try
+//      {
+//        this.arrive = date_format.parse(args[4]);
+//      }
+//      catch (ParseException e4)
+//      {
+//        //System.err.println("[Flight Construction, Type #b] Error when attempting to formatting the arrival time & date combo-argument: " + args[4]);
+//        //return;
+//        throw new ParseException("[Flight Construction, Type #2b] Error when attempting to formatting the arrival time & date combo-argument: ", e4.getErrorOffset());
+//
+//      }
+//    }
+//  }
 
   /**
    * A <code>Flight</code> constructor that is created as a clone of another!
@@ -140,61 +159,61 @@ public class Flight extends AbstractFlight implements Comparable<Flight> {
    *      0 Case III., if both objects are equal.</p>
    * @throws NullPointerException If the runway (second flight) is empty, throws the null pointer exception.
    */
-  @Override
-  public int compareTo(Flight runway) throws NullPointerException
-  {
-    //int result = 404;
-
-    // NullPointerException guard!
-    Objects.requireNonNull(runway);
-
-    //String secondSrc = runway.getSource();
-
-    // Sort Test #1: Based on alphabetical source airport-codes (case-insensitive)!
-    // Where, if firstTest is 0 = equal, if firstTest < 0 = first (originate) Flight is first, if firstTest > 0 = second flight is first;
-    int firstTest = this.src.toLowerCase().compareTo(runway.getSource().toLowerCase());//IgnoreCase(runway.getSource());//secondSrc);
-
-    if (firstTest < 0)
-    {
-      //result = -1;
-      return -1;
-    }
-
-    else if (firstTest > 0)
-    {
-      //result = 1;
-      return 1;
-    }
-
-    //if (firstTest == 0)
-    else
-    {
-
-      // Sort Test #2: Based on chronological take-off timestamps!
-      //Date secondDate = runway.getDepartureDate();
-
-      int secondTest = this.depart.compareTo(runway.getDepartureDate());//secondDate);
-
-      if (secondTest < 0)
-      {
-        //result = -1;
-        return -1;
-      }
-
-      else if (secondTest > 0)
-      {
-        //result = 1;
-        return 1;
-      }
-
-      //if (secondTest == 0)
-      else
-      {
-        //result = 0;
-        return 0;
-      }
-
-    }
+//  @Override
+//  public int compareTo(Flight runway) throws NullPointerException
+//  {
+//    //int result = 404;
+//
+//    // NullPointerException guard!
+//    Objects.requireNonNull(runway);
+//
+//    //String secondSrc = runway.getSource();
+//
+//    // Sort Test #1: Based on alphabetical source airport-codes (case-insensitive)!
+//    // Where, if firstTest is 0 = equal, if firstTest < 0 = first (originate) Flight is first, if firstTest > 0 = second flight is first;
+//    int firstTest = this.src.toLowerCase().compareTo(runway.getSource().toLowerCase());//IgnoreCase(runway.getSource());//secondSrc);
+//
+//    if (firstTest < 0)
+//    {
+//      //result = -1;
+//      return -1;
+//    }
+//
+//    else if (firstTest > 0)
+//    {
+//      //result = 1;
+//      return 1;
+//    }
+//
+//    //if (firstTest == 0)
+//    else
+//    {
+//
+//      // Sort Test #2: Based on chronological take-off timestamps!
+//      //Date secondDate = runway.getDepartureDate();
+//
+//      int secondTest = this.depart.compareTo(runway.getDepartureDate());//secondDate);
+//
+//      if (secondTest < 0)
+//      {
+//        //result = -1;
+//        return -1;
+//      }
+//
+//      else if (secondTest > 0)
+//      {
+//        //result = 1;
+//        return 1;
+//      }
+//
+//      //if (secondTest == 0)
+//      else
+//      {
+//        //result = 0;
+//        return 0;
+//      }
+//
+//    }
 
 //    if (result == 404)
 //    {
@@ -203,7 +222,7 @@ public class Flight extends AbstractFlight implements Comparable<Flight> {
 //    }
 
     //return result;
-  }
+//  }
 
   /**
    * Prints the information of the flight.
@@ -269,17 +288,17 @@ public class Flight extends AbstractFlight implements Comparable<Flight> {
    * Returns current flight's departure time-and-date timestamp or "N/A" if blank!
    * @return dest The date of the departure timestamp!
    */
-  public Date getDepartureDate() {
-    if (this.depart == null || this.depart.toString().equals("N/A"))
-    {
-      return null;
-    }
-    else
-    {
-      return this.depart;
-    }
-    //throw new UnsupportedOperationException("This method is not implemented yet");
-  }
+//  public Date getDepartureDate() {
+//    if (this.depart == null || this.depart.toString().equals("N/A"))
+//    {
+//      return null;
+//    }
+//    else
+//    {
+//      return this.depart;
+//    }
+//    //throw new UnsupportedOperationException("This method is not implemented yet");
+//  }
 
   /**
    * Returns current flight's departure time-and-date timestamp or "N/A" if blank!
@@ -294,8 +313,9 @@ public class Flight extends AbstractFlight implements Comparable<Flight> {
 //    else
 //    {
     // Format as java.text.DateFormat.SHORT;
-    String takeoff_string = date_formatter.format(this.depart);
-    return takeoff_string;
+    //String takeoff_string = date_formatter.format(this.depart);
+    //return takeoff_string;
+    return this.depart;
     //}
     //throw new UnsupportedOperationException("This method is not implemented yet");
   }
@@ -326,21 +346,21 @@ public class Flight extends AbstractFlight implements Comparable<Flight> {
    * </p>
    * @return dest The time & date (as a <code>Calendar</code> object) of the departure timestamp!
    */
-  public Calendar getDepartureXml() {
-//    if (this.depart == null || this.depart.toString().equals("N/A"))
-//    {
-//      return null;
-//    }
-//    else
-//    {
-    // Format as java.text.DateFormat.SHORT;
-   // String takeoff_string = date_formatter.format(this.depart);
-    Calendar takeoff_calendar = Calendar.getInstance();
-    takeoff_calendar.setTime(this.depart);
-    return takeoff_calendar;
-    //}
-    //throw new UnsupportedOperationException("This method is not implemented yet");
-  }
+//  public Calendar getDepartureXml() {
+////    if (this.depart == null || this.depart.toString().equals("N/A"))
+////    {
+////      return null;
+////    }
+////    else
+////    {
+//    // Format as java.text.DateFormat.SHORT;
+//   // String takeoff_string = date_formatter.format(this.depart);
+//    Calendar takeoff_calendar = Calendar.getInstance();
+//    takeoff_calendar.setTime(this.depart);
+//    return takeoff_calendar;
+//    //}
+//    //throw new UnsupportedOperationException("This method is not implemented yet");
+//  }
 
   /**
    * Returns current flight's destination three-letter airport code or "N/A" if blank!
@@ -363,19 +383,19 @@ public class Flight extends AbstractFlight implements Comparable<Flight> {
    * Returns current flight's arrival string (three-letter code) or "N/A" if blank!
    * @return arrive A string version of the arrival date-timestamp!
    */
-  public Date getArrivalDate() {
-
-    if (this.arrive == null || this.arrive.toString().equals("N/A"))
-    {
-      return null;
-    }
-    else
-    {
-      return this.arrive;
-    }
-
-    //throw new UnsupportedOperationException("This method is not implemented yet");
-  }
+//  public Date getArrivalDate() {
+//
+//    if (this.arrive == null || this.arrive.toString().equals("N/A"))
+//    {
+//      return null;
+//    }
+//    else
+//    {
+//      return this.arrive;
+//    }
+//
+//    //throw new UnsupportedOperationException("This method is not implemented yet");
+//  }
 
   /**
    * Returns current flight's arrival string (three-letter code) or "N/A" if blank!
@@ -393,8 +413,9 @@ public class Flight extends AbstractFlight implements Comparable<Flight> {
     //return this.arrive.toString();
 
     // Format as java.text.DateFormat.SHORT;
-    String arrival_string = date_formatter.format(this.arrive);
-    return arrival_string;
+    //String arrival_string = date_formatter.format(this.arrive);
+    //return arrival_string;
+    return this.arrive;
     //}
 
     //throw new UnsupportedOperationException("This method is not implemented yet");
@@ -426,39 +447,39 @@ public class Flight extends AbstractFlight implements Comparable<Flight> {
    * </p>
    * @return arrive The time & date (as a <code>Calendar</code> object) of the arrival timestamp!
    */
-  public Calendar getArrivalXml() {
-
-//    if (this.arrive == null || this.arrive.toString().equals("N/A"))
-//    {
-//      return null;
-//    }
-//    else
-//    {
-      //return this.arrive;
-        Calendar arrival_calendar = Calendar.getInstance();
-        arrival_calendar.setTime(this.arrive);
-        return arrival_calendar;
-   // }
-
-    //throw new UnsupportedOperationException("This method is not implemented yet");
-  }
+//  public Calendar getArrivalXml() {
+//
+////    if (this.arrive == null || this.arrive.toString().equals("N/A"))
+////    {
+////      return null;
+////    }
+////    else
+////    {
+//      //return this.arrive;
+//        Calendar arrival_calendar = Calendar.getInstance();
+//        arrival_calendar.setTime(this.arrive);
+//        return arrival_calendar;
+//   // }
+//
+//    //throw new UnsupportedOperationException("This method is not implemented yet");
+//  }
 
   /**
    * A simple function that calculates flight minutes by dividing the difference between departure and arrival timestamps, dividing that difference by 1000, then that result as a whole by 60, to calculate the minutes from the milliseconds!
    * @return The flight time in minutes!
    * -1337 is returned if the flight_minutes where calculated to be negative, so as to indicate a calculation mismatch (since properly calculated flight time minutes should be greater than 0!)
    */
-  public long getFlightTime()
-  {
-
-    long flight_minutes = (((this.arrive.getTime() - this.depart.getTime()) / (1000)) / 60);
-    if (flight_minutes < 0)
-    {
-      System.err.println("Is this Back To The Future, but with flying? Because it looks like the total flight time is somehow negative: " + flight_minutes);
-      //flight_minutes = -1337;
-    }
-
-    return flight_minutes;
-  }
+//  public long getFlightTime()
+//  {
+//
+//    long flight_minutes = (((this.arrive.getTime() - this.depart.getTime()) / (1000)) / 60);
+//    if (flight_minutes < 0)
+//    {
+//      System.err.println("Is this Back To The Future, but with flying? Because it looks like the total flight time is somehow negative: " + flight_minutes);
+//      //flight_minutes = -1337;
+//    }
+//
+//    return flight_minutes;
+//  }
 
 }
