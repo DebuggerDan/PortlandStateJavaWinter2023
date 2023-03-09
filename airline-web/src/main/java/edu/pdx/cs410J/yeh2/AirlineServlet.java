@@ -127,6 +127,7 @@ public class AirlineServlet extends HttpServlet {
         }
 
         //this.dictionary.put(word, definition);
+        PrintWriter pw = response.getWriter();
         Airline lufthansa = this.dictionary.get(airline);
 
         if (lufthansa == null)
@@ -135,7 +136,6 @@ public class AirlineServlet extends HttpServlet {
             pw.println("New airline has been created with the following name: '" + airline + ".'");
         }
 
-        PrintWriter pw = response.getWriter();
         pw.println(Messages.definedWordAs(word, airline));
         pw.flush();
 
@@ -235,7 +235,7 @@ public class AirlineServlet extends HttpServlet {
     }
 
     @VisibleForTesting
-    String getDefinition(String word) {
-        return this.dictionary.get(word);
+    Airline getDefinition(String lufthansa) {
+        return this.dictionary.get(lufthansa);
     }
 }
