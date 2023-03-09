@@ -15,12 +15,31 @@ import java.util.Map;
  * <code>Airline</code>.  However, in its current state, it is an example
  * of how to use HTTP and Java servlets to store simple dictionary of words
  * and their definitions.
+ * Details:
+ *  – <code>http://host:port/airline/flights?airline=name</code>
+ *      * GET returns all flights in the airline formatted using the XmlDumper
+ *      * POST creates a new flight from the HTTP request parameters airline, flightNumber,
+ *      src, depart, dest, and arrive. If the airline does not exist, a new one should be
+ *      created.
+ *  – <code>http://host:port/airline/flights?airline=name&src=airport&dest=airport</code>
+ *      * GET returns all of given airline’s flights (in the format used by XmlDumper) that originate
+ *      at the src airport and terminate at the dest airport.
+ *  – Note that, unlike previous assignments, the web application must support multiple airlines.
+ *
  */
 public class AirlineServlet extends HttpServlet {
   static final String WORD_PARAMETER = "word";
   static final String DEFINITION_PARAMETER = "definition";
 
-  private final Map<String, String> dictionary = new HashMap<>();
+  static final String AIRLINE_PARAMETER = "airline";
+  static final String FLIGHTNUMBER_PARAMETER = "flightNumber";
+  static final String SRC_PARAMETER = "src";
+  static final String DEPART_PARAMETER = "depart";
+  static final String DEST_PARAMETER = "dest";
+  static final String ARRIVE_PARAMETER = "arrive";
+
+  //private final Map<String, String> dictionary = new HashMap<>();
+  private final Map<String, Airline> dictionary = new HashMap<>();
 
   /**
    * Handles an HTTP GET request from a client by writing the definition of the
