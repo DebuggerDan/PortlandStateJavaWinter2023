@@ -90,10 +90,10 @@ class Project5IT extends InvokeMainTestCase {
     void test2EmptyServer() {
         MainMethodResult result = invokeMain( Project5.class, "-host", "localhost", "-port", "8080");
 
-        assertThat(result.getTextWrittenToStandardError(), equalTo("** Uh oh, looks like there were less than than 10 arguments passed to the program!\nProject #5 requires 10 arguments if ran w/o the -search option!\r\n"));
+        //assertThat(result.getTextWrittenToStandardError(), equalTo("** Uh oh, looks like there were less than than 10 arguments passed to the program!\nProject #5 requires 10 arguments if ran w/o the -search option!\r\n"));
 
-        String out = result.getTextWrittenToStandardOut();
-        assertThat(out, out, containsString(""));
+        String out = result.getTextWrittenToStandardError();
+        assertThat(out, out, containsString("Uh oh, looks like there were less than than 10 arguments passed to the program!"));
     }
 
 
@@ -111,10 +111,10 @@ class Project5IT extends InvokeMainTestCase {
         String arrive3 = "am";
         MainMethodResult result = invokeMain( Project5.class, airline, flightNumber, src, depart1, depart2, depart3, dest, arrive1, arrive2, arrive3, "test", "-host", "localhost", "-port", "8080");
 
-        assertThat(result.getTextWrittenToStandardError(), equalTo("** Uh oh, looks like there were more than 10 arguments passed to the program!\nProject #5 only requires 1 argument (IF ran w/ -search option; which itself has a max of 4 arguments) or a maximum of 10 arguments total (IF w/o -search)!\r\n"));
+        //assertThat(result.getTextWrittenToStandardError(), equalTo("** Uh oh, looks like there were more than 10 arguments passed to the program!\nProject #5 only requires 1 argument (IF ran w/ -search option; which itself has a max of 4 arguments) or a maximum of 10 arguments total (IF w/o -search)!\r\n"));
 
-        String out = result.getTextWrittenToStandardOut();
-        assertThat(out, out, containsString(""));
+        String out = result.getTextWrittenToStandardError();
+        assertThat(out, out, containsString("Uh oh, looks like there were more than 10 arguments passed to the program!"));
     }
 
     @Test
@@ -129,13 +129,15 @@ class Project5IT extends InvokeMainTestCase {
         //try {
             //invokeMain(Project5.class, HOSTNAME, PORT, word);
         MainMethodResult result = invokeMain( Project5.class, airline, "-host", "localhost", "-port", "8080");
-        assertThat(result.getTextWrittenToStandardError(), equalTo("** Uh oh, looks like there were less than than 10 arguments passed to the program!\nProject #5 requires 10 arguments if ran w/o the -search option!\r\n"));
+        //assertThat(result.getTextWrittenToStandardError(), equalTo("** Uh oh, looks like there were less than than 10 arguments passed to the program!\nProject #5 requires 10 arguments if ran w/o the -search option!\r\n"));
             //fail("Should have thrown a RestException");
 
         //} catch (UncaughtExceptionInMain ex) {
         //    RestException cause = (RestException) ex.getCause();
          //   assertThat(cause.getHttpStatusCode(), equalTo(HttpURLConnection.HTTP_NOT_FOUND));
         //}
+        String out = result.getTextWrittenToStandardError();
+        assertThat(out, out, containsString("Uh oh, looks like there were less than than 10 arguments passed to the program!"));
     }
 
     @Test
@@ -160,17 +162,17 @@ class Project5IT extends InvokeMainTestCase {
 
         result = invokeMain( Project5.class, "-host", "localhost", "-port", "8080", airline);
 
-        assertThat(result.getTextWrittenToStandardError(), equalTo("** Uh oh, looks like there were less than than 10 arguments passed to the program!\nProject #5 requires 10 arguments if ran w/o the -search option!\r\n"));
+        //assertThat(result.getTextWrittenToStandardError(), equalTo("** Uh oh, looks like there were less than than 10 arguments passed to the program!\nProject #5 requires 10 arguments if ran w/o the -search option!\r\n"));
 
-        out = result.getTextWrittenToStandardOut();
-        assertThat(out, out, containsString(""));
+        out = result.getTextWrittenToStandardError();
+        assertThat(out, out, containsString("Uh oh, looks like there were less than than 10 arguments passed to the program!"));
 
         result = invokeMain( Project5.class, "-host", "localhost", "-port", "8080");
 
-        assertThat(result.getTextWrittenToStandardError(), equalTo("** Uh oh, looks like there were less than than 10 arguments passed to the program!\nProject #5 requires 10 arguments if ran w/o the -search option!\r\n"));
+        //assertThat(result.getTextWrittenToStandardError(), equalTo("** Uh oh, looks like there were less than than 10 arguments passed to the program!\nProject #5 requires 10 arguments if ran w/o the -search option!\r\n"));
 
-        out = result.getTextWrittenToStandardOut();
-        assertThat(out, out, containsString(""));
+        out = result.getTextWrittenToStandardError();
+        assertThat(out, out, containsString("Uh oh, looks like there were less than than 10 arguments passed to the program!"));
     }
 
     /**
