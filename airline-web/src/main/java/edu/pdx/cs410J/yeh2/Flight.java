@@ -110,21 +110,21 @@ public class Flight extends AbstractFlight implements Comparable<Flight> {
    * A <code>Flight</code> constructor that is created as a clone of another!
    * @param copilot The <code>Flight</code> clone source!
    */
-  public Flight(Flight copilot)
-  {
-    if (copilot != null)
-    {
-      this.flightNumber = copilot.flightNumber;
-      this.src = copilot.src;
-      this.depart = copilot.depart;
-      this.dest = copilot.dest;
-      this.arrive = copilot.arrive;
-      if (copilot.next != null)
-      {
-        this.next = copilot.next;
-      }
-    }
-  }
+//  public Flight(Flight copilot)
+//  {
+//    if (copilot != null)
+//    {
+//      this.flightNumber = copilot.flightNumber;
+//      this.src = copilot.src;
+//      this.depart = copilot.depart;
+//      this.dest = copilot.dest;
+//      this.arrive = copilot.arrive;
+//      if (copilot.next != null)
+//      {
+//        this.next = copilot.next;
+//      }
+//    }
+//  }
 
   /**
    * <p>

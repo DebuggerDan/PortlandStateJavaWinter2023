@@ -59,54 +59,54 @@ public class Project5 {
      * @param txtfile A text file name!
      * @param Option A number indicating the type of displaying!
      */
-    public static void displayer(String txtfile, Integer Option)
-    {
-
-        if (Option == 1)
-            /* If <code>Option</code> is 1, then display as a README file/parameter (where three lines are cut to only display
-             * the command-line interface*/
-        {
-            try (InputStream displayme = Project5.class.getResourceAsStream(txtfile)) {
-                InputStreamReader display_me = new InputStreamReader(displayme);
-
-                try (BufferedReader display_buffer = new BufferedReader(display_me)) {
-                    String display_line = display_buffer.readLine();
-                    int idx = 0;
-                    while (display_line != null && idx != 5) // Additional line for Project #4
-                    {
-                        display_line = display_buffer.readLine();
-                        idx++;
-                    }
-
-                    while (display_line != null) {
-                        System.out.println(display_line);
-                        display_line = display_buffer.readLine();
-                    }
-                }
-            } catch (IOException m1) {
-                //System.out.println("Error! README not found!", m1);
-            }
-        }
-        //if (Option == 0)
-        else
-            /* If Option != (n), where n is an valid, specific <code>Option</code> number corresponding to an If-Statement, then display whole file normally. */
-        {
-            try (InputStream displayme = Project5.class.getResourceAsStream(txtfile)) {
-                InputStreamReader display_me = new InputStreamReader(displayme);
-
-                try (BufferedReader display_buffer = new BufferedReader(display_me)) {
-                    String display_line = display_buffer.readLine();
-
-                    while (display_line != null) {
-                        System.out.println(display_line);
-                        display_line = display_buffer.readLine();
-                    }
-                }
-            } catch (IOException m2) {
-                //System.out.println("Error! README not found!", m1);
-            }
-        }
-    }
+//    public static void displayer(String txtfile, Integer Option)
+//    {
+//
+//        if (Option == 1)
+//            /* If <code>Option</code> is 1, then display as a README file/parameter (where three lines are cut to only display
+//             * the command-line interface*/
+//        {
+//            try (InputStream displayme = Project5.class.getResourceAsStream(txtfile)) {
+//                InputStreamReader display_me = new InputStreamReader(displayme);
+//
+//                try (BufferedReader display_buffer = new BufferedReader(display_me)) {
+//                    String display_line = display_buffer.readLine();
+//                    int idx = 0;
+//                    while (display_line != null && idx != 5) // Additional line for Project #4
+//                    {
+//                        display_line = display_buffer.readLine();
+//                        idx++;
+//                    }
+//
+//                    while (display_line != null) {
+//                        System.out.println(display_line);
+//                        display_line = display_buffer.readLine();
+//                    }
+//                }
+//            } catch (IOException m1) {
+//                //System.out.println("Error! README not found!", m1);
+//            }
+//        }
+//        //if (Option == 0)
+//        else
+//            /* If Option != (n), where n is an valid, specific <code>Option</code> number corresponding to an If-Statement, then display whole file normally. */
+//        {
+//            try (InputStream displayme = Project5.class.getResourceAsStream(txtfile)) {
+//                InputStreamReader display_me = new InputStreamReader(displayme);
+//
+//                try (BufferedReader display_buffer = new BufferedReader(display_me)) {
+//                    String display_line = display_buffer.readLine();
+//
+//                    while (display_line != null) {
+//                        System.out.println(display_line);
+//                        display_line = display_buffer.readLine();
+//                    }
+//                }
+//            } catch (IOException m2) {
+//                //System.out.println("Error! README not found!", m1);
+//            }
+//        }
+//    }
 
     /**
      * <p>
