@@ -253,16 +253,14 @@ public class Project5 {
                         search_name = args[(args.length <= idx++) ? (idx-1) : idx];
                         if (search_name.isEmpty())
                         {
-                            System.err.println("Hmm, looks like the -search option was used, but there was no airline name specified!");
+                            searchUsage("Hmm, looks like the -search option was used, but there was no airline name specified!");
                             return;
                         }
                         if (search_name.startsWith("-"))
                         {
-                            System.err.println("Hmm, an invalid airline name was detected for the -search option (valid airlines with matching names must exist in the airline dictionary)!");//\nTreating as empty name, creating default Empty Airline!");
+                            searchUsage("Hmm, an invalid airline name was detected for the -search option (valid airlines with matching names must exist in the airline dictionary)!");//\nTreating as empty name, creating default Empty Airline!");
                             return;
                         }
-                        //xmllist.add(xml_name);
-                        //xmloption = true;
                         break;
 
                     // Project #5.) Option I.) -host
@@ -270,12 +268,12 @@ public class Project5 {
                         hostName = args[(args.length <= idx++) ? (idx-1) : idx];
                         if (hostName.isEmpty())
                         {
-                            System.err.println("Hmm, looks like the -host option was used, but there was no host name specified!");
+                            usage("Hmm, looks like the -host option was used, but there was no host name specified!");
                             return;
                         }
                         if (hostName.startsWith("-"))
                         {
-                            System.err.println("Hmm, an invalid host name was detected for the -host option!");//\nTreating as empty name, creating default Empty Airline!");
+                            usage("Hmm, an invalid host name was detected for the -host option!");//\nTreating as empty name, creating default Empty Airline!");
                             return;
                         }
                         hostport_eitheroption = true;
@@ -286,12 +284,12 @@ public class Project5 {
                         portString = args[(args.length <= idx++) ? (idx-1) : idx];
                         if (portString.isEmpty())
                         {
-                            System.err.println("Hmm, looks like the -port option was used, but there was no port number specified!");
+                            usage("Hmm, looks like the -port option was used, but there was no port number specified!");
                             return;
                         }
                         if (portString.startsWith("-"))
                         {
-                            System.err.println("Hmm, an invalid port number was detected for the -port option!");//\nTreating as empty name, creating default Empty Airline!");
+                            usage("Hmm, an invalid port number was detected for the -port option!");//\nTreating as empty name, creating default Empty Airline!");
                             return;
                         }
                         hostport_eitheroption = true;
@@ -305,16 +303,23 @@ public class Project5 {
 //                        }
 //                        lufthansa.printAll();
                         print_option_num++;
+                        printoption = true;
 
                         break;
 
                     default:
-                        System.err.println("Uh oh, looks like there was a invalid option used: " + action);
+                        usage("Uh oh, looks like there was a invalid option used: " + action);
                 }
             }
             else
             {
                 argnum++;
+
+                // Input Validation [Project #5] 2.) -If there are more than 9 arguments, then error!
+                if (argnum > 9)
+                {
+                    usage("Uh oh, looks like there were more than 9 arguments passed to the program!\nProject #5 only requires 1 argument (w/ -search option; which itself has a max of 4 arguments) or a maximum of 9 arguments total (w/o)!");
+                }
 
                 arglist.add(current_arg);
             }
@@ -374,6 +379,257 @@ public class Project5 {
 //            }
 //        }
 
+        String[] landing = unthneed(arglist);
+        String gate = null;
+        String taxi = null;
+
+        // Only if -search is not specified (if searchoption is false), ergo, where we must check all 9 of the arguments for a given command-line for a new airline with a new flight, etc.
+        if (!searchoption)
+        {
+            /*
+             * Input-Validation #8 {from Project #4}: Verify that flight number is indeed, an actual number.
+             */
+            try
+            {
+                int testNum = Integer.parseInt(landing[1]);
+            }
+            catch (Exception m7)
+            {
+                usage("The flight number seems to be, well, not a integer!");
+                return;
+            }
+
+            /*
+             * Input-Validation #7 {from Project #4}: Check the Departure Date & Time formatting.
+             * Attempts to create the formatted time-and-date for departure time.
+             */
+            try
+            {
+                gate = TStamp.format(timeStamper(landing[3], landing[4], landing[5]));
+                //runway = new Flight(landing);
+            }
+            catch (IllegalArgumentException m4a)
+            {
+                usage("[Main Date Initialization #1a] Error when attempting to format the departure time & date arguments, " + landing[3] + ", " + landing[4] + ", and " + landing[5] + ".");
+                // Graceful Error: Departure Time & Date Argument(s) not formatted correctly!
+                return;
+            }
+
+            /*
+             * Input-Validation #2 {from Project #4}: Check the Arrival Date & Time formatting.
+             * Attempts to create the formatted time-and-date for arrival time.
+             */
+            try
+            {
+                taxi = TStamp.format(timeStamper(landing[7], landing[8], landing[9]));
+            }
+            catch (IllegalArgumentException m5a)
+            {
+                usage("[Main Date Initialization #1b] Error when attempting to format the arrival time & date arguments, " + landing[7] + ", " + landing[8] + ", and " + landing[9] + ".");
+                // Graceful Error: Arrival Time & Date Argument(s) not formatted correctly!
+                return;
+            }
+
+            /*
+             * Input-Validation #3 {from Project #4}: Checking both src & dest airport codes is not 3-digits in characters.
+             * landing[2] should equal src & landing[6] should equal dest.
+             */
+
+            if (landing[2].length() != 3)
+            {
+                if (landing[2].length() < 3)
+                {
+                    usage("Uh oh, looks like the source airport code is too short, it should be 3-digits of letters: " + landing[2]);
+                }
+                else
+                {
+                    usage("Uh oh, looks like the source airport code is too long, it should be 3-digits of letters: " + landing[2]);
+                }
+                // Graceful Exit: If the source airport code is not 3-digits.
+                return;
+            }
+            if (landing[6].length() != 3)
+            {
+                if (landing[6].length() < 3)
+                {
+                    usage("Uh oh, looks like the destination airport code is too short, it should be 3-digits of letters: " + landing[6]);
+                }
+                else
+                {
+                    usage("Uh oh, looks like the destination airport code is too long, it should be 3-digits of letters: " + landing[6]);
+                }
+                // Graceful Exit: If the destination airport code is not 3-digits.
+                return;
+            }
+
+            // Input-Validation #2b & #2c {from Project #4}: Check if both src & dest airport codes include numbers, if so, then error!.
+            char[] srcCodeTest = landing[2].toCharArray();
+            char[] destCodeTest = landing[6].toCharArray();
+
+            for (char src : srcCodeTest)
+            {
+                if (Character.isDigit(src))
+                {
+                    usage("Uh oh, looks like the source airport code has numbers(s), it should be 3-digits of letters only: " + landing[2]);
+
+                    // Graceful Exit: If the source airport code has numbers.
+                    return;
+                }
+            }
+
+            for (char dest : destCodeTest)
+            {
+                if (Character.isDigit(dest))
+                {
+                    usage("Uh oh, looks like the destination airport code has numbers(s), it should be 3-digits of letters only: " + landing[6]);
+
+                    // Graceful Exit: If the destination airport code has numbers.
+                    return;
+                }
+            }
+
+            // Input-Validation #6 {from Project #4}: Check the AirportNames database if the airport codes actually exist!
+            if (AirportNames.getName(landing[2]) == null)
+            {
+                usage("Uh oh, looks like the source airport code, '" + landing[2] + "', was not found in our airport-names database!");
+                // Graceful Exit: If the source airport code was not found in AirportNames!
+                return;
+            }
+            if (AirportNames.getName(landing[6]) == null)
+            {
+                usage("Uh oh, looks like the destination airport code, '" + landing[6] + "', was not found in our airport-names database!");
+                // Graceful Exit: If the destination airport code was not found in AirportNames!
+                return;
+            }
+
+            // Input-Validation #9 {from Project #4}: Try initializing the new flight as-is with the given command-line arguments.
+            try
+            {
+                runway = new Flight(landing[1], landing[2], gate, landing[6], taxi);
+            }
+            catch (ParseException m8)
+            {
+                usage("Error when creating new temporary flight, specifically, when parsing invalid timestamps!");
+                return;
+            }
+            // Input-Validation #5: If flight arrival is before the departure time:
+            if (runway.getFlightTime() < 0)
+            {
+                // Graceful Exit: If negative flightTime (in minutes)
+                return;
+            }
+        }
+
+        // Input Validation [Project #5] 3.) - For processing -search option & specific functionalities/methodologies:
+        // If -search is specified (if searchoption is true):
+        // Firstly, ensure that there is [at least] an airline parameter specified
+        // Secondly, for specific-handling of possible two (2) optional arguments, src & dest,
+        // ...Thirdly, ensure those three (3) arguments are valid/within -search specific range of arguments.
+        else if (searchoption)
+        {
+            // Input Validation [Project #5] 3.1.) - Whilst -search option is specified...
+            // If airline name parameter is empty, then -search specific usage-error!
+            if (landing[0] == null)
+            {
+                usage("Uh oh, looks like you forgot to specify an airline name - you must at least specify the airline parameter when using the -search option (w/ source & destination airport code(s) as optional parameters)!");
+                // Graceful Exit: If no airline name was specified.
+                return;
+            }
+
+            // Input Validation [Project #5] 3.2.) - Whilst -search option is specified...
+            // If there are more than 3 arguments specified, then -search specific usage-error!
+            if (landing.length < 4)
+            {
+                searchUsage("Uh oh, there were more than 3 arguments specified, but the maximum number of arguments with the -search option is 3 (airline name (+ two [2] optional src & dest airport code parameters!)");
+                // Graceful Exit [Project #5]: If there were more than 3 arguments specified, whilst using the -search option.
+                return;
+            }
+
+            // Input Validation [Project #5] 3.3.) - Whilst -search option is specified...
+            // If there are less than 3 arguments specified & it is not just one argument, then -search specific usage-error!
+            else if (landing.length > 3 && landing.length != 1)
+            {
+                searchUsage("Uh oh, looks like there may be a airport code missing, as there was at least one argument specified.\nHowever, that also means there must be 3 arguments...\n...which would represent the airline name you wanted to search, the source airport code, & the destination airport code for a total of three (3) arguments (whilst using -search)!");
+                // Graceful Exit [Project #5]: If there were less than 3 arguments specified (but not exactly 1 argument - which would possibly be correct, if it is the airline name), whilst using the -search option.
+                return;
+            }
+
+            // Input Validation [Project #5 <- Project #4] 3.4.) - Validation of Airport Codes
+            /*
+             * Input-Validation #3 {from Project #4}: Checking both src & dest airport codes is not 3-digits in characters.
+             * landing[1] should equal src & landing[2] should equal dest.
+             */
+
+            if (landing[1].length() != 3)
+            {
+                if (landing[1].length() < 3)
+                {
+                    searchUsage("Uh oh, looks like the source airport code is too short, it should be 3-digits of letters: " + landing[2]);
+                }
+                else
+                {
+                    searchUsage("Uh oh, looks like the source airport code is too long, it should be 3-digits of letters: " + landing[2]);
+                }
+                // Graceful Exit: If the source airport code is not 3-digits.
+                return;
+            }
+            if (landing[2].length() != 3)
+            {
+                if (landing[2].length() < 3)
+                {
+                    searchUsage("Uh oh, looks like the destination airport code is too short, it should be 3-digits of letters: " + landing[6]);
+                }
+                else
+                {
+                    searchUsage("Uh oh, looks like the destination airport code is too long, it should be 3-digits of letters: " + landing[6]);
+                }
+                // Graceful Exit: If the destination airport code is not 3-digits.
+                return;
+            }
+
+            // Input-Validation #2b & #2c {from Project #4}: Check if both src & dest airport codes include numbers, if so, then error!.
+            // Project #5 Retrograde Reintegration Note: Ensure landing[1] = src & landing[2] = dest, since -search modifies total arguments to either one (1) or (3)!
+            char[] srcCodeTest = landing[1].toCharArray();
+            char[] destCodeTest = landing[2].toCharArray();
+
+            for (char src : srcCodeTest)
+            {
+                if (Character.isDigit(src))
+                {
+                    searchUsage("Uh oh, looks like the source airport code has numbers(s), it should be 3-digits of letters only: " + landing[2]);
+
+                    // Graceful Exit: If the source airport code has numbers.
+                    return;
+                }
+            }
+
+            for (char dest : destCodeTest)
+            {
+                if (Character.isDigit(dest))
+                {
+                    searchUsage("Uh oh, looks like the destination airport code has numbers(s), it should be 3-digits of letters only: " + landing[6]);
+
+                    // Graceful Exit: If the destination airport code has numbers.
+                    return;
+                }
+            }
+
+            // Input-Validation #6 {from Project #4}: Check the AirportNames database if the airport codes actually exist!
+            if (AirportNames.getName(landing[1]) == null)
+            {
+                searchUsage("Uh oh, looks like the source airport code, '" + landing[2] + "', was not found in our airport-names database!");
+                // Graceful Exit: If the source airport code was not found in AirportNames!
+                return;
+            }
+            if (AirportNames.getName(landing[2]) == null)
+            {
+                searchUsage("Uh oh, looks like the destination airport code, '" + landing[6] + "', was not found in our airport-names database!");
+                // Graceful Exit: If the destination airport code was not found in AirportNames!
+                return;
+            }
+        }
+
+
         AirlineRestClient client = new AirlineRestClient(hostName, port);
 
         String message;
@@ -420,19 +676,51 @@ public class Project5 {
         err.println("** " + message);
         err.println();
         err.println("usage: java -jar Project5 [options] <args>\n" +
-                "args are (in this order):\n" +
-                "airline The name of the airline\n" +
-                "flightNumber The flight number\n" +
-                "src Three-letter code of departure airport\n" +
-                "depart Departure date/time\n" +
-                "dest Three-letter code of arrival airport\n" +
-                "arrive Arrival date/time\n" +
-                "options are (options may appear in any order):");
-        err.println("-host hostname Host computer on which the server runs\n" +
-                "-port port Port on which the server is listening\n" +
-                "-search Search for flights\n" +
-                "-print Prints a description of the new flight\n" +
-                "-README Prints a README for this project and exits");
+                "       args are (in this order):\n" +
+                "           airline The name of the airline\n" +
+                "           flightNumber The flight number\n" +
+                "           src Three-letter code of departure airport\n" +
+                "           depart Departure date/time\n" +
+                "           dest Three-letter code of arrival airport\n" +
+                "           arrive Arrival date/time\n" +
+                "       options are (options may appear in any order):");
+        err.println("           -host hostname Host computer on which the server runs\n" +
+                "           -port port Port on which the server is listening\n" +
+                "           -search Search for flights\n" +
+                "           -print Prints a description of the new flight\n" +
+                "           -README Prints a README for this project and exits");
         err.println();
     }
+
+    /**
+     * Specific-version of usage() for the -search option, prints usage information for this program and exits
+     * @param message An error message to print
+     */
+    private static void searchUsage( String message )
+    {
+        PrintStream err = System.err;
+        err.println("** " + message);
+        err.println();
+        err.println("\n<!>");
+        err.println("The following usage information is specifically tailored for using the -search option.<!>");
+        err.println("To see the general usage information, please run the program without any command-line arguments or options!");
+        err.println("<!>\n");
+//        err.println("\n");
+        err.println("usage: java -jar Project5 [options] <args>\n" +
+                "       args are (in this order):\n" +
+                "           airline The name of the airline\n" +
+                "           flightNumber The flight number\n" +
+                "           src Three-letter code of departure airport\n" +
+                "           depart Departure date/time\n" +
+                "           dest Three-letter code of arrival airport\n" +
+                "           arrive Arrival date/time\n" +
+                "       options are (options may appear in any order):");
+        err.println("           -host hostname Host computer on which the server runs\n" +
+                "           -port port Port on which the server is listening\n" +
+                "           -search Search for flights\n" +
+                "           -print Prints a description of the new flight\n" +
+                "           -README Prints a README for this project and exits");
+        err.println();
+    }
+
 }
