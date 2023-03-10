@@ -28,6 +28,7 @@ import java.util.Map;
 
 /**
  * CS410P [Adv. Java Programming] - Project #5
+ * Named: "AftFlight" (reference hint: an antonym of aft being 'Fore')
  * The main class for Project #5 that parses the command line and communicates with the
  * Airline server using REST.
  * usage: java -jar target/airline-client.jar [options] <args>
@@ -642,15 +643,30 @@ public class Project5 {
 
         String message;
         try {
-            if (word == null) {
-                // Print all word/definition pairs
+            // Project #5 Main Functionality-Pathway I.) The below if-statements infers that, if met, after all the input validation check stuff above for Project #5...
+            // ...an argnum of 1 or 3 infers a valid -search option with either one (1) argument for the airline name or three (3) arguments, for the airline name + two (2) src & dest airport-code args.
+            if (argnum == 1)
+            {
+                // Search for specific airline, then pretty print all word/definition pairs
+                // (aka, pretty print all flights within matching airline-name airline -> its corresponding flight-entries)
                 Map<String, String> dictionary = client.getAllDictionaryEntries();
                 StringWriter sw = new StringWriter();
                 PrettyPrinter pretty = new PrettyPrinter(sw);
                 pretty.dump(dictionary);
                 message = sw.toString();
 
-            } else if (definition == null) {
+            }
+            else if (argnum == 3)
+            {
+                // Search for specific airline, then sub-search for matching src & dest airport codes, then pretty print all flights that match!
+                Map<String, String> dictionary = client.getAllDictionaryEntries();
+                StringWriter sw = new StringWriter();
+                PrettyPrinter pretty = new PrettyPrinter(sw);
+                pretty.dump(dictionary);
+                message = sw.toString();
+            }
+
+            else if (definition == null) {
                 // Print all dictionary entries
                 message = PrettyPrinter.formatDictionaryEntry(word, client.getDefinition(word));
 
@@ -661,7 +677,7 @@ public class Project5 {
             }
 
         } catch (IOException | ParserException ex ) {
-            error("While contacting server: " + ex.getMessage());
+            error("While contacting AftFlight instance, '" + hostName + ":" + port + ex.getMessage());
             return;
         }
 
