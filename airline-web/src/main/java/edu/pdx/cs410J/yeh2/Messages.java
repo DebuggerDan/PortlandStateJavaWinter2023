@@ -8,16 +8,16 @@ public class Messages
 {
     public static String missingRequiredParameter( String parameterName )
     {
-        return String.format("The required parameter \"%s\" is missing", parameterName);
+        return String.format("[AftFlight] The required parameter \"%s\" is missing", parameterName);
     }
 
     public static String definedWordAs(String word, String definition )
     {
-        return String.format( "Defined %s as %s", word, definition );
+        return String.format( "[AftFlight] Defined %s as %s", word, definition );
     }
 
-    public static String allDictionaryEntriesDeleted() {
-        return "All dictionary entries have been deleted";
+    public static String allAftFlightEntriesDeleted() {
+        return "[AftFlight] All dictionary entries have been deleted";
     }
 
 }

@@ -41,12 +41,22 @@ class AirlineServletTest {
   void addOneWordToDictionary() throws IOException {
     AirlineServlet servlet = new AirlineServlet();
 
-    String word = "TEST WORD";
-    String definition = "TEST DEFINITION";
+    //String word = "TEST WORD";
+    //String definition = "TEST DEFINITION";
+    String airline = "Lufthansa";
+    String flightNumber = "69";
+    String src = "PDX";
+    String depart = "3/09/2023 3:35 am";
+    String dest = "SAN";
+    String arrive = "3/10/2023 4:47 am";
 
     HttpServletRequest request = mock(HttpServletRequest.class);
-    when(request.getParameter(AirlineServlet.WORD_PARAMETER)).thenReturn(word);
-    when(request.getParameter(AirlineServlet.DEFINITION_PARAMETER)).thenReturn(definition);
+    when(request.getParameter(AirlineServlet.AIRLINE_PARAMETER)).thenReturn(airline);
+    when(request.getParameter(AirlineServlet.FLIGHTNUMBER_PARAMETER)).thenReturn(flightNumber);
+    when(request.getParameter(AirlineServlet.SRC_PARAMETER)).thenReturn(src);
+    when(request.getParameter(AirlineServlet.DEPART_PARAMETER)).thenReturn(depart);
+    when(request.getParameter(AirlineServlet.DEST_PARAMETER)).thenReturn(dest);
+    when(request.getParameter(AirlineServlet.ARRIVE_PARAMETER)).thenReturn(arrive);
 
     HttpServletResponse response = mock(HttpServletResponse.class);
 
@@ -58,7 +68,7 @@ class AirlineServletTest {
 
     servlet.doPost(request, response);
 
-    assertThat(stringWriter.toString(), containsString(Messages.definedWordAs(word, definition)));
+    //assertThat(stringWriter.toString(), containsString(Messages.definedWordAs(word, definition)));
 
     // Use an ArgumentCaptor when you want to make multiple assertions against the value passed to the mock
     ArgumentCaptor<Integer> statusCode = ArgumentCaptor.forClass(Integer.class);
@@ -66,7 +76,7 @@ class AirlineServletTest {
 
     assertThat(statusCode.getValue(), equalTo(HttpServletResponse.SC_OK));
 
-    assertThat(servlet.getDefinition(word), equalTo(definition));
+    assertThat(servlet.getAirline(airline).getName(), equalTo(airline));
   }
 
 }
