@@ -219,26 +219,26 @@ public class PrettyPrinter implements AirlineDumper<Airline> {
             int flightnum = 1;
             //printer.println(airline_name);
 
-            try (InputStream displayme = Project5.class.getResourceAsStream(prettyASCII)) {
-                InputStreamReader display_me = new InputStreamReader(displayme);
-
-                try (BufferedReader display_buffer = new BufferedReader(display_me)) {
-                    String display_line = display_buffer.readLine();
-                    int idx = 0;
-                    while (display_line != null && idx != 2)
-                    {
-                        display_line = display_buffer.readLine();
-                        idx--;
-                    }
-
-                    while (display_line != null) {
-                        printer.println(display_line);
-                        display_line = display_buffer.readLine();
-                    }
-                }
-            } catch (IOException m1) {
-                System.err.println("Error! prettyASCII.txt not found!");
-            }
+//            try (InputStream displayme = Project5.class.getResourceAsStream(prettyASCII)) {
+//                InputStreamReader display_me = new InputStreamReader(displayme);
+//
+//                try (BufferedReader display_buffer = new BufferedReader(display_me)) {
+//                    String display_line = display_buffer.readLine();
+//                    int idx = 0;
+//                    while (display_line != null && idx != 2)
+//                    {
+//                        display_line = display_buffer.readLine();
+//                        idx--;
+//                    }
+//
+//                    while (display_line != null) {
+//                        printer.println(display_line);
+//                        display_line = display_buffer.readLine();
+//                    }
+//                }
+//            } catch (IOException m1) {
+//                System.err.println("Error! prettyASCII.txt not found!");
+//            }
 
             String airport1 = null;
             String airport2 = null;
@@ -352,19 +352,19 @@ public class PrettyPrinter implements AirlineDumper<Airline> {
     }
 
     public void dump(Map<String, String> dictionary) {
-        try (
-                PrintWriter pw = new PrintWriter(this.writer)
-        ) {
-
-            pw.println(formatWordCount(dictionary.size()));
-
-            for (Map.Entry<String, String> entry : dictionary.entrySet()) {
-                String word = entry.getKey();
-                String definition = entry.getValue();
-                pw.println(formatDictionaryEntry(word, definition));
-            }
-
-            pw.flush();
-        }
+//        try (
+//                PrintWriter pw = new PrintWriter(this.writer)
+//        ) {
+//
+//            pw.println(formatWordCount(dictionary.size()));
+//
+//            for (Map.Entry<String, String> entry : dictionary.entrySet()) {
+//                String word = entry.getKey();
+//                String definition = entry.getValue();
+//                pw.println(formatDictionaryEntry(word, definition));
+//            }
+//
+//            pw.flush();
+//        }
     }
 }

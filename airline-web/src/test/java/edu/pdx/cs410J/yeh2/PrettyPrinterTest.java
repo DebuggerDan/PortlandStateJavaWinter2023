@@ -133,17 +133,17 @@ public class PrettyPrinterTest {
 
         //StringWriter sw = new StringWriter();
         PrettyPrinter xerox = new PrettyPrinter();//sw.toString());
-//        try {
-//            xerox.dump(airline);
-//        } catch (IOException e2) {
-//            throw new RuntimeException(e2);
-//        }
+        try {
+            xerox.dump(airline);
+        } catch (IOException e2) {
+            throw new RuntimeException(e2);
+        }
 
         //xerox.dump(airline);
-        //String text = xerox.getPlottedPrint();
+        String text = xerox.getPlottedPrint();
         //String text = reader(filename);//sw.toString();
 
-        //assertThat(text, containsString("Thank you for using the PrettyPrinter!"));
+        assertThat(text, containsString("Thank you for using the PrettyPrinter!"));
 
     }
 
