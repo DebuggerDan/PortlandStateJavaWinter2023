@@ -35,9 +35,9 @@ public class AirlineRestClient
 
     static final String AIRLINE_PARAMETER = "airline";
     static final String FLIGHTNUMBER_PARAMETER = "flightNumber";
-    static final String SRC_PARAMETER = "source";
+    static final String SRC_PARAMETER = "src";
     static final String DEPART_PARAMETER = "depart";
-    static final String DEST_PARAMETER = "destination";
+    static final String DEST_PARAMETER = "dest";
     static final String ARRIVE_PARAMETER = "arrive";
 
     private final HttpRequestHelper http;
@@ -83,7 +83,7 @@ public class AirlineRestClient
    * @throws ParserException If there is a parsing-specific error with the {@code HTTP GET} request parameters!
    */
   public String getFlightEntries(String airline) throws IOException, ParserException {
-    Response response = http.get(Map.of(/*AirlineServlet.*/AIRLINE_PARAMETER, airline));
+    Response response = http.get(Map.of(AIRLINE_PARAMETER, airline));
     throwExceptionIfNotOkayHttpStatus(response);
     return response.getContent();
     //String content = response.getContent();
@@ -101,7 +101,7 @@ public class AirlineRestClient
      * @throws ParserException If there is a parsing-specific error with the {@code HTTP GET} request parameters!
      */
     public String getSpecificFlightEntries(String airline, String src, String dest) throws IOException, ParserException {
-        Response response = http.get(Map.of(/*AirlineServlet.*/AIRLINE_PARAMETER, airline, /*AirlineServlet.*/SRC_PARAMETER, src, /*AirlineServlet.*/DEST_PARAMETER, dest));
+        Response response = http.get(Map.of(AIRLINE_PARAMETER, airline, SRC_PARAMETER, src, DEST_PARAMETER, dest));
         throwExceptionIfNotOkayHttpStatus(response);
         return response.getContent();
 //        String content = response.getContent();
@@ -121,7 +121,7 @@ public class AirlineRestClient
      * @throws IOException If there is an error with the {@code HTTP POST} request parameters!
      */
     public String addFlightEntry(String airline, String flightNumber, String src, String depart, String dest, String arrive) throws IOException {
-    Response response = http.post(Map.of(/*AirlineServlet.*/AIRLINE_PARAMETER, airline, /*AirlineServlet.*/FLIGHTNUMBER_PARAMETER, flightNumber, /*AirlineServlet.*/SRC_PARAMETER, src, /*AirlineServlet.*/DEPART_PARAMETER, depart, /*AirlineServlet.*/DEST_PARAMETER, dest, /*AirlineServlet.*/ARRIVE_PARAMETER, arrive));
+    Response response = http.post(Map.of(AIRLINE_PARAMETER, airline, FLIGHTNUMBER_PARAMETER, flightNumber, SRC_PARAMETER, src, DEPART_PARAMETER, depart, DEST_PARAMETER, dest, ARRIVE_PARAMETER, arrive));
     throwExceptionIfNotOkayHttpStatus(response);
     return response.getContent();
   }

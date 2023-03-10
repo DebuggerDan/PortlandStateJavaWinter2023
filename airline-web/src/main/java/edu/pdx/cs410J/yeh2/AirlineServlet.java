@@ -76,24 +76,23 @@ public class AirlineServlet extends HttpServlet {
             //writeSpecificDefinition(word, response);
         }
         // Input Validation [Project #5] 6.2.) - If only one of either src or dest are blank (but not airline-name), identify which one is null, then use the <code>missingRequiredParameter</code> function!
-        else if (src != null || dest != null)
+        else if (src == null)
         {
             // Input Validation [Project #5] 6.2.1.) - If src is null, then use the <code>missingRequiredParameter</code> function to request the SRC airport-code parameter!
-            if (src == null)
-            {
-                missingRequiredParameter( response, SRC_PARAMETER );
-                return;
-            }
-            // Input Validation [Project #5] 6.2.2.) - If dest is null, then use the <code>missingRequiredParameter</code> function to request the DEST airport-code parameter!
-            else if (dest == null)
-            {
-                missingRequiredParameter( response, DEST_PARAMETER );
-                return;
-            }
-            //writeDefinition(word, response);
+
+            missingRequiredParameter( response, SRC_PARAMETER );
+            return;
         }
+            // Input Validation [Project #5] 6.2.2.) - If dest is null, then use the <code>missingRequiredParameter</code> function to request the DEST airport-code parameter!
+        else if (dest == null)
+        {
+            missingRequiredParameter( response, DEST_PARAMETER );
+                return;
+        }
+            //writeDefinition(word, response);
+
         // Input Validation [Project #5] 6.3.) - If both src and dest are not blank, then infer Valid Case (for -search) II.): GET all flights of matching-name airline that match src & dest airport-codez
-        else if (src != null && dest != null)
+        else// if (src && dest != null)
         {
             /*
              * Input-Validation #3 {from Project #4}: Checking both src & dest airport codes is not 3-digits in characters.

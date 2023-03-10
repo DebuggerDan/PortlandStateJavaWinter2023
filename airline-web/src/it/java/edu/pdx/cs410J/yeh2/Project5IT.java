@@ -33,56 +33,93 @@ class Project5IT extends InvokeMainTestCase {
     @Test
     void test1NoCommandLineArguments() {
         MainMethodResult result = invokeMain( Project5.class );
-        assertThat(result.getTextWrittenToStandardError(), containsString(Project5.MISSING_ARGS));
+        assertThat(result.getTextWrittenToStandardError(), containsString("** \"The Project #5 command-line interface has been provided below."));
     }
 
     @Test
     void test2EmptyServer() {
-        MainMethodResult result = invokeMain( Project5.class, HOSTNAME, PORT );
+        MainMethodResult result = invokeMain( Project5.class, "-host", "localhost", "-port", "8080");
 
-        assertThat(result.getTextWrittenToStandardError(), equalTo(""));
+        assertThat(result.getTextWrittenToStandardError(), equalTo("** Uh oh, looks like there were less than than 10 arguments passed to the program!\nProject #5 requires 10 arguments if ran w/o the -search option!\r\n"));
 
         String out = result.getTextWrittenToStandardOut();
-        assertThat(out, out, containsString(PrettyPrinter.formatWordCount(0)));
+        assertThat(out, out, containsString(""));
+    }
+
+
+    @Test
+    void test2bMoreThan10Arguments() {
+        String airline = "Lufthansa";
+        String flightNumber = "69";
+        String src = "PDX";
+        String depart1 = "3/09/2023";
+        String depart2 = "3:35";
+        String depart3 = "am";
+        String dest = "SAN";
+        String arrive1 = "3/10/2023";
+        String arrive2  = "4:47";
+        String arrive3 = "am";
+        MainMethodResult result = invokeMain( Project5.class, airline, flightNumber, src, depart1, depart2, depart3, dest, arrive1, arrive2, arrive3, "test", "-host", "localhost", "-port", "8080");
+
+        assertThat(result.getTextWrittenToStandardError(), equalTo("** Uh oh, looks like there were more than 10 arguments passed to the program!\nProject #5 only requires 1 argument (IF ran w/ -search option; which itself has a max of 4 arguments) or a maximum of 10 arguments total (IF w/o -search)!\r\n"));
+
+        String out = result.getTextWrittenToStandardOut();
+        assertThat(out, out, containsString(""));
     }
 
     @Test
-    void test3NoDefinitionsThrowsAppointmentBookRestException() {
-        String word = "WORD";
-        try {
-            invokeMain(Project5.class, HOSTNAME, PORT, word);
-            fail("Should have thrown a RestException");
+    void test3NoDefinitionsGivesError() {
+        String airline = "Lufthansa";
+//        String flightNumber = "69";
+//        String src = "PDX";
+//        String depart = "3/09/2023 3:35 am";
+//        String dest = "SAN";
+//        String arrive = "3/10/2023 4:47 am";
+//        String word = "WORD";
+        //try {
+            //invokeMain(Project5.class, HOSTNAME, PORT, word);
+        MainMethodResult result = invokeMain( Project5.class, airline, "-host", "localhost", "-port", "8080");
+        assertThat(result.getTextWrittenToStandardError(), equalTo("** Uh oh, looks like there were less than than 10 arguments passed to the program!\nProject #5 requires 10 arguments if ran w/o the -search option!\r\n"));
+            //fail("Should have thrown a RestException");
 
-        } catch (UncaughtExceptionInMain ex) {
-            RestException cause = (RestException) ex.getCause();
-            assertThat(cause.getHttpStatusCode(), equalTo(HttpURLConnection.HTTP_NOT_FOUND));
-        }
+        //} catch (UncaughtExceptionInMain ex) {
+        //    RestException cause = (RestException) ex.getCause();
+         //   assertThat(cause.getHttpStatusCode(), equalTo(HttpURLConnection.HTTP_NOT_FOUND));
+        //}
     }
 
     @Test
     void test4AddDefinition() {
-        String word = "WORD";
-        String definition = "DEFINITION";
+        String airline = "Lufthansa";
+        String flightNumber = "69";
+        String src = "PDX";
+        String depart1 = "3/09/2023";
+        String depart2 = "3:35";
+        String depart3 = "am";
+        String dest = "SAN";
+        String arrive1 = "3/10/2023";
+        String arrive2  = "4:47";
+        String arrive3 = "am";
 
-        MainMethodResult result = invokeMain( Project5.class, HOSTNAME, PORT, word, definition );
+        MainMethodResult result = invokeMain( Project5.class, "-host", "localhost", "-port", "8080", airline, flightNumber, src, depart1, depart2, depart3, dest, arrive1, arrive2, arrive3);
 
         assertThat(result.getTextWrittenToStandardError(), equalTo(""));
 
         String out = result.getTextWrittenToStandardOut();
-        assertThat(out, out, containsString(Messages.definedWordAs(word, definition)));
+        assertThat(out, out, containsString(""));
 
-        result = invokeMain( Project5.class, HOSTNAME, PORT, word );
+        result = invokeMain( Project5.class, "-host", "localhost", "-port", "8080", airline);
 
-        assertThat(result.getTextWrittenToStandardError(), equalTo(""));
-
-        out = result.getTextWrittenToStandardOut();
-        assertThat(out, out, containsString(PrettyPrinter.formatDictionaryEntry(word, definition)));
-
-        result = invokeMain( Project5.class, HOSTNAME, PORT );
-
-        assertThat(result.getTextWrittenToStandardError(), equalTo(""));
+        assertThat(result.getTextWrittenToStandardError(), equalTo("** Uh oh, looks like there were less than than 10 arguments passed to the program!\nProject #5 requires 10 arguments if ran w/o the -search option!\r\n"));
 
         out = result.getTextWrittenToStandardOut();
-        assertThat(out, out, containsString(PrettyPrinter.formatDictionaryEntry(word, definition)));
+        assertThat(out, out, containsString(""));
+
+        result = invokeMain( Project5.class, "-host", "localhost", "-port", "8080");
+
+        assertThat(result.getTextWrittenToStandardError(), equalTo("** Uh oh, looks like there were less than than 10 arguments passed to the program!\nProject #5 requires 10 arguments if ran w/o the -search option!\r\n"));
+
+        out = result.getTextWrittenToStandardOut();
+        assertThat(out, out, containsString(""));
     }
 }

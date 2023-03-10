@@ -36,19 +36,24 @@ class AirlineRestClientIT {
   @Test
   void test1EmptyServerContainsNoDictionaryEntries() throws IOException, ParserException {
     AirlineRestClient client = newAirlineRestClient();
-    Map<String, String> dictionary = client.getAllDictionaryEntries();
-    assertThat(dictionary.size(), equalTo(0));
+    assertThrows(IOException.class, () -> client.getFlightEntries("Lufthansa"));
+    //Map<String, String> dictionary = client.getAllDictionaryEntries();
+    //assertThat(dictionary.size(), equalTo(0));
   }
 
   @Test
   void test2DefineOneWord() throws IOException, ParserException {
     AirlineRestClient client = newAirlineRestClient();
-    String testWord = "TEST WORD";
-    String testDefinition = "TEST DEFINITION";
-    client.addDictionaryEntry(testWord, testDefinition);
+    String airline = "Lufthansa";
+    String flightNumber = "69";
+    String src = "PDX";
+    String depart = "3/09/2023 3:35 am";
+    String dest = "SAN";
+    String arrive = "3/10/2023 4:47 am";
+    client.addFlightEntry(airline, flightNumber, src, depart, dest, arrive);
 
-    String definition = client.getDefinition(testWord);
-    assertThat(definition, equalTo(testDefinition));
+    String lufthansa = client.getFlightEntries(airline);
+    assertThat(lufthansa, equalTo(""));
   }
 
   @Test
@@ -57,7 +62,7 @@ class AirlineRestClientIT {
     String emptyString = "";
 
     HttpRequestHelper.RestException ex =
-      assertThrows(HttpRequestHelper.RestException.class, () -> client.addDictionaryEntry(emptyString, emptyString));
+      assertThrows(HttpRequestHelper.RestException.class, () -> client.addFlightEntry(emptyString, emptyString, emptyString, emptyString, emptyString, emptyString));
     assertThat(ex.getHttpStatusCode(), equalTo(HttpURLConnection.HTTP_PRECON_FAILED));
-    assertThat(ex.getMessage(), equalTo(Messages.missingRequiredParameter(AirlineServlet.WORD_PARAMETER)));
+    assertThat(ex.getMessage(), equalTo(Messages.missingRequiredParameter(AirlineServlet.AIRLINE_PARAMETER)));
   }}

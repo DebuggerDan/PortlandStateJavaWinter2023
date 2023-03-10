@@ -34,7 +34,8 @@ class AirlineServletTest {
 
     // Nothing is written to the response's PrintWriter
     verify(pw, never()).println(anyString());
-    verify(response).setStatus(HttpServletResponse.SC_OK);
+    //verify(response).setStatus(HttpServletResponse.SC_OK);
+    verify(response).sendError(HttpServletResponse.SC_PRECONDITION_FAILED, "[AftFlight] The required parameter \"airline\" is missing");
   }
 
   @Test

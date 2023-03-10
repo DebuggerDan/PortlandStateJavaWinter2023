@@ -222,7 +222,7 @@ public class Project5 {
         {
             //displayer(readme_file, 1);
             //System.out.println("The Project #5 command-line interface has been provided above.");
-            usage("\"The Project #5 command-line interface has been provided above.\"");
+            usage("\"The Project #5 command-line interface has been provided below.\"");
             // Graceful Exit: No arguments passed to the program, thus, command-line interface will be shown using usage(String) & returned.
             return;
         }
@@ -253,11 +253,11 @@ public class Project5 {
                             searchUsage("Hmm, looks like the -search option was used, but there was no airline name specified!");
                             return;
                         }
-                        if (search_name.startsWith("-"))
-                        {
+                        if (search_name.startsWith("-")) {
                             searchUsage("Hmm, an invalid airline name was detected for the -search option (valid airlines with matching names must exist in the airline dictionary)!");//\nTreating as empty name, creating default Empty Airline!");
                             return;
                         }
+                        searchoption = true;
                         break;
 
                     // Project #5.) Option I.) -host
@@ -321,13 +321,15 @@ public class Project5 {
         if (!searchoption)
         {
             // Input Validation [Project #5] 2.) -If there are more than 10 arguments, then error!
-            if (argnum > 10)
+            if (argnum < 10)
             {
-                usage("Uh oh, looks like there were more than 10 arguments passed to the program!\nProject #5 only requires 1 argument (IF ran w/ -search option; which itself has a max of 4 arguments) or a maximum of 10 arguments total (IF w/o -search)!");
+                error("Uh oh, looks like there were less than than 10 arguments passed to the program!\nProject #5 requires 10 arguments if ran w/o the -search option!");
+                return;
             }
-            else if (argnum < 10)
+            else if (argnum > 10)
             {
-
+                error("Uh oh, looks like there were more than 10 arguments passed to the program!\nProject #5 only requires 1 argument (IF ran w/ -search option; which itself has a max of 4 arguments) or a maximum of 10 arguments total (IF w/o -search)!");
+                return;
             }
         }
 
@@ -712,7 +714,7 @@ public class Project5 {
                 //message = Messages.definedWordAs(word, definition);
                 if (printoption)
                 {
-                    for (int idx = 0; idx > print_option_num; idx++)
+                    for (int idx = 0; idx < print_option_num; idx++)
                     {
                         System.out.println(message);
                     }
@@ -743,7 +745,7 @@ public class Project5 {
         PrintStream err = System.err;
         err.println("** " + message);
         err.println();
-        err.println("usage: java -jar Project5 [options] <args>\n" +
+        err.println("usage: java -jar target/airline-client.jar [options] <args>\n" +
                 "       args are (in this order):\n" +
                 "           airline The name of the airline\n" +
                 "           flightNumber The flight number\n" +
