@@ -95,6 +95,10 @@ public class XmlDumper implements AirlineDumper<Airline> {
     }
 
     /**
+     * Project #5: <code>XML</code>-String dumper thingy!
+     */
+
+    /**
      * Project #4: <code>XML</code> Dumping!
      * The main <code>XML</code>Dumper function that dumps the contents of an airline (and its flights) to a <code>XML</code>-file.
      * @param lufthansa The airline that will have its containing flights dumped to a <code>XML</code>-file.
@@ -353,6 +357,8 @@ public class XmlDumper implements AirlineDumper<Airline> {
                 // Debug for preliminary Project #5 integration tests
                 //optimusPamAm.transform(cybertron, prism);
                 optimusPamAm.transform(cybertron, darksideofthemoon);
+
+                this.poet.flush();
 
             }
             catch (TransformerException e7)

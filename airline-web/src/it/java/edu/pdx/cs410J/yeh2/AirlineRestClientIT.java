@@ -36,7 +36,7 @@ class AirlineRestClientIT {
   @Test
   void test1EmptyServerContainsNoDictionaryEntries() throws IOException, ParserException {
     AirlineRestClient client = newAirlineRestClient();
-    assertThrows(IOException.class, () -> client.getFlightEntries("Lufthansa"));
+    assertThrows(HttpRequestHelper.RestException.class, () -> client.getFlightEntries("Lufthansa"));
     //Map<String, String> dictionary = client.getAllDictionaryEntries();
     //assertThat(dictionary.size(), equalTo(0));
   }

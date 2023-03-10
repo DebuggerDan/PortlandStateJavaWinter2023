@@ -102,9 +102,15 @@ public class Airline extends AbstractAirline<Flight> {
   /**
    * An <code>Airline</code> constructor
    * @param name The name of the <code>Airline</code>!
+   * @throws IllegalArgumentException If the {@code String name} is empty!
    */
-  public Airline(String name) {
+  public Airline(String name) throws IllegalArgumentException {
+    if (name == null || name.isEmpty())
+    {
+      throw new IllegalArgumentException("Airline name cannot be null!");
+    }
     this.name = name;
+
     //this.flights = new LinkedList<Flight>();
     this.flights = new TreeSet<Flight>(new air_traffic_controller());
     this.flightnum = 0;
