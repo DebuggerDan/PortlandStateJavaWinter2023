@@ -179,61 +179,128 @@ public class XmlDumper implements AirlineDumper<Airline> {
 
         //printer.println(airline_name);
 
-        for (Flight runway : flightDump)
+        if (!this.searchSpecific)
         {
-            try {
-                Element runwayFlight = itinerary.createElement("flight");
-                boeing.appendChild(runwayFlight);
-
-                Element flightNumber = itinerary.createElement("number");
-                runwayFlight.appendChild(flightNumber);
-                flightNumber.appendChild(itinerary.createTextNode(String.valueOf(runway.getNumber())));
-
-                Element flightsrc = itinerary.createElement("src");
-                runwayFlight.appendChild(flightsrc);
-                flightsrc.appendChild(itinerary.createTextNode(runway.getSource()));
-
-                Element flightdep = itinerary.createElement("depart");
-                runwayFlight.appendChild(flightdep);
-
-                Element flightdep_date = itinerary.createElement("date");
-                flightdep.appendChild(flightdep_date);
-                flightdep_date.setAttribute("day", String.valueOf(runway.getDepartureXml().get(Calendar.DAY_OF_MONTH)));
-                flightdep_date.setAttribute("month", String.valueOf(runway.getDepartureXml().get(Calendar.MONTH)));
-                flightdep_date.setAttribute("year", String.valueOf(runway.getDepartureXml().get(Calendar.YEAR)));
-
-                Element flightdep_time = itinerary.createElement("time");
-                flightdep.appendChild(flightdep_time);
-                flightdep_time.setAttribute("hour", String.valueOf(runway.getDepartureXml().get(Calendar.HOUR_OF_DAY)));
-                flightdep_time.setAttribute("minute", String.valueOf(runway.getDepartureXml().get(Calendar.MINUTE)));
-
-                Element flightdest = itinerary.createElement("dest");
-                runwayFlight.appendChild(flightdest);
-                flightdest.appendChild(itinerary.createTextNode(runway.getDestination()));
-
-                Element flightarrive = itinerary.createElement("arrive");
-                runwayFlight.appendChild(flightarrive);
-
-                Element flightarrive_date = itinerary.createElement("date");
-                flightarrive.appendChild(flightarrive_date);
-                flightarrive_date.setAttribute("day", String.valueOf(runway.getArrivalXml().get(Calendar.DAY_OF_MONTH)));
-                flightarrive_date.setAttribute("month", String.valueOf(runway.getArrivalXml().get(Calendar.MONTH)));
-                flightarrive_date.setAttribute("year", String.valueOf(runway.getArrivalXml().get(Calendar.YEAR)));
-
-                Element flightarrive_time = itinerary.createElement("time");
-                flightarrive.appendChild(flightarrive_time);
-                flightarrive_time.setAttribute("hour", String.valueOf(runway.getArrivalXml().get(Calendar.HOUR_OF_DAY)));
-                flightarrive_time.setAttribute("minute", String.valueOf(runway.getArrivalXml().get(Calendar.MINUTE)));
-
-
-            }
-            catch (DOMException e5)
+            for (Flight runway : flightDump)
             {
-                //System.err.println("[XML DOM-Related Error, Stage C]" + e5.getMessage());
-                DomoOhNo.println("[XML DOM-Related Error, Stage C]" + e5.getMessage());
-                //return;
+                try {
+                    Element runwayFlight = itinerary.createElement("flight");
+                    boeing.appendChild(runwayFlight);
+
+                    Element flightNumber = itinerary.createElement("number");
+                    runwayFlight.appendChild(flightNumber);
+                    flightNumber.appendChild(itinerary.createTextNode(String.valueOf(runway.getNumber())));
+
+                    Element flightsrc = itinerary.createElement("src");
+                    runwayFlight.appendChild(flightsrc);
+                    flightsrc.appendChild(itinerary.createTextNode(runway.getSource()));
+
+                    Element flightdep = itinerary.createElement("depart");
+                    runwayFlight.appendChild(flightdep);
+
+                    Element flightdep_date = itinerary.createElement("date");
+                    flightdep.appendChild(flightdep_date);
+                    flightdep_date.setAttribute("day", String.valueOf(runway.getDepartureXml().get(Calendar.DAY_OF_MONTH)));
+                    flightdep_date.setAttribute("month", String.valueOf(runway.getDepartureXml().get(Calendar.MONTH)));
+                    flightdep_date.setAttribute("year", String.valueOf(runway.getDepartureXml().get(Calendar.YEAR)));
+
+                    Element flightdep_time = itinerary.createElement("time");
+                    flightdep.appendChild(flightdep_time);
+                    flightdep_time.setAttribute("hour", String.valueOf(runway.getDepartureXml().get(Calendar.HOUR_OF_DAY)));
+                    flightdep_time.setAttribute("minute", String.valueOf(runway.getDepartureXml().get(Calendar.MINUTE)));
+
+                    Element flightdest = itinerary.createElement("dest");
+                    runwayFlight.appendChild(flightdest);
+                    flightdest.appendChild(itinerary.createTextNode(runway.getDestination()));
+
+                    Element flightarrive = itinerary.createElement("arrive");
+                    runwayFlight.appendChild(flightarrive);
+
+                    Element flightarrive_date = itinerary.createElement("date");
+                    flightarrive.appendChild(flightarrive_date);
+                    flightarrive_date.setAttribute("day", String.valueOf(runway.getArrivalXml().get(Calendar.DAY_OF_MONTH)));
+                    flightarrive_date.setAttribute("month", String.valueOf(runway.getArrivalXml().get(Calendar.MONTH)));
+                    flightarrive_date.setAttribute("year", String.valueOf(runway.getArrivalXml().get(Calendar.YEAR)));
+
+                    Element flightarrive_time = itinerary.createElement("time");
+                    flightarrive.appendChild(flightarrive_time);
+                    flightarrive_time.setAttribute("hour", String.valueOf(runway.getArrivalXml().get(Calendar.HOUR_OF_DAY)));
+                    flightarrive_time.setAttribute("minute", String.valueOf(runway.getArrivalXml().get(Calendar.MINUTE)));
+
+
+                }
+                catch (DOMException e5)
+                {
+                    //System.err.println("[XML DOM-Related Error, Stage C]" + e5.getMessage());
+                    DomoOhNo.println("[XML DOM-Related Error, Stage C]" + e5.getMessage());
+                    //return;
+                }
+                //printer.println(runway.getNumber() + ", " + runway.getSource() + ", " + runway.getDepartureString() + ", " + runway.getDestination() + ", " + runway.getArrivalString());
             }
-            //printer.println(runway.getNumber() + ", " + runway.getSource() + ", " + runway.getDepartureString() + ", " + runway.getDestination() + ", " + runway.getArrivalString());
+        }
+
+        else if (this.searchSpecific)
+        {
+            for (Flight runway : flightDump)
+            {
+                if (runway.getSource().equals(this.src) && runway.getDestination().equals(this.dest))
+                {
+                    try {
+                        Element runwayFlight = itinerary.createElement("flight");
+                        boeing.appendChild(runwayFlight);
+
+                        Element flightNumber = itinerary.createElement("number");
+                        runwayFlight.appendChild(flightNumber);
+                        flightNumber.appendChild(itinerary.createTextNode(String.valueOf(runway.getNumber())));
+
+                        Element flightsrc = itinerary.createElement("src");
+                        runwayFlight.appendChild(flightsrc);
+                        flightsrc.appendChild(itinerary.createTextNode(runway.getSource()));
+
+                        Element flightdep = itinerary.createElement("depart");
+                        runwayFlight.appendChild(flightdep);
+
+                        Element flightdep_date = itinerary.createElement("date");
+                        flightdep.appendChild(flightdep_date);
+                        flightdep_date.setAttribute("day", String.valueOf(runway.getDepartureXml().get(Calendar.DAY_OF_MONTH)));
+                        flightdep_date.setAttribute("month", String.valueOf(runway.getDepartureXml().get(Calendar.MONTH)));
+                        flightdep_date.setAttribute("year", String.valueOf(runway.getDepartureXml().get(Calendar.YEAR)));
+
+                        Element flightdep_time = itinerary.createElement("time");
+                        flightdep.appendChild(flightdep_time);
+                        flightdep_time.setAttribute("hour", String.valueOf(runway.getDepartureXml().get(Calendar.HOUR_OF_DAY)));
+                        flightdep_time.setAttribute("minute", String.valueOf(runway.getDepartureXml().get(Calendar.MINUTE)));
+
+                        Element flightdest = itinerary.createElement("dest");
+                        runwayFlight.appendChild(flightdest);
+                        flightdest.appendChild(itinerary.createTextNode(runway.getDestination()));
+
+                        Element flightarrive = itinerary.createElement("arrive");
+                        runwayFlight.appendChild(flightarrive);
+
+                        Element flightarrive_date = itinerary.createElement("date");
+                        flightarrive.appendChild(flightarrive_date);
+                        flightarrive_date.setAttribute("day", String.valueOf(runway.getArrivalXml().get(Calendar.DAY_OF_MONTH)));
+                        flightarrive_date.setAttribute("month", String.valueOf(runway.getArrivalXml().get(Calendar.MONTH)));
+                        flightarrive_date.setAttribute("year", String.valueOf(runway.getArrivalXml().get(Calendar.YEAR)));
+
+                        Element flightarrive_time = itinerary.createElement("time");
+                        flightarrive.appendChild(flightarrive_time);
+                        flightarrive_time.setAttribute("hour", String.valueOf(runway.getArrivalXml().get(Calendar.HOUR_OF_DAY)));
+                        flightarrive_time.setAttribute("minute", String.valueOf(runway.getArrivalXml().get(Calendar.MINUTE)));
+
+
+                    }
+                    catch (DOMException e7)
+                    {
+                        //System.err.println("[XML DOM-Related Error, Stage C]" + e7.getMessage());
+                        DomoOhNo.println("[XML DOM-Related Error, Stage C.II {Project #5; during src+dest specific search}]" + e7.getMessage());
+                        //return;
+                    }
+                    //printer.println(runway.getNumber() + ", " + runway.getSource() + ", " + runway.getDepartureString() + ", " + runway.getDestination() + ", " + runway.getArrivalString());
+                }
+
+            }
         }
 
         // If we are saving the XML results to a XML file.

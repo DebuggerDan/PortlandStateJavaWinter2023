@@ -186,6 +186,9 @@ public class AirlineServlet extends HttpServlet {
             return;
         }
         //pw.println(Messages.definedWordAs(word, airline));
+
+        lufthansa.addFlight(runway);
+
         pw.println("[AftFlight] New flight added to airline '" + airline + "'!");
         pw.flush();
 
