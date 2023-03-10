@@ -2,10 +2,7 @@ package edu.pdx.cs410J.yeh2;
 
 import edu.pdx.cs410J.ParserException;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
+import java.io.*;
 
 import java.util.*;
 /*
@@ -21,9 +18,8 @@ import java.text.*;
 
 import edu.pdx.cs410J.AirportNames;
 
+import javax.swing.text.html.parser.Parser;
 import java.io.IOException;
-import java.io.PrintStream;
-import java.io.StringWriter;
 import java.util.Map;
 
 /**
@@ -628,7 +624,7 @@ public class Project5 {
             }
             catch (ParseException m8)
             {
-                usage("Error when creating new temporary flight, specifically, when parsing invalid timestamps!");
+                error("Error when creating new temporary flight, specifically, when parsing invalid timestamps!");
                 return;
             }
             // Input-Validation #5: If flight arrival is before the departure time:
@@ -641,47 +637,95 @@ public class Project5 {
 
         AirlineRestClient client = new AirlineRestClient(hostName, port);
 
-        String message;
+        String message = null;
+
         try {
             // Project #5 Main Functionality-Pathway I.) The below if-statements infers that, if met, after all the input validation check stuff above for Project #5...
             // ...an argnum of 1 or 3 infers a valid -search option with either one (1) argument for the airline name or three (3) arguments, for the airline name + two (2) src & dest airport-code args.
-            if (argnum == 1)
+            if (searchoption)
             {
                 // Search for specific airline, then pretty print all word/definition pairs
                 // (aka, pretty print all flights within matching airline-name airline -> its corresponding flight-entries)
-                Map<String, String> dictionary = client.getAllDictionaryEntries();
-                StringWriter sw = new StringWriter();
-                PrettyPrinter pretty = new PrettyPrinter(sw);
-                pretty.dump(dictionary);
-                message = sw.toString();
-
-            }
-            else if (argnum == 3)
-            {
+                if (argnum == 1)
+                {
+                    //Map<String, String> dictionary = client.getAllDictionaryEntries();
+//                    StringWriter sw = new StringWriter();
+//                    PrettyPrinter pretty = new PrettyPrinter(sw);
+//                    pretty.dump(dictionary);
+//                    message = sw.toString();
+                    message = client.getFlightEntries(landing[0]);
+                }
                 // Search for specific airline, then sub-search for matching src & dest airport codes, then pretty print all flights that match!
-                Map<String, String> dictionary = client.getAllDictionaryEntries();
-                StringWriter sw = new StringWriter();
-                PrettyPrinter pretty = new PrettyPrinter(sw);
-                pretty.dump(dictionary);
-                message = sw.toString();
+                else if (argnum == 3)
+                {
+                    //Map<String, String> dictionary = client.getAllDictionaryEntries();
+                    //StringWriter sw = new StringWriter();
+                    //PrettyPrinter pretty = new PrettyPrinter(sw);
+                    //pretty.dump(dictionary);
+                    //message = sw.toString();
+                    message = client.getSpecificFlightEntries(landing[0], landing[1], landing[2]);
+                }
+                //System.out.println(message);
+
+                try
+                {
+                    File parchment = new File("parchment.xml");
+
+                    parchment.deleteOnExit();
+
+                    PrintWriter quill = new PrintWriter(parchment);
+
+                    quill.print(message);
+                    quill.close();
+
+                    XmlParser scroll = new XmlParser(parchment);
+                    lufthansa = scroll.parse();
+
+                    PrettyPrinter scribe = new PrettyPrinter(null, false);
+                    scribe.dump(lufthansa);
+
+                }
+                catch (ParserException e4)
+                {
+                    error("[AftFlight] Error while parsing the XML file: " + e4.getMessage());
+                    return;
+                }
+            }
+//            else if (definition == null) {
+//                // Print all dictionary entries
+//                message = PrettyPrinter.formatDictionaryEntry(word, client.getDefinition(word));
+//
+//            }
+            //  Project #5 Main Functionality-Pathway II.) Add new Flight!
+            else if (!searchoption)
+            {
+                try
+                {
+                    message = client.addFlightEntry(landing[0], landing[1], landing[2], gate, landing[6], taxi);
+                }
+                catch (Exception e3)
+                {
+                    error("[AftFlight] Error while adding new flight entry to the server: " + e3.getMessage());
+                    return;
+                }
+                //client.addDictionaryEntry(word, definition);
+                //message = Messages.definedWordAs(word, definition);
+                if (printoption)
+                {
+                    for (int idx = 0; idx > print_option_num; idx++)
+                    {
+                        System.out.println(message);
+                    }
+                }
             }
 
-            else if (definition == null) {
-                // Print all dictionary entries
-                message = PrettyPrinter.formatDictionaryEntry(word, client.getDefinition(word));
-
-            } else {
-                // Post the word/definition pair
-                client.addDictionaryEntry(word, definition);
-                message = Messages.definedWordAs(word, definition);
-            }
-
-        } catch (IOException | ParserException ex ) {
-            error("While contacting AftFlight instance, '" + hostName + ":" + port + ex.getMessage());
+        } catch (IOException | ParserException e1n2 ) {
+            error("While contacting AftFlight instance, '" + hostName + ":" + port + e1n2.getMessage());
             return;
         }
 
-        System.out.println(message);
+        //System.out.println(message);
+
     }
 
     private static void error( String message )

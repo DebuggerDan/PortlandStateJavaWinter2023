@@ -1,6 +1,7 @@
 package edu.pdx.cs410J.yeh2;
 
 import com.google.common.annotations.VisibleForTesting;
+import edu.pdx.cs410J.AirportNames;
 
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -94,6 +95,66 @@ public class AirlineServlet extends HttpServlet {
         // Input Validation [Project #5] 6.3.) - If both src and dest are not blank, then infer Valid Case (for -search) II.): GET all flights of matching-name airline that match src & dest airport-codez
         else if (src != null && dest != null)
         {
+            /*
+             * Input-Validation #3 {from Project #4}: Checking both src & dest airport codes is not 3-digits in characters.
+             * src should equal src & dest should equal dest.
+             */
+
+            if (src.length() != 3)
+            {
+                errorRequiredParameter(response, SRC_PARAMETER);
+
+                // Graceful Exit: If the source airport code is not 3-digits.
+                return;
+            }
+            if (dest.length() != 3)
+            {
+                errorRequiredParameter(response, DEST_PARAMETER);
+                // Graceful Exit: If the destination airport code is not 3-digits.
+                return;
+            }
+
+            // Input-Validation #2b & #2c {from Project #4}: Check if both src & dest airport codes include numbers, if so, then error!.
+            char[] srcCodeTest = src.toCharArray();
+            char[] destCodeTest = dest.toCharArray();
+
+            for (char srcTest : srcCodeTest)
+            {
+                if (Character.isDigit(srcTest))
+                {
+                    //usage("Uh oh, looks like the source airport code has numbers(s), it should be 3-digits of letters only: " + src);
+                    errorRequiredParameter(response, SRC_PARAMETER);
+                    // Graceful Exit: If the source airport code has numbers.
+                    return;
+                }
+            }
+
+            for (char destTest : destCodeTest)
+            {
+                if (Character.isDigit(destTest))
+                {
+                    //usage("Uh oh, looks like the destination airport code has numbers(s), it should be 3-digits of letters only: " + dest);
+                    errorRequiredParameter(response, DEST_PARAMETER);
+                    // Graceful Exit: If the destination airport code has numbers.
+                    return;
+                }
+            }
+
+            // Input-Validation #6 {from Project #4}: Check the AirportNames database if the airport codes actually exist!
+            if (AirportNames.getName(src) == null)
+            {
+                //usage("Uh oh, looks like the source airport code, '" + src + "', was not found in our airport-names database!");
+                errorRequiredParameter(response, SRC_PARAMETER);
+                // Graceful Exit: If the source airport code was not found in AirportNames!
+                return;
+            }
+            if (AirportNames.getName(dest) == null)
+            {
+                //usage("Uh oh, looks like the destination airport code, '" + dest + "', was not found in our airport-names database!");
+                errorRequiredParameter(response, DEST_PARAMETER);
+                // Graceful Exit: If the destination airport code was not found in AirportNames!
+                return;
+            }
             writeSpecificFlights(concorde, src, dest, response);
         }
 
@@ -117,7 +178,6 @@ public class AirlineServlet extends HttpServlet {
     protected void doPost( HttpServletRequest request, HttpServletResponse response ) throws IOException
     {
         response.setContentType( "text/xml" );
-
 
         String airline = getParameter(AIRLINE_PARAMETER, request );
         if (airline == null)
@@ -305,21 +365,21 @@ public class AirlineServlet extends HttpServlet {
         pw.flush();
     }
 
-    /**
-     * Writes all aftflight entries to the HTTP response.
-     *
-     * @param response The {@code HTTP response} to write the aftflight entries to!
-     * @throws IOException If there is an error writing to the HTTP response!
-     * The text of the message is formatted with {@link TextDumper}
-     */
-    private void writeAllAftFlightEntries(HttpServletResponse response ) throws IOException
-    {
-        PrintWriter pw = response.getWriter();
-        TextDumper dumper = new TextDumper(pw);
-        dumper.dump(aftflight);
-
-        response.setStatus( HttpServletResponse.SC_OK );
-    }
+//    /**
+//     * Writes all aftflight entries to the HTTP response.
+//     *
+//     * @param response The {@code HTTP response} to write the aftflight entries to!
+//     * @throws IOException If there is an error writing to the HTTP response!
+//     * The text of the message is formatted with {@link TextDumper}
+//     */
+//    private void writeAllAftFlightEntries(HttpServletResponse response ) throws IOException
+//    {
+//        PrintWriter pw = response.getWriter();
+//        TextDumper dumper = new TextDumper(pw);
+//        dumper.dump(aftflight);
+//
+//        response.setStatus( HttpServletResponse.SC_OK );
+//    }
 
     /**
      * Returns the value of the {@code HTTP request} parameter with the given name.

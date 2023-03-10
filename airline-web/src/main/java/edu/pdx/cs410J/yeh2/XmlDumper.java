@@ -110,6 +110,7 @@ public class XmlDumper implements AirlineDumper<Airline> {
 
         Document itinerary = null;
         File thefile = null;
+        int directFlights = 0;
 
         if (!this.shakespeare)
         {
@@ -245,6 +246,7 @@ public class XmlDumper implements AirlineDumper<Airline> {
             {
                 if (runway.getSource().equals(this.src) && runway.getDestination().equals(this.dest))
                 {
+                    directFlights++;
                     try {
                         Element runwayFlight = itinerary.createElement("flight");
                         boeing.appendChild(runwayFlight);
@@ -332,6 +334,11 @@ public class XmlDumper implements AirlineDumper<Airline> {
         // If we are saving the XML results to be returned to the client via the HTTP GET response's getWriter (PrintWriter) object.
         else if (this.shakespeare)
         {
+            if (directFlights == 0)
+            {
+                System.out.println("[XML Dumper {Project #5]] There were no direct flights found between " + this.src + " and " + this.dest + ".");
+                return;
+            }
             try
             {
                 DOMSource cybertron = new DOMSource(itinerary);
