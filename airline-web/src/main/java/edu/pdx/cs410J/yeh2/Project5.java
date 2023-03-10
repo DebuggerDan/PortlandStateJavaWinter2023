@@ -437,11 +437,11 @@ public class Project5 {
                 {
                     if (landing[1].length() < 3)
                     {
-                        searchUsage("Uh oh, looks like the source airport code is too short, it should be 3-digits of letters: " + landing[2]);
+                        searchUsage("Uh oh, looks like the source airport code is too short, it should be 3-digits of letters: " + landing[1]);
                     }
                     else
                     {
-                        searchUsage("Uh oh, looks like the source airport code is too long, it should be 3-digits of letters: " + landing[2]);
+                        searchUsage("Uh oh, looks like the source airport code is too long, it should be 3-digits of letters: " + landing[1]);
                     }
                     // Graceful Exit: If the source airport code is not 3-digits.
                     return;
@@ -450,11 +450,11 @@ public class Project5 {
                 {
                     if (landing[2].length() < 3)
                     {
-                        searchUsage("Uh oh, looks like the destination airport code is too short, it should be 3-digits of letters: " + landing[6]);
+                        searchUsage("Uh oh, looks like the destination airport code is too short, it should be 3-digits of letters: " + landing[2]);
                     }
                     else
                     {
-                        searchUsage("Uh oh, looks like the destination airport code is too long, it should be 3-digits of letters: " + landing[6]);
+                        searchUsage("Uh oh, looks like the destination airport code is too long, it should be 3-digits of letters: " + landing[2]);
                     }
                     // Graceful Exit: If the destination airport code is not 3-digits.
                     return;
@@ -469,7 +469,7 @@ public class Project5 {
                 {
                     if (Character.isDigit(src))
                     {
-                        searchUsage("Uh oh, looks like the source airport code has numbers(s), it should be 3-digits of letters only: " + landing[2]);
+                        searchUsage("Uh oh, looks like the source airport code has numbers(s), it should be 3-digits of letters only: " + landing[1]);
 
                         // Graceful Exit: If the source airport code has numbers.
                         return;
@@ -480,7 +480,7 @@ public class Project5 {
                 {
                     if (Character.isDigit(dest))
                     {
-                        searchUsage("Uh oh, looks like the destination airport code has numbers(s), it should be 3-digits of letters only: " + landing[6]);
+                        searchUsage("Uh oh, looks like the destination airport code has numbers(s), it should be 3-digits of letters only: " + landing[2]);
 
                         // Graceful Exit: If the destination airport code has numbers.
                         return;
@@ -490,13 +490,13 @@ public class Project5 {
                 // Input-Validation #6 {from Project #4}: Check the AirportNames database if the airport codes actually exist!
                 if (AirportNames.getName(landing[1]) == null)
                 {
-                    searchUsage("Uh oh, looks like the source airport code, '" + landing[2] + "', was not found in our airport-names database!");
+                    searchUsage("Uh oh, looks like the source airport code, '" + landing[1] + "', was not found in our airport-names database!");
                     // Graceful Exit: If the source airport code was not found in AirportNames!
                     return;
                 }
                 if (AirportNames.getName(landing[2]) == null)
                 {
-                    searchUsage("Uh oh, looks like the destination airport code, '" + landing[6] + "', was not found in our airport-names database!");
+                    searchUsage("Uh oh, looks like the destination airport code, '" + landing[2] + "', was not found in our airport-names database!");
                     // Graceful Exit: If the destination airport code was not found in AirportNames!
                     return;
                 }

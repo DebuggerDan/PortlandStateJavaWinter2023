@@ -632,19 +632,63 @@ class Project5IT extends InvokeMainTestCase {
     }
 
     /**
-     * Test #19: -Search, Test 2: If airline name is there, but either src and/or dest airport codes are missing!
+     * Test #19: -Search, Mega Input-Validation Tests 2: If airline name is there, but either src and/or dest airport codes are missing!
      * (and also if there are more parameters than those three max!)
+     *
+     * 2i.) If only airline name is there, it is valid!
+     *
+     * 2ii.) If only one airport code + airline name is there, error!
+     * 2iii.) If there are too many arguments for -search, error!
+     *
+     * 2iv.) If src airport code has numbers, error!
+     * 2v.) If dest airport code has numbers, error!
+     *
+     * 2vi.) If src airport code is less than 3 letters, error!
+     * 2vii.) If src airport code is more than 3 letters, error!
+     *
+     * 2viii.) If dest airport code is less than 3 letters, error!
+     * 2ix.) If dest airport code is more than 3 letters, error!
+     *
+     * 2x.) If src airport code is not in the list of airport codes, error!
+     * 2xi.) If dest airport code is not in the list of airport codes, error!
      */
     @Test
     void testSearch2() {
         MainMethodResult resultSearch2i = invokeMain(Project5.class, "-host", "localhost", "-port", "8080", "-search", "Lufthansa");
+
         MainMethodResult resultSearch2ii = invokeMain(Project5.class, "-host", "localhost", "-port", "8080", "-search", "Lufthansa", "PDX");
         MainMethodResult resultSearch2iii = invokeMain(Project5.class, "-host", "localhost", "-port", "8080", "-search", "Lufthansa", "PDX", "SEA", "02/04/2023", "7:00", "am");
+
+        MainMethodResult resultSearch2iv = invokeMain(Project5.class, "-host", "localhost", "-port", "8080", "-search", "Lufthansa", "123", "SEA");
+        MainMethodResult resultSearch2v = invokeMain(Project5.class, "-host", "localhost", "-port", "8080", "-search", "Lufthansa", "PDX", "123");
+
+        MainMethodResult resultSearch2vi = invokeMain(Project5.class, "-host", "localhost", "-port", "8080", "-search", "Lufthansa", "A", "SEA");
+        MainMethodResult resultSearch2vii = invokeMain(Project5.class, "-host", "localhost", "-port", "8080", "-search", "Lufthansa", "ABCE", "SEA");
+
+        MainMethodResult resultSearch2viii = invokeMain(Project5.class, "-host", "localhost", "-port", "8080", "-search", "Lufthansa", "PDX", "B");
+        MainMethodResult resultSearch2ix = invokeMain(Project5.class, "-host", "localhost", "-port", "8080", "-search", "Lufthansa", "PDX", "ECBA");
+
+        MainMethodResult resultSearch2x = invokeMain(Project5.class, "-host", "localhost", "-port", "8080", "-search", "Lufthansa", "YES", "SEA");
+        MainMethodResult resultSearch2xi = invokeMain(Project5.class, "-host", "localhost", "-port", "8080", "-search", "Lufthansa", "PDX", "FLY");
+
         //MainMethodResult resultInvalidXML = invokeMain(Project5.class, "Lufthansa", "123", "PDX", "02/04/2023", "4:34", "pm", "SEA", "02/04/2023", "7:00", "am", "-textFile", "test16b.txt");
 
         //assertThat(resultSearch2i.getTextWrittenToStandardError(), CoreMatchers.containsString("Oh noes, looks like both the textFile & xmlFile arguments were specified! Only one at a time, pretty please!"));
+
         assertThat(resultSearch2ii.getTextWrittenToStandardError(), CoreMatchers.containsString("Uh oh, looks like there may be a airport code missing, as there was at least one argument specified.\nHowever, that also means there must be 3 arguments...\n...which would represent the airline name you wanted to search, the source airport code, & the destination airport code for a total of three (3) arguments (whilst using -search)!"));
         assertThat(resultSearch2iii.getTextWrittenToStandardError(), CoreMatchers.containsString("Uh oh, there were more than 3 arguments specified, but the maximum number of arguments with the -search option is 3 (airline name (+ two [2] optional src & dest airport code parameters!)"));
+
+        assertThat(resultSearch2iv.getTextWrittenToStandardError(), CoreMatchers.containsString("Uh oh, looks like the source airport code has numbers(s), it should be 3-digits of letters only: 123"));
+        assertThat(resultSearch2v.getTextWrittenToStandardError(), CoreMatchers.containsString("Uh oh, looks like the destination airport code has numbers(s), it should be 3-digits of letters only: 123"));
+
+        assertThat(resultSearch2vi.getTextWrittenToStandardError(), CoreMatchers.containsString("Uh oh, looks like the source airport code is too short, it should be 3-digits of letters: A"));
+        assertThat(resultSearch2vii.getTextWrittenToStandardError(), CoreMatchers.containsString("Uh oh, looks like the source airport code is too long, it should be 3-digits of letters: ABCE"));
+
+        assertThat(resultSearch2viii.getTextWrittenToStandardError(), CoreMatchers.containsString("Uh oh, looks like the destination airport code is too short, it should be 3-digits of letters: B"));
+        assertThat(resultSearch2ix.getTextWrittenToStandardError(), CoreMatchers.containsString("Uh oh, looks like the destination airport code is too long, it should be 3-digits of letters: ECBA"));
+
+        assertThat(resultSearch2x.getTextWrittenToStandardError(), CoreMatchers.containsString("Uh oh, looks like the source airport code, 'YES', was not found in our airport-names database!"));
+        assertThat(resultSearch2xi.getTextWrittenToStandardError(), CoreMatchers.containsString("Uh oh, looks like the destination airport code, 'FLY', was not found in our airport-names database!"));
         //assertThat(resultInvalidXML.getTextWrittenToStandardError(), containsString("Is this Back To The Future, but with flying? Because it looks like the total flight time is somehow negative: "));
     }
 
