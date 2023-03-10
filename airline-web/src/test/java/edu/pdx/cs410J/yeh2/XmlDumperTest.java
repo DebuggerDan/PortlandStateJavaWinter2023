@@ -20,7 +20,7 @@ class XmlDumperTest {
         /**
          * A function that reads (returns <code>String</code>s) txt files!
          * It also deletes the file afterwards so that there are no pesky txt files cluttering the resource folders!
-         * @see TextDumperTest
+         * (from TextDumperTest)
          * @param txtfile The text file name-string!
          * @return result A string from a file that was read by the function!
          * @throws IOException If the file cannot be read!

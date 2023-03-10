@@ -47,7 +47,7 @@ public class PrettyPrinterTest {
      * @param txtfile The text file name-string!
      * @return result A string from a file that was read by the function!
      * @throws IOException If the file cannot be read!
-     * @see TextDumperTest
+     * (from TextDumperTest)
      */
     private String reader(String txtfile) throws IOException
     {

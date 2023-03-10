@@ -133,7 +133,7 @@ public class Flight extends AbstractFlight implements Comparable<Flight> {
    *     2.) [If same source airport-codes, then] secondly, by chronological order - based on departure time.
    *     3.) [If both have the same source airport-code & take-off time], then they will be considered "equal."
    * </p>
-   * @see Project3
+   * (Project3)
    * @param runway A second flight to be compared to the current <code>Flight</code> object that the {@code compareTo(runway)} is being run from.
    * @return <p>-1 Case I., if the current Flight object should be first.
    *      1 Case II., if the runway (second flight) should be first.
