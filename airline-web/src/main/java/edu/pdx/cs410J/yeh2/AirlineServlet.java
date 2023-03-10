@@ -219,7 +219,7 @@ public class AirlineServlet extends HttpServlet {
     /**
      * Returns the value of the HTTP request parameter with the given name.
      *
-     * @param name The parameter name!
+     * @param name The name of the parameter!
      * @param request The HTTP request source the parameterz from!
      * @return <code>null</code> if the value of the parameter is
      *         <code>null</code> or is the empty string
