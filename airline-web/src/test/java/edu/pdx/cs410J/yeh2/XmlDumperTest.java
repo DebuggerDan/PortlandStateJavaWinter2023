@@ -6,10 +6,7 @@ import org.xml.sax.SAXException;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
-import java.io.IOException;
+import java.io.*;
 import java.text.ParseException;
 
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -110,6 +107,65 @@ class XmlDumperTest {
         {
            System.err.println("[XmlDumperTest #1 Error, IOException]" + m1.getMessage());
         }
+
+    }
+
+    /**
+     * <code>XML</code>Dumper Test #2: Check for airport-code specifically sorted <code>XML</code> file checks!
+     * A test that sort-dumps!
+     * @throws IOException If there are file related errors!
+     * @throws ParseException If there are parsing related errors!
+     * @throws ParserConfigurationException If there are <code>XML</code>-specific parsing errors!
+     * @throws SAXException If there are <code>SAX</code>-<code>XML</code> API specific errors!
+     */
+    @Test
+    void canDumpVSortedXML() throws IOException, ParseException, ParserConfigurationException, SAXException
+    {
+        String filename = "dump_test.xml";
+        String airlineName = "Lufthansa";
+        String flightNumber = "123";
+        String src = "PDX";
+        String depart = "02/04/2023 6:51 am";
+        String dest = "SEA";
+        String arrive = "02/04/2023 7:00 am";
+
+        Flight testdrive = new Flight(flightNumber, src, depart, dest, arrive);
+        Airline airline = new Airline(airlineName, testdrive);
+
+        File file = new File(filename);
+
+        StringWriter sw = new StringWriter();
+        //PrintWriter pw = new PrintWriter();
+        XmlDumper dumper = new XmlDumper(sw, src, dest);//sw.toString());
+        try {
+            dumper.dump(airline);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        //XmlParser parser = new XmlParser(sw);
+        String test = sw.toString();
+
+        assertThat(test, containsString("<!DOCTYPE airline SYSTEM \"http://www.cs.pdx.edu/~whitlock/dtds/airline.dtd\">"));
+
+        //String text = reader(filename);//sw.toString();
+
+        //assertThat(text, containsString("<!DOCTYPE airline SYSTEM \"http://www.cs.pdx.edu/~whitlock/dtds/airline.dtd\">"));// +
+        // "\n123, PDX, 02/04/2023 6:51 am, SEA, 02/04/2023 7:00 am"));
+//        AirlineXmlHelper dtdTest = new AirlineXmlHelper();
+//        DocumentBuilderFactory dtdTestFactory = DocumentBuilderFactory.newInstance();
+//        dtdTestFactory.setValidating(true);
+//
+//        DocumentBuilder dtdTestBuilder = dtdTestFactory.newDocumentBuilder();
+//        dtdTestBuilder.setErrorHandler(dtdTest);
+//        dtdTestBuilder.setEntityResolver(dtdTest);
+//        try (FileReader dtdTestReader = new FileReader(file))
+//        {
+//            dtdTestBuilder.parse(filename);
+//        }
+//        catch (IOException m1)
+//        {
+//            System.err.println("[XmlDumperTest #1 Error, IOException]" + m1.getMessage());
+//        }
 
     }
 }
