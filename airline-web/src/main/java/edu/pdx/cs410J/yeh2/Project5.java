@@ -707,13 +707,10 @@ public class Project5 {
         err.println("<!>\n");
 //        err.println("\n");
         err.println("usage: java -jar Project5 [options] <args>\n" +
-                "       args are (in this order):\n" +
+                "       args are (in this order - when using -search, you MUST specify only airline-name argument OR all THREE arguments of airline-name, src, & dest):\n" +
                 "           airline The name of the airline\n" +
-                "           flightNumber The flight number\n" +
                 "           src Three-letter code of departure airport\n" +
-                "           depart Departure date/time\n" +
                 "           dest Three-letter code of arrival airport\n" +
-                "           arrive Arrival date/time\n" +
                 "       options are (options may appear in any order):");
         err.println("           -host hostname Host computer on which the server runs\n" +
                 "           -port port Port on which the server is listening\n" +
