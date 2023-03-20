@@ -340,6 +340,7 @@ public class XmlDumper implements AirlineDumper<Airline> {
                 optimusPamAm.transform(cybertron, darksideofthemoon);
 
                 this.poet.flush();
+                this.poet.close();
 
             }
             catch (TransformerException e7)
@@ -375,6 +376,8 @@ public class XmlDumper implements AirlineDumper<Airline> {
             }
             //printer.close();
         }
+
+        //
     }
 
 //    /**

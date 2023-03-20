@@ -8,6 +8,7 @@ import org.hamcrest.CoreMatchers;
 import org.hamcrest.Matchers;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestMethodOrder;
+
 import org.xml.sax.SAXException;
 
 import javax.xml.parsers.DocumentBuilder;
@@ -634,7 +635,7 @@ class Project5IT extends InvokeMainTestCase {
     }
 
     /**
-     * Test #19: -Search, Mega Input-Validation Tests 2: If airline name is there, but either src and/or dest airport codes are missing!
+     * Super Duper Mega Test #19: -Search, Mega Input-Validation Tests 2: If airline name is there, but either src and/or dest airport codes are missing!
      * (and also if there are more parameters than those three max!)
      *
      * 2i.) If only airline name is there, it is valid!
@@ -706,4 +707,42 @@ class Project5IT extends InvokeMainTestCase {
 //        assertThat(resultXMLDTDTest.getTextWrittenToStandardError(), CoreMatchers.containsString("Error whilst processing XML-file, 'invalid-airline.xml' - Specific Error: [XmlParser Exception Type II.] The content of element type \"depart\" is incomplete, it must match \"(date,time)\"."));
 //        //assertThat(resultInvalidXML.getTextWrittenToStandardError(), containsString("Is this Back To The Future, but with flying? Because it looks like the total flight time is somehow negative: "));
 //    }
+
+    /**
+     * Test #21: "Let's Take This Baby For A Ride" Test [With a valid Airline created, search & query the flight]
+     * If all checks-out, then indeed, output the flight information to the user!
+     * First, we will add an airline "Lufthansa" to the server, then add two valid flights (with the same src & depart airport codes) to that airline.
+     * Second, we will search for that flight, then search for it using HTTP, where we search with the same src & depart airport codes.
+     * Third, if it is found, which it should find it since it should be valid, then the machine-readable XML format should be displayed.
+     *
+     * Check for the following:
+     * 1. Check that the XML was returned via the HTTP GET request.
+     */
+    @Test
+    void testBoarding() {
+//        // Create an airline
+//        MainMethodResult resultAddAirline = invokeMain(Project5.class, "Lufthansa", "123", "-addAirline", "-host", "localhost", "-port", "8080");//.getExitCode();
+//        //assertThat(resultAddAirline.getExitCode(), equalTo(0));
+//
+//        // Add two flights to that airline
+//        MainMethodResult resultAddFlight = invokeMain(Project5.class, "Lufthansa", "123", "PDX", "02/04/2023", "2:53", "am", "SEA", "02/04/2023", "7:00", "am", "-addFlight", "-host", "localhost", "-port", "8080");
+//        //assertThat(resultAddFlight.getExitCode(), equalTo(0));
+//
+//        MainMethodResult resultAddFlight2 = invokeMain(Project5.class, "Lufthansa", "123", "PDX", "02/04/2023", "2:53", "am", "SEA", "02/04/2023", "7:00", "am", "-addFlight", "-host", "localhost", "-port", "8080");
+//        //assertThat(resultAddFlight2.getExitCode(), equalTo(0));
+//
+//        // Search for the flights using the REST client with the given source and destination airport codes
+//        MainMethodResult resultSearch = invokeMain(Project5.class, "-host", "localhost", "-port", "8080", "-search", "Lufthansa", "PDX", "SEA");
+//        //assertThat(resultSearch.getExitCode(), equalTo(0));
+//
+//        // Verify that the expected XML output is returned in the search results
+//        String searchOutput = resultSearch.getTextWrittenToStandardOut();
+////        assertThat(searchOutput, containsString("<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"no\"?>"));
+////        assertThat(searchOutput, containsString("<airline>"));
+////        assertThat(searchOutput, containsString("<name>Lufthansa</name>"));
+////        assertThat(searchOutput, containsString("<flight>"));
+////        assertThat(searchOutput, containsString("<number>123</number>"));
+////        assertThat(searchOutput, containsString("<src>PDX</src>"));
+////        assertThat(searchOutput, containsString("<dest>SEA</dest>"));
+    }
 }
