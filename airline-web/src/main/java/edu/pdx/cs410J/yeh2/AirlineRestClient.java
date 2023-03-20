@@ -61,36 +61,45 @@ public class AirlineRestClient
 
     @VisibleForTesting
     AirlineRestClient(HttpRequestHelper http) {
-      this.http = http;
-      this.url = http.toString();
+        this.http = http;
+        this.url = http.toString();
     }
 
-  /**
-   * Returns ({@code HTTP GET}) all AftFlight entries from the server
-   */
-  public Map<String, String> getAllDictionaryEntries() throws IOException, ParserException {
-    Response response = http.get(Map.of());
-    throwExceptionIfNotOkayHttpStatus(response);
+    /**
+     * Returns ({@code HTTP GET}) all AftFlight entries from the server
+     */
+    public Map<String, String> getAllDictionaryEntries() throws IOException, ParserException {
+        Response response = http.get(Map.of());
+        throwExceptionIfNotOkayHttpStatus(response);
 
-    TextParser parser = new TextParser(new StringReader(response.getContent()));
-    return parser.parse();
-  }
+        TextParser parser = new TextParser(new StringReader(response.getContent()));
+        return parser.parse();
+    }
 
-  /**
-   * Returns ({@code HTTP GET}) the parameters of the <code>Airline</code>(s) that match for the given <code>Airline</code> name.
-   * @param airline The name of the <code>Airline</code> to be searched for, to be made for the {@code HTTP GET} request!
-   * @throws IOException If there is an IO-specific error with the {@code HTTP GET} request parameters!
-   * @throws ParserException If there is a parsing-specific error with the {@code HTTP GET} request parameters!
-   */
-  public String getFlightEntries(String airline) throws IOException, ParserException {
-    Response response = http.get(Map.of(AIRLINE_PARAMETER, airline));
-    throwExceptionIfNotOkayHttpStatus(response);
-    return response.getContent();
-    //String content = response.getContent();
+    /**
+     * Returns ({@code HTTP GET}) the parameters of the <code>Airline</code>(s) that match for the given <code>Airline</code> name.
+     * @param airline The name of the <code>Airline</code> to be searched for, to be made for the {@code HTTP GET} request!
+     * @throws IOException If there is an IO-specific error with the {@code HTTP GET} request parameters!
+     * @throws ParserException If there is a parsing-specific error with the {@code HTTP GET} request parameters!
+     */
+    public String getFlightEntries(String airline, String src, String dest) throws IOException, ParserException {
+        Response response = null;//http.get(Map.of(AIRLINE_PARAMETER, airline));
+        if (src == null || dest == null)
+        {
+            response = http.get(Map.of(AIRLINE_PARAMETER, airline));
+        }
+        else
+        {
+            response = http.get(Map.of(AIRLINE_PARAMETER, airline, SRC_PARAMETER, src, DEST_PARAMETER, dest));
+        }
 
-    //TextParser parser = new TextParser(new StringReader(content));
-    //return parser.parse().get(word);
-  }
+        throwExceptionIfNotOkayHttpStatus(response);
+        return response.getContent();
+        //String content = response.getContent();
+
+        //TextParser parser = new TextParser(new StringReader(content));
+        //return parser.parse().get(word);
+    }
 
     /**
      * Returns ({@code HTTP GET}) the parameters for the <code>Airline</code>(s) that match for the given <code>Airline</code> & flights that match BOTH <code>src</code> & <code>dest</code> airport-codes.
@@ -100,15 +109,15 @@ public class AirlineRestClient
      * @throws IOException If there is an IO-specific error with the {@code HTTP GET} request parameters!
      * @throws ParserException If there is a parsing-specific error with the {@code HTTP GET} request parameters!
      */
-    public String getSpecificFlightEntries(String airline, String src, String dest) throws IOException, ParserException {
-        Response response = http.get(Map.of(AIRLINE_PARAMETER, airline, SRC_PARAMETER, src, DEST_PARAMETER, dest));
-        throwExceptionIfNotOkayHttpStatus(response);
-        return response.getContent();
-//        String content = response.getContent();
-//
-//        TextParser parser = new TextParser(new StringReader(content));
-//        return parser.parse().get(word);
-    }
+//    public String getSpecificFlightEntries(String airline, String src, String dest) throws IOException, ParserException {
+//        Response response = http.get(Map.of(AIRLINE_PARAMETER, airline, SRC_PARAMETER, src, DEST_PARAMETER, dest));
+//        throwExceptionIfNotOkayHttpStatus(response);
+//        return response.getContent();
+////        String content = response.getContent();
+////
+////        TextParser parser = new TextParser(new StringReader(content));
+////        return parser.parse().get(word);
+//    }
 
     /**
      * Adds ({@code HTTP POST}) a new AftFlight entry to the server
@@ -121,22 +130,22 @@ public class AirlineRestClient
      * @throws IOException If there is an error with the {@code HTTP POST} request parameters!
      */
     public String addFlightEntry(String airline, String flightNumber, String src, String depart, String dest, String arrive) throws IOException {
-    Response response = http.post(Map.of(AIRLINE_PARAMETER, airline, FLIGHTNUMBER_PARAMETER, flightNumber, SRC_PARAMETER, src, DEPART_PARAMETER, depart, DEST_PARAMETER, dest, ARRIVE_PARAMETER, arrive));
-    throwExceptionIfNotOkayHttpStatus(response);
-    return response.getContent();
-  }
-
-  public void removeAllDictionaryEntries() throws IOException {
-    Response response = http.delete(Map.of());
-    throwExceptionIfNotOkayHttpStatus(response);
-  }
-
-  private void throwExceptionIfNotOkayHttpStatus(Response response) {
-    int code = response.getHttpStatusCode();
-    if (code != HTTP_OK) {
-      String message = response.getContent();
-      throw new RestException(code, message);
+        Response response = http.post(Map.of(AIRLINE_PARAMETER, airline, FLIGHTNUMBER_PARAMETER, flightNumber, SRC_PARAMETER, src, DEPART_PARAMETER, depart, DEST_PARAMETER, dest, ARRIVE_PARAMETER, arrive));
+        throwExceptionIfNotOkayHttpStatus(response);
+        return response.getContent();
     }
-  }
+
+    public void removeAllDictionaryEntries() throws IOException {
+        Response response = http.delete(Map.of());
+        throwExceptionIfNotOkayHttpStatus(response);
+    }
+
+    private void throwExceptionIfNotOkayHttpStatus(Response response) {
+        int code = response.getHttpStatusCode();
+        if (code != HTTP_OK) {
+            String message = response.getContent();
+            throw new RestException(code, message);
+        }
+    }
 
 }

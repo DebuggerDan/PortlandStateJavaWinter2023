@@ -155,7 +155,19 @@ public class AirlineServlet extends HttpServlet {
 //                // Graceful Exit: If the destination airport code was not found in AirportNames!
 //                return;
 //            }
-            writeSpecificFlights(airline, src, dest, response);
+            //writeSpecificFlights(airline, src, dest, response);
+            //Airline concorde = null;
+            Flight runway = null;
+            try
+            {
+                runway = new Flight("999", src, "1/01/2000 12:00 am", dest, "1/02/2000 1:00 am");
+            }
+            catch (ParseException e2)
+            {
+                errorRequiredParameter(response, e2.getMessage());
+            }
+
+            writeSpecificFlights(src, dest, airline, response);
         }
 
 //        if (word != null) {

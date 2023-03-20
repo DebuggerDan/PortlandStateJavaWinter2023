@@ -664,7 +664,7 @@ public class Project5 {
 //                    PrettyPrinter pretty = new PrettyPrinter(sw);
 //                    pretty.dump(dictionary);
 //                    message = sw.toString();
-                    message = client.getFlightEntries(landing[0]);
+                    message = client.getFlightEntries(landing[0], null, null);
                 }
                 // Search for specific airline, then sub-search for matching src & dest airport codes, then pretty print all flights that match!
                 else if (argnum == 3)
@@ -674,7 +674,7 @@ public class Project5 {
                     //PrettyPrinter pretty = new PrettyPrinter(sw);
                     //pretty.dump(dictionary);
                     //message = sw.toString();
-                    message = client.getSpecificFlightEntries(landing[0], landing[1], landing[2]);
+                    message = client.getFlightEntries(landing[0], landing[1], landing[2]);
                 }
                 //System.out.println(message);
 
@@ -731,7 +731,7 @@ public class Project5 {
             }
 
         } catch (IOException | ParserException e1n2 ) {
-            error("While contacting AftFlight instance, '" + hostName + ":" + port + e1n2.getMessage());
+            error("While contacting AftFlight instance, '" + hostName + ":" + port + "', this error occurred: " + e1n2.getMessage());
             return;
         }
 
