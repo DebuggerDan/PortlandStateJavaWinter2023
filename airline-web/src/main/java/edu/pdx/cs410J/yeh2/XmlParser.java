@@ -50,30 +50,35 @@ public class XmlParser implements AirlineParser<Airline> {
     protected static SimpleDateFormat date_format = new SimpleDateFormat(date_formatting, Locale.US);
     Document itinerary = null;
 
-     private Date xmlStamper(Node xmlDate) throws ParseException
-        {
-            Element xmlCal = (Element) xmlDate;
-            //Calendar cal = Calendar.getInstance();
-            //int test = Integer.parseInt(xmlCal.getAttribute("hour"));
-            Date parsedDate = null;
-    //        if (test >= 12)
-    //        {
-    //            parsedDate = date_format.parse(xmlCal.getAttribute("month") + "/" + xmlCal.getAttribute("day") + "/" + xmlCal.getAttribute("year") + " " + xmlCal.getAttribute("hour") + ":" + xmlCal.getAttribute("minute") + " PM"));
-    //        }
-    //        else
-    //        {
-    //            parsedDate = date_format.parse(xmlCal.getAttribute("month") + "/" + xmlCal.getAttribute("day") + "/" + xmlCal.getAttribute("year") + " " + xmlCal.getAttribute("hour") + ":" + xmlCal.getAttribute("minute") + " AM"));
-    //        }
-            int hour = Integer.parseInt(xmlCal.getAttribute("hour"));
-            String sun = hour >= 12 ? "pm" : "am";
-            parsedDate = date_format.parse(xmlCal.getAttribute("month") + "/" + xmlCal.getAttribute("day") + "/" + xmlCal.getAttribute("year") + " " + xmlCal.getAttribute("hour") + ":" + xmlCal.getAttribute("minute") + " " + sun);
-            //Date parsedDate = date_format.parse(xmlCal.getAttribute("month") + "/" + xmlCal.getAttribute("day") + "/" + xmlCal.getAttribute("year") + " " + xmlCal.getAttribute("hour") + ":" + xmlCal.getAttribute("minute"));
-            //String xmlDate = node.getTextContent();
-            //DateFormat format = new SimpleDateFormat("MM/dd/yyyy hh:mm a", Locale.ENGLISH);
-            //Date date = format.parse(xmlDate);
-            return parsedDate;
+    /**
+     * Returns a new date with the depart/arrive node, checks if it is valid, but if it does not, throws!
+     * @param xmlDate
+     * @return parsedDate
+     * @throws ParseException If the date-node's stuffz are invalid!
+     */
+    private Date xmlStamper(Node xmlDate) throws ParseException
+    {
+        Element xmlCal = (Element) xmlDate;
+        Date parsedDate = null;
+
+        String hourString = xmlCal.getAttribute("hour");
+        String minuteString = xmlCal.getAttribute("minute");
+        String dayString = xmlCal.getAttribute("day");
+        String monthString = xmlCal.getAttribute("month");
+        String yearString = xmlCal.getAttribute("year");
+
+        if (!hourString.isEmpty() && !minuteString.isEmpty() && !dayString.isEmpty() && !monthString.isEmpty() && !yearString.isEmpty()) {
+            int month = Integer.parseInt(monthString) - 1; // 0 -> January, 1 -> February, etc.
+            //int month = Integer.parseInt(monthString);
+            int hour = Integer.parseInt(hourString);
+            String amPm = hour >= 12 ? "PM" : "AM";
+            parsedDate = date_format.parse(month + "/" + dayString + "/" + yearString + " " + hourString + ":" + minuteString + " " + amPm);
+        } else {
+            throw new ParseException("[XmlStamper] Uh oh, looks like one or more date/time attributes were missing or empty.", 0);
         }
 
+        return parsedDate;
+    }
 
     /**
      * Constructs a new XmlParser object with the given file name, checks if it exists, but if it does not, throws
