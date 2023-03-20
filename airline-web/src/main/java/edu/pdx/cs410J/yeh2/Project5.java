@@ -694,6 +694,7 @@ public class Project5 {
 
                     PrettyPrinter scribe = new PrettyPrinter(null, false);
                     scribe.dump(lufthansa);
+                    System.out.println(scribe.getPlottedPrint());
 
                 }
                 catch (ParserException e4)
@@ -726,6 +727,7 @@ public class Project5 {
                     for (int idx = 0; idx < print_option_num; idx++)
                     {
                         System.out.println(message);
+                        runway.print();
                     }
                 }
             }

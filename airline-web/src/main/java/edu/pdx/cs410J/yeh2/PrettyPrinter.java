@@ -39,10 +39,10 @@ public class PrettyPrinter implements AirlineDumper<Airline> {
     protected String plotter = null;
 
     /*
-    * A pretty ASCII art-picture of a airplane & clouds!
-    * Credits & Author: "Small airplane w/clouds" by Joan Shark
-    * Source: https://www.asciiart.eu/vehicles/airplanes
-    */
+     * A pretty ASCII art-picture of a airplane & clouds!
+     * Credits & Author: "Small airplane w/clouds" by Joan Shark
+     * Source: https://www.asciiart.eu/vehicles/airplanes
+     */
     protected static String prettyASCII = "prettyASCII.txt";
 
     private Writer writer = null;
@@ -212,12 +212,12 @@ public class PrettyPrinter implements AirlineDumper<Airline> {
             stringy = new StringWriter();
             printer = new PrintWriter(stringy);
         }
-            //LinkedList<Flight> flightDump = lufthansa.getFlights();
-            //TreeSet<Flight> flightDump = lufthansa.getFlights();
-            Collection<Flight> flightDump = lufthansa.getFlights();
-            String airline_name = lufthansa.getName();
-            int flightnum = 1;
-            //printer.println(airline_name);
+        //LinkedList<Flight> flightDump = lufthansa.getFlights();
+        //TreeSet<Flight> flightDump = lufthansa.getFlights();
+        Collection<Flight> flightDump = lufthansa.getFlights();
+        String airline_name = lufthansa.getName();
+        int flightnum = 1;
+        //printer.println(airline_name);
 
 //            try (InputStream displayme = Project5.class.getResourceAsStream(prettyASCII)) {
 //                InputStreamReader display_me = new InputStreamReader(displayme);
@@ -240,21 +240,21 @@ public class PrettyPrinter implements AirlineDumper<Airline> {
 //                System.err.println("Error! prettyASCII.txt not found!");
 //            }
 
-            String airport1 = null;
-            String airport2 = null;
+        String airport1 = null;
+        String airport2 = null;
 
-            String date1 = null;
-            String date2 = null;
+        String date1 = null;
+        String date2 = null;
 
-            DateFormat segment_format = new SimpleDateFormat("EEEE, MMMM d, yyyy '@' h:mm");
-            DateFormat ampm_format = new SimpleDateFormat(" a");
+        DateFormat segment_format = new SimpleDateFormat("EEEE, MMMM d, yyyy '@' h:mm");
+        DateFormat ampm_format = new SimpleDateFormat(" a");
 
-            long flightTime;
+        long flightTime;
 
-            printer.println("Thank you for using the PrettyPrinter!");
+        printer.println("Thank you for using the PrettyPrinter!");
 
-            printer.println("For airline, '" + airline_name + "', we have the following flight(s) scheduled...\n");
-            printer.println("-----");
+        printer.println("For airline, '" + airline_name + "', we have the following flight(s) scheduled...\n");
+        printer.println("-----");
 
         for (Flight runway : flightDump)
         {
@@ -325,17 +325,17 @@ public class PrettyPrinter implements AirlineDumper<Airline> {
 //        }
 //        printer.close();
 
-            if (!this.save)
+        if (!this.save)
+        {
+            try
             {
-                try
-                {
-                    this.plotter = stringy.toString();
-                }
-                catch (NullPointerException m2)
-                {
-                    System.err.println("Uh oh, looks like PrettyPrinter was not able to save the prettified print-string!");
-                }
+                this.plotter = stringy.toString();
             }
+            catch (NullPointerException m2)
+            {
+                System.err.println("Uh oh, looks like PrettyPrinter was not able to save the prettified print-string!");
+            }
+        }
     }
 
 
