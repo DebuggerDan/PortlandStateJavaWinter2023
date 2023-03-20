@@ -36,7 +36,7 @@ class AirlineRestClientIT {
   @Test
   void test1EmptyServerContainsNoDictionaryEntries() throws IOException, ParserException {
     AirlineRestClient client = newAirlineRestClient();
-    assertThrows(HttpRequestHelper.RestException.class, () -> client.getFlightEntries("Lufthansa"));
+    assertThrows(HttpRequestHelper.RestException.class, () -> client.getFlightEntries("Lufthansa", null, null));
     //Map<String, String> dictionary = client.getAllDictionaryEntries();
     //assertThat(dictionary.size(), equalTo(0));
   }
@@ -52,7 +52,7 @@ class AirlineRestClientIT {
     String arrive = "3/10/2023 4:47 am";
     client.addFlightEntry(airline, flightNumber, src, depart, dest, arrive);
 
-    String lufthansa = client.getFlightEntries(airline);
+    String lufthansa = client.getFlightEntries(airline, null, null);
     assertThat(lufthansa, equalTo(""));
   }
 

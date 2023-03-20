@@ -38,9 +38,9 @@ public class XmlDumper implements AirlineDumper<Airline> {
     //private final static String publicID = null; //since only SystemID is required to be referenced
     //private final static String privateID = null;
 
-    protected String file_name = null;
-    protected String src = null;
-    protected String dest = null;
+    private String file_name = null;
+    private String src = null;
+    private String dest = null;
     protected Boolean searchSpecific = false;
 
     protected Boolean shakespeare = false;
@@ -64,11 +64,19 @@ public class XmlDumper implements AirlineDumper<Airline> {
 //        }
 //        else
 //        {
-        this.shakespeare = true;
         this.poet = poet;
 
-        if (src != null && dest != null)
+        if (src == null || dest == null)
         {
+            this.shakespeare = false;
+            this.searchSpecific = false;
+            this.src = null;
+            this.dest = null;
+        }
+
+        else
+        {
+            this.shakespeare = true;
             this.searchSpecific = true;
             this.src = src;
             this.dest = dest;
@@ -184,67 +192,7 @@ public class XmlDumper implements AirlineDumper<Airline> {
 
         //printer.println(airline_name);
 
-        if (!this.searchSpecific)
-        {
-            for (Flight runway : flightDump)
-            {
-                try {
-                    Element runwayFlight = itinerary.createElement("flight");
-                    boeing.appendChild(runwayFlight);
-
-                    Element flightNumber = itinerary.createElement("number");
-                    runwayFlight.appendChild(flightNumber);
-                    flightNumber.appendChild(itinerary.createTextNode(String.valueOf(runway.getNumber())));
-
-                    Element flightsrc = itinerary.createElement("src");
-                    runwayFlight.appendChild(flightsrc);
-                    flightsrc.appendChild(itinerary.createTextNode(runway.getSource()));
-
-                    Element flightdep = itinerary.createElement("depart");
-                    runwayFlight.appendChild(flightdep);
-
-                    Element flightdep_date = itinerary.createElement("date");
-                    flightdep.appendChild(flightdep_date);
-                    flightdep_date.setAttribute("day", String.valueOf(runway.getDepartureXml().get(Calendar.DAY_OF_MONTH)));
-                    flightdep_date.setAttribute("month", String.valueOf(runway.getDepartureXml().get(Calendar.MONTH)));
-                    flightdep_date.setAttribute("year", String.valueOf(runway.getDepartureXml().get(Calendar.YEAR)));
-
-                    Element flightdep_time = itinerary.createElement("time");
-                    flightdep.appendChild(flightdep_time);
-                    flightdep_time.setAttribute("hour", String.valueOf(runway.getDepartureXml().get(Calendar.HOUR_OF_DAY)));
-                    flightdep_time.setAttribute("minute", String.valueOf(runway.getDepartureXml().get(Calendar.MINUTE)));
-
-                    Element flightdest = itinerary.createElement("dest");
-                    runwayFlight.appendChild(flightdest);
-                    flightdest.appendChild(itinerary.createTextNode(runway.getDestination()));
-
-                    Element flightarrive = itinerary.createElement("arrive");
-                    runwayFlight.appendChild(flightarrive);
-
-                    Element flightarrive_date = itinerary.createElement("date");
-                    flightarrive.appendChild(flightarrive_date);
-                    flightarrive_date.setAttribute("day", String.valueOf(runway.getArrivalXml().get(Calendar.DAY_OF_MONTH)));
-                    flightarrive_date.setAttribute("month", String.valueOf(runway.getArrivalXml().get(Calendar.MONTH)));
-                    flightarrive_date.setAttribute("year", String.valueOf(runway.getArrivalXml().get(Calendar.YEAR)));
-
-                    Element flightarrive_time = itinerary.createElement("time");
-                    flightarrive.appendChild(flightarrive_time);
-                    flightarrive_time.setAttribute("hour", String.valueOf(runway.getArrivalXml().get(Calendar.HOUR_OF_DAY)));
-                    flightarrive_time.setAttribute("minute", String.valueOf(runway.getArrivalXml().get(Calendar.MINUTE)));
-
-
-                }
-                catch (DOMException e5)
-                {
-                    //System.err.println("[XML DOM-Related Error, Stage C]" + e5.getMessage());
-                    DomoOhNo.println("[XML DOM-Related Error, Stage C]" + e5.getMessage());
-                    //return;
-                }
-                //printer.println(runway.getNumber() + ", " + runway.getSource() + ", " + runway.getDepartureString() + ", " + runway.getDestination() + ", " + runway.getArrivalString());
-            }
-        }
-
-        else if (this.searchSpecific)
+        if (this.searchSpecific)
         {
             for (Flight runway : flightDump)
             {
@@ -309,38 +257,71 @@ public class XmlDumper implements AirlineDumper<Airline> {
             }
         }
 
-        // If we are saving the XML results to a XML file.
-        if (!this.shakespeare)
+        else// if (!this.searchSpecific)
         {
-            try
+            for (Flight runway : flightDump)
             {
-                DOMSource cybertron = new DOMSource(itinerary);
-                //StreamResult prism = new StreamResult(System.out);//new StreamResult(thefile);
-                StreamResult darksideofthemoon = new StreamResult(thefile);
+                try {
+                    Element runwayFlight = itinerary.createElement("flight");
+                    boeing.appendChild(runwayFlight);
 
-                TransformerFactory allSpark = TransformerFactory.newInstance();
-                Transformer optimusPamAm = allSpark.newTransformer();
+                    Element flightNumber = itinerary.createElement("number");
+                    runwayFlight.appendChild(flightNumber);
+                    flightNumber.appendChild(itinerary.createTextNode(String.valueOf(runway.getNumber())));
 
-                optimusPamAm.setOutputProperty(OutputKeys.INDENT, "yes");
-                optimusPamAm.setOutputProperty(OutputKeys.DOCTYPE_SYSTEM, AirlineXmlHelper.SYSTEM_ID);
-                // Debug for preliminary Project #4 integration tests
-                //optimusPamAm.transform(cybertron, prism);
-                optimusPamAm.transform(cybertron, darksideofthemoon);
+                    Element flightsrc = itinerary.createElement("src");
+                    runwayFlight.appendChild(flightsrc);
+                    flightsrc.appendChild(itinerary.createTextNode(runway.getSource()));
 
+                    Element flightdep = itinerary.createElement("depart");
+                    runwayFlight.appendChild(flightdep);
+
+                    Element flightdep_date = itinerary.createElement("date");
+                    flightdep.appendChild(flightdep_date);
+                    flightdep_date.setAttribute("day", String.valueOf(runway.getDepartureXml().get(Calendar.DAY_OF_MONTH)));
+                    flightdep_date.setAttribute("month", String.valueOf(runway.getDepartureXml().get(Calendar.MONTH)));
+                    flightdep_date.setAttribute("year", String.valueOf(runway.getDepartureXml().get(Calendar.YEAR)));
+
+                    Element flightdep_time = itinerary.createElement("time");
+                    flightdep.appendChild(flightdep_time);
+                    flightdep_time.setAttribute("hour", String.valueOf(runway.getDepartureXml().get(Calendar.HOUR_OF_DAY)));
+                    flightdep_time.setAttribute("minute", String.valueOf(runway.getDepartureXml().get(Calendar.MINUTE)));
+
+                    Element flightdest = itinerary.createElement("dest");
+                    runwayFlight.appendChild(flightdest);
+                    flightdest.appendChild(itinerary.createTextNode(runway.getDestination()));
+
+                    Element flightarrive = itinerary.createElement("arrive");
+                    runwayFlight.appendChild(flightarrive);
+
+                    Element flightarrive_date = itinerary.createElement("date");
+                    flightarrive.appendChild(flightarrive_date);
+                    flightarrive_date.setAttribute("day", String.valueOf(runway.getArrivalXml().get(Calendar.DAY_OF_MONTH)));
+                    flightarrive_date.setAttribute("month", String.valueOf(runway.getArrivalXml().get(Calendar.MONTH)));
+                    flightarrive_date.setAttribute("year", String.valueOf(runway.getArrivalXml().get(Calendar.YEAR)));
+
+                    Element flightarrive_time = itinerary.createElement("time");
+                    flightarrive.appendChild(flightarrive_time);
+                    flightarrive_time.setAttribute("hour", String.valueOf(runway.getArrivalXml().get(Calendar.HOUR_OF_DAY)));
+                    flightarrive_time.setAttribute("minute", String.valueOf(runway.getArrivalXml().get(Calendar.MINUTE)));
+
+
+                }
+                catch (DOMException e5)
+                {
+                    //System.err.println("[XML DOM-Related Error, Stage C]" + e5.getMessage());
+                    DomoOhNo.println("[XML DOM-Related Error, Stage C]" + e5.getMessage());
+                    //return;
+                }
+                //printer.println(runway.getNumber() + ", " + runway.getSource() + ", " + runway.getDepartureString() + ", " + runway.getDestination() + ", " + runway.getArrivalString());
             }
-            catch (TransformerException e6)
-            {
-                System.err.println("[XML Dumper, Transformer Error]" + e6.getMessage());
-                return;
-            }
-            //printer.close();
         }
-        // If we are saving the XML results to be returned to the client via the HTTP GET response's getWriter (PrintWriter) object.
-        else if (this.shakespeare)
+        // If we are saving the XML results to a XML file.
+        if (this.shakespeare)
         {
             if (directFlights == 0)
             {
-                System.out.println("[XML Dumper {Project #5]] There were no direct flights found between " + this.src + " and " + this.dest + ".");
+                System.out.println("[XML Dumper {Project #5]] There were no direct flights found between '" + this.src + "' and '" + this.dest + "'.");
                 return;
             }
             try
@@ -368,7 +349,32 @@ public class XmlDumper implements AirlineDumper<Airline> {
             }
             //printer.close();
         }
+        // If we are saving the XML results to be returned to the client via the HTTP GET response's getWriter (PrintWriter) object.
+        else// if (this.shakespeare)
+        {
+            try
+            {
+                DOMSource cybertron = new DOMSource(itinerary);
+                //StreamResult prism = new StreamResult(System.out);//new StreamResult(thefile);
+                StreamResult darksideofthemoon = new StreamResult(thefile);
 
+                TransformerFactory allSpark = TransformerFactory.newInstance();
+                Transformer optimusPamAm = allSpark.newTransformer();
+
+                optimusPamAm.setOutputProperty(OutputKeys.INDENT, "yes");
+                optimusPamAm.setOutputProperty(OutputKeys.DOCTYPE_SYSTEM, AirlineXmlHelper.SYSTEM_ID);
+                // Debug for preliminary Project #4 integration tests
+                //optimusPamAm.transform(cybertron, prism);
+                optimusPamAm.transform(cybertron, darksideofthemoon);
+
+            }
+            catch (TransformerException e6)
+            {
+                System.err.println("[XML Dumper, Transformer Error]" + e6.getMessage());
+                return;
+            }
+            //printer.close();
+        }
     }
 
 //    /**

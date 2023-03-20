@@ -64,7 +64,9 @@ public class XmlParser implements AirlineParser<Airline> {
     //        {
     //            parsedDate = date_format.parse(xmlCal.getAttribute("month") + "/" + xmlCal.getAttribute("day") + "/" + xmlCal.getAttribute("year") + " " + xmlCal.getAttribute("hour") + ":" + xmlCal.getAttribute("minute") + " AM"));
     //        }
-            parsedDate = date_format.parse(xmlCal.getAttribute("month") + "/" + xmlCal.getAttribute("day") + "/" + xmlCal.getAttribute("year") + " " + xmlCal.getAttribute("hour") + ":" + xmlCal.getAttribute("minute"));
+            int hour = Integer.parseInt(xmlCal.getAttribute("hour"));
+            String sun = hour >= 12 ? "pm" : "am";
+            parsedDate = date_format.parse(xmlCal.getAttribute("month") + "/" + xmlCal.getAttribute("day") + "/" + xmlCal.getAttribute("year") + " " + xmlCal.getAttribute("hour") + ":" + xmlCal.getAttribute("minute") + " " + sun);
             //Date parsedDate = date_format.parse(xmlCal.getAttribute("month") + "/" + xmlCal.getAttribute("day") + "/" + xmlCal.getAttribute("year") + " " + xmlCal.getAttribute("hour") + ":" + xmlCal.getAttribute("minute"));
             //String xmlDate = node.getTextContent();
             //DateFormat format = new SimpleDateFormat("MM/dd/yyyy hh:mm a", Locale.ENGLISH);
