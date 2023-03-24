@@ -20,6 +20,18 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".HelpActivity"
+            android:exported="true"></activity>
+        <activity
+            android:name=".AftflightCreate"
+            android:exported="true"></activity>
+        <activity
+            android:name=".AftflightDisplay"
+            android:exported="true"></activity>
+        <activity
+            android:name=".AftflightSearch"
+            android:exported="true"></activity>
     </application>
 
 </manifest>

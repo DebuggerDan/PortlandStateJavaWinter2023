@@ -17,5 +17,36 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        Button aftflightCreateButton = findViewById(R.id.main_createButton);
+        Button aftflightSearchButton = findViewById(R.id.main_searchButton);
+        Button aftflightDisplayButton = findViewById(R.id.main_displayButton);
+
+        aftflightCreateButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent aftflightCreation = new Intent(MainActivity.this, AftflightCreate.class);
+                startActivity(aftflightCreation);
+            }
+        });
+
+        aftflightDisplayButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent aftflightDisplay = new Intent(MainActivity.this, AftflightDisplay.class);
+                startActivity(aftflightDisplay);
+            }
+        });
+
+        aftflightSearchButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent aftflightSearch = new Intent(MainActivity.this, AftflightSearch.class);
+                startActivity(aftflightSearch);
+            }
+        });
+
+
     }
+
 }
