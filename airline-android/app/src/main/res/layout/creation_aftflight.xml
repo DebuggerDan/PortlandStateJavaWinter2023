@@ -12,17 +12,16 @@
         android:hint="Enter the name of the airline!"
         android:autofillHints="e.g., Lufthansa" />
 
-    <EditText
-        android:id="@+id/creation_aftflight_flightNumberEdit"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="Enter the flight number of the airline!"
-        android:autofillHints="e.g., 420"/>
-
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal">
+        <EditText
+            android:id="@+id/creation_aftflight_flightNumberEdit"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Enter the flight number of the flight!"
+            android:autofillHints="e.g., 420"/>
         <EditText
             android:id="@+id/creation_aftflight_srcEdit"
             android:layout_width="0dp"
@@ -61,7 +60,7 @@
     </LinearLayout>
 
     <Button
-        android:id="@+id/creation_aftflight_submitButton"
+        android:id="@+id/creation_aftflight_createButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
