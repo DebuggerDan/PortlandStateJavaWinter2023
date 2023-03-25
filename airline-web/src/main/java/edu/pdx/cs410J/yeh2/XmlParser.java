@@ -50,16 +50,46 @@ public class XmlParser implements AirlineParser<Airline> {
     protected static SimpleDateFormat date_format = new SimpleDateFormat(date_formatting, Locale.US);
     Document itinerary = null;
 
+//    /**
+//     * Returns a new date with the depart/arrive node, checks if it is valid, but if it does not, throws!
+//     * @param xmlDate
+//     * @return parsedDate
+//     * @throws ParseException If the date-node's stuffz are invalid!
+//     */
+//    private Date xmlStamper(Node xmlDate) throws ParseException
+//    {
+//        Element xmlCal = (Element) xmlDate;
+//        Date parsedDate = null;
+//
+//        String hourString = xmlCal.getAttribute("hour");
+//        String minuteString = xmlCal.getAttribute("minute");
+//        String dayString = xmlCal.getAttribute("day");
+//        String monthString = xmlCal.getAttribute("month");
+//        String yearString = xmlCal.getAttribute("year");
+//
+//        if (!hourString.isEmpty() && !minuteString.isEmpty() && !dayString.isEmpty() && !monthString.isEmpty() && !yearString.isEmpty()) {
+//            int month = Integer.parseInt(monthString) - 1; // 0 -> January, 1 -> February, etc.
+//            //int month = Integer.parseInt(monthString);
+//            int hour = Integer.parseInt(hourString);
+//            String amPm = hour >= 12 ? "PM" : "AM";
+//            parsedDate = date_format.parse(monthString + "/" + dayString + "/" + yearString + " " + hourString + ":" + minuteString + " " + amPm);
+//        } else {
+//            throw new ParseException("[XmlStamper] Uh oh, looks like one or more date/time attributes were missing or empty.", 0);
+//        }
+//
+//        return parsedDate;
+//    }
+
     /**
      * Returns a new date with the depart/arrive node, checks if it is valid, but if it does not, throws!
      * @param xmlDate
      * @return parsedDate
      * @throws ParseException If the date-node's stuffz are invalid!
      */
-    private Date xmlStamper(Node xmlDate) throws ParseException
+    private String xmlGlue(Node xmlDate) throws ParseException
     {
         Element xmlCal = (Element) xmlDate;
-        Date parsedDate = null;
+        String parsedString = null;
 
         String hourString = xmlCal.getAttribute("hour");
         String minuteString = xmlCal.getAttribute("minute");
@@ -70,14 +100,41 @@ public class XmlParser implements AirlineParser<Airline> {
         if (!hourString.isEmpty() && !minuteString.isEmpty() && !dayString.isEmpty() && !monthString.isEmpty() && !yearString.isEmpty()) {
             int month = Integer.parseInt(monthString) - 1; // 0 -> January, 1 -> February, etc.
             //int month = Integer.parseInt(monthString);
+            String parsedMonthString = Integer.toString(month);
             int hour = Integer.parseInt(hourString);
-            String amPm = hour >= 12 ? "PM" : "AM";
-            parsedDate = date_format.parse(monthString + "/" + dayString + "/" + yearString + " " + hourString + ":" + minuteString + " " + amPm);
+            String amPm = hour >= 12 ? "pm" : "am";
+            int hour_12 = hour % 12;
+            if (hour_12 == 0)
+            {
+                hour_12 = 12;
+            }
+            String parsedHourString = Integer.toString(hour_12);
+            parsedString = (parsedMonthString + "/" + dayString + "/" + yearString + " " + parsedHourString + ":" + minuteString + " " + amPm);
         } else {
-            throw new ParseException("[XmlStamper] Uh oh, looks like one or more date/time attributes were missing or empty.", 0);
+            if (hourString.isEmpty())
+            {
+                hourString = "N/A";
+            }
+            if (minuteString.isEmpty())
+            {
+                minuteString = "N/A";
+            }
+            if (dayString.isEmpty())
+            {
+                dayString = "N/A";
+            }
+            if (monthString.isEmpty())
+            {
+                monthString = "N/A";
+            }
+            if (yearString.isEmpty())
+            {
+                yearString = "N/A";
+            }
+            throw new ParseException("[XmlStamper] Uh oh, looks like one or more date/time attributes were missing or empty." + "[Debug - <hh/mm/dd/mo(nth)/ye(ar)>]" + hourString + minuteString + dayString + monthString + yearString, 0);
         }
 
-        return parsedDate;
+        return parsedString;
     }
 
     /**
@@ -200,9 +257,11 @@ public class XmlParser implements AirlineParser<Airline> {
             String src = flight.getElementsByTagName("src").item(0).getTextContent();
             try
             {
-                Date depart = xmlStamper(flight.getElementsByTagName("depart").item(0));
+                //Date depart = xmlStamper(flight.getElementsByTagName("depart").item(0));
+                String depart = xmlGlue(flight.getElementsByTagName("depart").item(0));
                 String dest = flight.getElementsByTagName("dest").item(0).getTextContent();
-                Date arrive = xmlStamper(flight.getElementsByTagName("arrive").item(0));
+                //Date arrive = xmlStamper(flight.getElementsByTagName("arrive").item(0));
+                String arrive = xmlGlue(flight.getElementsByTagName("arrive").item(0));
                 curr = new Flight(flight_number, src, depart.toString(), dest, arrive.toString());
                 lufthansa.addFlight(curr);
             }

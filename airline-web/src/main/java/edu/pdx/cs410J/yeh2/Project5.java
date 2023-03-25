@@ -404,118 +404,104 @@ public class Project5 {
         // ...Thirdly, ensure those three (3) arguments are valid/within -search specific range of arguments.
         if (searchoption)
         {
-            try
-            {
-                // Input Validation [Project #5] 3.1.) - Whilst -search option is specified...
-                // If airline name parameter is empty, then -search specific usage-error!
-                if (landing[0] == null)
-                {
-                    searchUsage("Uh oh, looks like you forgot to specify an airline name - you must at least specify the airline parameter when using the -search option (w/ source & destination airport code(s) as optional parameters)!");
-                    // Graceful Exit: If no airline name was specified.
-                    return;
-                }
-
-                // Input Validation [Project #5] 3.2.) - Whilst -search option is specified...
-                // If there are more than 3 arguments specified, then -search specific usage-error!
-                if (landing.length > 3)
-                {
-                    searchUsage("Uh oh, there were more than 3 arguments specified, but the maximum number of arguments with the -search option is 3 (airline name (+ two [2] optional src & dest airport code parameters!)");
-                    // Graceful Exit [Project #5]: If there were more than 3 arguments specified, whilst using the -search option.
-                    return;
-                }
-
-                // Input Validation [Project #5] 3.3.) - Whilst -search option is specified...
-                // If there are less than 3 arguments specified & it is not just one argument, then -search specific usage-error!
-                else if (landing.length < 3 && landing.length != 1)
-                {
-                    searchUsage("Uh oh, looks like there may be a airport code missing, as there was at least one argument specified.\nHowever, that also means there must be 3 arguments...\n...which would represent the airline name you wanted to search, the source airport code, & the destination airport code for a total of three (3) arguments (whilst using -search)!");
-                    // Graceful Exit [Project #5]: If there were less than 3 arguments specified (but not exactly 1 argument - which would possibly be correct, if it is the airline name), whilst using the -search option.
-                    return;
-                }
-
-                // Input Validation [Project #5 <- Project #4] 3.4.) - Validation of Airport Codes
-                /*
-                 * Input-Validation #3 {from Project #4}: Checking both src & dest airport codes is not 3-digits in characters.
-                 * landing[1] should equal src & landing[2] should equal dest.
-                 */
-
-                if (landing[1].length() != 3)
-                {
-                    if (landing[1].length() < 3)
-                    {
-                        searchUsage("Uh oh, looks like the source airport code is too short, it should be 3-digits of letters: " + landing[1]);
-                    }
-                    else
-                    {
-                        searchUsage("Uh oh, looks like the source airport code is too long, it should be 3-digits of letters: " + landing[1]);
-                    }
-                    // Graceful Exit: If the source airport code is not 3-digits.
-                    return;
-                }
-                if (landing[2].length() != 3)
-                {
-                    if (landing[2].length() < 3)
-                    {
-                        searchUsage("Uh oh, looks like the destination airport code is too short, it should be 3-digits of letters: " + landing[2]);
-                    }
-                    else
-                    {
-                        searchUsage("Uh oh, looks like the destination airport code is too long, it should be 3-digits of letters: " + landing[2]);
-                    }
-                    // Graceful Exit: If the destination airport code is not 3-digits.
-                    return;
-                }
-
-                // Input-Validation #2b & #2c {from Project #4}: Check if both src & dest airport codes include numbers, if so, then error!.
-                // Project #5 Retrograde Reintegration Note: Ensure landing[1] = src & landing[2] = dest, since -search modifies total arguments to either one (1) or (3)!
-                char[] srcCodeTest = landing[1].toCharArray();
-                char[] destCodeTest = landing[2].toCharArray();
-
-                for (char src : srcCodeTest)
-                {
-                    if (Character.isDigit(src))
-                    {
-                        searchUsage("Uh oh, looks like the source airport code has numbers(s), it should be 3-digits of letters only: " + landing[1]);
-
-                        // Graceful Exit: If the source airport code has numbers.
+            if (landing.length > 1) {
+                try {
+                    // Input Validation [Project #5] 3.1.) - Whilst -search option is specified...
+                    // If airline name parameter is empty, then -search specific usage-error!
+                    if (landing[0] == null) {
+                        searchUsage("Uh oh, looks like you forgot to specify an airline name - you must at least specify the airline parameter when using the -search option (w/ source & destination airport code(s) as optional parameters)!");
+                        // Graceful Exit: If no airline name was specified.
                         return;
                     }
-                }
 
-                for (char dest : destCodeTest)
-                {
-                    if (Character.isDigit(dest))
-                    {
-                        searchUsage("Uh oh, looks like the destination airport code has numbers(s), it should be 3-digits of letters only: " + landing[2]);
-
-                        // Graceful Exit: If the destination airport code has numbers.
+                    // Input Validation [Project #5] 3.2.) - Whilst -search option is specified...
+                    // If there are more than 3 arguments specified, then -search specific usage-error!
+                    if (landing.length > 3) {
+                        searchUsage("Uh oh, there were more than 3 arguments specified, but the maximum number of arguments with the -search option is 3 (airline name (+ two [2] optional src & dest airport code parameters!)");
+                        // Graceful Exit [Project #5]: If there were more than 3 arguments specified, whilst using the -search option.
                         return;
                     }
-                }
 
-                // Input-Validation #6 {from Project #4}: Check the AirportNames database if the airport codes actually exist!
-                if (AirportNames.getName(landing[1]) == null)
-                {
-                    searchUsage("Uh oh, looks like the source airport code, '" + landing[1] + "', was not found in our airport-names database!");
-                    // Graceful Exit: If the source airport code was not found in AirportNames!
+                    // Input Validation [Project #5] 3.3.) - Whilst -search option is specified...
+                    // If there are less than 3 arguments specified & it is not just one argument, then -search specific usage-error!
+                    else if (landing.length < 3 && landing.length != 1) {
+                        searchUsage("Uh oh, looks like there may be a airport code missing, as there was at least one argument specified.\nHowever, that also means there must be 3 arguments...\n...which would represent the airline name you wanted to search, the source airport code, & the destination airport code for a total of three (3) arguments (whilst using -search)!");
+                        // Graceful Exit [Project #5]: If there were less than 3 arguments specified (but not exactly 1 argument - which would possibly be correct, if it is the airline name), whilst using the -search option.
+                        return;
+                    }
+
+                    // Input Validation [Project #5 <- Project #4] 3.4.) - Validation of Airport Codes
+                    /*
+                     * Input-Validation #3 {from Project #4}: Checking both src & dest airport codes is not 3-digits in characters.
+                     * landing[1] should equal src & landing[2] should equal dest.
+                     */
+
+                    if (landing[1].length() != 3) {
+                        if (landing[1].length() < 3) {
+                            searchUsage("Uh oh, looks like the source airport code is too short, it should be 3-digits of letters: " + landing[1]);
+                        } else {
+                            searchUsage("Uh oh, looks like the source airport code is too long, it should be 3-digits of letters: " + landing[1]);
+                        }
+                        // Graceful Exit: If the source airport code is not 3-digits.
+                        return;
+                    }
+                    if (landing[2].length() != 3) {
+                        if (landing[2].length() < 3) {
+                            searchUsage("Uh oh, looks like the destination airport code is too short, it should be 3-digits of letters: " + landing[2]);
+                        } else {
+                            searchUsage("Uh oh, looks like the destination airport code is too long, it should be 3-digits of letters: " + landing[2]);
+                        }
+                        // Graceful Exit: If the destination airport code is not 3-digits.
+                        return;
+                    }
+
+                    // Input-Validation #2b & #2c {from Project #4}: Check if both src & dest airport codes include numbers, if so, then error!.
+                    // Project #5 Retrograde Reintegration Note: Ensure landing[1] = src & landing[2] = dest, since -search modifies total arguments to either one (1) or (3)!
+                    char[] srcCodeTest = landing[1].toCharArray();
+                    char[] destCodeTest = landing[2].toCharArray();
+
+                    for (char src : srcCodeTest) {
+                        if (Character.isDigit(src)) {
+                            searchUsage("Uh oh, looks like the source airport code has numbers(s), it should be 3-digits of letters only: " + landing[1]);
+
+                            // Graceful Exit: If the source airport code has numbers.
+                            return;
+                        }
+                    }
+
+                    for (char dest : destCodeTest) {
+                        if (Character.isDigit(dest)) {
+                            searchUsage("Uh oh, looks like the destination airport code has numbers(s), it should be 3-digits of letters only: " + landing[2]);
+
+                            // Graceful Exit: If the destination airport code has numbers.
+                            return;
+                        }
+                    }
+
+                    // Input-Validation #6 {from Project #4}: Check the AirportNames database if the airport codes actually exist!
+                    if (AirportNames.getName(landing[1]) == null) {
+                        searchUsage("Uh oh, looks like the source airport code, '" + landing[1] + "', was not found in our airport-names database!");
+                        // Graceful Exit: If the source airport code was not found in AirportNames!
+                        return;
+                    }
+                    if (AirportNames.getName(landing[2]) == null) {
+                        searchUsage("Uh oh, looks like the destination airport code, '" + landing[2] + "', was not found in our airport-names database!");
+                        // Graceful Exit: If the destination airport code was not found in AirportNames!
+                        return;
+                    }
+
+                    formattedSearchSrc = landing[1].toUpperCase();
+                    formattedSearchDest = landing[2].toUpperCase();
+                } catch (ArrayIndexOutOfBoundsException e3) {
+                    error("[AftFlight] Invalid or missing arguments detected for -search!");
                     return;
                 }
-                if (AirportNames.getName(landing[2]) == null)
-                {
-                    searchUsage("Uh oh, looks like the destination airport code, '" + landing[2] + "', was not found in our airport-names database!");
-                    // Graceful Exit: If the destination airport code was not found in AirportNames!
-                    return;
-                }
-
-                formattedSearchSrc = landing[1].toUpperCase();
-                formattedSearchDest = landing[2].toUpperCase();
             }
-            catch (ArrayIndexOutOfBoundsException e3)
+            else if (argnum <= 0)
             {
-                error("[AftFlight] Invalid or missing arguments detected for -search!");
+                error("[AftFlight] The -search parameter requires at least one parameter for the Airline name!");
                 return;
             }
-
         }
 
         // Only if -search is not specified (if searchoption is false), ergo, where we must check all 10 of the arguments for a given command-line for a new airline with a new flight, etc.
