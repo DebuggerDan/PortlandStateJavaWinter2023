@@ -82,56 +82,52 @@ public class XmlParser implements AirlineParser<Airline> {
 
     /**
      * Returns a new date with the depart/arrive node, checks if it is valid, but if it does not, throws!
-     * @param xmlDate
+     *
+     * @param dateTimeElement
      * @return parsedDate
      * @throws ParseException If the date-node's stuffz are invalid!
      */
-    private String xmlGlue(Node xmlDate) throws ParseException
-    {
-        Element xmlCal = (Element) xmlDate;
+    private String xmlGlue(Element dateTimeElement) {
+        Element dateElement = (Element) dateTimeElement.getElementsByTagName("date").item(0);
+        Element timeElement = (Element) dateTimeElement.getElementsByTagName("time").item(0);
+        //Element xmlCal = (Element) dateTimeElement;
         String parsedString = null;
 
-        String hourString = xmlCal.getAttribute("hour");
-        String minuteString = xmlCal.getAttribute("minute");
-        String dayString = xmlCal.getAttribute("day");
-        String monthString = xmlCal.getAttribute("month");
-        String yearString = xmlCal.getAttribute("year");
+        String hourString = timeElement.getAttribute("hour");
+        String minuteString = timeElement.getAttribute("minute");
+        String dayString = dateElement.getAttribute("day");
+        String monthString = String.valueOf(Integer.parseInt(dateElement.getAttribute("month")) + 1);
+        String yearString = dateElement.getAttribute("year");
 
         if (!hourString.isEmpty() && !minuteString.isEmpty() && !dayString.isEmpty() && !monthString.isEmpty() && !yearString.isEmpty()) {
-            int month = Integer.parseInt(monthString) - 1; // 0 -> January, 1 -> February, etc.
+            //int month = Integer.parseInt(monthString) - 1; // 0 -> January, 1 -> February, etc.
             //int month = Integer.parseInt(monthString);
-            String parsedMonthString = Integer.toString(month);
+            //String parsedMonthString = Integer.toString(month);
             int hour = Integer.parseInt(hourString);
             String amPm = hour >= 12 ? "pm" : "am";
             int hour_12 = hour % 12;
-            if (hour_12 == 0)
-            {
+            if (hour_12 == 0) {
                 hour_12 = 12;
             }
             String parsedHourString = Integer.toString(hour_12);
-            parsedString = (parsedMonthString + "/" + dayString + "/" + yearString + " " + parsedHourString + ":" + minuteString + " " + amPm);
+            parsedString = (monthString + "/" + dayString + "/" + yearString + " " + parsedHourString + ":" + minuteString + " " + amPm);
         } else {
-            if (hourString.isEmpty())
-            {
+            if (hourString.isEmpty()) {
                 hourString = "N/A";
             }
-            if (minuteString.isEmpty())
-            {
+            if (minuteString.isEmpty()) {
                 minuteString = "N/A";
             }
-            if (dayString.isEmpty())
-            {
+            if (dayString.isEmpty()) {
                 dayString = "N/A";
             }
-            if (monthString.isEmpty())
-            {
+            if (monthString.isEmpty()) {
                 monthString = "N/A";
             }
-            if (yearString.isEmpty())
-            {
+            if (yearString.isEmpty()) {
                 yearString = "N/A";
             }
-            throw new ParseException("[XmlStamper] Uh oh, looks like one or more date/time attributes were missing or empty." + "[Debug - <hh/mm/dd/mo(nth)/ye(ar)>]" + hourString + minuteString + dayString + monthString + yearString, 0);
+            //throw new ParseException("[xmlGlue] Uh oh, looks like one or more date/time attributes were missing or empty." + " [Debug - <hh/mm/dd/mo(nth)/ye(ar)>]: " + hourString + minuteString + dayString + monthString + yearString, 0);
         }
 
         return parsedString;
@@ -147,9 +143,7 @@ public class XmlParser implements AirlineParser<Airline> {
     public XmlParser(String filename) throws IllegalArgumentException {
         if (filename.isEmpty()) {
             throw new IllegalArgumentException("Name of the file is invalid!");
-        }
-        else
-        {
+        } else {
             this.file_name = filename;
         }
         //try {
@@ -174,9 +168,7 @@ public class XmlParser implements AirlineParser<Airline> {
     public XmlParser(File file) throws IllegalArgumentException {
         if (!file.exists()) {
             throw new IllegalArgumentException("Name of the file is invalid!");
-        }
-        else
-        {
+        } else {
             this.file_name = file.getName();
         }
 
@@ -193,6 +185,7 @@ public class XmlParser implements AirlineParser<Airline> {
     /**
      * Project #4: XML Parsing!
      * The main (XML)parse[r]() function that parses <code>XML</code> files & creates an airline based on the <code>XML</code>-file!.
+     *
      * @return <code>Airline</code> Provides the airline with its associated, parsed-in flights.
      * @throws ParserException For parser-specific errors, e.g. invalid XML file, XML file that has DTD non-conformation.
      * @see "xml-2x2.pdf, page 39"
@@ -204,19 +197,15 @@ public class XmlParser implements AirlineParser<Airline> {
 //        DateFormat TStamp = new SimpleDateFormat(Timestamp_Format, Locale.US);
         String currstring = null;
         FileReader parsely = null;
-        try
-        {
+        try {
             parsedfile = new File(this.file_name);
             parsely = new FileReader(parsedfile);
-        }
-        catch (FileNotFoundException e5)
-        {
+        } catch (FileNotFoundException e5) {
             //throw new ParserException("[XmlParser Exception Type V.] " + e5.getMessage());
             return null;
         }
 
-        try
-        {
+        try {
             DocumentBuilderFactory airTrafficControl = DocumentBuilderFactory.newInstance();
             airTrafficControl.setValidating(true);
             AirlineXmlHelper helper = new AirlineXmlHelper();
@@ -225,21 +214,13 @@ public class XmlParser implements AirlineParser<Airline> {
             trafficTower.setEntityResolver(helper);
             trafficTower.setErrorHandler(helper);
             itinerary = trafficTower.parse(parsedfile);
-        }
-        catch (ParserConfigurationException e1)
-        {
+        } catch (ParserConfigurationException e1) {
             throw new ParserException("[XmlParser Exception Type I.] " + e1.getMessage());
-        }
-        catch (SAXException e2)
-        {
+        } catch (SAXException e2) {
             throw new ParserException("[XmlParser Exception Type II.] " + e2.getMessage());
-        }
-        catch (IOException e3)
-        {
+        } catch (IOException e3) {
             throw new ParserException("[XmlParser Exception Type III.] " + e3.getMessage());
-        }
-        catch (Exception e4)
-        {
+        } catch (Exception e4) {
             throw new ParserException("[XmlParser Exception Type IV.] " + e4.getMessage());
         }
 
@@ -250,19 +231,21 @@ public class XmlParser implements AirlineParser<Airline> {
         //List<Flight> flights = new ArrayList<Flight>
         NodeList flightXML = boeing.getElementsByTagName("flight");
         Flight curr = null;
-        for (int idx = 0; idx < flightXML.getLength(); idx++)
-        {
+        for (int idx = 0; idx < flightXML.getLength(); idx++) {
             Element flight = (Element) flightXML.item(idx);
             String flight_number = flight.getElementsByTagName("number").item(0).getTextContent();
             String src = flight.getElementsByTagName("src").item(0).getTextContent();
+
+            Element departElement = (Element) flight.getElementsByTagName("depart").item(0);
+            Element arriveElement = (Element) flight.getElementsByTagName("arrive").item(0);
+
+            String departDateString = xmlGlue(departElement);
+            String arriveDateString = xmlGlue(arriveElement);
+
+            String dest = flight.getElementsByTagName("dest").item(0).getTextContent();
             try
             {
-                //Date depart = xmlStamper(flight.getElementsByTagName("depart").item(0));
-                String depart = xmlGlue(flight.getElementsByTagName("depart").item(0));
-                String dest = flight.getElementsByTagName("dest").item(0).getTextContent();
-                //Date arrive = xmlStamper(flight.getElementsByTagName("arrive").item(0));
-                String arrive = xmlGlue(flight.getElementsByTagName("arrive").item(0));
-                curr = new Flight(flight_number, src, depart.toString(), dest, arrive.toString());
+                curr = new Flight(flight_number, src, departDateString, dest, arriveDateString);
                 lufthansa.addFlight(curr);
             }
             catch (ParseException e6)
@@ -270,11 +253,17 @@ public class XmlParser implements AirlineParser<Airline> {
                System.out.println("[XmlParser Flight XML-List Parsing Error] " + e6.getMessage());
                return null;
             }
+
+
         }
+//            catch (ParseException e6)
+//            {
+//               System.out.println("[XmlParser Flight XML-List Parsing Error] " + e6.getMessage());
+//               return null;
+//            }
 
         return lufthansa;
         //lufthansa = new Airline(boeing);
-
 
 
 //        NodeList flightXML = root.getChildNodes();
@@ -306,7 +295,6 @@ public class XmlParser implements AirlineParser<Airline> {
 //        NodeList flightXML2
 //
 //        //this.flightnum = 0;
-
 
     }
 }

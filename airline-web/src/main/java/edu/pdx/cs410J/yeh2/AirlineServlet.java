@@ -370,7 +370,6 @@ public class AirlineServlet extends HttpServlet {
      */
     private void writeSpecificFlights(String airline, String src, String dest, HttpServletResponse response) throws IOException {
         Airline lufthansa = this.aftflight.get(airline);
-        PrintWriter pw = response.getWriter();
         if (src != null && dest != null)
         {
             String localSrc = new String(src);
@@ -394,13 +393,14 @@ public class AirlineServlet extends HttpServlet {
         else
         {
             //PrintWriter pw = response.getWriter();
-
+            PrintWriter pw = response.getWriter();
             //Map<String, Airline> airlineFlights = Map.of(airline, lufthansa);
             XmlDumper dumper = new XmlDumper(pw, src, dest);
             dumper.dump(lufthansa);
             //pw.println(XmlDumper.dumpMail(lufthansa));
             pw.flush();
             pw.close();
+
             response.setStatus(HttpServletResponse.SC_OK);
         }
 
