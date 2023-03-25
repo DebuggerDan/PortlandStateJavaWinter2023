@@ -78,6 +78,7 @@ public class HelpActivity extends AppCompatActivity {
 //                Snackbar.make(v, "Help", Snackbar.LENGTH_LONG)
 //                        .setAction("Action", null).show();
                 helpView.setText(readme);
+                helpView.invalidate();
             //}
         //});
     }
