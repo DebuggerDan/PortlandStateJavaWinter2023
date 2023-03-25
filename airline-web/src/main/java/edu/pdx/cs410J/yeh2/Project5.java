@@ -248,8 +248,8 @@ public class Project5 {
                         //displayer(readme_file, 0);
                         usage("CS410P [Adv. Java Programming] Project #5 utilizes the REST API, provided through the AirlineRestClient & AirlineServlet classes - utilizing HTTP requests as a REST-ful Web Service!\nProject #5 can store multiple Airlines, alongside their flights.\nIt uses a dictionary-mapping system, that is also based on a HashMap, where 'AftFlight' contains flights that have search capabilities based on airline name & matching source & destination airport codes, pretty-print all available flights, etc..");
                         return;
-                        //readme_option_num++;
-                        //break;
+                    //readme_option_num++;
+                    //break;
 
                     // Project #5.) Option III.) -search
                     case "search":
@@ -692,7 +692,7 @@ public class Project5 {
 //                    formattedSrc = landing[1].toUpperCase();
 //                    formattedDest = landing[2].toUpperCase();
                     // DEBUG
-                    System.out.println("formattedAirlineName: " + formattedAirlineName + ", formattedSrc: " + formattedSearchSrc + ", formattedDest: " + formattedSearchDest);
+                    //System.out.println("formattedAirlineName: " + formattedAirlineName + ", formattedSrc: " + formattedSearchSrc + ", formattedDest: " + formattedSearchDest);
                     // DEBUG
                     try
                     {
@@ -707,29 +707,25 @@ public class Project5 {
                 }
                 //System.out.println(message);
 
-                try
-                {
-                    File parchment = new File("parchment.xml");
-                    //parchment.deleteOnExit();
-                    FileWriter fw = new FileWriter(parchment);
-                    PrintWriter quill = new PrintWriter(fw);
+                try {
+                    File parchment = File.createTempFile("parchment", ".xml");
+                    parchment.deleteOnExit();
 
-                    quill.print(message);
-                    quill.close();
-                    fw.close();
+                    try (FileWriter fw = new FileWriter(parchment);
+                         PrintWriter quill = new PrintWriter(fw)) {
+                        quill.print(message);
+                    }
 
-                    XmlParser scroll = new XmlParser(parchment);
-                    lufthansa = scroll.parse();
+                    lufthansa = XmlParser.parsley(parchment);
 
                     PrettyPrinter scribe = new PrettyPrinter(null, false);
                     scribe.dump(lufthansa);
                     System.out.println(scribe.getPlottedPrint());
-
-                    //quill.close();
-                }
-                catch (ParserException e4)
-                {
+                } catch (ParserException e4) {
                     error("[AftFlight] Error while parsing the XML file: " + e4.getMessage());
+                    return;
+                } catch (IOException e) {
+                    error("[AftFlight] Error while creating or writing to the temporary file: " + e.getMessage());
                     return;
                 }
             }
