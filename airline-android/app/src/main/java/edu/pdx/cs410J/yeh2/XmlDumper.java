@@ -34,6 +34,7 @@ public class XmlDumper implements AirlineDumper<Airline> {
      * @see "xml-2x2.pdf, page 47"
      */
     private static PrintStream DomoOhNo = System.err;
+    private FileWriter filexmler = null;
 
     //private final static String publicID = null; //since only SystemID is required to be referenced
     //private final static String privateID = null;
@@ -41,6 +42,9 @@ public class XmlDumper implements AirlineDumper<Airline> {
     private String file_name = null;
     private String src = null;
     private String dest = null;
+    private Boolean directFile = false;
+
+    private File currfile = null;
     protected Boolean searchSpecific = false;
 
     protected Boolean shakespeare = false;
@@ -100,6 +104,36 @@ public class XmlDumper implements AirlineDumper<Airline> {
         }
     }
 
+
+    /**
+     * Create a <code>XML</code>Dumper for a specific file , but checks if it is an invalid file.
+     * @param file The file to be dumped to.
+     * @throws IllegalArgumentException If the file name is invalid, it throws an Illegal Argument exception thingy.
+     */
+    public XmlDumper(File file) throws IllegalArgumentException, IOException
+    {
+        if (file == null)
+        {
+            throw new IllegalArgumentException("Sorry, looks like the file is invalid.");
+        }
+        else
+        {
+            this.file_name = file.getName();
+            try
+            {
+                this.filexmler = new FileWriter(file);
+            }
+            catch (IOException xml1)
+            {
+               throw new IOException("Sorry, looks like the file was unable to be written to [XMLDumper]: " + xml1.getMessage());
+            }
+            this.currfile = file;
+            this.poet = null;
+            this.directFile = true;
+        }
+
+    }
+
     /**
      * Project #5: <code>XML</code>-String dumper thingy!
      */
@@ -121,17 +155,27 @@ public class XmlDumper implements AirlineDumper<Airline> {
         Document itinerary = null;
         File thefile = null;
         int directFlights = 0;
+        FileWriter filewrite = null;
+        PrintWriter printer = null;
 
         if (!this.shakespeare)
         {
-            try
-            {
-                thefile = new File(this.file_name);
+            if (!this.directFile) {
+                try {
+                    thefile = new File(this.file_name);
+                } catch (NullPointerException e1) {
+                    System.err.println("Sorry, looks like the file name was invalid.");
+                    return;
+                }
             }
-            catch (NullPointerException e1)
+            else
             {
-                System.err.println("Sorry, looks like the file name was invalid.");
-                return;
+                thefile = this.currfile;
+                //thefile = new File(this.file_name);
+
+                filewrite = new FileWriter(thefile);
+
+                printer = new PrintWriter(filewrite);
             }
         }
 
@@ -314,7 +358,7 @@ public class XmlDumper implements AirlineDumper<Airline> {
                 //printer.println(runway.getNumber() + ", " + runway.getSource() + ", " + runway.getDepartureString() + ", " + runway.getDestination() + ", " + runway.getArrivalString());
             }
         }
-        // If we are saving the XML results to a XML file.
+        // If we are saving the XML results to be returned to the client via the HTTP GET response's getWriter (PrintWriter) object.
         if (this.shakespeare)
         {
             if (directFlights == 0)
@@ -348,7 +392,7 @@ public class XmlDumper implements AirlineDumper<Airline> {
             }
             //printer.close();
         }
-        // If we are saving the XML results to be returned to the client via the HTTP GET response's getWriter (PrintWriter) object.
+        // If we are saving the XML results to a XML file.
         else// if (this.shakespeare)
         {
             try

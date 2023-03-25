@@ -407,7 +407,7 @@ public class AftflightCreate extends AppCompatActivity {
 
                     //File androidPath = view.getContext().getFilesDir();
                     //File file = new File(androidPath, airlineName);
-                    File file = aftFlightFile(view, airlineName, ".txt");
+                    File file = aftFlightFile(view, airlineName, ".xml");
 //                    TextParser parsley = null;
 //                    try
 //                    {
@@ -421,7 +421,8 @@ public class AftflightCreate extends AppCompatActivity {
 
                     try {
                         //TextParser parsley = new TextParser(file);
-                        lufthansa = TextParser.parsley(file);
+                        //lufthansa = TextParser.parsley(file);
+                        lufthansa = XmlParser.parsley(file);
                     } catch (ParserException | IllegalArgumentException e1) {
                         //e1.printStackTrace();
 //                        Snackbar.make(view, "Looks like the file was invalid: ", Snackbar.LENGTH_LONG)
@@ -442,11 +443,14 @@ public class AftflightCreate extends AppCompatActivity {
                             return;
                         }
 
-                        TextDumper hp = null;
+                        XmlDumper xmldump = null;
                         try
                         {
-                            hp = new TextDumper(file);
-                            hp.dump(lufthansa);
+                            //xmldump = new TextDumper(file);
+                            //hp.dump(lufthansa);
+
+                            xmldump = new XmlDumper(file);
+                            xmldump.dump(lufthansa);
                         }
                         catch (IOException e9)
                         {
@@ -474,11 +478,11 @@ public class AftflightCreate extends AppCompatActivity {
                         }
                         lufthansa.addFlight(runway);
                         //PrettyPrinter xerox = new PrettyPrinter(file);
-                        TextDumper hp = null;
+                        XmlDumper xmldump = null;
                         try
                         {
-                            hp = new TextDumper(file);
-                            hp.dump(lufthansa);
+                            xmldump = new XmlDumper(file);
+                            xmldump.dump(lufthansa);
                             //xerox.dump(lufthansa);
                         }
                         catch (IOException e4)

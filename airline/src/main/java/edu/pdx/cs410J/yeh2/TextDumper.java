@@ -117,7 +117,6 @@ public class TextDumper implements AirlineDumper<Airline> {
 //    if (this.dump != null)
 //    {
 //      printer = new PrintWriter(this.dump);
-
     Collection<Flight> flightDump = lufthansa.getFlights();
     String airline_name = lufthansa.getName();
 

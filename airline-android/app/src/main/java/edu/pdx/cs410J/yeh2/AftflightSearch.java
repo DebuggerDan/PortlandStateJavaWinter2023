@@ -144,7 +144,7 @@ public class AftflightSearch extends AppCompatActivity {
                 Flight runway = null;
                 //File path = v.getContext().getFilesDir();
                 //File file = new File(path, searchName);
-                File file = aftFlightFile(v, searchName, ".txt");
+                File file = aftFlightFile(v, searchName, ".xml");
 //                TextParser parsley = null;
 //
 //                try
@@ -174,18 +174,19 @@ public class AftflightSearch extends AppCompatActivity {
 //                }
 
                 Intent searchShare = new Intent(AftflightSearch.this, AftflightDisplay.class);
-
-                try
-                {
-                    lufthansa = TextParser.parsley(file);
+                
+                try {
+                    //TextParser parsley = new TextParser(file);
+                    //lufthansa = TextParser.parsley(file);
+                    lufthansa = XmlParser.parsley(file);
                 }
                 catch (ParserException e5)
                 {
-                    Snackbar.make(v, "ParserException: " + e5.getMessage(), Snackbar.LENGTH_LONG)
+                    Snackbar.make(v, "XMLParserException: " + e5.getMessage(), Snackbar.LENGTH_LONG)
                             .setAction("Action", null).show();
                     return;
                 }
-                catch (NullPointerException e9)
+                catch (NullPointerException  | IllegalArgumentException e9)
                 {
 //                    Snackbar.make(v, "Parsley NullPointerException (file did not exist): " + e9.getMessage(), Snackbar.LENGTH_LONG)
 //                            .setAction("Action", null).show();

@@ -56,7 +56,7 @@ public class XmlParser implements AirlineParser<Airline> {
      * @return parsedDate
      * @throws ParseException If the date-node's stuffz are invalid!
      */
-    private Date xmlStamper(Node xmlDate) throws ParseException
+    private static Date xmlStamper(Node xmlDate) throws ParseException
     {
         Element xmlCal = (Element) xmlDate;
         Date parsedDate = null;
@@ -214,6 +214,125 @@ public class XmlParser implements AirlineParser<Airline> {
         }
 
         return lufthansa;
+        //lufthansa = new Airline(boeing);
+
+
+
+//        NodeList flightXML = root.getChildNodes();
+//        this.name = root.getAttribute("name");
+//        this.flights = new TreeSet<Flight>(new Airline.air_traffic_controller());
+//        this.flightnum = 0;
+//
+//        for (int idx = 0; idx != flightXML.getLength(); idx++)
+//        {
+//            if (flightXML.item(idx) instanceof Element)
+//            {
+//                Element runway = (Element) flightXML.item(idx);
+//                if (runway.getNodeName().equals("flight"))
+//                {
+//                    Flight curr = null;
+//                    this.flightsXML.add(curr);
+//                    //curr = new Flight(runway.getAttribute("number"), runway.getAttribute("src"), runway.getAttribute("depart"), runway.getAttribute("dest"), runway.getAttribute("arrive"));
+//                    //this.addFlight(curr);
+//                    this.flightnum++;
+//
+//                    //System.err.println("[Flight XML Constructor Error]: " + e1.getMessage());
+//                }
+//            }
+//        }
+//
+//        //this.flights = new LinkedList<Flight>();
+//        this.flights = new TreeSet<Flight>(new Airline.air_traffic_controller());
+//
+//        NodeList flightXML2
+//
+//        //this.flightnum = 0;
+
+
+    }
+    /**
+     * Project #6: XML Parsing for Android!
+     * The main (XML)parse[r]() function that parses <code>XML</code> files & creates an airline based on the <code>XML</code>-file!.
+     * @return <code>Airline</code> Provides the airline with its associated, parsed-in flights.
+     * @throws ParserException For parser-specific errors, e.g. invalid XML file, XML file that has DTD non-conformation.
+     * @see "xml-2x2.pdf, page 39"
+     */
+    public static Airline parsley(File tobeparsleyfile) throws ParserException {
+
+//        String Timestamp_Format = "MM/dd/yyyy HH:mm";
+//        DateFormat TStamp = new SimpleDateFormat(Timestamp_Format, Locale.US);
+        String currstring = null;
+        FileReader parsely = null;
+        File parsleyfile = null;
+        Document itinerary = null;
+        Airline concorde = null;
+        try
+        {
+            //parsleyfile = new File(tobeparsleyfile);
+            parsely = new FileReader(tobeparsleyfile);
+        }
+        catch (FileNotFoundException e5)
+        {
+            //throw new ParserException("[XmlParser Exception Type V.] " + e5.getMessage());
+            return null;
+        }
+
+        try
+        {
+            DocumentBuilderFactory airTrafficControl = DocumentBuilderFactory.newInstance();
+            airTrafficControl.setValidating(true);
+            AirlineXmlHelper helper = new AirlineXmlHelper();
+
+            DocumentBuilder trafficTower = airTrafficControl.newDocumentBuilder();
+            trafficTower.setEntityResolver(helper);
+            trafficTower.setErrorHandler(helper);
+            itinerary = trafficTower.parse(parsleyfile);
+        }
+        catch (ParserConfigurationException e1)
+        {
+            throw new ParserException("[XmlParser Exception Type I.] " + e1.getMessage());
+        }
+        catch (SAXException e2)
+        {
+            throw new ParserException("[XmlParser Exception Type II.] " + e2.getMessage());
+        }
+        catch (IOException e3)
+        {
+            throw new ParserException("[XmlParser Exception Type III.] " + e3.getMessage());
+        }
+        catch (Exception e4)
+        {
+            throw new ParserException("[XmlParser Exception Type IV.] " + e4.getMessage());
+        }
+
+        //Element boeing = (Element) itinerary.getChildNodes().item(1);
+        Element boeing = itinerary.getDocumentElement();
+        String airline_name = boeing.getElementsByTagName("name").item(0).getTextContent();
+
+        //List<Flight> flights = new ArrayList<Flight>
+        NodeList flightXML = boeing.getElementsByTagName("flight");
+        Flight curr = null;
+        for (int idx = 0; idx < flightXML.getLength(); idx++)
+        {
+            Element flight = (Element) flightXML.item(idx);
+            String flight_number = flight.getElementsByTagName("number").item(0).getTextContent();
+            String src = flight.getElementsByTagName("src").item(0).getTextContent();
+            try
+            {
+                Date depart = xmlStamper(flight.getElementsByTagName("depart").item(0));
+                String dest = flight.getElementsByTagName("dest").item(0).getTextContent();
+                Date arrive = xmlStamper(flight.getElementsByTagName("arrive").item(0));
+                curr = new Flight(flight_number, src, depart.toString(), dest, arrive.toString());
+                concorde.addFlight(curr);
+            }
+            catch (ParseException e6)
+            {
+                System.out.println("[XmlParser Flight XML-List Parsing Error] " + e6.getMessage());
+                return null;
+            }
+        }
+
+        return concorde;
         //lufthansa = new Airline(boeing);
 
 
