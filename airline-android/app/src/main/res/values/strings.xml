@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Airline</string>
+    <string name="app_name">AftFlight</string>
     <string name="airline_name">Airline Name:</string>
     <string name="welcome_to_aftflight_help_amp_readme"><![CDATA[Welcome to AftFlight: Help & README]]></string>
     <string name="welcome_to_aftflight">Welcome to AftFlight!</string>
