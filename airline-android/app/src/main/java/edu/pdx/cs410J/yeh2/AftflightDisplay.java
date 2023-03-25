@@ -15,7 +15,11 @@ import android.widget.TextView;
 import com.google.android.material.floatingactionbutton.*;
 import com.google.android.material.snackbar.Snackbar;
 
+import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
+
+import edu.pdx.cs410J.ParserException;
 
 public class AftflightDisplay extends AppCompatActivity {
 
@@ -35,6 +39,27 @@ public class AftflightDisplay extends AppCompatActivity {
         return super.onOptionsItemSelected(buttonz);
     }
 
+    /**
+     * This function creates files properly for the Android system!
+     * @param view The Android view!
+     * @param airlineName The name of the airline!
+     * @param extension The extension of the file!
+     * @return The file that was freshly created!
+     */
+    private File aftFlightFile(View view, String airlineName, String extension)
+    {
+        if (extension == null || extension.isEmpty())
+        {
+            File androidFile = view.getContext().getFilesDir();
+            return new File(androidFile, airlineName);
+        }
+        else
+        {
+            File androidFile = view.getContext().getFilesDir();
+            return new File(androidFile, airlineName + extension);
+        }
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -52,29 +77,63 @@ public class AftflightDisplay extends AppCompatActivity {
         //String airlineName = getIntent().getStringExtra("airlineSearchToDisplayName");
         Bundle searchStuff = getIntent().getExtras();
         String airlineName = searchStuff.getString("airlineSearchToDisplayName");
+        View view = findViewById(R.id.display_aftflight_mainScrollView);
+        File file = aftFlightFile(view, airlineName, ".txt");
         boolean specificSearch = searchStuff.getBoolean("specificSearch", false);
         //if (getIntent().getBooleanExtra("airlineSearchToDisplay", false))
+        String srcSearch = null;
+        String destSearch = null;
         if (specificSearch = true)
         {
-            String srcSearch = searchStuff.getString("srcSearch");
-            String destSearch = searchStuff.getString("destSearch");
+            srcSearch = getIntent().getStringExtra("srcSearch");
+            destSearch = getIntent().getStringExtra("destSearch");
         }
 
         //Airline lufthansa = (Airline) searchStuff.getSerializable("foundAirline");
-        Airline lufthansa = getIntent().getParcelableExtra("foundAirline", Airline.class);
+        //Airline lufthansa = getIntent().getParcelableExtra("foundAirline", Airline.class);
+        //ArrayList<Flight> baggageClaim = (ArrayList<Flight>) getIntent().getSerializableExtra("foundFlights");
+        //File file = getIntent().getParcelableExtra("file");
+        Airline lufthansa = null;//new Airline(airlineName);
+        try
+        {
+            lufthansa = TextParser.parsley(file);
+        }
+        catch (ParserException e)
+        {
+            Snackbar.make(findViewById(android.R.id.content), "[AftFlight Display] Airline not found <Err. #1>.", Snackbar.LENGTH_LONG).show();
+            return;
+        }
+        catch (Exception e)
+        {
+            Snackbar.make(findViewById(android.R.id.content), "[AftFlight Display] Airline not found <Err. #1.>", Snackbar.LENGTH_LONG).show();
+            return;
+        }
+        //lufthansa.setFlightsList(baggageClaim);
+//        String srcSearch = getIntent().getStringExtra("srcSearch");
+//        String destSearch = getIntent().getStringExtra("destSearch");
+        //lufthansa.setFlightsList(baggageClaim);
 
         airlineDisplayNameView.setText(airlineName);
 
         if (lufthansa == null)
         {
-            Snackbar.make(findViewById(android.R.id.content), "Airline not found", Snackbar.LENGTH_LONG).show();
+            Snackbar.make(findViewById(android.R.id.content), "[AftFlight Display] Airline initially found, but was unable to be loaded!", Snackbar.LENGTH_LONG).show();
             return;
         }
 
         Intent displayResultIntent = new Intent();
         displayResultIntent.putExtra("airlineSearchToDisplayName", airlineName);
+        PrettyPrinter xerox = null;
 
-        PrettyPrinter xerox = new PrettyPrinter(null, false);
+        if (specificSearch)// && srcSearch != null && destSearch != null)
+        {
+            xerox = new PrettyPrinter(null, false, srcSearch, destSearch);
+        }
+        else
+        {
+            //PrettyPrinter
+            xerox = new PrettyPrinter(null, false);
+        }
         String displayResult = null;
         try
         {

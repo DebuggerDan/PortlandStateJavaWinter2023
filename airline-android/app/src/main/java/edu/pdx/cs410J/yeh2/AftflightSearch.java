@@ -19,6 +19,7 @@ import com.google.android.material.snackbar.Snackbar;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 
 import edu.pdx.cs410J.ParserException;
 
@@ -206,18 +207,27 @@ public class AftflightSearch extends AppCompatActivity {
                     if (destSearch.isEmpty() || srcSearch.isEmpty())
                     {
                         searchShare.putExtra("airlineSearchToDisplayName", searchName);
-                        searchShare.putExtra("foundAirline", (Parcelable) lufthansa);
+                        //searchShare.putExtra("foundAirline", (Parcelable) lufthansa);
+                        //searchShare.putExtra("v", v);
+                        //ArrayList<Flight> cargo = lufthansa.getFlightPlan();
+                        //searchShare.putExtra("foundFlights", cargo);
+//                        searchShare.putExtra("srcSearchToDisplay", null);
+//                        searchShare.putExtra("destSearchToDisplay", null);
                         searchShare.putExtra("specificSearch", false);
+                        //searchShare.putExtra("foundFile", file);
 
                         startActivityForResult(searchShare, 1);
                     }
                     else
                     {
                         searchShare.putExtra("airlineSearchToDisplayName", searchName);
-                        searchShare.putExtra("foundAirline", (Parcelable) lufthansa);
+                        //searchShare.putExtra("foundAirline", (Parcelable) lufthansa);
+                        //ArrayList<Flight> cargo = lufthansa.getFlightPlan();
+                        //searchShare.putExtra("foundFlights", cargo);
                         searchShare.putExtra("srcSearchToDisplay", srcSearch);
                         searchShare.putExtra("destSearchToDisplay", destSearch);
                         searchShare.putExtra("specificSearch", true);
+                        //searchShare.putExtra("foundFile", file);
 
                         startActivityForResult(searchShare, 1);
                     }
