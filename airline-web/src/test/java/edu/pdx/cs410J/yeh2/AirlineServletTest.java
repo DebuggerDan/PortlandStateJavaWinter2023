@@ -258,6 +258,25 @@ public class AirlineServletTest {
 
     verify(response6).sendError(HttpServletResponse.SC_PRECONDITION_FAILED, "[AftFlight] Error regarding parameter: \"dest\" !");
 
+    HttpServletRequest request7 = mock(HttpServletRequest.class);
+    HttpServletResponse response7 = mock(HttpServletResponse.class);
+
+//    String badsrc = "nop";
+//    String baddest = "yes";
+
+    PrintWriter pw5 = mock(PrintWriter.class);
+    when(response7.getWriter()).thenReturn(pw4);
+
+    when(request7.getParameter(AIRLINE_PARAMETER)).thenReturn(airline);
+//    when(request7.getParameter(SRC_PARAMETER)).thenReturn(src);
+//    when(request7.getParameter(DEST_PARAMETER)).thenReturn(baddest);
+
+    //StringWriter sw4 = new StringWriter();
+    //PrintWriter pw4 = new PrintWriter(sw4, true);
+    servlet.doDelete(request7, response7);
+
+    //verify(response7).sendError(HttpServletResponse.SC_OK, "[AftFlight] Error regarding parameter: \"dest\" !");
+
     //verify(response4).setStatus(statusCode.capture());
     //assertThat(statusCode.getValue(), equalTo(HttpServletResponse.SC_PRECONDITION_FAILED));
     //servlet.doPost(request, response);
