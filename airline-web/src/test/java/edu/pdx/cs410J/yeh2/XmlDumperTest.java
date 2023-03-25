@@ -90,7 +90,7 @@ class XmlDumperTest {
 
         String text = reader(filename);//sw.toString();
 
-        assertThat(text, containsString("<?xml version='1.0'"));// +
+        assertThat(text, containsString("Lufthansa"));// +
         // "\n123, PDX, 02/04/2023 6:51 am, SEA, 02/04/2023 7:00 am"));
         AirlineXmlHelper dtdTest = new AirlineXmlHelper();
         DocumentBuilderFactory dtdTestFactory = DocumentBuilderFactory.newInstance();
