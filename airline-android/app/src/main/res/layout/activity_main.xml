@@ -36,12 +36,12 @@
             android:layout_gravity="center_horizontal"
             android:text="Search" />
 
-        <Button
-            android:id="@+id/main_displayButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:text="Display" />
+<!--        <Button-->
+<!--            android:id="@+id/main_displayButton"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_gravity="center_horizontal"-->
+<!--            android:text="Display" />-->
 
         <Button
             android:id="@+id/main_helpButton"

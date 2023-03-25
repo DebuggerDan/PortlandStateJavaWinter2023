@@ -29,8 +29,9 @@ import java.util.*;
  * </p>
  */
 public class PrettyPrinter implements AirlineDumper<Airline> {
-    protected static DateFormat pretty_format = DateFormat.getDateTimeInstance(0, 0, Locale.US);
-
+    //protected static DateFormat pretty_format = DateFormat.getDateTimeInstance(0, 0, Locale.US);
+    String Timestamp_Format = "MM/dd/yyyy h:mm a";
+    DateFormat pretty_format = new SimpleDateFormat(Timestamp_Format, Locale.US);
     //private static AirportNames iata = new AirportNames();
     //private final StringWriter writer;
 

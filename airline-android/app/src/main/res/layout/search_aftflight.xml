@@ -13,6 +13,22 @@
         android:autofillHints="e.g., Lufthansa"
         android:inputType="text" />
 
+    <EditText
+        android:id="@+id/search_aftflight_srcEdit"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Enter the source 3-digit airport code of the airline!"
+        android:autofillHints="e.g., PDX"
+        android:inputType="text" />
+
+    <EditText
+        android:id="@+id/search_aftflight_destEdit"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Enter the destination 3-digit airport code of the airline!"
+        android:autofillHints="e.g., SEA"
+        android:inputType="text" />
+
     <Button
         android:id="@+id/search_aftflight_searchButton"
         android:layout_width="wrap_content"

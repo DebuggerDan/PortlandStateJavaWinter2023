@@ -20,7 +20,7 @@ public class MainActivity extends AppCompatActivity {
 
         Button aftflightCreateButton = findViewById(R.id.main_createButton);
         Button aftflightSearchButton = findViewById(R.id.main_searchButton);
-        Button aftflightDisplayButton = findViewById(R.id.main_displayButton);
+        //Button aftflightDisplayButton = findViewById(R.id.main_displayButton);
 
         aftflightCreateButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -30,13 +30,13 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        aftflightDisplayButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent aftflightDisplay = new Intent(MainActivity.this, AftflightDisplay.class);
-                startActivity(aftflightDisplay);
-            }
-        });
+//        aftflightDisplayButton.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                Intent aftflightDisplay = new Intent(MainActivity.this, AftflightDisplay.class);
+//                startActivity(aftflightDisplay);
+//            }
+//        });
 
         aftflightSearchButton.setOnClickListener(new View.OnClickListener() {
             @Override
