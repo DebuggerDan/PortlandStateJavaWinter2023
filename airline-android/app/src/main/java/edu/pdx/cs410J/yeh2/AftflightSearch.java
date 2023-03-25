@@ -11,6 +11,7 @@ import android.content.Intent;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.material.floatingactionbutton.*;
 import com.google.android.material.snackbar.Snackbar;
@@ -50,8 +51,16 @@ public class AftflightSearch extends AppCompatActivity {
      */
     private File aftFlightFile(View view, String airlineName, String extension)
     {
-        File androidFile = view.getContext().getFilesDir();
-        return new File(androidFile, airlineName + extension);
+        if (extension == null || extension.isEmpty())
+        {
+            File androidFile = view.getContext().getFilesDir();
+            return new File(androidFile, airlineName);
+        }
+        else
+        {
+            File androidFile = view.getContext().getFilesDir();
+            return new File(androidFile, airlineName + extension);
+        }
     }
 
     private void scrollViewUpdate(String scroll)
@@ -105,7 +114,24 @@ public class AftflightSearch extends AppCompatActivity {
 
                 if (searchName.isEmpty())
                 {
+                    searchAirlineNameText.setError("Please enter an airline name!");
                     Snackbar.make(v, "Please enter an airline name!", Snackbar.LENGTH_LONG)
+                            .setAction("Action", null).show();
+                    return;
+                }
+
+                if (srcSearch.isEmpty() && !destSearch.isEmpty())
+                {
+                    srcSearchText.setError("Please enter a source airport! (to use src-to-destination search)");
+                    Snackbar.make(v, "Please enter a source airport!", Snackbar.LENGTH_LONG)
+                            .setAction("Action", null).show();
+                    return;
+                }
+
+                if (!srcSearch.isEmpty() && destSearch.isEmpty())
+                {
+                    srcSearchText.setError("Please enter a destination airport (to use src-to-destination search)!");
+                    Snackbar.make(v, "Please enter a destination airport!", Snackbar.LENGTH_LONG)
                             .setAction("Action", null).show();
                     return;
                 }
@@ -119,33 +145,59 @@ public class AftflightSearch extends AppCompatActivity {
                 //File path = v.getContext().getFilesDir();
                 //File file = new File(path, searchName);
                 File file = aftFlightFile(v, searchName, ".txt");
-                TextParser parsley = null;
-
-                try
-                {
-                    parsley = new TextParser(file);
-                }
-                catch (IOException e8)
-                {
-                    Snackbar.make(v, "Parsing IO Exception: " + e8.getMessage(), Snackbar.LENGTH_LONG)
-                            .setAction("Action", null).show();
-                }
+//                TextParser parsley = null;
+//
+//                try
+//                {
+//                    parsley = new TextParser(file, true);
+//                }
+//                catch (IOException e8)
+//                {
+//                    searchAirlineNameText.setError("Parsing IO Exception: " + e8.getMessage());
+//                    Snackbar.make(v, "Parsing IO Exception: " + e8.getMessage(), Snackbar.LENGTH_LONG)
+//                            .setAction("Action", null).show();
+//                    return;
+//                }
+//                catch (IllegalArgumentException e10)
+//                {
+//                    searchAirlineNameText.setError("Parsing IllegalArgumentException: " + e10.getMessage());
+//                    Snackbar.make(v, "Parsing IllegalArgumentException: " + e10.getMessage(), Snackbar.LENGTH_LONG)
+//                            .setAction("Action", null).show();
+//                    return;
+//                }
+//                catch (Exception e11)
+//                {
+//                    searchAirlineNameText.setError("Parsing Exception: " + e11.getMessage());
+//                    Snackbar.make(v, "Parsing Exception: " + e11.getMessage(), Snackbar.LENGTH_LONG)
+//                            .setAction("Action", null).show();
+//                    return;
+//                }
 
                 Intent searchShare = new Intent(AftflightSearch.this, AftflightDisplay.class);
 
                 try
                 {
-                    lufthansa = parsley.parse();
+                    lufthansa = TextParser.parsley(file);
                 }
                 catch (ParserException e5)
                 {
                     Snackbar.make(v, "ParserException: " + e5.getMessage(), Snackbar.LENGTH_LONG)
                             .setAction("Action", null).show();
+                    return;
+                }
+                catch (NullPointerException e9)
+                {
+//                    Snackbar.make(v, "Parsley NullPointerException (file did not exist): " + e9.getMessage(), Snackbar.LENGTH_LONG)
+//                            .setAction("Action", null).show();
+                    Snackbar.make(v, "Airline \"" + searchName + "\" does not exist!", Snackbar.LENGTH_LONG)
+                            .setAction("Action", null).show();
+                    return;
                 }
                 if (lufthansa == null)
                 {
                     Snackbar.make(v, "Airline \"" + searchName + "\" does not exist!", Snackbar.LENGTH_LONG)
                             .setAction("Action", null).show();
+                    return;
                 }
                 else
                 {
@@ -167,6 +219,8 @@ public class AftflightSearch extends AppCompatActivity {
 
                         startActivityForResult(searchShare, 1);
                     }
+                    Toast toaster = Toast.makeText(getApplicationContext(), "Displaying results for \"" + searchName + "\"!", Toast.LENGTH_LONG);
+                    toaster.show();
                 }
             }
         });

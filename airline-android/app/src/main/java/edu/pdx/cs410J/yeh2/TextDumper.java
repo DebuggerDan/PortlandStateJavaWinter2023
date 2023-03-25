@@ -25,7 +25,7 @@ public class TextDumper implements AirlineDumper<Airline> {
   //  private final StringWriter writer;
   protected String file_name = null;
   //protected String dump;
-  //protected File currfile = null;
+  protected File currfile = null;
 
   public TextDumper(StringWriter cw)
   {
@@ -47,7 +47,7 @@ public class TextDumper implements AirlineDumper<Airline> {
     }
     else
     {
-      this.file_name = name;
+      //this.file_name = name;
     }
   }
 
@@ -56,16 +56,20 @@ public class TextDumper implements AirlineDumper<Airline> {
    * @param file The name of the file to be dumped to.
    * @throws IllegalArgumentException If the file name is invalid, it throws an Illegal Argument exception thingy.
    */
-  public TextDumper(File file) throws IllegalArgumentException
+  public TextDumper(File file) throws IllegalArgumentException, IOException
   {
-    if (!file.exists())
-    {
+    if (!file.exists()) {
+      if (!file.createNewFile()) {
+        throw new IOException("Sorry, looks like the file could not be created.");
+      }
       this.file_name = file.getName();
+      this.currfile = file;
     }
     else
     {
-      throw new IllegalArgumentException("Sorry, looks like the file already exists!.");
-      //this.currfile = file;
+      //throw new IllegalArgumentException("Sorry, looks like the file already exists!.");
+      file.getName();
+      this.currfile = file;
     }
   }
 
@@ -89,8 +93,17 @@ public class TextDumper implements AirlineDumper<Airline> {
       throw new IOException("Airline given was blank!");
     }
 
+    File thefile = null;
+
 //    PrintWriter printer = null;
-    File thefile = new File(this.file_name);
+    if (!this.currfile.exists())
+    {
+      thefile = new File(this.file_name);
+    }
+    else
+    {
+      thefile = this.currfile;
+    }
 //    FileWriter filewrite = null;
 //
 //    if (this.file_name != null)

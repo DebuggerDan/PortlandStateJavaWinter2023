@@ -91,9 +91,14 @@ public class Airline extends AbstractAirline<Flight> {
     {
       throw new IllegalArgumentException("Uh oh, earlyBird was empty!");
     }
+    if (airline == null || airline.isEmpty())
+    {
+      throw new IllegalArgumentException("Airline name cannot be empty!");
+    }
     this.name = airline;
     //this.flights = new LinkedList<Flight>();
     this.flights = new TreeSet<Flight>(new air_traffic_controller());
+    this.flightnum++;
 
     //Flight firstFlight = new Flight(earlyBird);//flightNumber, src, depart, dest, arrive);
     this.addFlight(earlyBird);

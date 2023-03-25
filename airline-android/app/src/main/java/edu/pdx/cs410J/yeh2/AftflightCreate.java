@@ -3,12 +3,15 @@ package edu.pdx.cs410J.yeh2;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
+import android.view.Gravity;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Button;
 import android.content.Intent;
 import android.widget.EditText;
+import android.widget.Toast;
+
 import com.google.android.material.floatingactionbutton.*;
 import com.google.android.material.snackbar.Snackbar;
 
@@ -54,8 +57,32 @@ public class AftflightCreate extends AppCompatActivity {
      */
     private File aftFlightFile(View view, String airlineName, String extension)
     {
-        File androidFile = view.getContext().getFilesDir();
-        return new File(androidFile, airlineName + extension);
+        if (extension == null || extension.isEmpty())
+        {
+            File androidFile = view.getContext().getFilesDir();
+//            try
+//            {
+//                androidFile.createNewFile();
+//            }
+//            catch (IOException e)
+//            {
+//                e.printStackTrace();
+//            }
+            return new File(androidFile, airlineName);
+        }
+        else
+        {
+            File androidFile = view.getContext().getFilesDir();
+//            try
+//            {
+//                androidFile.createNewFile();
+//            }
+//            catch (IOException e)
+//            {
+//                e.printStackTrace();
+//            }
+            return new File(androidFile, airlineName + extension);
+        }
     }
 
     /**
@@ -135,8 +162,33 @@ public class AftflightCreate extends AppCompatActivity {
                 String arriveTime = arriveTimeCreateText.getText().toString();
 
                 if (airlineName.isEmpty() || flightNumber.isEmpty() || src.isEmpty() || departTime.isEmpty() || dest.isEmpty() || arriveTime.isEmpty()) {
+                    if (airlineName.isEmpty())
+                    {
+                        airlineNameCreateText.setError("Please enter an airline name!");
+                    }
+                    if (flightNumber.isEmpty())
+                    {
+                        flightNumberCreateText.setError("Please enter a flight number!");
+                    }
+                    if (src.isEmpty())
+                    {
+                        srcCreateText.setError("Please enter a source airport!");
+                    }
+                    if (departTime.isEmpty())
+                    {
+                        departTimeCreateText.setError("Please enter a departure time!");
+                    }
+                    if (dest.isEmpty())
+                    {
+                        destCreateText.setError("Please enter a destination airport!");
+                    }
+                    if (arriveTime.isEmpty())
+                    {
+                        arriveTimeCreateText.setError("Please enter an arrival time!");
+                    }
                     Snackbar.make(view, "Please fill out all fields!", Snackbar.LENGTH_LONG)
                             .setAction("Action", null).show();
+                    return;
                 }
                 else
                 {
@@ -151,6 +203,7 @@ public class AftflightCreate extends AppCompatActivity {
                     }
                     catch (Exception m7)
                     {
+                        flightNumberCreateText.setError("The flight number seems to be, well, not a integer!");
                         //usage("The flight number seems to be, well, not a integer!");
                         Snackbar.make(view, "The flight number seems to be, well, not a integer!", Snackbar.LENGTH_LONG)
                                 .setAction("Action", null).show();
@@ -170,10 +223,29 @@ public class AftflightCreate extends AppCompatActivity {
                     }
                     catch (IllegalArgumentException m4a)
                     {
+                        departTimeCreateText.setError("Please enter a valid departure date and time!");
                         Snackbar.make(view, "Please enter a valid departure date and time!", Snackbar.LENGTH_LONG)
                                 .setAction("Action", null).show();
                         //usage("[Main Date Initialization #1a] Error when attempting to format the departure time & date arguments, " + landing[3] + ", " + landing[4] + ", and " + landing[5] + ".");
                         // Graceful Error: Departure Time & Date Argument(s) not formatted correctly!
+                        return;
+                    }
+                    catch (NullPointerException m4b)
+                    {
+                        departTimeCreateText.setError("Please enter a valid departure date and time!");
+                        Snackbar.make(view, "Please enter a valid departure date and time!", Snackbar.LENGTH_LONG)
+                                .setAction("Action", null).show();
+                        // usage("[Main Date Initialization #1b] Error when attempting to format the arrival time & date arguments, " + landing[7] + ", " + landing[8] + ", and " + landing[9] + ".");
+                        // Graceful Error: Arrival Time & Date Argument(s) not formatted correctly!
+                        return;
+                    }
+                    catch (Exception m4c)
+                    {
+                        departTimeCreateText.setError("Please enter a valid departure date and time!");
+                        Snackbar.make(view, "Please enter a valid departure date and time!", Snackbar.LENGTH_LONG)
+                                .setAction("Action", null).show();
+                        // usage("[Main Date Initialization #1b] Error when attempting to format the arrival time & date arguments, " + landing[7] + ", " + landing[8] + ", and " + landing[9] + ".");
+                        // Graceful Error: Arrival Time & Date Argument(s) not formatted correctly!
                         return;
                     }
 
@@ -187,6 +259,25 @@ public class AftflightCreate extends AppCompatActivity {
                     }
                     catch (IllegalArgumentException m5a)
                     {
+                        arriveTimeCreateText.setError("Please enter a valid arrival date and time!");
+                        Snackbar.make(view, "Please enter a valid arrival date and time!", Snackbar.LENGTH_LONG)
+                                .setAction("Action", null).show();
+                        // usage("[Main Date Initialization #1b] Error when attempting to format the arrival time & date arguments, " + landing[7] + ", " + landing[8] + ", and " + landing[9] + ".");
+                        // Graceful Error: Arrival Time & Date Argument(s) not formatted correctly!
+                        return;
+                    }
+                    catch (NullPointerException m5b)
+                    {
+                        arriveTimeCreateText.setError("Please enter a valid arrival date and time!");
+                        Snackbar.make(view, "Please enter a valid arrival date and time!", Snackbar.LENGTH_LONG)
+                                .setAction("Action", null).show();
+                        // usage("[Main Date Initialization #1b] Error when attempting to format the arrival time & date arguments, " + landing[7] + ", " + landing[8] + ", and " + landing[9] + ".");
+                        // Graceful Error: Arrival Time & Date Argument(s) not formatted correctly!
+                        return;
+                    }
+                    catch (Exception m5c)
+                    {
+                        arriveTimeCreateText.setError("Please enter a valid arrival date and time!");
                         Snackbar.make(view, "Please enter a valid arrival date and time!", Snackbar.LENGTH_LONG)
                                 .setAction("Action", null).show();
                         // usage("[Main Date Initialization #1b] Error when attempting to format the arrival time & date arguments, " + landing[7] + ", " + landing[8] + ", and " + landing[9] + ".");
@@ -203,12 +294,14 @@ public class AftflightCreate extends AppCompatActivity {
                     {
                         if (src.length() < 3)
                         {
+                            srcCreateText.setError("Uh oh, looks like the source airport code is too short, it should be 3-digits of letters: " + src);
                             Snackbar.make(view, "Uh oh, looks like the source airport code is too short, it should be 3-digits of letters: " + src, Snackbar.LENGTH_LONG)
                                     .setAction("Action", null).show();
                             // usage("Uh oh, looks like the source airport code is too short, it should be 3-digits of letters: " + landing[2]);
                         }
                         else
                         {
+                            srcCreateText.setError("Uh oh, looks like the source airport code is too long, it should be 3-digits of letters: " + src);
                             Snackbar.make(view, "Uh oh, looks like the source airport code is too long, it should be 3-digits of letters: " + src, Snackbar.LENGTH_LONG)
                                     .setAction("Action", null).show();
                             // usage("Uh oh, looks like the source airport code is too long, it should be 3-digits of letters: " + landing[2]);
@@ -220,12 +313,14 @@ public class AftflightCreate extends AppCompatActivity {
                     {
                         if (dest.length() < 3)
                         {
+                            destCreateText.setError("Uh oh, looks like the destination airport code is too short, it should be 3-digits of letters: " + dest);
                             Snackbar.make(view, "Uh oh, looks like the destination airport code is too short, it should be 3-digits of letters: " + dest, Snackbar.LENGTH_LONG)
                                     .setAction("Action", null).show();
                             // usage("Uh oh, looks like the destination airport code is too short, it should be 3-digits of letters: " + landing[6]);
                         }
                         else
                         {
+                            destCreateText.setError("Uh oh, looks like the destination airport code is too long, it should be 3-digits of letters: " + dest);
                             Snackbar.make(view, "Uh oh, looks like the destination airport code is too long, it should be 3-digits of letters: " + dest, Snackbar.LENGTH_LONG)
                                     .setAction("Action", null).show();
                             // usage("Uh oh, looks like the destination airport code is too long, it should be 3-digits of letters: " + landing[6]);
@@ -242,6 +337,7 @@ public class AftflightCreate extends AppCompatActivity {
                     {
                         if (Character.isDigit(srcChar))
                         {
+                            srcCreateText.setError("Uh oh, looks like the source airport code has numbers(s), it should be 3-digits of letters only: " + src);
                             Snackbar.make(view, "Uh oh, looks like the source airport code has numbers(s), it should be 3-digits of letters only: " + src, Snackbar.LENGTH_LONG)
                                     .setAction("Action", null).show();
                             // usage("Uh oh, looks like the source airport code has numbers(s), it should be 3-digits of letters only: " + landing[2]);
@@ -254,6 +350,7 @@ public class AftflightCreate extends AppCompatActivity {
                     {
                         if (Character.isDigit(destChar))
                         {
+                            destCreateText.setError("Uh oh, looks like the destination airport code has numbers(s), it should be 3-digits of letters only: " + dest);
                             Snackbar.make(view, "Uh oh, looks like the destination airport code has numbers(s), it should be 3-digits of letters only: " + dest, Snackbar.LENGTH_LONG)
                                     .setAction("Action", null).show();
                             // usage("Uh oh, looks like the destination airport code has numbers(s), it should be 3-digits of letters only: " + landing[6]);
@@ -262,9 +359,13 @@ public class AftflightCreate extends AppCompatActivity {
                         }
                     }
 
+                    src.toUpperCase();
+                    dest.toUpperCase();
+
                     // Input-Validation #6 {from Project #4}: Check the AirportNames database if the airport codes actually exist!
                     if (AirportNames.getName(src) == null)
                     {
+                        srcCreateText.setError("Uh oh, looks like the source airport code, '" + src + "', was not found in our airport-names database!");
                         Snackbar.make(view, "Uh oh, looks like the source airport code, '" + src + "', was not found in our airport-names database!", Snackbar.LENGTH_LONG)
                                 .setAction("Action", null).show();
                         // usage("Uh oh, looks like the source airport code, '" + landing[2] + "', was not found in our airport-names database!");
@@ -273,6 +374,7 @@ public class AftflightCreate extends AppCompatActivity {
                     }
                     if (AirportNames.getName(dest) == null)
                     {
+                        destCreateText.setError("Uh oh, looks like the destination airport code, '" + dest + "', was not found in our airport-names database!");
                         Snackbar.make(view, "Uh oh, looks like the destination airport code, '" + dest + "', was not found in our airport-names database!", Snackbar.LENGTH_LONG)
                                 .setAction("Action", null).show();
                         // usage("Uh oh, looks like the destination airport code, '" + landing[6] + "', was not found in our airport-names database!");
@@ -295,6 +397,8 @@ public class AftflightCreate extends AppCompatActivity {
                     // Input-Validation #5: If flight arrival is before the departure time:
                     if (runway.getFlightTime() < 0)
                     {
+                        departTimeCreateText.setError("Uh oh, looks like the flight arrival time is before the departure time!");
+                        arriveTimeCreateText.setError("Uh oh, looks like the flight arrival time is before the departure time!");
                         Snackbar.make(view, "Uh oh, looks like the flight arrival time is before the departure time!", Snackbar.LENGTH_LONG)
                                 .setAction("Action", null).show();
                         // Graceful Exit: If negative flightTime (in minutes)
@@ -304,40 +408,57 @@ public class AftflightCreate extends AppCompatActivity {
                     //File androidPath = view.getContext().getFilesDir();
                     //File file = new File(androidPath, airlineName);
                     File file = aftFlightFile(view, airlineName, ".txt");
-                    TextParser parsley = null;
-                    try
-                    {
-                        parsley = new TextParser(file);
-                    }
-                    catch (IOException e8)
-                    {
-                        Snackbar.make(view, "Parsing IO Exception: " + e8.getMessage(), Snackbar.LENGTH_LONG)
-                                .setAction("Action", null).show();
-                    }
+//                    TextParser parsley = null;
+//                    try
+//                    {
+//                        parsley = new TextParser(file, false);
+//                    }
+//                    catch (IOException e8)
+//                    {
+//                        Snackbar.make(view, "Parsing IO Exception: " + e8.getMessage(), Snackbar.LENGTH_LONG)
+//                                .setAction("Action", null).show();
+//                    }
 
                     try {
                         //TextParser parsley = new TextParser(file);
                         lufthansa = TextParser.parsley(file);
                     } catch (ParserException | IllegalArgumentException e1) {
                         //e1.printStackTrace();
-//                        Snackbar.make(view, "Looks like the file ", Snackbar.LENGTH_LONG)
+//                        Snackbar.make(view, "Looks like the file was invalid: ", Snackbar.LENGTH_LONG)
 //                                .setAction("Action", null).show();
-//                        return;
+                        //return;
                     }
 
                     if (lufthansa == null) {
                         try
                         {
-                            lufthansa = new Airline(airlineName, new Flight(flightNumber, src, departTime, dest, arriveTime));
+                            //runway = new Flight(flightNumber, src, departTime, dest, arriveTime);
+                            lufthansa = new Airline(airlineName, runway);
                         }
-                        catch (ParseException e2)
+                        catch (IllegalArgumentException e2)
                         {
                             Snackbar.make(view, e2.getMessage(), Snackbar.LENGTH_LONG)
                                     .setAction("Action", null).show();
                             return;
                         }
-                        Snackbar.make(view, "Flight created!", Snackbar.LENGTH_LONG)
-                                .setAction("Action", null).show();
+
+                        TextDumper hp = null;
+                        try
+                        {
+                            hp = new TextDumper(file);
+                            hp.dump(lufthansa);
+                        }
+                        catch (IOException e9)
+                        {
+                            Snackbar.make(view, "[Dumper Debug #1] " + e9.getMessage(), Snackbar.LENGTH_LONG)
+                                    .setAction("Action", null).show();
+                        }
+
+                        Toast benedict = Toast.makeText(getApplicationContext(), "Flight & new airline created for \"" + airlineName + "\"!", Toast.LENGTH_LONG);
+                        benedict.show();
+
+//                        Snackbar.make(view, "Flight created!", Snackbar.LENGTH_LONG)
+//                                .setAction("Action", null).show();
                     }
                     else
                     {
@@ -347,7 +468,7 @@ public class AftflightCreate extends AppCompatActivity {
                         }
                         catch (ParseException e3)
                         {
-                            Snackbar.make(view, e3.getMessage(), Snackbar.LENGTH_LONG)
+                            Snackbar.make(view, "[Flight Runway Mishap!] " + e3.getMessage(), Snackbar.LENGTH_LONG)
                                     .setAction("Action", null).show();
                             return;
                         }
@@ -362,25 +483,34 @@ public class AftflightCreate extends AppCompatActivity {
                         }
                         catch (IOException e4)
                         {
-                            Snackbar.make(view, e4.getMessage(), Snackbar.LENGTH_LONG)
+                            Snackbar.make(view, "[Dumper Debug #2] " + e4.getMessage(), Snackbar.LENGTH_LONG)
                                     .setAction("Action", null).show();
                             return;
                         }
 
-                        Snackbar.make(view, "Flight created for pre-existing airline: \"" + airlineName, Snackbar.LENGTH_LONG)
-                                .setAction("Action", null).show();
+//                        Snackbar.make(view, "Flight created for pre-existing airline: \"" + airlineName, Snackbar.LENGTH_LONG)
+//                                .setAction("Action", null).show();
+                        Toast french = Toast.makeText(getApplicationContext(), "Flight created for pre-existing airline: \"" + airlineName + "\"!", Toast.LENGTH_LONG);
+                        french.show();
                     }
 
                 }
 
-                Intent aftflightCreation = new Intent(AftflightCreate.this, AftflightDisplay.class);
-                aftflightCreation.putExtra("airlineName", airlineName);
-                aftflightCreation.putExtra("flightNumber", flightNumber);
-                aftflightCreation.putExtra("src", src);
-                aftflightCreation.putExtra("departTime", departTime);
-                aftflightCreation.putExtra("dest", dest);
-                aftflightCreation.putExtra("arriveTime", arriveTime);
-                startActivity(aftflightCreation);
+//                Intent aftflightCreation = new Intent(AftflightCreate.this, AftflightDisplay.class);
+//                aftflightCreation.putExtra("airlineName", airlineName);
+//                aftflightCreation.putExtra("flightNumber", flightNumber);
+//                aftflightCreation.putExtra("src", src);
+//                aftflightCreation.putExtra("departTime", departTime);
+//                aftflightCreation.putExtra("dest", dest);
+//                aftflightCreation.putExtra("arriveTime", arriveTime);
+//                startActivity(aftflightCreation);
+
+                airlineNameCreateText.getText().clear();
+                flightNumberCreateText.getText().clear();
+                srcCreateText.getText().clear();
+                departTimeCreateText.getText().clear();
+                destCreateText.getText().clear();
+                arriveTimeCreateText.getText().clear();
             }
         });
     }

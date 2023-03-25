@@ -50,9 +50,9 @@ public class HelpActivity extends AppCompatActivity {
         }
 
         helpView = findViewById(R.id.help_textView);
-        helpView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+//        helpView.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
                 BufferedInputStream helpbuffer = new BufferedInputStream(getResources().openRawResource(R.raw.readme6));
                 InputStreamReader helpinputreader = new InputStreamReader(helpbuffer);
                 BufferedReader helpbuffreader = new BufferedReader(helpinputreader);
@@ -70,7 +70,7 @@ public class HelpActivity extends AppCompatActivity {
                 }
                 catch (IOException e6)
                 {
-                    Snackbar.make(v, "Uh oh, the help function is borked!" + e6.getMessage(), Snackbar.LENGTH_LONG)
+                    Snackbar.make(this.helpView, "Uh oh, the help function is borked!" + e6.getMessage(), Snackbar.LENGTH_LONG)
                             .setAction("Action", null).show();
                     return;
                     //e6.printStackTrace();
@@ -78,7 +78,7 @@ public class HelpActivity extends AppCompatActivity {
 //                Snackbar.make(v, "Help", Snackbar.LENGTH_LONG)
 //                        .setAction("Action", null).show();
                 helpView.setText(readme);
-            }
-        });
+            //}
+        //});
     }
 }

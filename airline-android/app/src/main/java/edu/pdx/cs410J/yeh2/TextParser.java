@@ -118,18 +118,27 @@ public class TextParser implements AirlineParser<Airline> {
    * @throws IllegalArgumentException If the file-path/name is invalid.
    */
 
-  public TextParser(File file) throws IllegalArgumentException, IOException {
+  public TextParser(File file, Boolean check) throws IllegalArgumentException, IOException {
     if (!file.exists()) {
-      if (!file.createNewFile()) {
-        throw new IllegalArgumentException("Name of the file is invalid!");
+      if (!check) {
+        if (!file.createNewFile()) {
+          throw new IllegalArgumentException("Name of the file is invalid!");
+        }
+      }
+      else
+      {
+
+        throw new IllegalArgumentException("File does not exist!");
       }
     }
 
 
-    else
-    {
-      this.file_name = file.getName();
-    }
+    //else
+    //{
+    this.file_name = file.getName();
+    this.parsedfile = file;
+    //}
+
 
     //try {
 
@@ -162,7 +171,7 @@ public class TextParser implements AirlineParser<Airline> {
     try
     {
 
-      parsedfile = new File(this.file_name);
+      //parsedfile = new File(this.file_name);
       parsely = new FileReader(parsedfile);
 
     }
@@ -367,12 +376,12 @@ public class TextParser implements AirlineParser<Airline> {
 
     catch (IOException e3)
     {
-      throw new ParserException("Parsing error detected: ", e3);//e3.getCause());
+      throw new ParserException("Parsing error detected [IO - Parse]: ", e3);//e3.getCause());
     }
 
     catch (IllegalArgumentException e4)
     {
-      throw new ParserException("Parsing error detected: ", e4);//e4.getCause());
+      throw new ParserException("Parsing error detected [Bad Arg - Parse]: ", e4);//e4.getCause());
     }
 
 //        finally
@@ -491,14 +500,14 @@ public class TextParser implements AirlineParser<Airline> {
 
           String[] currargs = currstring.split("\\s*,\\s*");
 
-          if (currargs.length > 9) {
-            throw new IllegalArgumentException("Need at least 9 arguments for airlines/flights!");
+          if (currargs.length > 7) {
+            throw new IllegalArgumentException("Need at least 7 arguments for airlines/flights!");
           }
           else
           {
-            if (currargs.length < 9)
+            if (currargs.length < 7)
             {
-              throw new IllegalArgumentException("There can only be 9 arguments max per airline/flights!");
+              throw new IllegalArgumentException("There can only be 7 arguments max per airline/flights!");
             }
           }
           //String stamp1 = null;
@@ -618,12 +627,12 @@ public class TextParser implements AirlineParser<Airline> {
 
     catch (IOException e3)
     {
-      throw new ParserException("Parsing error detected: ", e3);//e3.getCause());
+      throw new ParserException("Parsing error detected [IO - Parsley]: ", e3);//e3.getCause());
     }
 
     catch (IllegalArgumentException e4)
     {
-      throw new ParserException("Parsing error detected: ", e4);//e4.getCause());
+      throw new ParserException("Parsing error detected [Bad Args - Parsley]: ", e4);//e4.getCause());
     }
 
 //        finally
