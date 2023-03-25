@@ -430,25 +430,7 @@ public class TextParser implements AirlineParser<Airline> {
     {
       Airline concord = null;
       return concord;
-      //throw new ParserException("File not found!");
-//            try (BufferedReader buffer = new BufferedReader(this.parse))
-//            {
-//                TextDumper dumper = new TextDumper(this.file_name);
-//                Airline emptyAirline = new Airline("Empty Airline");
-//                dumper.dump(emptyAirline);
-//                return emptyAirline;
-//            }
-//            catch (IOException e5)
-//            {
-//                throw new ParserException("Empty-Airline Parsing error detected: ", e5);//e3.getCause());
-//            }
-//            catch (IllegalArgumentException e6)
-//            {
-//                throw new ParserException("Empty-Airline Parsing error detected: ", e6);//e4.getCause());
-//            }
-      //return null;
-      //System.out.println("Looks like this file was not found:", e2);
-      //throw new ParserException("File does not exist!", e2);
+
     }
     //String airlineName = br.readLine()
     Airline gate = null;// = new Airline();
@@ -470,29 +452,6 @@ public class TextParser implements AirlineParser<Airline> {
         gate = new Airline(first_airline_name_args[0]);
       }
 
-//
-//            if (line_buffer != null) {
-//                //this.lufthansa = new Airline(first);
-//                String[] first_airline_arg = line_buffer.split("\\s*,\\s*");
-//
-//                if (first_airline_arg.length != 4)
-//                {
-//                    throw new IllegalArgumentException("Invalid number of parameters!");
-//                }
-//
-//                gate = new Airline(first_airline_arg[0]);
-//                currstring = buffer.readLine();
-//            }
-//            else
-//            {
-//                throw new ParserException("Empty file!");
-//            }
-//        } catch (Exception e3) {
-//            throw new RuntimeException("Uh oh. looks like there was a Runtime Exception:", e3);
-//        }
-      //buffer = new BufferedReader(this.parse);
-      //StringBuffer bufferline = new StringBuffer();
-      //try {
       try {
         while (currstring != null) {
 
@@ -500,86 +459,28 @@ public class TextParser implements AirlineParser<Airline> {
 
           String[] currargs = currstring.split("\\s*,\\s*");
 
-          if (currargs.length > 7) {
-            throw new IllegalArgumentException("Need at least 7 arguments for airlines/flights!");
+          if (currargs.length > 8) {
+            throw new IllegalArgumentException("Need at least 8 arguments for airlines/flights!");
           }
           else
           {
-            if (currargs.length < 7)
+            if (currargs.length < 8)
             {
-              throw new IllegalArgumentException("There can only be 7 arguments max per airline/flights!");
+              throw new IllegalArgumentException("There can only be 8 arguments max per airline/flights!");
             }
           }
-          //String stamp1 = null;
-          //String stamp2 = null;
-//                    /*
-//                     * Attempts to create the formatted time-and-date for departure time.
-//                     */
-//                    try
-//                    {
-//                        stamp1 = TStamp.format(timeStamper(currargs[3], currargs[4]));
-//                        //runway = new Flight(landing);
-//                    }
-//                    catch (IllegalArgumentException m4a)
-//                    {
-//                        System.err.println("Error when attempting to parse the departure time & date arguments, " + currargs[3] + " and " + currargs[4]);
-//                        throw new ParserException("Error when attempting to parse the departure time & date arguments, " + currargs[3] + " and " + currargs[4]);
-//
-//                        // Graceful Error: Departure Time & Date Argument(s) not formatted correctly!
-//                        //return;
-//                    }
-//                    catch (ArrayIndexOutOfBoundsException m4b)
-//                    {
-//                        System.err.println("Error when attempting to parse the departure time & date arguments, " + currargs[3] + " and " + currargs[4]);
-//                        throw new ParserException("Error when attempting to parse the departure time & date arguments, " + currargs[3] + " and " + currargs[4]);
-//
-//                        // Graceful Error: Departure Time & Date Argument(s) not formatted correctly!
-//                        //return;
-//                    }
-//
-//                    /*
-//                     * Attempts to create the formatted time-and-date for arrival time.
-//                     */
-//                    try
-//                    {
-//                        stamp2 = TStamp.format(timeStamper(currargs[6], currargs[7]));
-//                    }
-//                    catch (IllegalArgumentException m5a)
-//                    {
-//                        System.err.println("Error when attempting to parse the arrival time & date arguments, " + currargs[6] + " and " + currargs[7]);
-//                        throw new ParserException(("Error when attempting to parse the arrival time & date arguments, " + currargs[6] + " and " + currargs[7]));
-//
-//                        // Graceful Error: Arrival Time & Date Argument(s) not formatted correctly!
-//                        //return;
-//                    }
-//                    catch (ArrayIndexOutOfBoundsException m4b)
-//                    {
-//                        System.err.println("Error when attempting to parse the arrival time & date arguments, " + currargs[6] + " and " + currargs[7]);
-//                        throw new ParserException(("Error when attempting to parse the arrival time & date arguments, " + currargs[6] + " and " + currargs[7]));
-//
-//                        // Graceful Error: Arrival Time & Date Argument(s) not formatted correctly!
-//                        //return;
-//                    }
-
-          //Flight runway = new Flight(currargs);
-
-                    /*
-                    Legacy Project #2 date-stamp formatting
-                    String date1 = currargs[2] + currargs[3];
-                    //String date2 = currargs[5] + currargs[6];
-                    */
 
           /*
            * date1 & date2 represents the tri-string combo strings for our two full timestamps!
            * @see Project3
            */
-          String date1 = currargs[3] + " " + currargs[4] + " " + currargs[5];// + " " + currargs[4];
-          String date2 = currargs[7] + " " + currargs[8] + " " + currargs[9];// + " " + currargs[6];
+          String date1 = currargs[2] + " " + currargs[3] + " " + currargs[4];// + " " + currargs[4];
+          String date2 = currargs[6] + " " + currargs[7] + " " + currargs[8];// + " " + currargs[6];
           Flight runway = null;
 
           try
           {
-            runway = new Flight(currargs[0], currargs[1], date1, currargs[4], date2);
+            runway = new Flight(currargs[0], currargs[1], date1, currargs[5], date2);
           }
           catch (ParseException e8)
           {
@@ -618,10 +519,6 @@ public class TextParser implements AirlineParser<Airline> {
       {
         throw new ParserException("Error when parsing through the text file!", e5);
       }
-//        } catch (RuntimeException e4) {
-//            throw new RuntimeException("Uh oh. looks like there was a Runtime Exception:", e4);
-//        }
-//        return new Airline(airlineName);
 
     }
 
@@ -635,20 +532,6 @@ public class TextParser implements AirlineParser<Airline> {
       throw new ParserException("Parsing error detected [Bad Args - Parsley]: ", e4);//e4.getCause());
     }
 
-//        finally
-//        {
-//            if (buffer != null)
-//            {
-//                try
-//                {
-//                    buffer.close();
-//                }
-//                catch (IOException e7)
-//                {
-//                    throw new ParserException("Hmm, looks like the buffer ain't closing: ", e7);
-//                }
-//            }
-//        }
 
     return gate;
   }

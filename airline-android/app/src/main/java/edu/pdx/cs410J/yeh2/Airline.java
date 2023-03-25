@@ -7,6 +7,8 @@ import javax.xml.parsers.*;
 import org.w3c.dom.Element;
 import org.w3c.dom.*;
 import org.xml.sax.*;
+import android.os.Parcel;
+import android.os.Parcelable;
 
 //import java.util.Collection;
 //import java.util.LinkedList;
@@ -20,7 +22,7 @@ import java.util.*;
  * The <code>Airline</code> class has (should have collection) a {@code TreeSet<Flight><Flight>},
  * ...which is a linked-list of <code>flight</code>-classes.
  */
-public class Airline extends AbstractAirline<Flight> {
+public class Airline extends AbstractAirline<Flight> implements Parcelable {
   private String name = "N/A";
   //private LinkedList<Flight> flights = null;
   private Collection<Flight> flights;
@@ -61,6 +63,42 @@ public class Airline extends AbstractAirline<Flight> {
       return gateA.compareTo(gateB);//result;
     }
   }
+
+  protected Airline(Parcel in)
+  {
+    name = in.readString();
+    flightnum = in.readInt();
+    flights = in.readArrayList(Flight.class.getClassLoader());
+  }
+
+  public static final Creator<Airline> CREATOR = new Creator<Airline>()
+  {
+    @Override
+    public Airline createFromParcel(Parcel in)
+    {
+      return new Airline(in);
+    }
+
+    @Override public Airline[] newArray(int size)
+    {
+      return new Airline[size];
+    }
+  };
+
+  @Override
+  public int describeContents()
+  {
+    return 0;
+  }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags)
+    {
+      dest.writeString(name);
+      dest.writeInt(flightnum);
+      dest.writeList(Collections.singletonList(flights));
+    }
+
 
   /*
    * An <code>Airline</code> constructor for six (6) raw {@code args[]} parameters.

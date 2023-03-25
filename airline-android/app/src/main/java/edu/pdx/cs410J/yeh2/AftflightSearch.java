@@ -3,6 +3,7 @@ package edu.pdx.cs410J.yeh2;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -186,7 +187,7 @@ public class AftflightSearch extends AppCompatActivity {
                             .setAction("Action", null).show();
                     return;
                 }
-                catch (NullPointerException  | IllegalArgumentException e9)
+                catch (NullPointerException | IllegalArgumentException e9)
                 {
 //                    Snackbar.make(v, "Parsley NullPointerException (file did not exist): " + e9.getMessage(), Snackbar.LENGTH_LONG)
 //                            .setAction("Action", null).show();
@@ -205,7 +206,7 @@ public class AftflightSearch extends AppCompatActivity {
                     if (destSearch.isEmpty() || srcSearch.isEmpty())
                     {
                         searchShare.putExtra("airlineSearchToDisplayName", searchName);
-                        searchShare.putExtra("foundAirline", lufthansa);
+                        searchShare.putExtra("foundAirline", (Parcelable) lufthansa);
                         searchShare.putExtra("specificSearch", false);
 
                         startActivityForResult(searchShare, 1);
@@ -213,7 +214,7 @@ public class AftflightSearch extends AppCompatActivity {
                     else
                     {
                         searchShare.putExtra("airlineSearchToDisplayName", searchName);
-                        searchShare.putExtra("foundAirline", lufthansa);
+                        searchShare.putExtra("foundAirline", (Parcelable) lufthansa);
                         searchShare.putExtra("srcSearchToDisplay", srcSearch);
                         searchShare.putExtra("destSearchToDisplay", destSearch);
                         searchShare.putExtra("specificSearch", true);

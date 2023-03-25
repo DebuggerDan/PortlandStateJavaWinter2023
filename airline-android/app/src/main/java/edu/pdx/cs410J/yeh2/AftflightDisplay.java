@@ -60,7 +60,8 @@ public class AftflightDisplay extends AppCompatActivity {
             String destSearch = searchStuff.getString("destSearch");
         }
 
-        Airline lufthansa = (Airline) searchStuff.getSerializable("foundAirline");
+        //Airline lufthansa = (Airline) searchStuff.getSerializable("foundAirline");
+        Airline lufthansa = getIntent().getParcelableExtra("foundAirline", Airline.class);
 
         airlineDisplayNameView.setText(airlineName);
 

@@ -432,7 +432,7 @@ public class AftflightCreate extends AppCompatActivity {
                     }
 
                     //if (lufthansa == null) {
-                    if (!airlineExistence) {
+                    if (!airlineExistence || lufthansa == null) {
                         try
                         {
                             //runway = new Flight(flightNumber, src, departTime, dest, arriveTime);
