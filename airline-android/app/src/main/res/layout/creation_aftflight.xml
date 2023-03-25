@@ -1,68 +1,96 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:gravity="center"
     android:orientation="vertical"
-    android:padding="16dp">
+    android:padding="24dp">
 
     <EditText
         android:id="@+id/creation_aftflight_airlineNameEdit"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Enter the name of the airline!"
-        android:autofillHints="e.g., Lufthansa" />
+        android:autofillHints="e.g., Lufthansa"
+        android:hint="@string/enter_the_name_of_the_airline"
+        android:inputType="text"
+        android:minHeight="48dp" />
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal">
+
         <EditText
             android:id="@+id/creation_aftflight_flightNumberEdit"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Enter the flight number of the flight!"
-            android:autofillHints="e.g., 420"/>
+            android:autofillHints="e.g., 420"
+            android:hint="@string/enter_the_flight_number_of_the_flight"
+            android:inputType="number"
+            tools:ignore="TouchTargetSizeCheck" />
+
+        <!--        "android:inputType=TYPE_CLASS_TEXT | TYPE_TEXT_FLAG_CAP_CHARACTERS"  />-->
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
         <EditText
             android:id="@+id/creation_aftflight_srcEdit"
-            android:layout_width="0dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:hint="Enter the source 3-digit airport code of the flight!"
-            android:autofillHints="e.g., PDX" />
+            android:autofillHints="e.g., PDX"
+            android:hint="@string/enter_the_source_3_digit_airport_code_of_the_flight"
+            android:inputType="textCapCharacters"
+            android:minHeight="48dp"
+            android:textSize="14sp" />
+
         <EditText
             android:id="@+id/creation_aftflight_destEdit"
-            android:layout_width="0dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:hint="Enter the destination 3-digit airport code of the flight!"
-            android:autofillHints="e.g., SEA" />
+            android:autofillHints="e.g., SEA"
+            android:hint="@string/enter_the_destination_3_digit_airport_code_of_the_flight"
+            android:inputType="textCapCharacters"
+            android:minHeight="48dp"
+            android:textSize="14sp" />
     </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:orientation="vertical">
 
         <EditText
             android:id="@+id/creation_aftflight_departEdit"
-            android:layout_width="0dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:hint="Enter the departure time &amp; date of the flight!"
-            android:autofillHints="e.g., 3/24/23 12:30 PM" />
+            android:autofillHints="e.g., 3/24/23 12:30 PM"
+            android:hint="@string/enter_the_departure_time_amp_date_of_the_flight"
+            android:inputType="datetime"
+            tools:ignore="TouchTargetSizeCheck" />
+
         <EditText
             android:id="@+id/creation_aftflight_arriveEdit"
-            android:layout_width="0dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:hint="Enter the arrival time &amp; date of the flight!"
-            android:autofillHints="e.g., 3/24/23 2:30 PM" />
+            android:autofillHints="e.g., 3/24/23 2:30 PM"
+            android:hint="@string/enter_the_arrival_time_amp_date_of_the_flight"
+            android:inputType="datetime"
+            tools:ignore="TouchTargetSizeCheck" />
     </LinearLayout>
 
     <Button
         android:id="@+id/creation_aftflight_createButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:text="Submit" />
+        android:layout_gravity="center|center_horizontal"
+        android:text="@string/submit" />
+
 </LinearLayout>

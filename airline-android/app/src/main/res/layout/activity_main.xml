@@ -9,7 +9,8 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Welcome to AftFlight!"
+        android:text="@string/welcome_to_aftflight"
+        android:gravity="top|center"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -27,14 +28,14 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
-            android:text="Create" />
+            android:text="@string/create" />
 
         <Button
             android:id="@+id/main_searchButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
-            android:text="Search" />
+            android:text="@string/search" />
 
 <!--        <Button-->
 <!--            android:id="@+id/main_displayButton"-->
@@ -48,7 +49,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
-            android:text="Help" />
+            android:text="@string/help" />
     </LinearLayout>
 
 

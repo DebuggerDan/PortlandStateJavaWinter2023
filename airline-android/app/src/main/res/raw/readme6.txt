@@ -1,0 +1,3 @@
+CS410P: Advanced Java Programming, Winter 2023 - Dan Jang, March 2023 [#6]
+Description: AftFlight is an Android program that incorporates all the Airline project functionalities from its humble command-line / REST Web Client origins!
+Project #6 will provide a Android GUI to the Airline project-line, with the functionalities of projects before it!

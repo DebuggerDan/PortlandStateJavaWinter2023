@@ -53,8 +53,6 @@ public class XmlDumper implements AirlineDumper<Airline> {
      * @param src The -search src-airport code to find!
      * @param dest The -search dest-airport code to find!
      * @throws IllegalArgumentException If the file name is invalid, it throws an Illegal Argument exception thingy.
-     * @see AirlineServlet
-     * @see Project5
      */
     public XmlDumper(Writer poet, String src, String dest)// throws IllegalArgumentException
     {

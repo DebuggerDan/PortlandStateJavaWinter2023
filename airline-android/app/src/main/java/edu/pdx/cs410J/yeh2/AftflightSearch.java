@@ -9,6 +9,9 @@ import android.view.MenuItem;
 import android.widget.Button;
 import android.content.Intent;
 import android.widget.EditText;
+import android.widget.LinearLayout;
+import android.widget.TextView;
+
 import com.google.android.material.floatingactionbutton.*;
 import com.google.android.material.snackbar.Snackbar;
 
@@ -18,11 +21,62 @@ import edu.pdx.cs410J.ParserException;
 
 public class AftflightSearch extends AppCompatActivity {
     EditText searchAirlineNameText = findViewById(R.id.search_aftflight_airlineNameEdit);
+    private String searchAirlineName = null;
+    private String scroll = null;
+
+    /**
+     * This function is called when the user presses the back button on the phone.
+     * @param buttonz Item selected!
+     * @return true, to exit to the home screen (if back button is pressed!)
+     */
+    @Override
+    public boolean onOptionsItemSelected(MenuItem buttonz)
+    {
+        if (buttonz.getItemId() == android.R.id.home)
+        {
+            onBackPressed();
+            return true;
+        }
+        return super.onOptionsItemSelected(buttonz);
+    }
+
+    private void scrollViewUpdate(String scroll)
+    {
+        LinearLayout searchResultMainLinearLayout = findViewById(R.id.search_aftflight_flightLinearListView);
+        searchResultMainLinearLayout.removeAllViews();
+
+        TextView searchResultTextView = new TextView(this);
+        searchResultTextView.setText(scroll);
+        searchResultTextView.setTextSize(20);
+        searchResultTextView.setPadding(0, 0, 0, 20);
+        searchResultMainLinearLayout.addView(searchResultTextView);
+    }
+
+    @Override
+    protected void onActivityResult(int reqCode, int resCode, Intent parchment)
+    {
+        super.onActivityResult(reqCode, resCode, parchment);
+
+        if (resCode == RESULT_OK && reqCode == 1)
+        {
+            String searchName = parchment.getStringExtra("airlineSearchToDisplayName");
+            searchAirlineNameText.setText(searchName);
+            scroll = parchment.getStringExtra("displayResult");
+
+            scrollViewUpdate(scroll);
+        }
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.search_aftflight);
+
+        if (getSupportActionBar() != null)
+        {
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        }
+
         EditText srcSearchText = findViewById(R.id.search_aftflight_srcEdit);
         EditText destSearchText = findViewById(R.id.search_aftflight_destEdit);
         Button searchButton = findViewById(R.id.search_aftflight_searchButton);
@@ -74,7 +128,7 @@ public class AftflightSearch extends AppCompatActivity {
                         searchShare.putExtra("foundAirline", lufthansa);
                         searchShare.putExtra("specificSearch", false);
 
-                        startActivity(searchShare);
+                        startActivityForResult(searchShare, 1);
                     }
                     else
                     {
@@ -84,7 +138,7 @@ public class AftflightSearch extends AppCompatActivity {
                         searchShare.putExtra("destSearchToDisplay", destSearch);
                         searchShare.putExtra("specificSearch", true);
 
-                        startActivity(searchShare);
+                        startActivityForResult(searchShare, 1);
                     }
                 }
             }

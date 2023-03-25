@@ -29,6 +29,22 @@ public class AftflightCreate extends AppCompatActivity {
     DateFormat TStamp = new SimpleDateFormat(Timestamp_Format, Locale.US);
 
     /**
+     * This function is called when the user presses the back button on the phone.
+     * @param buttonz Item selected!
+     * @return true, to exit to the home screen (if back button is pressed!)
+     */
+    @Override
+    public boolean onOptionsItemSelected(MenuItem buttonz)
+    {
+        if (buttonz.getItemId() == android.R.id.home)
+        {
+            onBackPressed();
+            return true;
+        }
+        return super.onOptionsItemSelected(buttonz);
+    }
+
+    /**
      * <p>
      * Creates a valid formatted for a valid time-and-date format as specified, e.g. mm/dd/yyyy hh:mm
      * Based on: 1. {@code public static final String Timestamp_Format = "MM/dd/yyyy HH:mm";}
@@ -79,6 +95,11 @@ public class AftflightCreate extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.creation_aftflight);
+
+        if (getSupportActionBar() != null)
+        {
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        }
 
         EditText airlineNameCreateText = findViewById(R.id.creation_aftflight_airlineNameEdit);
         EditText flightNumberCreateText = findViewById(R.id.creation_aftflight_flightNumberEdit);
