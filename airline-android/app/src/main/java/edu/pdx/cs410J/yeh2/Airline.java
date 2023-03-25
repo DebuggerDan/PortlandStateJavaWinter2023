@@ -9,6 +9,7 @@ import org.w3c.dom.*;
 import org.xml.sax.*;
 import android.os.Parcel;
 import android.os.Parcelable;
+import java.io.Serializable;
 
 //import java.util.Collection;
 //import java.util.LinkedList;
@@ -22,7 +23,7 @@ import java.util.*;
  * The <code>Airline</code> class has (should have collection) a {@code TreeSet<Flight><Flight>},
  * ...which is a linked-list of <code>flight</code>-classes.
  */
-public class Airline extends AbstractAirline<Flight> implements Parcelable {
+public class Airline extends AbstractAirline<Flight> implements Parcelable, Serializable {
   private String name = "N/A";
   //private LinkedList<Flight> flights = null;
   private Collection<Flight> flights;
@@ -64,13 +65,6 @@ public class Airline extends AbstractAirline<Flight> implements Parcelable {
     }
   }
 
-  protected Airline(Parcel in)
-  {
-    name = in.readString();
-    flightnum = in.readInt();
-    flights = in.readArrayList(Flight.class.getClassLoader());
-  }
-
   public static final Creator<Airline> CREATOR = new Creator<Airline>()
   {
     @Override
@@ -85,6 +79,15 @@ public class Airline extends AbstractAirline<Flight> implements Parcelable {
     }
   };
 
+  protected Airline(Parcel in)
+  {
+    name = in.readString();
+    flightnum = in.readInt();
+    ArrayList<Flight> flightPlan = in.createTypedArrayList(Flight.CREATOR);
+    //flights = in.readList();//in.readArrayList(Flight.class.getClassLoader());
+    setFlightsList(flightPlan);
+  }
+
   @Override
   public int describeContents()
   {
@@ -96,9 +99,40 @@ public class Airline extends AbstractAirline<Flight> implements Parcelable {
     {
       dest.writeString(name);
       dest.writeInt(flightnum);
-      dest.writeList(Collections.singletonList(flights));
+      ArrayList<Flight> flightPlan = getFlightPlan();
+      dest.writeTypedList(flightPlan);
+      //dest.writeList(Collections.singletonList(flights));
     }
 
+  /**
+   * Project #6: Android App -> Get ArrayList of Flights from TreeSet for easier Parcel-ability & Serialization!
+   * @return ArrayList of Flights
+   */
+  public ArrayList<Flight> getFlightPlan()
+  {
+    TreeSet<Flight> flightTree = (TreeSet<Flight>) getFlights();
+    return new ArrayList<Flight>(flightTree);
+  }
+
+//  /**
+//   * Project #6: Android App -> Set ArrayList of Flights to TreeSet for easier Parcel-ability & Serialization!
+//   * @param flightPlan {@code ArrayList<Flight>} o' flights
+//   */
+//  public void setFlightPlan(ArrayList<Flight> flightPlan)
+//  {
+//    TreeSet<Flight> flightTree = new TreeSet<>(flightPlan);
+//  }
+
+  /**
+   * Project #6: Android App -> Set ArrayList of Flights to TreeSet for easier Parcel-ability & Serialization!
+   * @param flightPlan {@code ArrayList<Flight>} o' flights
+   */
+  public void setFlightsList(ArrayList<Flight> flightPlan) {
+    this.flights = new TreeSet<Flight>(new air_traffic_controller());
+    for (Flight plane : flightPlan) {
+      this.flights.add(plane);
+    }
+  }
 
   /*
    * An <code>Airline</code> constructor for six (6) raw {@code args[]} parameters.
@@ -342,4 +376,17 @@ public class Airline extends AbstractAirline<Flight> implements Parcelable {
     //return schedule;
     return this.flights;
   }
+
+//  /**
+//   * Project #6: Android App
+//   * Returns {@code this.flights} of the <code>Airline</code>, as ({@code Collection<Flight>}).
+//   * @return schedule {@code LinkedList<Flight>}
+//   */
+//  public void setFlightsList(ArrayList<Flight> flightPlan) {
+//    this.flights = new TreeSet<Flight>(new air_traffic_controller());
+//    for (Flight plane : flightPlan) {
+//      this.flights.add(plane);
+//    }
+//  }
+
 }

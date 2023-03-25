@@ -1,5 +1,10 @@
 package edu.pdx.cs410J.yeh2;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
+import androidx.annotation.NonNull;
+
 import edu.pdx.cs410J.AbstractFlight;
 
 import java.text.ParseException;
@@ -16,11 +21,11 @@ import java.util.Calendar;
  * destination (time and date), and arrive(-e+al time and date). Extends AbstractFlight.
  *
  */
-public class Flight extends AbstractFlight implements Comparable<Flight> {
+public class Flight extends AbstractFlight implements Comparable<Flight>, Parcelable {
   protected static DateFormat date_formatter = DateFormat.getDateTimeInstance(3, 3, Locale.US);
   protected static final String date_formatting = "MM/dd/yyyy h:mm a";
   protected static SimpleDateFormat date_format = new SimpleDateFormat(date_formatting, Locale.US);
-  private Flight next = null;
+  //private Flight next = null;
   protected String flightNumber = "123";
   private String src = null;
   private Date depart = null;
@@ -106,10 +111,10 @@ public class Flight extends AbstractFlight implements Comparable<Flight> {
     }
   }
 
-  /**
-   * A <code>Flight</code> constructor that is created as a clone of another!
-   * @param copilot The <code>Flight</code> clone source!
-   */
+//  /**
+//   * A <code>Flight</code> constructor that is created as a clone of another!
+//   * @param copilot The <code>Flight</code> clone source!
+//   */
 //  public Flight(Flight copilot)
 //  {
 //    if (copilot != null)
@@ -125,6 +130,27 @@ public class Flight extends AbstractFlight implements Comparable<Flight> {
 //      }
 //    }
 //  }
+
+  protected Flight(Parcel in) {
+    //next = in.readParcelable(Flight.class.getClassLoader());
+    flightNumber = in.readString();
+    src = in.readString();
+    depart = new Date(in.readLong());
+    dest = in.readString();
+    arrive = new Date(in.readLong());
+  }
+
+  public static final Creator<Flight> CREATOR = new Creator<Flight>() {
+    @Override
+    public Flight createFromParcel(Parcel in) {
+      return new Flight(in);
+    }
+
+    @Override
+    public Flight[] newArray(int size) {
+      return new Flight[size];
+    }
+  };
 
   /**
    * <p>
@@ -300,12 +326,10 @@ public class Flight extends AbstractFlight implements Comparable<Flight> {
     //throw new UnsupportedOperationException("This method is not implemented yet");
   }
 
-  /**
-   * <p>
-   *     Returns current flight's departure time-and-date as a five-part {@code String[]} array for easy XML parsing or null if blank!
-   * </p>
-   * @return dest The time & date (as five-part {@code String[]} array) of the departure timestamp!
-   */
+//  /**
+//   * Returns current flight's departure time-and-date as a five-part {@code String[]} array for easy XML parsing or null if blank!
+//   * @return dest The time & date (as five-part {@code String[]} array) of the departure timestamp!
+//   */
 //  public String[] getDepartureXml() {
 ////    if (this.depart == null || this.depart.toString().equals("N/A"))
 ////    {
@@ -334,7 +358,7 @@ public class Flight extends AbstractFlight implements Comparable<Flight> {
 //    else
 //    {
     // Format as java.text.DateFormat.SHORT;
-   // String takeoff_string = date_formatter.format(this.depart);
+    // String takeoff_string = date_formatter.format(this.depart);
     Calendar takeoff_calendar = Calendar.getInstance();
     takeoff_calendar.setTime(this.depart);
     return takeoff_calendar;
@@ -400,12 +424,12 @@ public class Flight extends AbstractFlight implements Comparable<Flight> {
     //throw new UnsupportedOperationException("This method is not implemented yet");
   }
 
-  /**
-   * <p>
-   *     Returns current flight's arrival time-and-date as a five-part {@code String[]} array for easy XML parsing or "N/A" if blank!
-   * </p>
-   * @return arrive The time & date (as five-part {@code String[]} array) of the arrival timestamp!
-   */
+//  /**
+//   * <p>
+//   *     Returns current flight's arrival time-and-date as a five-part {@code String[]} array for easy XML parsing or "N/A" if blank!
+//   * </p>
+//   * @return arrive The time & date (as five-part {@code String[]} array) of the arrival timestamp!
+//   */
 //  public String[] getArrivalXml() {
 //
 //    if (this.arrive == null || this.arrive.toString().equals("N/A"))
@@ -434,11 +458,11 @@ public class Flight extends AbstractFlight implements Comparable<Flight> {
 //    }
 //    else
 //    {
-      //return this.arrive;
-        Calendar arrival_calendar = Calendar.getInstance();
-        arrival_calendar.setTime(this.arrive);
-        return arrival_calendar;
-   // }
+    //return this.arrive;
+    Calendar arrival_calendar = Calendar.getInstance();
+    arrival_calendar.setTime(this.arrive);
+    return arrival_calendar;
+    // }
 
     //throw new UnsupportedOperationException("This method is not implemented yet");
   }
@@ -461,4 +485,18 @@ public class Flight extends AbstractFlight implements Comparable<Flight> {
     return flight_minutes;
   }
 
+  @Override
+  public int describeContents() {
+    return 0;
+  }
+
+  @Override
+  public void writeToParcel(@NonNull Parcel aircargo, int i)
+  {
+    aircargo.writeString(flightNumber);
+    aircargo.writeString(src);
+    aircargo.writeString(depart.toString());
+    aircargo.writeString(dest);
+    aircargo.writeString(arrive.toString());
+  }
 }
