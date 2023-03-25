@@ -636,7 +636,7 @@ class Project5IT extends InvokeMainTestCase {
         MainMethodResult resultSearch1 = invokeMain(Project5.class, "-host", "localhost", "-port", "8080", "-search");
         //MainMethodResult resultInvalidXML = invokeMain(Project5.class, "Lufthansa", "123", "PDX", "02/04/2023", "4:34", "pm", "SEA", "02/04/2023", "7:00", "am", "-textFile", "test16b.txt");
 
-        assertThat(resultSearch1.getTextWrittenToStandardError(), CoreMatchers.containsString("[AftFlight] Invalid or missing arguments detected for -search!"));
+        assertThat(resultSearch1.getTextWrittenToStandardError(), CoreMatchers.containsString("The -search parameter requires at least one parameter"));
         //assertThat(resultInvalidXML.getTextWrittenToStandardError(), containsString("Is this Back To The Future, but with flying? Because it looks like the total flight time is somehow negative: "));
     }
 
