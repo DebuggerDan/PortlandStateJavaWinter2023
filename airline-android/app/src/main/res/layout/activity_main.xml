@@ -12,50 +12,66 @@
         android:gravity="center|top"
         android:orientation="vertical"
         android:padding="16dp"
+        android:textAlignment="center"
+        android:textDirection="firstStrong"
         tools:layout_editor_absoluteX="16dp"
         tools:layout_editor_absoluteY="16dp">
 
         <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:gravity="top"
-            android:text="@string/welcome_to_aftflight" />
+            android:layout_width="370dp"
+            android:layout_height="114dp"
+            android:gravity="center|top"
+            android:text="@string/welcome_to_aftflight"
+            android:textSize="34sp"
+            android:textStyle="bold" />
     </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical"
         android:gravity="center"
+        android:orientation="vertical"
         android:padding="16dp">
 
         <Button
             android:id="@+id/main_createButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="580px"
+            android:layout_height="320px"
             android:layout_gravity="center_horizontal"
-            android:text="@string/create" />
+            android:insetTop="12dp"
+            android:insetBottom="12dp"
+            android:letterSpacing="0.2"
+            android:text="@string/create"
+            android:textSize="34sp" />
 
         <Button
             android:id="@+id/main_searchButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="580px"
+            android:layout_height="320px"
             android:layout_gravity="center_horizontal"
-            android:text="@string/search" />
+            android:insetTop="12dp"
+            android:insetBottom="12dp"
+            android:letterSpacing="0.2"
+            android:text="@string/search"
+            android:textSize="34sp" />
 
-<!--        <Button-->
-<!--            android:id="@+id/main_displayButton"-->
-<!--            android:layout_width="wrap_content"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:layout_gravity="center_horizontal"-->
-<!--            android:text="Display" />-->
+        <!--        <Button-->
+        <!--            android:id="@+id/main_displayButton"-->
+        <!--            android:layout_width="wrap_content"-->
+        <!--            android:layout_height="wrap_content"-->
+        <!--            android:layout_gravity="center_horizontal"-->
+        <!--            android:text="Display" />-->
 
         <Button
             android:id="@+id/main_helpButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="580px"
+            android:layout_height="320px"
             android:layout_gravity="center_horizontal"
-            android:text="@string/help" />
+            android:insetTop="12dp"
+            android:insetBottom="12dp"
+            android:letterSpacing="0.2"
+            android:text="@string/help"
+            android:textSize="34sp" />
 
     </LinearLayout>
 

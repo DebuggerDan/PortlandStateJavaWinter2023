@@ -137,7 +137,7 @@ public class AftflightSearch extends AppCompatActivity {
 
                 if (!srcSearch.isEmpty() && destSearch.isEmpty())
                 {
-                    srcSearchText.setError("Please enter a destination airport (to use src-to-destination search)!");
+                    destSearchText.setError("Please enter a destination airport (to use src-to-destination search)!");
                     Snackbar.make(v, "Please enter a destination airport!", Snackbar.LENGTH_LONG)
                             .setAction("Action", null).show();
                     return;
@@ -214,8 +214,8 @@ public class AftflightSearch extends AppCompatActivity {
                         }
                     }
 
-                    srcSearch.toUpperCase();
-                    destSearch.toUpperCase();
+                    srcSearch = srcSearch.toUpperCase();
+                    destSearch = destSearch.toUpperCase();
 
                     // Input-Validation #6 {from Project #4}: Check the AirportNames database if the airport codes actually exist!
                     if (AirportNames.getName(srcSearch) == null)
