@@ -1,5 +1,7 @@
 package edu.pdx.cs410J.yeh2;
 
+import android.util.Log;
+
 import edu.pdx.cs410J.AirlineParser;
 import edu.pdx.cs410J.ParserException;
 //import edu.pdx.cs410J.AirlineDumper;
@@ -56,7 +58,7 @@ public class TextParser implements AirlineParser<Airline> {
 
 //    public static Date timeStamper(String date, String time) throws IllegalArgumentException
 //    {
-//        String Timestamp_Format = "MM/dd/yyyy HH:mm";
+//        String Timestamp_Format = "MM/dd/yyyy HH:mm a";
 //        DateFormat TStamp = new SimpleDateFormat(Timestamp_Format, Locale.US);
 //        StringBuilder postage = new StringBuilder();
 //        postage.append(date);
@@ -132,13 +134,16 @@ public class TextParser implements AirlineParser<Airline> {
       }
     }
 
+    // DEBUG
+    Log.d("TextParser", "Constructor Parsing [#1]: \"" + file.getAbsolutePath() + "\"");
+    // DEBUG
+
 
     //else
     //{
     this.file_name = file.getName();
     this.parsedfile = file;
     //}
-
 
     //try {
 
@@ -419,6 +424,9 @@ public class TextParser implements AirlineParser<Airline> {
     DateFormat TStamp = new SimpleDateFormat(Timestamp_Format, Locale.US);
     String currstring = null;
     FileReader parsez = null;
+    // DEBUG
+    Log.d("TextParser", "Parsing [#2 - Parsley]: \"" + file.getAbsolutePath() + "\"");
+    // DEBUG
     try
     {
 
@@ -445,6 +453,10 @@ public class TextParser implements AirlineParser<Airline> {
 
       String first_airline_line = buffer.readLine();
       String line_buffer = buffer.readLine();
+      // DEBUG
+      Log.d("TextParser", "First Line Parsed: \"" + first_airline_line + "\"");
+      Log.d("TextParser", "Second/Buffer Line Parsed: \"" + line_buffer + "\"");
+      // DEBUG
 
       currstring = line_buffer;
 
@@ -461,14 +473,18 @@ public class TextParser implements AirlineParser<Airline> {
 
           String[] currargs = currstring.split("\\s*,\\s*");
 
-          if (currargs.length > 8) {
-            throw new IllegalArgumentException("Need at least 8 arguments for airlines/flights!");
+          // DEBUG
+          Log.d("TextParser", "Parsing [#3 - Parsley]: \"" + currargs[0] + "\" to: " + file.getAbsolutePath());
+          // DEBUG
+
+          if (currargs.length > 5) {
+            throw new IllegalArgumentException("Need at least 5 arguments for airlines/flights!");
           }
           else
           {
-            if (currargs.length < 8)
+            if (currargs.length < 5)
             {
-              throw new IllegalArgumentException("There can only be 8 arguments max per airline/flights!");
+              throw new IllegalArgumentException("There can only be 5 arguments max per airline/flights!");
             }
           }
 
@@ -476,13 +492,19 @@ public class TextParser implements AirlineParser<Airline> {
            * date1 & date2 represents the tri-string combo strings for our two full timestamps!
            * @see Project3
            */
-          String date1 = currargs[2] + " " + currargs[3] + " " + currargs[4];// + " " + currargs[4];
-          String date2 = currargs[6] + " " + currargs[7] + " " + currargs[8];// + " " + currargs[6];
+          // @see Project456 (TextDumper & TextParser uses a comma as a delimitter, so combo-strings should be redundant
+          //String date1 = currargs[2] + " " + currargs[3] + " " + currargs[4];// + " " + currargs[4];
+          //String date2 = currargs[6] + " " + currargs[7] + " " + currargs[8];// + " " + currargs[6];
+
+          // DEBUG
+          Log.d("TextParser", "Departure: \"" + currargs[2] + "\" to Arrival: \"" + currargs[4] + "\"" );
+          // DEBUG
+
           Flight runway = null;
 
           try
           {
-            runway = new Flight(currargs[0], currargs[1], date1, currargs[5], date2);
+            runway = new Flight(currargs[0], currargs[1], currargs[2], currargs[3], currargs[4]);
           }
           catch (ParseException e8)
           {
@@ -508,7 +530,7 @@ public class TextParser implements AirlineParser<Airline> {
           }
           catch (NullPointerException e6)
           {
-            throw new ParserException("Hmm, looks like there was an issue with adding the following flight: ", e6);
+            throw new ParserException("Hmm, looks like there was an issue with adding the following flight: ", e6.getCause());
           }
 
           while (currstring != null && currstring.isEmpty())
@@ -519,19 +541,19 @@ public class TextParser implements AirlineParser<Airline> {
         }
       } catch (NullPointerException e5)
       {
-        throw new ParserException("Error when parsing through the text file!", e5);
+        throw new ParserException("Error when parsing through the text file!", e5.getCause());
       }
 
     }
 
     catch (IOException e3)
     {
-      throw new ParserException("Parsing error detected [IO - Parsley]: ", e3);//e3.getCause());
+      throw new ParserException("Parsing error detected [IO - Parsley]: ", e3.getCause());//e3.getCause());
     }
 
     catch (IllegalArgumentException e4)
     {
-      throw new ParserException("Parsing error detected [Bad Args - Parsley]: ", e4);//e4.getCause());
+      throw new ParserException("Parsing error detected [Bad Args - Parsley]: ", e4.getCause());//e4.getCause());
     }
 
 

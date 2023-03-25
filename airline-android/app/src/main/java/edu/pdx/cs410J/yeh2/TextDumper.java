@@ -1,5 +1,7 @@
 package edu.pdx.cs410J.yeh2;
 
+import android.util.Log;
+
 import edu.pdx.cs410J.AirlineDumper;
 
 //import java.util.Collection;
@@ -133,13 +135,20 @@ public class TextDumper implements AirlineDumper<Airline> {
     Collection<Flight> flightDump = lufthansa.getFlights();
     String airline_name = lufthansa.getName();
 
+    // DEBUG
+    Log.d("TextDumper", "Dumping: \"" + airline_name + "\" to: " + thefile.getAbsolutePath());
+    // DEBUG
+
     try (FileWriter filewrite = new FileWriter(thefile);
          PrintWriter printer = new PrintWriter(filewrite))
     {
       printer.println(airline_name);
 
       for (Flight runway : flightDump) {
-        printer.println(runway.getNumber() + ", " + runway.getSource() + ", " + runway.getDepartureString() + ", " + runway.getDestination() + ", " + runway.getArrivalString());
+        // DEBUG
+        Log.d("TextDumper", "Flight: " + runway.getNumber() + ", " + runway.getSource() + ", " + runway.getDepartureString() + ", " + runway.getDestination() + ", " + runway.getArrivalString());
+        // DEBUG
+                printer.println(runway.getNumber() + ", " + runway.getSource() + ", " + runway.getDepartureString() + ", " + runway.getDestination() + ", " + runway.getArrivalString());
       }
       //printer.close();
     } catch (IOException tdAC) {
