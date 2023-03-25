@@ -1,5 +1,7 @@
 package edu.pdx.cs410J.yeh2;
 
+import android.util.Log;
+
 import edu.pdx.cs410J.AirlineDumper;
 
 //import java.util.Collection;
@@ -22,10 +24,10 @@ import java.io.IOException;
  * Takes the contents of an <code>airline</code> (and its <code>flight</code>s) and dumps it into a text file.
  */
 public class TextDumper implements AirlineDumper<Airline> {
-//  private final StringWriter writer;
+  //  private final StringWriter writer;
   protected String file_name = null;
   //protected String dump;
-  //protected File currfile = null;
+  protected File currfile = null;
 
   public TextDumper(StringWriter cw)
   {
@@ -47,7 +49,7 @@ public class TextDumper implements AirlineDumper<Airline> {
     }
     else
     {
-      this.file_name = name;
+      //this.file_name = name;
     }
   }
 
@@ -56,16 +58,20 @@ public class TextDumper implements AirlineDumper<Airline> {
    * @param file The name of the file to be dumped to.
    * @throws IllegalArgumentException If the file name is invalid, it throws an Illegal Argument exception thingy.
    */
-  public TextDumper(File file) throws IllegalArgumentException
+  public TextDumper(File file) throws IllegalArgumentException, IOException
   {
-    if (!file.exists())
-    {
+    if (!file.exists()) {
+      if (!file.createNewFile()) {
+        throw new IOException("Sorry, looks like the file could not be created.");
+      }
       this.file_name = file.getName();
+      this.currfile = file;
     }
     else
     {
-      throw new IllegalArgumentException("Sorry, looks like the file already exists!.");
-      //this.currfile = file;
+      //throw new IllegalArgumentException("Sorry, looks like the file already exists!.");
+      file.getName();
+      this.currfile = file;
     }
   }
 
@@ -89,8 +95,17 @@ public class TextDumper implements AirlineDumper<Airline> {
       throw new IOException("Airline given was blank!");
     }
 
+    File thefile = null;
+
 //    PrintWriter printer = null;
-    File thefile = new File(this.file_name);
+    if (!this.currfile.exists())
+    {
+      thefile = new File(this.file_name);
+    }
+    else
+    {
+      thefile = this.currfile;
+    }
 //    FileWriter filewrite = null;
 //
 //    if (this.file_name != null)
@@ -110,22 +125,34 @@ public class TextDumper implements AirlineDumper<Airline> {
 //      thefile = new File(this.dump);
 //    }
 
-    FileWriter filewrite = new FileWriter(thefile);
-
-    PrintWriter printer = new PrintWriter(filewrite);
+    //FileWriter filewrite = new FileWriter(thefile);
+    //PrintWriter printer = new PrintWriter(filewrite);
 
 //    if (this.dump != null)
 //    {
 //      printer = new PrintWriter(this.dump);
+
     Collection<Flight> flightDump = lufthansa.getFlights();
     String airline_name = lufthansa.getName();
 
-    printer.println(airline_name);
+    // DEBUG
+    Log.d("TextDumper", "Dumping: \"" + airline_name + "\" to: " + thefile.getAbsolutePath());
+    // DEBUG
 
-    for (Flight runway : flightDump)
+    try (FileWriter filewrite = new FileWriter(thefile);
+         PrintWriter printer = new PrintWriter(filewrite))
     {
-      printer.println(runway.getNumber() + ", " + runway.getSource() + ", " + runway.getDepartureString() + ", " + runway.getDestination() + ", " + runway.getArrivalString());
+      printer.println(airline_name);
+
+      for (Flight runway : flightDump) {
+        // DEBUG
+        Log.d("TextDumper", "Flight: " + runway.getNumber() + ", " + runway.getSource() + ", " + runway.getDepartureString() + ", " + runway.getDestination() + ", " + runway.getArrivalString());
+        // DEBUG
+                printer.println(runway.getNumber() + ", " + runway.getSource() + ", " + runway.getDepartureString() + ", " + runway.getDestination() + ", " + runway.getArrivalString());
+      }
+      //printer.close();
+    } catch (IOException tdAC) {
+      throw new IOException("[New Try-AutoClose TextDumper Loop] Sorry, looks like the file could not be written to: " + tdAC.getMessage());
     }
-    printer.close();
   }
 }

@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/search_MainLinearLayout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center"
+    android:orientation="vertical"
+    android:padding="16dp">
+
+    <EditText
+        android:id="@+id/search_aftflight_airlineNameEdit"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:autofillHints="e.g., Lufthansa"
+        android:hint="@string/enter_the_name_of_the_airline_to_search"
+        android:inputType="textCapWords" />
+
+    <EditText
+        android:id="@+id/search_aftflight_srcEdit"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:autofillHints="e.g., PDX"
+        android:hint="@string/enter_the_source_3_digit_airport_code_of_the_flight_to_search"
+        android:inputType="textCapCharacters" />
+
+    <EditText
+        android:id="@+id/search_aftflight_destEdit"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:autofillHints="e.g., SEA"
+        android:hint="@string/enter_the_destination_3_digit_airport_code_of_the_flight_to_search"
+        android:inputType="textCapCharacters" />
+
+    <Button
+        android:id="@+id/search_aftflight_searchButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:text="@string/searchbutton" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:id="@+id/search_aftflight_flightLinearListView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical" />
+    </ScrollView>
+</LinearLayout>

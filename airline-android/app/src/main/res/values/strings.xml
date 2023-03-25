@@ -1,0 +1,20 @@
+<resources>
+    <string name="app_name">AftFlight</string>
+    <string name="airline_name">Airline Name:</string>
+    <string name="welcome_to_aftflight_help_amp_readme"><![CDATA[Welcome to AftFlight: Help & README]]></string>
+    <string name="welcome_to_aftflight">Welcome to AftFlight!</string>
+    <string name="create">Create</string>
+    <string name="search">Search</string>
+    <string name="help">Help</string>
+    <string name="enter_the_name_of_the_airline">Enter the name of the airline!</string>
+    <string name="enter_the_flight_number_of_the_flight">Enter the flight number of the flight!</string>
+    <string name="enter_the_source_3_digit_airport_code_of_the_flight">Source 3-digit Airport Code!</string>
+    <string name="enter_the_destination_3_digit_airport_code_of_the_flight">Destination 3-digit Airport Code!</string>
+    <string name="enter_the_departure_time_amp_date_of_the_flight"><![CDATA[Enter the departure time & date of the flight!]]></string>
+    <string name="enter_the_arrival_time_amp_date_of_the_flight"><![CDATA[Enter the arrival time & date of the flight!]]></string>
+    <string name="submit">Submit</string>
+    <string name="enter_the_name_of_the_airline_to_search">Enter the name of the airline to search!</string>
+    <string name="enter_the_source_3_digit_airport_code_of_the_flight_to_search">Enter the source 3-digit airport code of the flight to search!</string>
+    <string name="enter_the_destination_3_digit_airport_code_of_the_flight_to_search">Enter the destination 3-digit airport code of the flight to search!</string>
+    <string name="searchbutton">Search!</string>
+</resources>
