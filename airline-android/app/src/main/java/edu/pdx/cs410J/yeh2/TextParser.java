@@ -118,10 +118,14 @@ public class TextParser implements AirlineParser<Airline> {
    * @throws IllegalArgumentException If the file-path/name is invalid.
    */
 
-  public TextParser(File file) throws IllegalArgumentException {
+  public TextParser(File file) throws IllegalArgumentException, IOException {
     if (!file.exists()) {
-      throw new IllegalArgumentException("Name of the file is invalid!");
+      if (!file.createNewFile()) {
+        throw new IllegalArgumentException("Name of the file is invalid!");
+      }
     }
+
+
     else
     {
       this.file_name = file.getName();

@@ -13,6 +13,7 @@ import com.google.android.material.floatingactionbutton.*;
 import com.google.android.material.snackbar.Snackbar;
 
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.text.DateFormat;
@@ -42,6 +43,19 @@ public class AftflightCreate extends AppCompatActivity {
             return true;
         }
         return super.onOptionsItemSelected(buttonz);
+    }
+
+    /**
+     * This function creates files properly for the Android system!
+     * @param view The Android view!
+     * @param airlineName The name of the airline!
+     * @param extension The extension of the file!
+     * @return The file that was freshly created!
+     */
+    private File aftFlightFile(View view, String airlineName, String extension)
+    {
+        File androidFile = view.getContext().getFilesDir();
+        return new File(androidFile, airlineName + extension);
     }
 
     /**
@@ -287,17 +301,28 @@ public class AftflightCreate extends AppCompatActivity {
                         return;
                     }
 
-                    File androidPath = view.getContext().getFilesDir();
-                    File file = new File(androidPath, airlineName);
-                    TextParser parsley = new TextParser(file);
+                    //File androidPath = view.getContext().getFilesDir();
+                    //File file = new File(androidPath, airlineName);
+                    File file = aftFlightFile(view, airlineName, ".txt");
+                    TextParser parsley = null;
+                    try
+                    {
+                        parsley = new TextParser(file);
+                    }
+                    catch (IOException e8)
+                    {
+                        Snackbar.make(view, "Parsing IO Exception: " + e8.getMessage(), Snackbar.LENGTH_LONG)
+                                .setAction("Action", null).show();
+                    }
 
                     try {
+                        //TextParser parsley = new TextParser(file);
                         lufthansa = TextParser.parsley(file);
-                    } catch (ParserException e1) {
+                    } catch (ParserException | IllegalArgumentException e1) {
                         //e1.printStackTrace();
-                        Snackbar.make(view, e1.getMessage(), Snackbar.LENGTH_LONG)
-                                .setAction("Action", null).show();
-                        return;
+//                        Snackbar.make(view, "Looks like the file ", Snackbar.LENGTH_LONG)
+//                                .setAction("Action", null).show();
+//                        return;
                     }
 
                     if (lufthansa == null) {

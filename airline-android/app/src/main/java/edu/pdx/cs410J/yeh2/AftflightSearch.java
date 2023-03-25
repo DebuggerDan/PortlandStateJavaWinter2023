@@ -16,11 +16,12 @@ import com.google.android.material.floatingactionbutton.*;
 import com.google.android.material.snackbar.Snackbar;
 
 import java.io.File;
+import java.io.IOException;
 
 import edu.pdx.cs410J.ParserException;
 
 public class AftflightSearch extends AppCompatActivity {
-    EditText searchAirlineNameText = findViewById(R.id.search_aftflight_airlineNameEdit);
+
     private String searchAirlineName = null;
     private String scroll = null;
 
@@ -38,6 +39,19 @@ public class AftflightSearch extends AppCompatActivity {
             return true;
         }
         return super.onOptionsItemSelected(buttonz);
+    }
+
+    /**
+     * This function creates files properly for the Android system!
+     * @param view The Android view!
+     * @param airlineName The name of the airline!
+     * @param extension The extension of the file!
+     * @return The file that was freshly created!
+     */
+    private File aftFlightFile(View view, String airlineName, String extension)
+    {
+        File androidFile = view.getContext().getFilesDir();
+        return new File(androidFile, airlineName + extension);
     }
 
     private void scrollViewUpdate(String scroll)
@@ -60,7 +74,7 @@ public class AftflightSearch extends AppCompatActivity {
         if (resCode == RESULT_OK && reqCode == 1)
         {
             String searchName = parchment.getStringExtra("airlineSearchToDisplayName");
-            searchAirlineNameText.setText(searchName);
+            //searchAirlineNameText.setText(searchName);
             scroll = parchment.getStringExtra("displayResult");
 
             scrollViewUpdate(scroll);
@@ -77,6 +91,7 @@ public class AftflightSearch extends AppCompatActivity {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         }
 
+        EditText searchAirlineNameText = findViewById(R.id.search_aftflight_airlineNameEdit);
         EditText srcSearchText = findViewById(R.id.search_aftflight_srcEdit);
         EditText destSearchText = findViewById(R.id.search_aftflight_destEdit);
         Button searchButton = findViewById(R.id.search_aftflight_searchButton);
@@ -101,9 +116,21 @@ public class AftflightSearch extends AppCompatActivity {
 
                 Airline lufthansa = null;
                 Flight runway = null;
-                File path = v.getContext().getFilesDir();
-                File file = new File(path, searchName);
-                TextParser parsley = new TextParser(file);
+                //File path = v.getContext().getFilesDir();
+                //File file = new File(path, searchName);
+                File file = aftFlightFile(v, searchName, ".txt");
+                TextParser parsley = null;
+
+                try
+                {
+                    parsley = new TextParser(file);
+                }
+                catch (IOException e8)
+                {
+                    Snackbar.make(v, "Parsing IO Exception: " + e8.getMessage(), Snackbar.LENGTH_LONG)
+                            .setAction("Action", null).show();
+                }
+
                 Intent searchShare = new Intent(AftflightSearch.this, AftflightDisplay.class);
 
                 try
