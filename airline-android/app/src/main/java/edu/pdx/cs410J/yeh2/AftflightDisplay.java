@@ -3,6 +3,7 @@ package edu.pdx.cs410J.yeh2;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -79,14 +80,14 @@ public class AftflightDisplay extends AppCompatActivity {
         String airlineName = searchStuff.getString("airlineSearchToDisplayName");
         View view = findViewById(R.id.display_aftflight_mainScrollView);
         File file = aftFlightFile(view, airlineName, ".txt");
-        boolean specificSearch = searchStuff.getBoolean("specificSearch", false);
+        boolean searchMode = getIntent().getBooleanExtra("specificSearch", false);
         //if (getIntent().getBooleanExtra("airlineSearchToDisplay", false))
         String srcSearch = null;
         String destSearch = null;
-        if (specificSearch = true)
+        if (searchMode)
         {
-            srcSearch = getIntent().getStringExtra("srcSearch");
-            destSearch = getIntent().getStringExtra("destSearch");
+            srcSearch = getIntent().getStringExtra("srcSearchToDisplay");
+            destSearch = getIntent().getStringExtra("destSearchToDisplay");
         }
 
         //Airline lufthansa = (Airline) searchStuff.getSerializable("foundAirline");
@@ -125,12 +126,18 @@ public class AftflightDisplay extends AppCompatActivity {
         displayResultIntent.putExtra("airlineSearchToDisplayName", airlineName);
         PrettyPrinter xerox = null;
 
-        if (specificSearch)// && srcSearch != null && destSearch != null)
+        if (searchMode)// && srcSearch != null && destSearch != null)
         {
+            // DEBUG
+            Log.d("AftFlightDisplay", "Search Mode: " + searchMode + " | " + srcSearch + " | " + destSearch);
+            // DEBUG
             xerox = new PrettyPrinter(null, false, srcSearch, destSearch);
         }
         else
         {
+            // DEBUG
+            Log.d("AftFlightDisplay", "Search Mode: " + searchMode);
+            // DEBUG
             //PrettyPrinter
             xerox = new PrettyPrinter(null, false);
         }

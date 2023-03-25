@@ -13,7 +13,7 @@
         android:layout_height="wrap_content"
         android:autofillHints="e.g., Lufthansa"
         android:hint="@string/enter_the_name_of_the_airline"
-        android:inputType="text"
+        android:inputType="textCapWords"
         android:minHeight="48dp" />
 
     <LinearLayout

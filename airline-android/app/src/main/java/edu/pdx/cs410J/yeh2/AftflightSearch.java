@@ -21,6 +21,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 
+import edu.pdx.cs410J.AirportNames;
 import edu.pdx.cs410J.ParserException;
 
 public class AftflightSearch extends AppCompatActivity {
@@ -69,8 +70,11 @@ public class AftflightSearch extends AppCompatActivity {
     {
         LinearLayout searchResultMainLinearLayout = findViewById(R.id.search_aftflight_flightLinearListView);
         searchResultMainLinearLayout.removeAllViews();
+        searchResultMainLinearLayout.invalidate();
+        //helpView.invalidate();
 
         TextView searchResultTextView = new TextView(this);
+        //searchResultTextView.invalidate();
         searchResultTextView.setText(scroll);
         searchResultTextView.setTextSize(20);
         searchResultTextView.setPadding(0, 0, 0, 20);
@@ -113,6 +117,7 @@ public class AftflightSearch extends AppCompatActivity {
                 String srcSearch = srcSearchText.getText().toString();
                 String destSearch = destSearchText.getText().toString();
                 String searchName = searchAirlineNameText.getText().toString();
+                Boolean specificSearch = false;
 
                 if (searchName.isEmpty())
                 {
@@ -136,6 +141,103 @@ public class AftflightSearch extends AppCompatActivity {
                     Snackbar.make(v, "Please enter a destination airport!", Snackbar.LENGTH_LONG)
                             .setAction("Action", null).show();
                     return;
+                }
+                
+                if (!srcSearch.isEmpty() && !destSearch.isEmpty())
+                {
+                    if (srcSearch.length() != 3)
+                    {
+                        if (srcSearch.length() < 3)
+                        {
+                            srcSearchText.setError("Uh oh, looks like the source airport code is too short, it should be 3-digits of letters: " + srcSearch);
+                            Snackbar.make(v, "Uh oh, looks like the source airport code is too short, it should be 3-digits of letters: " + srcSearch, Snackbar.LENGTH_LONG)
+                                    .setAction("Action", null).show();
+                            // usage("Uh oh, looks like the source airport code is too short, it should be 3-digits of letters: " + landing[2]);
+                        }
+                        else
+                        {
+                            srcSearchText.setError("Uh oh, looks like the source airport code is too long, it should be 3-digits of letters: " + srcSearch);
+                            Snackbar.make(v, "Uh oh, looks like the source airport code is too long, it should be 3-digits of letters: " + srcSearch, Snackbar.LENGTH_LONG)
+                                    .setAction("Action", null).show();
+                            // usage("Uh oh, looks like the source airport code is too long, it should be 3-digits of letters: " + landing[2]);
+                        }
+                        // Graceful Exit: If the source airport code is not 3-digits.
+                        return;
+                    }
+                    if (destSearch.length() != 3)
+                    {
+                        if (destSearch.length() < 3)
+                        {
+                            destSearchText.setError("Uh oh, looks like the destination airport code is too short, it should be 3-digits of letters: " + destSearch);
+                            Snackbar.make(v, "Uh oh, looks like the destination airport code is too short, it should be 3-digits of letters: " + destSearch, Snackbar.LENGTH_LONG)
+                                    .setAction("Action", null).show();
+                            // usage("Uh oh, looks like the destination airport code is too short, it should be 3-digits of letters: " + landing[6]);
+                        }
+                        else
+                        {
+                            destSearchText.setError("Uh oh, looks like the destination airport code is too long, it should be 3-digits of letters: " + destSearch);
+                            Snackbar.make(v, "Uh oh, looks like the destination airport code is too long, it should be 3-digits of letters: " + destSearch, Snackbar.LENGTH_LONG)
+                                    .setAction("Action", null).show();
+                            // usage("Uh oh, looks like the destination airport code is too long, it should be 3-digits of letters: " + landing[6]);
+                        }
+                        // Graceful Exit: If the destination airport code is not 3-digits.
+                        return;
+                    }
+
+                    // Input-Validation #2b & #2c {from Project #4}: Check if both src & dest airport codes include numbers, if so, then error!.
+                    char[] srcCodeTest = srcSearch.toCharArray();
+                    char[] destCodeTest = destSearch.toCharArray();
+
+                    for (char srcChar : srcCodeTest)
+                    {
+                        if (Character.isDigit(srcChar))
+                        {
+                            srcSearchText.setError("Uh oh, looks like the source airport code has numbers(s), it should be 3-digits of letters only: " + srcSearch);
+                            Snackbar.make(v, "Uh oh, looks like the source airport code has numbers(s), it should be 3-digits of letters only: " + srcSearch, Snackbar.LENGTH_LONG)
+                                    .setAction("Action", null).show();
+                            // usage("Uh oh, looks like the source airport code has numbers(s), it should be 3-digits of letters only: " + landing[2]);
+                            // Graceful Exit: If the source airport code has numbers.
+                            return;
+                        }
+                    }
+
+                    for (char destChar : destCodeTest)
+                    {
+                        if (Character.isDigit(destChar))
+                        {
+                            destSearchText.setError("Uh oh, looks like the destination airport code has numbers(s), it should be 3-digits of letters only: " + destSearch);
+                            Snackbar.make(v, "Uh oh, looks like the destination airport code has numbers(s), it should be 3-digits of letters only: " + destSearch, Snackbar.LENGTH_LONG)
+                                    .setAction("Action", null).show();
+                            // usage("Uh oh, looks like the destination airport code has numbers(s), it should be 3-digits of letters only: " + landing[6]);
+                            // Graceful Exit: If the destination airport code has numbers.
+                            return;
+                        }
+                    }
+
+                    srcSearch.toUpperCase();
+                    destSearch.toUpperCase();
+
+                    // Input-Validation #6 {from Project #4}: Check the AirportNames database if the airport codes actually exist!
+                    if (AirportNames.getName(srcSearch) == null)
+                    {
+                        srcSearchText.setError("Uh oh, looks like the source airport code, '" + srcSearch + "', was not found in our airport-names database!");
+                        Snackbar.make(v, "Uh oh, looks like the source airport code, '" + srcSearch + "', was not found in our airport-names database!", Snackbar.LENGTH_LONG)
+                                .setAction("Action", null).show();
+                        // usage("Uh oh, looks like the source airport code, '" + landing[2] + "', was not found in our airport-names database!");
+                        // Graceful Exit: If the source airport code was not found in AirportNames!
+                        return;
+                    }
+                    if (AirportNames.getName(destSearch) == null)
+                    {
+                        destSearchText.setError("Uh oh, looks like the destination airport code, '" + destSearch + "', was not found in our airport-names database!");
+                        Snackbar.make(v, "Uh oh, looks like the destination airport code, '" + destSearch + "', was not found in our airport-names database!", Snackbar.LENGTH_LONG)
+                                .setAction("Action", null).show();
+                        // usage("Uh oh, looks like the destination airport code, '" + landing[6] + "', was not found in our airport-names database!");
+                        // Graceful Exit: If the destination airport code was not found in AirportNames!
+                        return;
+                    }
+
+                    specificSearch = true;
                 }
 
 //                Intent searchNameShare = new Intent(AftflightSearch.this, AftflightDisplay.class);
@@ -204,7 +306,7 @@ public class AftflightSearch extends AppCompatActivity {
                 }
                 else
                 {
-                    if (destSearch.isEmpty() || srcSearch.isEmpty())
+                    if (!specificSearch)
                     {
                         searchShare.putExtra("airlineSearchToDisplayName", searchName);
                         //searchShare.putExtra("foundAirline", (Parcelable) lufthansa);
@@ -217,6 +319,8 @@ public class AftflightSearch extends AppCompatActivity {
                         //searchShare.putExtra("foundFile", file);
 
                         startActivityForResult(searchShare, 1);
+                        Toast toaster = Toast.makeText(getApplicationContext(), "Displaying all flights for \"" + searchName + "\"!", Toast.LENGTH_LONG);
+                        toaster.show();
                     }
                     else
                     {
@@ -230,9 +334,14 @@ public class AftflightSearch extends AppCompatActivity {
                         //searchShare.putExtra("foundFile", file);
 
                         startActivityForResult(searchShare, 1);
+                        Toast toaster = Toast.makeText(getApplicationContext(), "Displaying specific \"" + searchName + "\" flights, from \"" + srcSearch + "\" to \"" + destSearch + "\" airports!", Toast.LENGTH_LONG);
+                        toaster.show();
                     }
-                    Toast toaster = Toast.makeText(getApplicationContext(), "Displaying results for \"" + searchName + "\"!", Toast.LENGTH_LONG);
-                    toaster.show();
+
+
+                    searchAirlineNameText.getText().clear();
+                    srcSearchText.getText().clear();
+                    destSearchText.getText().clear();
                 }
             }
         });

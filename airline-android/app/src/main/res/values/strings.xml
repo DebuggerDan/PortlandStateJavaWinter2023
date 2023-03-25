@@ -16,4 +16,5 @@
     <string name="enter_the_name_of_the_airline_to_search">Enter the name of the airline to search!</string>
     <string name="enter_the_source_3_digit_airport_code_of_the_flight_to_search">Enter the source 3-digit airport code of the flight to search!</string>
     <string name="enter_the_destination_3_digit_airport_code_of_the_flight_to_search">Enter the destination 3-digit airport code of the flight to search!</string>
+    <string name="searchbutton">Search!</string>
 </resources>
