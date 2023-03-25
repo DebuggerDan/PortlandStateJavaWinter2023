@@ -359,8 +359,8 @@ public class AftflightCreate extends AppCompatActivity {
                         }
                     }
 
-                    src.toUpperCase();
-                    dest.toUpperCase();
+                    src = src.toUpperCase();
+                    dest = dest.toUpperCase();
 
                     // Input-Validation #6 {from Project #4}: Check the AirportNames database if the airport codes actually exist!
                     if (AirportNames.getName(src) == null)
@@ -407,6 +407,20 @@ public class AftflightCreate extends AppCompatActivity {
 
                     //File androidPath = view.getContext().getFilesDir();
                     //File file = new File(androidPath, airlineName);
+                    try
+                    {
+                        String lowerCaseAirlineName = airlineName.toLowerCase();
+                        airlineName = lowerCaseAirlineName.substring(0, 1).toUpperCase() + lowerCaseAirlineName.substring(1);
+                    }
+                    catch (Exception e9)
+                    {
+                        airlineNameCreateText.setError("Error when trying to capitalize the airline name (Airline name might be too short?): " + e9.getMessage());
+                        Snackbar.make(view, "Error when trying to capitalize the airline name (Airline name might be too short?): " + e9.getMessage(), Snackbar.LENGTH_LONG)
+                                .setAction("Action", null).show();
+                        return;
+                    }
+                    //airlineName = StringUtils.capitalize(airlineName);
+                    //airlineName.to
                     File file = aftFlightFile(view, airlineName, ".txt");
 //                    TextParser parsley = null;
 //                    try

@@ -248,6 +248,20 @@ public class AftflightSearch extends AppCompatActivity {
                 Flight runway = null;
                 //File path = v.getContext().getFilesDir();
                 //File file = new File(path, searchName);
+
+                try
+                {
+                    String lowerCaseSearchAirlineName = searchName.toLowerCase();
+                    searchName = lowerCaseSearchAirlineName.substring(0, 1).toUpperCase() + lowerCaseSearchAirlineName.substring(1);
+                }
+                catch (Exception e9)
+                {
+                    searchAirlineNameText.setError("Error when trying to capitalize the airline name (Airline name might be too short?): " + e9.getMessage());
+                    Snackbar.make(v, "Error when trying to capitalize the airline name (Airline name might be too short?): " + e9.getMessage(), Snackbar.LENGTH_LONG)
+                            .setAction("Action", null).show();
+                    return;
+                }
+
                 File file = aftFlightFile(v, searchName, ".txt");
 //                TextParser parsley = null;
 //
