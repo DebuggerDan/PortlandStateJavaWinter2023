@@ -276,6 +276,8 @@ public class AirlineServlet extends HttpServlet {
         pw.flush();
         pw.close();
 
+        this.aftflight.put(airline, lufthansa);
+
         response.setStatus( HttpServletResponse.SC_OK);
     }
 
@@ -334,7 +336,6 @@ public class AirlineServlet extends HttpServlet {
      */
     private void writeFlights(String airline, HttpServletResponse response) throws IOException {
         Airline lufthansa = this.aftflight.get(airline);
-
 
         if (lufthansa == null)
         {
