@@ -71,30 +71,32 @@ public class AirlineServlet extends HttpServlet {
         }
 
         // Input Validation [Project #5] 6.1.) - If both src and dest are blank (but not airline-name), then infer Valid Case (for -search) I.): GET all flights of matching-name airline
-        if (src == null || dest == null)
+        if (src == null && dest == null)
         {
             writeFlights(airline, response);
             //writeSpecificDefinition(word, response);
         }
-//        // Input Validation [Project #5] 6.2.) - If only one of either src or dest are blank (but not airline-name), identify which one is null, then use the <code>missingRequiredParameter</code> function!
-//        else if (src == null)
-//        {
-//            // Input Validation [Project #5] 6.2.1.) - If src is null, then use the <code>missingRequiredParameter</code> function to request the SRC airport-code parameter!
-//
-//            missingRequiredParameter( response, SRC_PARAMETER );
-//            return;
-//        }
-//            // Input Validation [Project #5] 6.2.2.) - If dest is null, then use the <code>missingRequiredParameter</code> function to request the DEST airport-code parameter!
-//        else if (dest == null)
-//        {
-//            missingRequiredParameter( response, DEST_PARAMETER );
-//                return;
-//        }
-//            //writeDefinition(word, response);
+        // Input Validation [Project #5] 6.2.) - If only one of either src or dest are blank (but not airline-name), identify which one is null, then use the <code>missingRequiredParameter</code> function!
+        else if (src == null)
+        {
+            // Input Validation [Project #5] 6.2.1.) - If src is null, then use the <code>missingRequiredParameter</code> function to request the SRC airport-code parameter!
+
+            missingRequiredParameter( response, SRC_PARAMETER );
+            return;
+        }
+            // Input Validation [Project #5] 6.2.2.) - If dest is null, then use the <code>missingRequiredParameter</code> function to request the DEST airport-code parameter!
+        else if (dest == null)
+        {
+            missingRequiredParameter( response, DEST_PARAMETER );
+            return;
+        }
+            //writeDefinition(word, response);
 
         // Input Validation [Project #5] 6.3.) - If both src and dest are not blank, then infer Valid Case (for -search) II.): GET all flights of matching-name airline that match src & dest airport-codez
-        else// if (src && dest != null)
+        else if (!src.isEmpty() && !dest.isEmpty())
         {
+            // Input Validation [Project #5] 6.3.1.) - If both src and dest are not blank, then infer Valid Case (for -search) II.): GET all flights of matching-name airline that match src & dest airport-codez
+            //writeSpecificFlights(airline, src, dest, response);
             /*
              * Input-Validation #3 {from Project #4}: Checking both src & dest airport codes is not 3-digits in characters.
              * src should equal src & dest should equal dest.
@@ -140,15 +142,18 @@ public class AirlineServlet extends HttpServlet {
                 }
             }
 
+            String srcTest = src.toUpperCase();
+            String destTest = dest.toUpperCase();
+
             // Input-Validation #6 {from Project #4}: Check the AirportNames database if the airport codes actually exist!
-            if (AirportNames.getName(src) == null)
+            if (AirportNames.getName(srcTest) == null)
             {
                 //usage("Uh oh, looks like the source airport code, '" + src + "', was not found in our airport-names database!");
                 errorRequiredParameter(response, SRC_PARAMETER);
                 // Graceful Exit: If the source airport code was not found in AirportNames!
                 return;
             }
-            if (AirportNames.getName(dest) == null)
+            if (AirportNames.getName(destTest) == null)
             {
                 //usage("Uh oh, looks like the destination airport code, '" + dest + "', was not found in our airport-names database!");
                 errorRequiredParameter(response, DEST_PARAMETER);
@@ -167,7 +172,7 @@ public class AirlineServlet extends HttpServlet {
                 errorRequiredParameter(response, e2.getMessage());
             }
 
-            writeSpecificFlights(src, dest, airline, response);
+            writeSpecificFlights(airline, src, dest, response);
         }
 
 //        if (word != null) {
@@ -269,6 +274,7 @@ public class AirlineServlet extends HttpServlet {
 
         pw.println("[AftFlight] New flight added to airline '" + airline + "'!");
         pw.flush();
+        pw.close();
 
         response.setStatus( HttpServletResponse.SC_OK);
     }
@@ -290,6 +296,7 @@ public class AirlineServlet extends HttpServlet {
         PrintWriter pw = response.getWriter();
         pw.println(Messages.allAftFlightEntriesDeleted());
         pw.flush();
+        pw.close();
 
         response.setStatus(HttpServletResponse.SC_OK);
 
@@ -342,7 +349,8 @@ public class AirlineServlet extends HttpServlet {
             XmlDumper dumper = new XmlDumper(pw, null, null);
             dumper.dump(lufthansa);
             //pw.println(XmlDumper.dumpMail(lufthansa));
-
+            pw.flush();
+            pw.close();
             response.setStatus(HttpServletResponse.SC_OK);
         }
 
@@ -362,7 +370,21 @@ public class AirlineServlet extends HttpServlet {
     private void writeSpecificFlights(String airline, String src, String dest, HttpServletResponse response) throws IOException {
         Airline lufthansa = this.aftflight.get(airline);
         PrintWriter pw = response.getWriter();
-
+        if (src != null && dest != null)
+        {
+            String localSrc = new String(src);
+            String localDest = new String(dest);
+        }
+        else if (src == null)
+        {
+            //response.sendError(HttpServletResponse.SC_NOT_FOUND, "Missing src parameter for airline: '" + airline + "'!");
+            missingRequiredParameter(response, SRC_PARAMETER);
+        }
+        else if (dest == null)
+        {
+            //response.sendError(HttpServletResponse.SC_NOT_FOUND, "Missing dest parameter for airline: '" + airline + "'!");
+            missingRequiredParameter(response, DEST_PARAMETER);
+        }
         if (lufthansa == null)
         {
             response.sendError(HttpServletResponse.SC_NOT_FOUND, "Unable to find the airline named: '" + airline + "'!");
@@ -376,11 +398,12 @@ public class AirlineServlet extends HttpServlet {
             XmlDumper dumper = new XmlDumper(pw, src, dest);
             dumper.dump(lufthansa);
             //pw.println(XmlDumper.dumpMail(lufthansa));
-
+            pw.flush();
+            pw.close();
             response.setStatus(HttpServletResponse.SC_OK);
         }
 
-        pw.flush();
+        //pw.flush();
     }
 
 //    /**

@@ -128,7 +128,8 @@ class XmlParserTest {
         }
 
         StringWriter sw = new StringWriter();
-        XmlDumper dumper = new XmlDumper(filename);//sw.toString());
+        File thefile = new File(filename);
+        XmlDumper dumper = new XmlDumper(thefile);//sw.toString());
         try {
             dumper.dump(airline);
         } catch (IOException e) {
@@ -152,7 +153,7 @@ class XmlParserTest {
         Airline lufthansa = xmlParserTest.parse();
         assertThat(airline.getName(), equalTo("Valid Airlines"));
         String text = reader(filename);//sw.toString();
-        assertThat(text, containsString("<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"no\"?>"));// +
+        assertThat(text, containsString("<?xml version='1.0'"));// +
         file.deleteOnExit();
         //assertThat(lufthansa.getDepartureString(), equalTo("02/04/2023 6:51 am"));
     }

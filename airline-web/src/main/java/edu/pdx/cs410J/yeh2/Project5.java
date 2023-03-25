@@ -213,6 +213,11 @@ public class Project5 {
         String portString = null;
         String word = null;
         String definition = null;
+        String formattedAirlineName = null;
+        String formattedSrc = null;
+        String formattedDest = null;
+        String formattedSearchSrc = null;
+        String formattedSearchDest = null;
 
         Boolean printoption = false;
         Boolean searchoption = false;
@@ -500,6 +505,9 @@ public class Project5 {
                     // Graceful Exit: If the destination airport code was not found in AirportNames!
                     return;
                 }
+
+                formattedSearchSrc = landing[1].toUpperCase();
+                formattedSearchDest = landing[2].toUpperCase();
             }
             catch (ArrayIndexOutOfBoundsException e3)
             {
@@ -629,9 +637,12 @@ public class Project5 {
             }
 
             // Input-Validation #9 {from Project #4}: Try initializing the new flight as-is with the given command-line arguments.
+            formattedSrc = landing[2].toUpperCase();
+            formattedDest = landing[6].toUpperCase();
+            formattedAirlineName = landing[0].substring(0, 1).toUpperCase() + landing[0].substring(1).toLowerCase();
             try
             {
-                runway = new Flight(landing[1], landing[2], gate, landing[6], taxi);
+                runway = new Flight(formattedAirlineName, formattedSrc, gate, formattedDest, taxi);
             }
             catch (ParseException m8)
             {
@@ -647,6 +658,10 @@ public class Project5 {
         }
 
         AirlineRestClient client = new AirlineRestClient(hostName, port);
+
+        // For -search option
+        formattedAirlineName = landing[0].substring(0, 1).toUpperCase() + landing[0].substring(1).toLowerCase();
+
 
         String message = null;
 
@@ -664,7 +679,10 @@ public class Project5 {
 //                    PrettyPrinter pretty = new PrettyPrinter(sw);
 //                    pretty.dump(dictionary);
 //                    message = sw.toString();
-                    message = client.getFlightEntries(landing[0], null, null);
+                    formattedAirlineName = landing[0];//landing[0].substring(0, 1).toUpperCase() + landing[0].substring(1).toLowerCase();
+                    String tempFormattedAirlineName = formattedAirlineName.toLowerCase();
+                    String newFormattedAirlineName = tempFormattedAirlineName.substring(0, 1).toUpperCase() + tempFormattedAirlineName.substring(1);
+                    message = client.getFlightEntries(newFormattedAirlineName, null, null);
                 }
                 // Search for specific airline, then sub-search for matching src & dest airport codes, then pretty print all flights that match!
                 else if (argnum == 3)
@@ -674,20 +692,28 @@ public class Project5 {
                     //PrettyPrinter pretty = new PrettyPrinter(sw);
                     //pretty.dump(dictionary);
                     //message = sw.toString();
-                    message = client.getFlightEntries(landing[0], landing[1], landing[2]);
+                    formattedAirlineName = landing[0];//landing[0].substring(0, 1).toUpperCase() + landing[0].substring(1).toLowerCase();
+                    String tempFormattedAirlineName = formattedAirlineName.toLowerCase();
+                    String newFormattedAirlineName = tempFormattedAirlineName.substring(0, 1).toUpperCase() + tempFormattedAirlineName.substring(1);
+//                    formattedSrc = landing[1].toUpperCase();
+//                    formattedDest = landing[2].toUpperCase();
+                    // DEBUG
+                    System.err.println("formattedAirlineName: " + formattedAirlineName + ", formattedSrc: " + formattedSrc + ", formattedDest: " + formattedDest);
+                    // DEBUG
+                    message = client.getFlightEntries(newFormattedAirlineName, formattedSearchSrc, formattedSearchDest);
                 }
                 //System.out.println(message);
 
                 try
                 {
                     File parchment = new File("parchment.xml");
-
-                    parchment.deleteOnExit();
-
-                    PrintWriter quill = new PrintWriter(parchment);
+                    //parchment.deleteOnExit();
+                    FileWriter fw = new FileWriter(parchment);
+                    PrintWriter quill = new PrintWriter(fw);
 
                     quill.print(message);
                     quill.close();
+                    fw.close();
 
                     XmlParser scroll = new XmlParser(parchment);
                     lufthansa = scroll.parse();
@@ -696,6 +722,7 @@ public class Project5 {
                     scribe.dump(lufthansa);
                     System.out.println(scribe.getPlottedPrint());
 
+                    //quill.close();
                 }
                 catch (ParserException e4)
                 {
@@ -713,7 +740,7 @@ public class Project5 {
             {
                 try
                 {
-                    message = client.addFlightEntry(landing[0], landing[1], landing[2], gate, landing[6], taxi);
+                    message = client.addFlightEntry(formattedAirlineName, landing[1], formattedSrc, gate, formattedDest, taxi);
                 }
                 catch (Exception e3)
                 {
@@ -733,7 +760,7 @@ public class Project5 {
             }
 
         } catch (IOException | ParserException e1n2 ) {
-            error("While contacting AftFlight instance, '" + hostName + ":" + port + "', this error occurred: " + e1n2.getMessage());
+            error("While contacting AftFlight instance, '" + hostName + ":" + port + "', this error occurred: " + e1n2.getMessage() + e1n2.getStackTrace() + e1n2.getCause());
             return;
         }
 

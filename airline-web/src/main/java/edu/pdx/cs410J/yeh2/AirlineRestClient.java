@@ -79,6 +79,8 @@ public class AirlineRestClient
     /**
      * Returns ({@code HTTP GET}) the parameters of the <code>Airline</code>(s) that match for the given <code>Airline</code> name.
      * @param airline The name of the <code>Airline</code> to be searched for, to be made for the {@code HTTP GET} request!
+     * @param src (Optional) The source airport code to be searched for, to be made for the {@code HTTP GET} request!
+     * @param dest (Optional) The destination airport code to be searched for, to be made for the {@code HTTP GET} request!
      * @throws IOException If there is an IO-specific error with the {@code HTTP GET} request parameters!
      * @throws ParserException If there is a parsing-specific error with the {@code HTTP GET} request parameters!
      */

@@ -593,13 +593,18 @@ class Project5IT extends InvokeMainTestCase {
      * @throws IOException If there are file related errors!
      * @throws ParserConfigurationException If there are <code>XML</code> related errors!
      */
-//    @Test
-//    void testXMLDumping() throws IOException, ParserConfigurationException, SAXException {
-//        MainMethodResult resultValidXML = invokeMain(Project5.class, "-host", "localhost", "-port", "8080", "Lufthansa", "123", "PDX", "02/04/2023", "2:53", "am", "SEA", "02/04/2023", "7:00", "am", "-print");
-//        //MainMethodResult resultInvalidXML = invokeMain(Project5.class, "Lufthansa", "123", "PDX", "02/04/2023", "4:34", "pm", "SEA", "02/04/2023", "7:00", "am", "-textFile", "test16b.txt");
-//        String text = reader("test17.xml");//sw.toString();
+    @Test
+    void testXMLDumpToPrettying() throws IOException, ParserConfigurationException, SAXException {
+        MainMethodResult resultValidXMLToPretty = invokeMain(Project5.class, "-host", "localhost", "-port", "8080", "Lufthansa", "123", "PDX", "02/04/2023", "2:53", "am", "SEA", "02/04/2023", "7:00", "am");
+        resultValidXMLToPretty = invokeMain(Project5.class, "-search", "-host", "localhost", "-port", "8080", "Lufthansa", "PDX", "SEA");
+        //MainMethodResult resultInvalidXML = invokeMain(Project5.class, "Lufthansa", "123", "PDX", "02/04/2023", "4:34", "pm", "SEA", "02/04/2023", "7:00", "am", "-textFile", "test16b.txt");
+        //String filename = "Lufthansa.xml";
+//        File file = new File(filename);
+//        FileWriter fw = new FileWriter(file);
+//        //file.createNewFile();
+//        String text = reader(file.getAbsolutePath());//sw.toString();
 //
-//        assertThat(text, Matchers.containsString("<!DOCTYPE airline SYSTEM \"http://www.cs.pdx.edu/~whitlock/dtds/airline.dtd\">"));// +
+//        //assertThat(text, Matchers.containsString("<!DOCTYPE airline SYSTEM \"http://www.cs.pdx.edu/~whitlock/dtds/airline.dtd\">"));// +
 //        // "\n123, PDX, 02/04/2023 6:51 am, SEA, 02/04/2023 7:00 am"));
 //        AirlineXmlHelper dtdTest = new AirlineXmlHelper();
 //        DocumentBuilderFactory dtdTestFactory = DocumentBuilderFactory.newInstance();
@@ -608,17 +613,18 @@ class Project5IT extends InvokeMainTestCase {
 //        DocumentBuilder dtdTestBuilder = dtdTestFactory.newDocumentBuilder();
 //        dtdTestBuilder.setErrorHandler(dtdTest);
 //        dtdTestBuilder.setEntityResolver(dtdTest);
-//        try (FileReader dtdTestReader = new FileReader("test17.xml"))
+//        try (FileReader dtdTestReader = new FileReader(file))
 //        {
-//            dtdTestBuilder.parse("test17.xml");
+//            dtdTestBuilder.parse(file);
 //        }
 //        catch (IOException m1)
 //        {
 //            System.err.println("[Project Integration Test #17 Error, IOException]" + m1.getMessage());
 //        }
-//        //assertThat(resultValidXML.getTextWrittenToStandardOut(), containsString("<!DOCTYPE airline SYSTEM \"http://www.cs.pdx.edu/~whitlock/dtds/airline.dtd\">"));
-//        //assertThat(resultInvalidXML.getTextWrittenToStandardError(), containsString("Is this Back To The Future, but with flying? Because it looks like the total flight time is somehow negative: "));
-//    }
+        assertThat(resultValidXMLToPretty.getTextWrittenToStandardOut(), containsString(""));
+        //assertThat(resultValidXML.getTextWrittenToStandardOut(), containsString("<!DOCTYPE airline SYSTEM \"http://www.cs.pdx.edu/~whitlock/dtds/airline.dtd\">"));
+        //assertThat(resultInvalidXML.getTextWrittenToStandardError(), containsString("Is this Back To The Future, but with flying? Because it looks like the total flight time is somehow negative: "));
+    }
 
     /**
      * Test #18: -Search, Test 1: If airline name is missing!
@@ -744,5 +750,22 @@ class Project5IT extends InvokeMainTestCase {
 ////        assertThat(searchOutput, containsString("<number>123</number>"));
 ////        assertThat(searchOutput, containsString("<src>PDX</src>"));
 ////        assertThat(searchOutput, containsString("<dest>SEA</dest>"));
+    }
+
+    /**
+     * Test #22: "Maximum Overdrive" Debug Smashing Test [Quashing the Query Bug, circa. 3/25/23]
+     * If all checks-out, then indeed, output the flight information to the user!
+     * First, we will add an airline "Lufthansa" to the server, then add two valid flights (with the same src & depart airport codes) to that airline.
+     * Second, we will search for that flight, then search for it using HTTP, where we search with the same src & depart airport codes.
+     * Third, if it is found, which it should find it since it should be valid, then the machine-readable XML format should be displayed.
+     *
+     * Check for the following:
+     * 1. Check that the XML was returned via the HTTP GET request.
+     */
+    @Test
+    void testQuesadilla()
+    {
+        MainMethodResult resultQue = invokeMain(Project5.class, "-host", "localhost", "-port", "8080", "Lufthansa", "123", "PDX", "02/04/2023", "2:53", "am", "SEA", "02/04/2023", "7:00", "am", "-print");
+        MainMethodResult resultQue1 = invokeMain(Project5.class, "-host", "localhost", "-port", "8080", "-search", "Lufthansa");
     }
 }

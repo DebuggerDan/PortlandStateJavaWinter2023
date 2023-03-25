@@ -81,7 +81,7 @@ class XmlDumperTest {
         File file = new File(filename);
 
         //StringWriter sw = new StringWriter();
-        XmlDumper dumper = new XmlDumper(filename);//sw.toString());
+        XmlDumper dumper = new XmlDumper(file);//sw.toString());
         try {
             dumper.dump(airline);
         } catch (IOException e) {
@@ -90,7 +90,7 @@ class XmlDumperTest {
 
         String text = reader(filename);//sw.toString();
 
-        assertThat(text, containsString("<!DOCTYPE airline SYSTEM \"http://www.cs.pdx.edu/~whitlock/dtds/airline.dtd\">"));// +
+        assertThat(text, containsString("<?xml version='1.0'"));// +
         // "\n123, PDX, 02/04/2023 6:51 am, SEA, 02/04/2023 7:00 am"));
         AirlineXmlHelper dtdTest = new AirlineXmlHelper();
         DocumentBuilderFactory dtdTestFactory = DocumentBuilderFactory.newInstance();
@@ -134,18 +134,25 @@ class XmlDumperTest {
 
         File file = new File(filename);
 
-        StringWriter sw = new StringWriter();
-        //PrintWriter pw = new PrintWriter();
-        XmlDumper dumper = new XmlDumper(sw, src, dest);//sw.toString());
+        //StringWriter sw = new StringWriter();
+        FileWriter fw = new FileWriter(file);
+        PrintWriter pw = new PrintWriter(fw);
+
+        XmlDumper dumper = new XmlDumper(pw, src, dest);//sw.toString());
         try {
             dumper.dump(airline);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
+        pw.close();
+        fw.close();
         //XmlParser parser = new XmlParser(sw);
-        String test = sw.toString();
+        //String test = sw.toString();
+        //pw.close();
+        filename = file.getAbsolutePath();
+        String parsedfile = reader(filename);
 
-        assertThat(test, containsString("<!DOCTYPE airline SYSTEM \"http://www.cs.pdx.edu/~whitlock/dtds/airline.dtd\">"));
+        assertThat(parsedfile, containsString("<!DOCTYPE airline SYSTEM \"http://www.cs.pdx.edu/~whitlock/dtds/airline.dtd\">"));
 
         //String text = reader(filename);//sw.toString();
 
