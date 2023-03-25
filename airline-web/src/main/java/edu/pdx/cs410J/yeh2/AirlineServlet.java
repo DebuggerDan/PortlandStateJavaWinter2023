@@ -56,7 +56,7 @@ public class AirlineServlet extends HttpServlet {
     @Override
     protected void doGet( HttpServletRequest request, HttpServletResponse response ) throws IOException
     {
-        response.setContentType("text/xml");
+        response.setContentType("application/xml");
 
         String airline = getParameter( AIRLINE_PARAMETER, request );
         // In the same naming-themery scheme of 'lufthansa', but for a plane that is super duper fast - via the speed of the Inter(WW)Webz

@@ -85,7 +85,7 @@ public class AirlineRestClient
      * @throws ParserException If there is a parsing-specific error with the {@code HTTP GET} request parameters!
      */
     public String getFlightEntries(String airline, String src, String dest) throws IOException, ParserException {
-        Response response = null;//http.get(Map.of(AIRLINE_PARAMETER, airline));
+        Response response = http.get(Map.of(AIRLINE_PARAMETER, airline));
         if (src == null || dest == null)
         {
             response = http.get(Map.of(AIRLINE_PARAMETER, airline));
