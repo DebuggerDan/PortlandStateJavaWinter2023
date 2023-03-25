@@ -1,5 +1,8 @@
 package edu.pdx.cs410J.yeh2;
 
+import android.content.Context;
+import android.content.res.Resources;
+
 import edu.pdx.cs410J.ProjectXmlHelper;
 
 /**
@@ -17,7 +20,7 @@ public class AirlineXmlHelper extends ProjectXmlHelper {
     "-//Portland State University//DTD CS410J Airline//EN";
 
 
-  public AirlineXmlHelper() {
+  public AirlineXmlHelper(Context context) {
     super(PUBLIC_ID, SYSTEM_ID, "airline.dtd");
   }
 }

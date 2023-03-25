@@ -144,7 +144,7 @@ public class AftflightSearch extends AppCompatActivity {
                 Flight runway = null;
                 //File path = v.getContext().getFilesDir();
                 //File file = new File(path, searchName);
-                File file = aftFlightFile(v, searchName, ".xml");
+                File file = aftFlightFile(v, searchName, ".txt");
 //                TextParser parsley = null;
 //
 //                try
@@ -178,11 +178,11 @@ public class AftflightSearch extends AppCompatActivity {
                 try {
                     //TextParser parsley = new TextParser(file);
                     //lufthansa = TextParser.parsley(file);
-                    lufthansa = XmlParser.parsley(file);
+                    lufthansa = TextParser.parsley(file);
                 }
                 catch (ParserException e5)
                 {
-                    Snackbar.make(v, "XMLParserException: " + e5.getMessage(), Snackbar.LENGTH_LONG)
+                    Snackbar.make(v, "TextParserException: " + e5.getMessage(), Snackbar.LENGTH_LONG)
                             .setAction("Action", null).show();
                     return;
                 }

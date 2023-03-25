@@ -407,7 +407,7 @@ public class AftflightCreate extends AppCompatActivity {
 
                     //File androidPath = view.getContext().getFilesDir();
                     //File file = new File(androidPath, airlineName);
-                    File file = aftFlightFile(view, airlineName, ".xml");
+                    File file = aftFlightFile(view, airlineName, ".txt");
 //                    TextParser parsley = null;
 //                    try
 //                    {
@@ -418,19 +418,21 @@ public class AftflightCreate extends AppCompatActivity {
 //                        Snackbar.make(view, "Parsing IO Exception: " + e8.getMessage(), Snackbar.LENGTH_LONG)
 //                                .setAction("Action", null).show();
 //                    }
-
+                    boolean airlineExistence = true;
                     try {
                         //TextParser parsley = new TextParser(file);
-                        //lufthansa = TextParser.parsley(file);
-                        lufthansa = XmlParser.parsley(file);
+                        lufthansa = TextParser.parsley(file);
+                        //lufthansa = XmlParser.parsley(file);
                     } catch (ParserException | IllegalArgumentException e1) {
+                        airlineExistence = false;
                         //e1.printStackTrace();
 //                        Snackbar.make(view, "Looks like the file was invalid: ", Snackbar.LENGTH_LONG)
 //                                .setAction("Action", null).show();
                         //return;
                     }
 
-                    if (lufthansa == null) {
+                    //if (lufthansa == null) {
+                    if (!airlineExistence) {
                         try
                         {
                             //runway = new Flight(flightNumber, src, departTime, dest, arriveTime);
@@ -443,14 +445,17 @@ public class AftflightCreate extends AppCompatActivity {
                             return;
                         }
 
-                        XmlDumper xmldump = null;
+                        //TextDumper xmldump = null;
+                        TextDumper td = null;
                         try
                         {
                             //xmldump = new TextDumper(file);
                             //hp.dump(lufthansa);
 
-                            xmldump = new XmlDumper(file);
-                            xmldump.dump(lufthansa);
+//                            xmldump = new XmlDumper(file);
+//                            xmldump.dump(lufthansa);
+                            td = new TextDumper(file);
+                            td.dump(lufthansa);
                         }
                         catch (IOException e9)
                         {
@@ -478,11 +483,14 @@ public class AftflightCreate extends AppCompatActivity {
                         }
                         lufthansa.addFlight(runway);
                         //PrettyPrinter xerox = new PrettyPrinter(file);
-                        XmlDumper xmldump = null;
+                        //XmlDumper xmldump = null;
+                        TextDumper td = null;
                         try
                         {
-                            xmldump = new XmlDumper(file);
-                            xmldump.dump(lufthansa);
+                            //xmldump = new XmlDumper(file);
+                            //xmldump.dump(lufthansa);
+                            td = new TextDumper(file);
+                            td.dump(lufthansa);
                             //xerox.dump(lufthansa);
                         }
                         catch (IOException e4)
