@@ -72,7 +72,7 @@ public class XmlParser implements AirlineParser<Airline> {
             //int month = Integer.parseInt(monthString);
             int hour = Integer.parseInt(hourString);
             String amPm = hour >= 12 ? "PM" : "AM";
-            parsedDate = date_format.parse(month + "/" + dayString + "/" + yearString + " " + hourString + ":" + minuteString + " " + amPm);
+            parsedDate = date_format.parse(monthString + "/" + dayString + "/" + yearString + " " + hourString + ":" + minuteString + " " + amPm);
         } else {
             throw new ParseException("[XmlStamper] Uh oh, looks like one or more date/time attributes were missing or empty.", 0);
         }

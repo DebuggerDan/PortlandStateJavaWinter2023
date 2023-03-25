@@ -17,6 +17,7 @@ import java.text.*;
 // import java.text.SimpleDateFormat;
 
 import edu.pdx.cs410J.AirportNames;
+import edu.pdx.cs410J.web.HttpRequestHelper;
 
 import javax.swing.text.html.parser.Parser;
 import java.io.IOException;
@@ -245,7 +246,7 @@ public class Project5 {
                     // Project #5.) Option V.) -readme
                     case "readme":
                         //displayer(readme_file, 0);
-                        usage("CS410P [Adv. Java Programming] Project #5 utilizes the REST API, provided through the AirlineRestClient & AirlineServlet classes - utilizing HTTP requests as a REST-ful Web Service!\nProject #5 can store multiple Airlines, alongside their flights.\nIt can search its dictionary of airline's and containing flights for source & destination airports, search for matching airplane names, pretty-print all available flights, etc..");
+                        usage("CS410P [Adv. Java Programming] Project #5 utilizes the REST API, provided through the AirlineRestClient & AirlineServlet classes - utilizing HTTP requests as a REST-ful Web Service!\nProject #5 can store multiple Airlines, alongside their flights.\nIt uses a dictionary-mapping system, that is also based on a HashMap, where 'AftFlight' contains flights that have search capabilities based on airline name & matching source & destination airport codes, pretty-print all available flights, etc..");
                         return;
                         //readme_option_num++;
                         //break;
@@ -660,8 +661,7 @@ public class Project5 {
         AirlineRestClient client = new AirlineRestClient(hostName, port);
 
         // For -search option
-        formattedAirlineName = landing[0].substring(0, 1).toUpperCase() + landing[0].substring(1).toLowerCase();
-
+        //formattedAirlineName = landing[0].substring(0, 1).toUpperCase() + landing[0].substring(1).toLowerCase();
 
         String message = null;
 
@@ -682,7 +682,15 @@ public class Project5 {
                     formattedAirlineName = landing[0];//landing[0].substring(0, 1).toUpperCase() + landing[0].substring(1).toLowerCase();
                     String tempFormattedAirlineName = formattedAirlineName.toLowerCase();
                     String newFormattedAirlineName = tempFormattedAirlineName.substring(0, 1).toUpperCase() + tempFormattedAirlineName.substring(1);
-                    message = client.getFlightEntries(newFormattedAirlineName, null, null);
+                    try
+                    {
+                        message = client.getFlightEntries(newFormattedAirlineName, null, null);
+                    }
+                    catch (HttpRequestHelper.RestException m9)
+                    {
+                        error("Rest Error: [404] " + m9.getMessage());
+                        return;
+                    }
                 }
                 // Search for specific airline, then sub-search for matching src & dest airport codes, then pretty print all flights that match!
                 else if (argnum == 3)
@@ -698,9 +706,18 @@ public class Project5 {
 //                    formattedSrc = landing[1].toUpperCase();
 //                    formattedDest = landing[2].toUpperCase();
                     // DEBUG
-                    System.err.println("formattedAirlineName: " + formattedAirlineName + ", formattedSrc: " + formattedSrc + ", formattedDest: " + formattedDest);
+                    System.out.println("formattedAirlineName: " + formattedAirlineName + ", formattedSrc: " + formattedSearchSrc + ", formattedDest: " + formattedSearchDest);
                     // DEBUG
-                    message = client.getFlightEntries(newFormattedAirlineName, formattedSearchSrc, formattedSearchDest);
+                    try
+                    {
+                        message = client.getFlightEntries(formattedAirlineName, formattedSearchSrc, formattedSearchDest);
+                    }
+                    catch (HttpRequestHelper.RestException m10)
+                    {
+                        error("Rest Error: " + m10.getMessage());
+                        return;
+                    }
+
                 }
                 //System.out.println(message);
 
