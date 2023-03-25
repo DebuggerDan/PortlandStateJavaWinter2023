@@ -123,9 +123,8 @@ public class TextDumper implements AirlineDumper<Airline> {
 //      thefile = new File(this.dump);
 //    }
 
-    FileWriter filewrite = new FileWriter(thefile);
-
-    PrintWriter printer = new PrintWriter(filewrite);
+    //FileWriter filewrite = new FileWriter(thefile);
+    //PrintWriter printer = new PrintWriter(filewrite);
 
 //    if (this.dump != null)
 //    {
@@ -134,12 +133,17 @@ public class TextDumper implements AirlineDumper<Airline> {
     Collection<Flight> flightDump = lufthansa.getFlights();
     String airline_name = lufthansa.getName();
 
-    printer.println(airline_name);
-
-    for (Flight runway : flightDump)
+    try (FileWriter filewrite = new FileWriter(thefile);
+         PrintWriter printer = new PrintWriter(filewrite))
     {
-      printer.println(runway.getNumber() + ", " + runway.getSource() + ", " + runway.getDepartureString() + ", " + runway.getDestination() + ", " + runway.getArrivalString());
+      printer.println(airline_name);
+
+      for (Flight runway : flightDump) {
+        printer.println(runway.getNumber() + ", " + runway.getSource() + ", " + runway.getDepartureString() + ", " + runway.getDestination() + ", " + runway.getArrivalString());
+      }
+      //printer.close();
+    } catch (IOException tdAC) {
+      throw new IOException("[New Try-AutoClose TextDumper Loop] Sorry, looks like the file could not be written to: " + tdAC.getMessage());
     }
-    printer.close();
   }
 }

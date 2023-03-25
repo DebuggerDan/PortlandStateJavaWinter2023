@@ -418,12 +418,12 @@ public class TextParser implements AirlineParser<Airline> {
     String Timestamp_Format = "MM/dd/yyyy HH:mm a";
     DateFormat TStamp = new SimpleDateFormat(Timestamp_Format, Locale.US);
     String currstring = null;
-    FileReader parsely = null;
+    FileReader parsez = null;
     try
     {
 
       //parsedfile = new File(file);
-      parsely = new FileReader(file);
+      parsez = new FileReader(file);
 
     }
     catch (FileNotFoundException e2)
@@ -435,7 +435,9 @@ public class TextParser implements AirlineParser<Airline> {
     //String airlineName = br.readLine()
     Airline gate = null;// = new Airline();
 
-    try (BufferedReader buffer = new BufferedReader(parsely)){
+    try (FileReader parsley = new FileReader(file);
+         BufferedReader buffer = new BufferedReader(parsley))
+    {
 
       //BufferedReader test1 = null;
       //buffer = new BufferedReader(this.parse);
