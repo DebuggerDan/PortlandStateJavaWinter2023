@@ -26,7 +26,7 @@ public class Flight extends AbstractFlight implements Comparable<Flight>, Parcel
   protected static final String date_formatting = "MM/dd/yyyy h:mm a";
   protected static SimpleDateFormat date_format = new SimpleDateFormat(date_formatting, Locale.US);
   //private Flight next = null;
-  protected String flightNumber = "123";
+  private String flightNumber = "123";
   private String src = null;
   private Date depart = null;
   private String dest = null;
@@ -131,6 +131,10 @@ public class Flight extends AbstractFlight implements Comparable<Flight>, Parcel
 //    }
 //  }
 
+  /**
+   * Project #6: Android: Parcel-ability Constructor!
+   * @param in
+   */
   protected Flight(Parcel in) {
     //next = in.readParcelable(Flight.class.getClassLoader());
     flightNumber = in.readString();
@@ -140,17 +144,52 @@ public class Flight extends AbstractFlight implements Comparable<Flight>, Parcel
     arrive = new Date(in.readLong());
   }
 
+  /**
+   * Project #6: Android: Parcel-ability Creator!
+   * @param <code>Flight</code> CREATOR
+   */
   public static final Creator<Flight> CREATOR = new Creator<Flight>() {
     @Override
     public Flight createFromParcel(Parcel in) {
       return new Flight(in);
     }
 
+    /**
+     * Project #6: Android: Parcel-ability newArray Function thingy!
+     * @param size Size of the thingy
+     * @return <code>Flight</code> array!
+     */
+
     @Override
     public Flight[] newArray(int size) {
       return new Flight[size];
     }
   };
+
+
+  /**
+   * Project #6: Android: Parcel-ability DescribeContents!
+   * @return 0 yes
+   */
+  @Override
+  public int describeContents() {
+    return 0;
+  }
+
+  /**
+   * Project #6: Android: Parcel-ability writeToParcel!
+   * @param aircargo Parcel being flown in!
+   * @param postage Postage stamps (flags)!
+   */
+  @Override
+  public void writeToParcel(Parcel aircargo, int postage)
+  {
+    aircargo.writeString(flightNumber);
+    aircargo.writeString(src);
+    aircargo.writeString(depart.toString());
+    aircargo.writeString(dest);
+    aircargo.writeString(arrive.toString());
+  }
 
   /**
    * <p>
@@ -175,10 +214,19 @@ public class Flight extends AbstractFlight implements Comparable<Flight>, Parcel
     Objects.requireNonNull(runway);
 
     //String secondSrc = runway.getSource();
+    String firstSrc = this.src == null ? "" : this.src.toLowerCase();
+    String secondSrc = runway.getSource() == null ? "" : runway.getSource().toLowerCase();
 
     // Sort Test #1: Based on alphabetical source airport-codes (case-insensitive)!
     // Where, if firstTest is 0 = equal, if firstTest < 0 = first (originate) Flight is first, if firstTest > 0 = second flight is first;
-    int firstTest = this.src.toLowerCase().compareTo(runway.getSource().toLowerCase());//IgnoreCase(runway.getSource());//secondSrc);
+    //int firstTest = this.src.toLowerCase().compareTo(runway.getSource().toLowerCase());//IgnoreCase(runway.getSource());//secondSrc);
+    int firstTest = firstSrc.compareTo(secondSrc);
+
+
+    // Sort Test #2: Based on chronological take-off timestamps!
+    //Date secondDate = runway.getDepartureDate();
+    //int secondTest = this.depart.compareTo(runway.getDepartureDate());//secondDate);
+    int secondTest = this.depart.compareTo(runway.getDepartureDate());
 
     if (firstTest < 0)
     {
@@ -195,11 +243,6 @@ public class Flight extends AbstractFlight implements Comparable<Flight>, Parcel
     //if (firstTest == 0)
     else
     {
-
-      // Sort Test #2: Based on chronological take-off timestamps!
-      //Date secondDate = runway.getDepartureDate();
-
-      int secondTest = this.depart.compareTo(runway.getDepartureDate());//secondDate);
 
       if (secondTest < 0)
       {
@@ -270,7 +313,14 @@ public class Flight extends AbstractFlight implements Comparable<Flight>, Parcel
   @Override
   public int getNumber() {
     //return 42;
-    return Integer.parseInt(this.flightNumber);
+    if (this.flightNumber == null || this.flightNumber.equals("N/A"))
+    {
+      return -1;
+    }
+    else
+    {
+      return Integer.parseInt(this.flightNumber);
+    }
   }
 
   /**
@@ -485,18 +535,4 @@ public class Flight extends AbstractFlight implements Comparable<Flight>, Parcel
     return flight_minutes;
   }
 
-  @Override
-  public int describeContents() {
-    return 0;
-  }
-
-  @Override
-  public void writeToParcel(@NonNull Parcel aircargo, int i)
-  {
-    aircargo.writeString(flightNumber);
-    aircargo.writeString(src);
-    aircargo.writeString(depart.toString());
-    aircargo.writeString(dest);
-    aircargo.writeString(arrive.toString());
-  }
 }

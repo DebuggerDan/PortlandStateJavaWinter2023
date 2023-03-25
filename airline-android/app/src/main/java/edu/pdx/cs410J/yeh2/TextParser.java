@@ -254,14 +254,14 @@ public class TextParser implements AirlineParser<Airline> {
 
           String[] currargs = currstring.split("\\s*,\\s*");
 
-          if (currargs.length > 9) {
-            throw new IllegalArgumentException("Need at least 9 arguments for airlines/flights!");
+          if (currargs.length > 5) {
+            throw new IllegalArgumentException("Need at least 5 arguments for airlines/flights!");
           }
           else
           {
-            if (currargs.length < 9)
+            if (currargs.length < 5)
             {
-              throw new IllegalArgumentException("There can only be 9 arguments max per airline/flights!");
+              throw new IllegalArgumentException("There can only be 5 arguments max per airline/flights!");
             }
           }
           //String stamp1 = null;
@@ -327,18 +327,28 @@ public class TextParser implements AirlineParser<Airline> {
            * date1 & date2 represents the tri-string combo strings for our two full timestamps!
            * @see Project3
            */
-          String date1 = currargs[3] + " " + currargs[4] + " " + currargs[5];// + " " + currargs[4];
-          String date2 = currargs[7] + " " + currargs[8] + " " + currargs[9];// + " " + currargs[6];
+          // @see Project456 (TextDumper & TextParser uses a comma as a delimitter, so combo-strings should be redundant
+          //String date1 = currargs[2] + " " + currargs[3] + " " + currargs[4];// + " " + currargs[4];
+          //String date2 = currargs[6] + " " + currargs[7] + " " + currargs[8];// + " " + currargs[6];
+
+//          // DEBUG
+//          Log.d("TextParser", "Departure: \"" + currargs[2] + "\" to Arrival: \"" + currargs[4] + "\"" );
+//          // DEBUG
           Flight runway = null;
 
           try
           {
-            runway = new Flight(currargs[0], currargs[1], date1, currargs[4], date2);
+            runway = new Flight(currargs[0], currargs[1], currargs[2], currargs[3], currargs[4]);
           }
+
           catch (ParseException e8)
           {
             throw new ParserException("[TextParser Initialization Error]" + e8.getErrorOffset());
           }
+
+          // DEBUG
+          Log.d("TextParser [Parse]", "New Flight: Flight #" + runway.getNumber() + ", from source-airport: " + runway.getSource() + ", at " + runway.getDepartureString() + " -> to destination-airport: " + runway.getDestination() + ", at " + runway.getArrivalString() + "... with a flight duration of : " + runway.getFlightTime() + " minutes.");
+          // DEBUG
 
           // Input-Validation #5: If flight arrival is before the departure time:
           if (runway.getFlightTime() < 0)
@@ -496,9 +506,9 @@ public class TextParser implements AirlineParser<Airline> {
           //String date1 = currargs[2] + " " + currargs[3] + " " + currargs[4];// + " " + currargs[4];
           //String date2 = currargs[6] + " " + currargs[7] + " " + currargs[8];// + " " + currargs[6];
 
-          // DEBUG
-          Log.d("TextParser", "Departure: \"" + currargs[2] + "\" to Arrival: \"" + currargs[4] + "\"" );
-          // DEBUG
+//          // DEBUG
+//          Log.d("TextParser [Parsley]", "Departure: \"" + currargs[2] + "\" to Arrival: \"" + currargs[4] + "\"" );
+//          // DEBUG
 
           Flight runway = null;
 
@@ -510,6 +520,10 @@ public class TextParser implements AirlineParser<Airline> {
           {
             throw new ParserException("[TextParser Initialization Error]" + e8.getErrorOffset());
           }
+
+          // DEBUG
+          Log.d("TextParser [Parsley]", "New Flight: Flight #" + runway.getNumber() + ", from source-airport: " + runway.getSource() + ", at " + runway.getDepartureString() + " -> to destination-airport: " + runway.getDestination() + ", at " + runway.getArrivalString() + "... with a flight duration of : " + runway.getFlightTime() + " minutes.");
+          // DEBUG
 
           // Input-Validation #5: If flight arrival is before the departure time:
           if (runway.getFlightTime() < 0)

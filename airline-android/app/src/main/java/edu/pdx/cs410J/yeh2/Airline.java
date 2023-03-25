@@ -9,6 +9,8 @@ import org.w3c.dom.*;
 import org.xml.sax.*;
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.util.Log;
+
 import java.io.Serializable;
 
 //import java.util.Collection;
@@ -110,7 +112,10 @@ public class Airline extends AbstractAirline<Flight> implements Parcelable, Seri
    */
   public ArrayList<Flight> getFlightPlan()
   {
-    TreeSet<Flight> flightTree = (TreeSet<Flight>) getFlights();
+    TreeSet<Flight> flightTree = new TreeSet<Flight> (new air_traffic_controller());//(TreeSet<Flight>) this.getFlightsTree();//this.getFlights();
+    for (Flight plane : this.flights) {
+      flightTree.add(plane);
+    }
     return new ArrayList<Flight>(flightTree);
   }
 
@@ -130,7 +135,10 @@ public class Airline extends AbstractAirline<Flight> implements Parcelable, Seri
   public void setFlightsList(ArrayList<Flight> flightPlan) {
     this.flights = new TreeSet<Flight>(new air_traffic_controller());
     for (Flight plane : flightPlan) {
-      this.flights.add(plane);
+      if (plane != null) {
+        Log.d("Airline", "Adding flight: #" + plane.getNumber() + " from source airport: " + plane.getSource() + ", at: " + plane.getDepartureString() + " -> to destination airport: " + plane.getDestination() + ", at: " + plane.getArrivalString());
+        this.flights.add(plane);
+      }
     }
   }
 
@@ -374,7 +382,39 @@ public class Airline extends AbstractAirline<Flight> implements Parcelable, Seri
 
     //TreeSet<Flight> schedule = new TreeSet<> (new air_traffic_controller());
     //return schedule;
-    return this.flights;
+    if (this.flights == null)
+    {
+      //System.err.println("No flights o noes!");
+      Log.d("Airline", "Return blank flight list as nulL!");
+      return null;
+    }
+    else
+    {
+      //TreeSet<Flight> treeOFlights = new TreeSet<Flight>(this.flights);
+      return this.flights;//treeOFlights; //this.flights;
+    }
+  }
+
+  /**
+   * Project #6: Android App, Return a TreeSet of flights!
+   * @return treeOFlights A {@code TreeSet<Flight>} of flights!
+   */
+  public TreeSet<Flight> getFlightsTree() {
+    if (this.flights == null)
+    {
+      //System.err.println("No flights o noes!");
+      Log.d("Airline", "Return blank flight list as nulL!");
+      return null;
+    }
+    else
+    {
+      //TreeSet<Flight> treeOFlights = new TreeSet<Flight>(this.flights);
+      TreeSet<Flight> treeOFlights = new TreeSet<Flight>(new air_traffic_controller());
+        for (Flight plane : this.flights) {
+            treeOFlights.add(plane);
+        }
+      return treeOFlights; //this.flights;
+    }
   }
 
 //  /**
