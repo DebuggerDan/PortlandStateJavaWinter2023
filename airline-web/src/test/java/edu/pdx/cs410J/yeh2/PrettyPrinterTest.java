@@ -155,6 +155,17 @@ public class PrettyPrinterTest {
     {
         PrettyPrinter xerox1 = new PrettyPrinter("delta", false);
         PrettyPrinter xerox2 = new PrettyPrinter(null, true);
+        StringWriter sw = new StringWriter();
+        Writer poet = null;
+        PrettyPrinter xerox0b = new PrettyPrinter(poet);
+        PrettyPrinter xerox0 = new PrettyPrinter(sw);
+        PrettyPrinter xerox3 = new PrettyPrinter(null, false, null, null);
+        PrettyPrinter xerox3b = new PrettyPrinter(null, true, null, null);
+        PrettyPrinter xerox3c = new PrettyPrinter(null, false, null, "123");
+        PrettyPrinter xerox3d = new PrettyPrinter(null, false, "123", null);
+        File file = new File("test.txt");
+        PrettyPrinter xerox4 = new PrettyPrinter(file);
+
 
         //File test_file1 = new File("test.txt");
         File test_file2 = null;
