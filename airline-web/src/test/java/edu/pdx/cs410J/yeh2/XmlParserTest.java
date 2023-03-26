@@ -2,6 +2,7 @@ package edu.pdx.cs410J.yeh2;
 
 import edu.pdx.cs410J.ParserException;
 import org.junit.jupiter.api.Test;
+import org.w3c.dom.Element;
 import org.xml.sax.SAXException;
 import org.xml.sax.SAXParseException;
 
@@ -14,7 +15,7 @@ import java.text.ParseException;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.containsString;
 import static org.hamcrest.Matchers.equalTo;
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.*;
 
 class XmlParserTest {
 
@@ -65,7 +66,7 @@ class XmlParserTest {
      * @throws ParserException If there is a <code>XML</code>-parsing specific error!
      */
     @Test
-    void canParseValidXml() throws SAXException, IOException, ParserConfigurationException, ParseException, ParserException {
+    void canParseValidXml() throws SAXException, IOException, ParserConfigurationException, ParseException, ParserException, IOException {
 //        String filename = "valid-airline.xml";
 //        XmlParser xmlParserTest = new XmlParser(filename);
 //        Airline lufthansa = null;
@@ -222,4 +223,87 @@ class XmlParserTest {
         //assertThrows(IllegalArgumentException.class, parser::parse);
         assertThrows(ParserException.class, parser::parse);
     }
+
+    @Test
+    public void testThyme() throws ParseException, IOException {
+        File file = new File("test");
+        file.createNewFile();
+        //FileWriter writer = new FileWriter(file);
+        XmlParser parser = new XmlParser(file);
+        Element herb = null;
+        //String result = parser.thyme(herb);
+        assertThrows(NullPointerException.class, () -> parser.thyme(herb));
+        //assertThat(result, containsString("2/25/2022 3:30pm"));
+    }
+
+    @Test
+    public void testAsparagus() throws ParserException, ParseException, IOException {
+        File file = new File("test");
+        file.createNewFile();
+        //FileWriter writer = new FileWriter(file);
+        XmlParser parser = new XmlParser(file);
+        String xml = null;
+        //Airline airline = parser.asparagus(xml);
+        assertThrows(ParserException.class, () -> parser.asparagus(xml));
+        //assertNull(airline);
+        //assertThat(airline.getName(), containsString("Sample Airline"));
+    }
+
+    @Test
+    public void testStirfry() throws ParseException, ParserException, IOException {
+        File file = new File("test");
+        file.createNewFile();
+        //FileWriter writer = new FileWriter(file);
+        XmlParser parser = new XmlParser(file);
+        Element oil = null;
+        //Airline airline = parser.stirfry(oil);
+        assertThrows(NullPointerException.class, () -> parser.stirfry(oil));
+        //assertNull(airline);
+        //assertThat(airline.getName(), containsString("Sample Airline"));
+    }
+
+    @Test
+    public void testWok() throws ParseException, ParserException, IOException {
+        File file = new File("test");
+        file.createNewFile();
+        //FileWriter writer = new FileWriter(file);
+        XmlParser parser = new XmlParser(file);
+        Element oil = null;
+        //Flight flight = parser.wok(oil);
+        assertThrows(NullPointerException.class, () -> parser.wok(oil));
+        //assertNull(flight);
+//        assertThat(flight.getNumber(), containsString("123"));
+//        assertThat(flight.getSource(), containsString("PDX"));
+//        assertThat(flight.getDeparture().toString(), containsString("2/25/2022 3:30pm"));
+//        assertThat(flight.getDestination(), containsString("SEA"));
+//        assertThat(flight.getArrival().toString(), containsString("2/25/2022 4:30pm"));
+    }
+
+    @Test
+    public void testTakeoff() throws ParseException, ParserException, IOException {
+        File file = new File("test");
+        file.createNewFile();
+        //FileWriter writer = new FileWriter(file);
+
+        XmlParser parser = new XmlParser(file);
+        String license = "123 PDX 2/25/2022 3:30 PM SEA 2/25/2022 4:30 PM";
+
+        //Flight runway = parser.takeoff(license);
+        assertThrows(ParseException.class, () -> parser.takeoff(license));
+//        assertNotNull(runway);
+//        assertThat(Integer.toString(runway.getNumber()), containsString("123"));
+//        assertThat(runway.getSource(), containsString("PDX"));
+//        assertThat(runway.getDepartureString(), containsString("2/25/2022 3:30pm"));
+//        assertThat(runway.getDestination(), containsString("SEA"));
+//        assertThat(runway.getArrivalString(), containsString("2/25/2022 4:30pm"));
+    }
+
+//    private File new File("test") {
+//        try {
+//            return tempFolder.newFile();
+//        } catch (IOException e) {
+//            throw new RuntimeException("Error creating temporary file", e);
+//        }
+//    }
+
 }

@@ -7,6 +7,7 @@ import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
+import org.xml.sax.InputSource;
 //import edu.pdx.cs410J.yeh2.AirlineXmlHelper;
 
 //import edu.pdx.cs410J.AirlineDumper;
@@ -15,15 +16,9 @@ import org.xml.sax.SAXException;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
-import java.io.BufferedReader;
-import java.io.IOException;
+import java.io.*;
 //import java.io.InputStreamReader;
 //import java.io.Reader;
-
-import java.io.File;
-import java.io.FileReader;
-
-import java.io.FileNotFoundException;
 
 //import java.io.IOException;
 import java.text.DateFormat;
@@ -365,6 +360,310 @@ public class XmlParser implements AirlineParser<Airline> {
 
         return concorde;
     }
+
+    /**
+     * Fresh take on timestamp parsing
+     *
+     */
+    protected String thyme(Element herb) throws ParseException
+    {
+//        String Timestamp_Format = "MM/dd/yyyy HH:mm";
+        String thethyme = "";
+        String soup = "";
+        String thyme = "";
+        String ampm = "";
+        NodeList steak = herb.getChildNodes();
+        int servings = 0;
+
+        for (int idx = 0; idx < steak.getLength(); idx++)
+        {
+            if (servings >= 3)
+            {
+                idx = steak.getLength() + 10000;
+                break;
+            }
+
+            Node potato = steak.item(idx);
+            if (!(potato instanceof Element))
+            {
+                continue;
+            }
+//            else
+//            {
+//
+//            }
+            Element veggie = (Element) potato;
+            switch (veggie.getNodeName())
+            {
+                case "date":
+                    servings++;
+                    int month = Integer.parseInt(veggie.getAttribute("month")) + 1;//.length();
+                    String monthString = Integer.toString(month);
+                    soup = monthString + "/" + veggie.getAttribute("day") + "/" + monthString + "/" + veggie.getAttribute("year");
+                    break;
+                case "time":
+                    String hrstring = veggie.getAttribute("hour");
+                    int hour = Integer.parseInt(hrstring);
+                    int hour_12 = hour % 12;
+                    if (hour_12 == 0) {
+                        hour_12 = 12;
+                    }
+                    String amPm = hour >= 12 ? "pm" : "am";
+                    String min = null;
+                    if (veggie.getAttribute("minute").length() == 1)
+                    {
+                        min = "0" + min;
+                    }
+                    thyme = Integer.toString(hour_12) + ":" + min + amPm;
+                    break;
+//                case "ampm":
+//                    ampm = veggie.getTextContent();
+//                    break;
+//                default:
+//                    break;
+            }
+        }
+
+
+//        DateFormat TStamp = new SimpleDateFormat(Timestamp_Format, Locale.US);
+//        String currstring = null;
+//        currstring = herb.getTextContent();
+//        Date currdate = TStamp.parse(currstring);
+//        return currdate.toString();
+        String thymesoup = soup + " " + thyme;
+        return thymesoup;
+    }
+
+
+    /**
+     * My third attempt at programming a functioning XmlParser, part 1
+     * @param oil The XML string!
+     * @return Airline (hopefully, fingers crossed)
+     * @throws ParserException
+     */
+    public Airline asparagus(String oil) throws ParserException, ParseException {
+
+        Document plate = null;
+        Airline hawaiian = null;
+
+        try {
+            DocumentBuilderFactory airTrafficControl = DocumentBuilderFactory.newInstance();
+            airTrafficControl.setValidating(true);
+            AirlineXmlHelper helper = new AirlineXmlHelper();
+            DocumentBuilder trafficTower = airTrafficControl.newDocumentBuilder();
+            trafficTower.setEntityResolver(helper);
+            trafficTower.setErrorHandler(helper);
+            InputSource salad = new InputSource(new StringReader(oil));
+            plate = trafficTower.parse(oil);
+        }
+        catch (ParserConfigurationException a1)
+        {
+            throw new ParserException("[XmlParser Asparagus Exception Type I.] " + a1.getMessage());
+        }
+        catch (SAXException a2)
+        {
+            throw new ParserException("[XmlParser Asparagus Exception Type II.] " + a2.getMessage());
+        }
+        catch (IOException a3)
+        {
+            throw new ParserException("[XmlParser Asparagus Exception Type III.] " + a3.getMessage());
+        }
+        catch (Exception a4)
+        {
+            throw new ParserException("[XmlParser Asparagus Exception Type IV.] " + a4.getMessage());
+        }
+
+        NodeList flightXML = plate.getChildNodes();
+
+        for (int idx = 1; idx < flightXML.getLength(); ++idx)
+        {
+            Node curr = flightXML.item(idx);
+            if (!(curr instanceof Element))
+            // skip bad nodez
+            {
+                continue;
+            }
+            Element curr2 = (Element) curr;
+            if (curr2.getNodeName().equals("airline"))
+            {
+                hawaiian = this.stirfry(curr2);
+                idx = flightXML.getLength() + 10000;
+            }
+            else
+            {
+                throw new ParserException("[XmlParser Asparagus Exception Type V.] " + "Invalid XML file.");
+                //return null;
+            }
+        }
+
+        return hawaiian;
+    }
+
+    /**
+     * My third attempt at programming a functioning XmlParser, part 2
+     * @param oil The XML string!
+     * @return Airline (hopefully, fingers crossed)
+     * @throws ParseException
+     */
+
+    protected Airline stirfry(Element oil) throws ParseException, ParserException {
+        Airline alaskan = null;
+        String name = "";
+        NodeList flightXML = oil.getChildNodes();
+        Node currname = flightXML.item(1);
+        Element tempname = (Element) currname;
+
+        if (tempname.getNodeName().equals("name"))
+        {
+            alaskan = new Airline(tempname.getTextContent());
+        }
+        else
+        {
+            throw new ParserException("[XmlParser Stirfry Exception Type I.] " + "Invalid XML file: Missing Airline Name.");
+            //return null;
+        }
+
+        for (int idx = 2; idx < flightXML.getLength(); ++idx)
+        {
+            Node curr = flightXML.item(idx);
+            if (!(curr instanceof Element))
+            // skip bad nodez
+            {
+                continue;
+            }
+            Element curr2 = (Element) curr;
+            if (curr2.getNodeName().equals("flight"))
+            {
+                Flight runway = wok(curr2);
+                alaskan.addFlight(runway);
+            }
+            else
+            {
+                throw new ParserException("[XmlParser Stirfry Exception Type II.] " + "Invalid XML file: Missing Flight.");
+                //return null;
+            }
+        }
+
+        return alaskan;
+    }
+
+    /**
+     * My third attempt at programming a functioning XmlParser, part 3
+     * @param oil The XML string!
+     * @return Flight (hopefully, fingers crossed)
+     * @throws ParserException
+     */
+
+    protected Flight wok(Element oil) throws ParseException, ParserException
+    {
+        int radar = 0;
+        String boardingpass = "";
+        Flight runway = null;
+        NodeList flightXML = oil.getChildNodes();
+
+        for (int idx = 0; idx < flightXML.getLength(); ++idx)
+        {
+            if (radar >= 5)
+            {
+                idx = flightXML.getLength() + 10000;
+                break;
+            }
+
+            Node curr = flightXML.item(idx);
+            if (!(curr instanceof Element))
+            {
+                continue;
+            }
+
+            Element curr2 = (Element) curr;
+
+            switch(curr2.getNodeName())
+            {
+                case "number":
+                    boardingpass = curr2.getTextContent();
+                    ++radar;
+                    break;
+                case "src":
+                    boardingpass += " " + curr2.getTextContent();
+                    ++radar;
+                    break;
+                case "depart":
+                    boardingpass += " " + this.thyme(curr2);
+                    ++radar;
+                    break;
+                case "dest":
+                    boardingpass += " " + curr2.getTextContent();
+                    ++radar;
+                    break;
+                case "arrive":
+                    boardingpass += " " + this.thyme(curr2);
+                    ++radar;
+                    break;
+                default:
+                    throw new ParserException("[XmlParser Wok Exception Type I.] " + "Invalid XML file: Invalid Flight Data.");
+                    //return null;
+            }
+        }
+        runway = this.takeoff(boardingpass);
+        return runway;
+    }
+
+    /**
+     * My third attempt at programming a functioning XmlParser, part 4
+     * @param license A long string representing a flight!
+     * @return Date (hopefully, fingers crossed)
+     * @throws ParseException
+     */
+    protected Flight takeoff(String license) throws ParseException, ParserException
+    {
+        Flight runway = null;
+        String[] licenses = license.split(" ");
+
+        if (licenses.length > 9)
+        {
+            throw new ParserException("[XmlParser Takeoff Exception Type I.] " + "Invalid XML file: Too many flight data-components detected!");
+
+            //return null;
+        }
+        else if (licenses.length < 9)
+        {
+            throw new ParserException("[XmlParser Takeoff Exception Type II.] " + "Invalid XML file: Too few flight data-components!");
+
+            //return null;
+        }
+        else
+        {
+
+            runway = new Flight(licenses[0], licenses[1], licenses[2] + " " + licenses[3] + " " + licenses[4], licenses[5], licenses[6] + licenses[7] + licenses[8]);
+
+        }
+        return runway;
+    }
+
+//
+//        Airline hawaiian = null;
+//        String airline_name = oil.getElementsByTagName("name").item(0).getTextContent();
+//        NodeList flightXML = oil.getElementsByTagName("flight");
+//        Flight curr = null;
+//        for (int idx = 0; idx < flightXML.getLength(); idx++) {
+//            Element flight = (Element) flightXML.item(idx);
+//            String flight_number = flight.getElementsByTagName("number").item(0).getTextContent();
+//            String src = flight.getElementsByTagName("src").item(0).getTextContent();
+//            try {
+//                Date depart = xmlStamper(flight.getElementsByTagName("depart").item(0));
+//                String dest = flight.getElementsByTagName("dest").item(0).getTextContent();
+//                Date arrive = xmlStamper(flight.getElementsByTagName("arrive").item(0));
+//                curr = new Flight(flight_number, src, depart.toString(), dest, arrive.toString());
+//                hawaiian.addFlight(curr);
+//            } catch (ParseException e6) {
+//                System.out.println("[XmlParser Flight XML-List Parsing Error] " + e6.getMessage());
+//                return null;
+//            }
+//        }
+
+//        return runway;
+//}
+
 }
 //lufthansa = new Airline(boeing);
 
