@@ -299,4 +299,26 @@ public class Airline extends AbstractAirline<Flight> {
     //return schedule;
     return this.flights;
   }
+
+  /**
+   * Project #6: Android App, Return a TreeSet of flights!
+   * @return treeOFlights A {@code TreeSet<Flight>} of flights!
+   */
+  public TreeSet<Flight> getFlightsTree() {
+    if (this.flights == null)
+    {
+      //System.err.println("No flights o noes!");
+      //Log.d("Airline", "Return blank flight list as nulL!");
+      return null;
+    }
+    else
+    {
+      //TreeSet<Flight> treeOFlights = new TreeSet<Flight>(this.flights);
+      TreeSet<Flight> treeOFlights = new TreeSet<Flight>(new air_traffic_controller());
+      for (Flight plane : this.flights) {
+        treeOFlights.add(plane);
+      }
+      return treeOFlights; //this.flights;
+    }
+  }
 }

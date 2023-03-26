@@ -219,6 +219,7 @@ public class Project5 {
         String formattedDest = null;
         String formattedSearchSrc = null;
         String formattedSearchDest = null;
+        String print = "yes";
 
         Boolean printoption = false;
         Boolean searchoption = false;
@@ -670,7 +671,7 @@ public class Project5 {
                     String newFormattedAirlineName = tempFormattedAirlineName.substring(0, 1).toUpperCase() + tempFormattedAirlineName.substring(1);
                     try
                     {
-                        message = client.getFlightEntries(newFormattedAirlineName, null, null);
+                        message = client.getFlightEntries(newFormattedAirlineName, null, null, print);
                     }
                     catch (HttpRequestHelper.RestException m9)
                     {
@@ -696,7 +697,7 @@ public class Project5 {
                     // DEBUG
                     try
                     {
-                        message = client.getFlightEntries(formattedAirlineName, formattedSearchSrc, formattedSearchDest);
+                        message = client.getFlightEntries(formattedAirlineName, formattedSearchSrc, formattedSearchDest, print);
                     }
                     catch (HttpRequestHelper.RestException m10)
                     {
@@ -708,13 +709,16 @@ public class Project5 {
                 //System.out.println(message);
 
                 try {
-                    File parchment = File.createTempFile("parchment", ".xml");
+                    File parchment = new File("parchment.xml");//File.createTempFile("parchment", ".xml");
                     parchment.deleteOnExit();
 
                     try (FileWriter fw = new FileWriter(parchment);
                          PrintWriter quill = new PrintWriter(fw)) {
                         quill.print(message);
                     }
+
+                    // DEBUG
+                    System.out.println(message);
 
                     lufthansa = XmlParser.parsley(parchment);
 

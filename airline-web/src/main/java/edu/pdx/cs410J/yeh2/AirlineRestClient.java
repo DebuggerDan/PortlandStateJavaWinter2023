@@ -39,6 +39,7 @@ public class AirlineRestClient
     static final String DEPART_PARAMETER = "depart";
     static final String DEST_PARAMETER = "dest";
     static final String ARRIVE_PARAMETER = "arrive";
+    static final String PRINT_PARAMETER = "print";
 
     private final HttpRequestHelper http;
 
@@ -81,18 +82,23 @@ public class AirlineRestClient
      * @param airline The name of the <code>Airline</code> to be searched for, to be made for the {@code HTTP GET} request!
      * @param src (Optional) The source airport code to be searched for, to be made for the {@code HTTP GET} request!
      * @param dest (Optional) The destination airport code to be searched for, to be made for the {@code HTTP GET} request!
+     * @param print (Optional) The print parameter to be searched for, to have the XML {@code HTTP GET} request be printed!
      * @throws IOException If there is an IO-specific error with the {@code HTTP GET} request parameters!
      * @throws ParserException If there is a parsing-specific error with the {@code HTTP GET} request parameters!
      */
-    public String getFlightEntries(String airline, String src, String dest) throws IOException, ParserException {
+    public String getFlightEntries(String airline, String src, String dest, String print) throws IOException, ParserException {
         Response response = http.get(Map.of(AIRLINE_PARAMETER, airline));
+        if (print == null)
+        {
+            print = "";
+        }
         if (src == null || dest == null)
         {
-            response = http.get(Map.of(AIRLINE_PARAMETER, airline));
+            response = http.get(Map.of(AIRLINE_PARAMETER, airline, PRINT_PARAMETER, print));
         }
         else
         {
-            response = http.get(Map.of(AIRLINE_PARAMETER, airline, SRC_PARAMETER, src, DEST_PARAMETER, dest));
+            response = http.get(Map.of(AIRLINE_PARAMETER, airline, SRC_PARAMETER, src, DEST_PARAMETER, dest, PRINT_PARAMETER, print));
         }
 
         throwExceptionIfNotOkayHttpStatus(response);

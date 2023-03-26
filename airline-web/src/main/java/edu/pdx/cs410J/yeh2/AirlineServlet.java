@@ -41,6 +41,7 @@ public class AirlineServlet extends HttpServlet {
     static final String DEPART_PARAMETER = "depart";
     static final String DEST_PARAMETER = "dest";
     static final String ARRIVE_PARAMETER = "arrive";
+    static final String PRINT_PARAMETER = "print";
     
     //private final Map<String, String> aftflight = new HashMap<>();
     private final Map<String, Airline> aftflight = new HashMap<String, Airline>();
@@ -62,6 +63,7 @@ public class AirlineServlet extends HttpServlet {
         // In the same naming-themery scheme of 'lufthansa', but for a plane that is super duper fast - via the speed of the Inter(WW)Webz
         String src = getParameter( SRC_PARAMETER, request );
         String dest = getParameter( DEST_PARAMETER, request );
+        String print = getParameter( PRINT_PARAMETER, request );
 
         // Input Validation [Project #5] 5.) - If airline-name is not specified, use the <code>missingRequiredParameter</code> function!
         if (airline == null)
@@ -73,7 +75,7 @@ public class AirlineServlet extends HttpServlet {
         // Input Validation [Project #5] 6.1.) - If both src and dest are blank (but not airline-name), then infer Valid Case (for -search) I.): GET all flights of matching-name airline
         if (src == null && dest == null)
         {
-            writeFlights(airline, response);
+            writeFlights(airline, print, response);
             //writeSpecificDefinition(word, response);
         }
         // Input Validation [Project #5] 6.2.) - If only one of either src or dest are blank (but not airline-name), identify which one is null, then use the <code>missingRequiredParameter</code> function!
@@ -172,7 +174,7 @@ public class AirlineServlet extends HttpServlet {
                 errorRequiredParameter(response, e2.getMessage());
             }
 
-            writeSpecificFlights(airline, src, dest, response);
+            writeSpecificFlights(airline, src, dest, print, response);
         }
 
 //        if (word != null) {
@@ -271,9 +273,8 @@ public class AirlineServlet extends HttpServlet {
         //pw.println(Messages.definedWordAs(word, airline));
 
         lufthansa.addFlight(runway);
-
-        pw.println("[AftFlight] New flight added to airline '" + airline + "'!");
         pw.flush();
+        pw.println("[AftFlight] New flight added to airline '" + airline + "'!");
         pw.close();
 
         this.aftflight.put(airline, lufthansa);
@@ -330,11 +331,12 @@ public class AirlineServlet extends HttpServlet {
      * Writes the flights (into {@code XML} formatting) of the given airline-name to the HTTP response.
      * @param airline The flight that should have its definition(s) to the HTTP response!
      * @param response The {@code HTTP response} to write the definition(s) to!
+     * @param print The {@code HTTP response} that denotes for PrettyPrinting!
      * @throws IOException If there is an error writing to the HTTP response!
      * The text of the message is formatted with {@link XmlDumper}
      * @see Project5
      */
-    private void writeFlights(String airline, HttpServletResponse response) throws IOException {
+    private void writeFlights(String airline, String print, HttpServletResponse response) throws IOException {
         Airline lufthansa = this.aftflight.get(airline);
 
         if (lufthansa == null)
@@ -347,10 +349,17 @@ public class AirlineServlet extends HttpServlet {
             //PrintWriter pw = response.getWriter();
             PrintWriter pw = response.getWriter();
             //Map<String, Airline> airlineFlights = Map.of(airline, lufthansa);
+            pw.flush();
             XmlDumper dumper = new XmlDumper(pw, null, null);
             dumper.dump(lufthansa);
+//            if (print.equals("yes"))
+//            {
+//                PrettyPrinter xerox = new PrettyPrinter(null, false, false, false);
+//                xerox.dump(lufthansa);
+//                pw.flear();
+//                pw
+//            }
             //pw.println(XmlDumper.dumpMail(lufthansa));
-            pw.flush();
             pw.close();
             response.setStatus(HttpServletResponse.SC_OK);
         }
@@ -364,11 +373,12 @@ public class AirlineServlet extends HttpServlet {
      * @param response The {@code HTTP response} to write the flight(s) to!
      * @param src The src airport-code that should match the src airport-code of the flight(s) to be written to the HTTP response!
      * @param dest The dest airport-code that should match the dest airport-code of the flight(s) to be written to the HTTP response!
+     * @param print The print parameter that should be used to determine whether or not to pretty print the XML flight(s) to the user!
      * @throws IOException If there is an error writing to the HTTP response!
      * The text of the message is formatted with {@link XmlDumper}
      * @see Project5
      */
-    private void writeSpecificFlights(String airline, String src, String dest, HttpServletResponse response) throws IOException {
+    private void writeSpecificFlights(String airline, String src, String dest, String print, HttpServletResponse response) throws IOException {
         Airline lufthansa = this.aftflight.get(airline);
         if (src != null && dest != null)
         {
@@ -395,12 +405,12 @@ public class AirlineServlet extends HttpServlet {
             //PrintWriter pw = response.getWriter();
             PrintWriter pw = response.getWriter();
             //Map<String, Airline> airlineFlights = Map.of(airline, lufthansa);
+            pw.flush();
             XmlDumper dumper = new XmlDumper(pw, src, dest);
             dumper.dump(lufthansa);
             //pw.println(XmlDumper.dumpMail(lufthansa));
-            pw.flush();
             pw.close();
-
+            this.aftflight.put(airline, lufthansa);
             response.setStatus(HttpServletResponse.SC_OK);
         }
 

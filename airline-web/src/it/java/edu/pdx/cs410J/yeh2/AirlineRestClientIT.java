@@ -37,7 +37,7 @@ class AirlineRestClientIT {
   @Test
   void test1EmptyServerContainsNoDictionaryEntries() throws IOException, ParserException {
     AirlineRestClient client = newAirlineRestClient();
-    assertThrows(HttpRequestHelper.RestException.class, () -> client.getFlightEntries("Lufthansa", null, null));
+    assertThrows(HttpRequestHelper.RestException.class, () -> client.getFlightEntries("Lufthansa", null, null, null));
     //Map<String, String> dictionary = client.getAllDictionaryEntries();
     //assertThat(dictionary.size(), equalTo(0));
   }
@@ -53,7 +53,7 @@ class AirlineRestClientIT {
     String arrive = "3/10/2023 4:47 am";
     client.addFlightEntry(airline, flightNumber, src, depart, dest, arrive);
 
-    String lufthansa = client.getFlightEntries(airline, null, null);
+    String lufthansa = client.getFlightEntries(airline, null, null, null);
     //assertThat(lufthansa, equalTo(""));
     assertThat(lufthansa, Matchers.containsString("<name>Lufthansa</name>"));// +
   }
@@ -94,11 +94,11 @@ class AirlineRestClientIT {
     String dest3 = "SAN";
     String arrive3 = "3/12/2023 7:47 am";
     client.addFlightEntry(airline, flightNumber, src, depart, dest, arrive);
-    String query1 = client.getFlightEntries(airline, null, null);
+    String query1 = client.getFlightEntries(airline, null, null, null);
     client.addFlightEntry(airline2, flightNumber2, src2, depart2, dest2, arrive2);
-    String query2 = client.getFlightEntries(airline2, null, null);
+    String query2 = client.getFlightEntries(airline2, null, null, null);
     client.addFlightEntry(airline3, flightNumber3, src3, depart3, dest3, arrive3);
-    String query3 = client.getFlightEntries(airline3, "PDX", "SAN");
+    String query3 = client.getFlightEntries(airline3, "PDX", "SAN", null);
 
     //assertThat(lufthansa, equalTo(""));
     assertThat(query1, Matchers.containsString("<name>Lufthansa</name>"));

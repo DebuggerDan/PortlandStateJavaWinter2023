@@ -29,14 +29,20 @@ import java.util.*;
  * </p>
  */
 public class PrettyPrinter implements AirlineDumper<Airline> {
-    protected static DateFormat pretty_format = DateFormat.getDateTimeInstance(0, 0, Locale.US);
-
+    //protected static DateFormat pretty_format = DateFormat.getDateTimeInstance(0, 0, Locale.US);
+    String Timestamp_Format = "MM/dd/yyyy h:mm a";
+    DateFormat pretty_format = new SimpleDateFormat(Timestamp_Format, Locale.US);
     //private static AirportNames iata = new AirportNames();
     //private final StringWriter writer;
 
     protected String file_name = null;
     protected Boolean save = false;
+    protected Boolean specificPrint = false;
     protected String plotter = null;
+
+    protected String prettySrc = null;
+    protected String prettyDest = null;
+    protected int specificPrettyFlightNum = 0;
 
     /*
      * A pretty ASCII art-picture of a airplane & clouds!
@@ -141,6 +147,41 @@ public class PrettyPrinter implements AirlineDumper<Airline> {
     }
 
     /**
+     * Project #6: Create a PrettyPrinter for searching specific flights with matching src & dest!
+     * Create a PrettyPrinter for a specific file name in-mind (and/or prints to screen), but checks if it is an invalid file name.
+     * @param name The name of the file to be dumped to.
+     * @param save Whether {@code PrettyPrinter()} should save to specified file or not.
+     */
+    public PrettyPrinter(String name, Boolean save, String src, String dest)
+            throws IllegalArgumentException
+    {
+        if (name == null || name.isEmpty() || !save)
+        {
+            this.file_name = null;
+            this.save = false;
+            //throw new IllegalArgumentException("Sorry, looks like the name of the file was incorrect.");
+        }
+        else
+        {
+            if (save)
+            {
+                this.file_name = name;
+                this.save = true;
+            }
+//            else
+//            {
+//                this.file_name = null;
+//            }
+        }
+        if (src != null && dest != null)
+        {
+            this.specificPrint = true;
+            this.prettySrc = src;
+            this.prettyDest = dest;
+        }
+    }
+
+    /**
      * Create a PrettyPrinter for a specific file in-mind, but checks if it is an invalid file.
      * @param file The name of the file to be dumped to.
      * @throws IllegalArgumentException If the file name is invalid, it throws an Illegal Argument exception thingy.
@@ -213,8 +254,8 @@ public class PrettyPrinter implements AirlineDumper<Airline> {
             printer = new PrintWriter(stringy);
         }
         //LinkedList<Flight> flightDump = lufthansa.getFlights();
-        //TreeSet<Flight> flightDump = lufthansa.getFlights();
-        Collection<Flight> flightDump = lufthansa.getFlights();
+        TreeSet<Flight> flightDump = lufthansa.getFlightsTree();
+        //Collection<Flight> flightDump = lufthansa.getFlights();
         String airline_name = lufthansa.getName();
         int flightnum = 1;
         //printer.println(airline_name);
@@ -253,11 +294,31 @@ public class PrettyPrinter implements AirlineDumper<Airline> {
 
         printer.println("Thank you for using the PrettyPrinter!");
 
-        printer.println("For airline, '" + airline_name + "', we have the following flight(s) scheduled...\n");
-        printer.println("-----");
+
+        if (this.specificPrint)
+        {
+            printer.println("-------\n[SRC-to-DEST Airport Query Mode Activated!]\n" +
+                    "Searching flights from the airline, '" + airline_name + "...'\n< Querying for flights from... '" + this.prettySrc + "' airport...~> to ~>... '" + this.prettyDest + "' airport... >\n\n-------");
+        }
+        else
+        {
+            printer.println("For airline, '" + airline_name + "', we have the following flight(s) scheduled...\n");
+            printer.println("-----");
+        }
 
         for (Flight runway : flightDump)
         {
+            if (this.specificPrint)
+            {
+                if (!runway.getSource().equals(this.prettySrc) || !runway.getDestination().equals(this.prettyDest))
+                {
+                    continue;
+                }
+                else
+                {
+                    this.specificPrettyFlightNum++;
+                }
+            }
             airport1 = IATA(runway.getSource());
             airport2 = IATA(runway.getDestination());
             //                date1 = (pretty_format.format(runway.getDepartureDate())).toLowerCase();
@@ -286,6 +347,12 @@ public class PrettyPrinter implements AirlineDumper<Airline> {
             //                        ", " + runway.getDestination() +
             //                        ", " + runway.getArrivalString());
             flightnum++;
+        }
+        if (this.specificPrint)
+        {
+            printer.println("-----");
+            printer.println("SRC-to-DEST Airport Search Statz:");
+            printer.println("For the specific flight(s) from '" + this.prettySrc + "' to '" + this.prettyDest + "', we were able to find a total of: " + this.specificPrettyFlightNum + " flight(s) scheduled with those two airport codes!");
         }
         printer.close();
 
