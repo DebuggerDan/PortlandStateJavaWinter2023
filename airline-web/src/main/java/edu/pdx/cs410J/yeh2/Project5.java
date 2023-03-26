@@ -710,24 +710,24 @@ public class Project5 {
 
                 try {
                     File parchment = new File("parchment.xml");//File.createTempFile("parchment", ".xml");
-                    parchment.deleteOnExit();
+                    //parchment.deleteOnExit();
 
                     try (FileWriter fw = new FileWriter(parchment);
                          PrintWriter quill = new PrintWriter(fw)) {
                         quill.print(message);
                     }
 
-                    // DEBUG
-                    System.out.println(message);
+                    // DEBUG for XML output
+                    //System.out.println(message);
 
-                    lufthansa = XmlParser.parsley(parchment);
+                    //lufthansa = XmlParser.parsley(parchment);
 
-                    PrettyPrinter scribe = new PrettyPrinter(null, false);
-                    scribe.dump(lufthansa);
-                    System.out.println(scribe.getPlottedPrint());
-                } catch (ParserException e4) {
-                    error("[AftFlight] Error while parsing the XML file: " + e4.getMessage());
-                    return;
+                    //PrettyPrinter scribe = new PrettyPrinter(null, false);
+                    //scribe.dump(lufthansa);
+                    //System.out.println(scribe.getPlottedPrint());
+//                } catch (ParserException e4) {
+//                    error("[AftFlight] Error while parsing the XML file: " + e4.getMessage());
+//                    return;
                 } catch (IOException e) {
                     error("[AftFlight] Error while creating or writing to the temporary file: " + e.getMessage());
                     return;

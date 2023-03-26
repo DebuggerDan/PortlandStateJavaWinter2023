@@ -352,13 +352,18 @@ public class AirlineServlet extends HttpServlet {
             pw.flush();
             XmlDumper dumper = new XmlDumper(pw, null, null);
             dumper.dump(lufthansa);
-//            if (print.equals("yes"))
-//            {
-//                PrettyPrinter xerox = new PrettyPrinter(null, false, false, false);
-//                xerox.dump(lufthansa);
-//                pw.flear();
-//                pw
-//            }
+            if (print != null)
+            {
+                if (print.equals("yes"))
+                // sorry, i tried everything but XMLparsing has had me up for 3 days straight, my bad
+                {
+                    //pw.flush();
+                    PrettyPrinter xerox = new PrettyPrinter(null, false, null, null);
+                    xerox.dump(lufthansa);
+                    System.out.println(xerox.getPlottedPrint());
+                    //pw.close();
+                }
+            }
             //pw.println(XmlDumper.dumpMail(lufthansa));
             pw.close();
             response.setStatus(HttpServletResponse.SC_OK);
@@ -410,6 +415,18 @@ public class AirlineServlet extends HttpServlet {
             dumper.dump(lufthansa);
             //pw.println(XmlDumper.dumpMail(lufthansa));
             pw.close();
+            if (print != null)
+            {
+                if (print.equals("yes"))
+                // sorry, i tried everything but XMLparsing has had me up for 3 days straight, my bad
+                {
+                    //pw.flush();
+                    PrettyPrinter xerox = new PrettyPrinter(null, false, null, null);
+                    xerox.dump(lufthansa);
+                    System.out.println(xerox.getPlottedPrint());
+                    //pw.close();
+                }
+            }
             this.aftflight.put(airline, lufthansa);
             response.setStatus(HttpServletResponse.SC_OK);
         }
