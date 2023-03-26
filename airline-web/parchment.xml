@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE airline SYSTEM "http://www.cs.pdx.edu/~whitlock/dtds/airline.dtd">
+<airline>
+    <name>Project5</name>
+    <flight>
+        <number>888</number>
+        <src>CLE</src>
+        <depart>
+            <date day="7" month="0" year="2023"/>
+            <time hour="7" minute="0"/>
+        </depart>
+        <dest>EGE</dest>
+        <arrive>
+            <date day="17" month="0" year="2023"/>
+            <time hour="19" minute="0"/>
+        </arrive>
+    </flight>
+    <flight>
+        <number>1111</number>
+        <src>CLE</src>
+        <depart>
+            <date day="8" month="0" year="2023"/>
+            <time hour="7" minute="0"/>
+        </depart>
+        <dest>EGE</dest>
+        <arrive>
+            <date day="8" month="0" year="2023"/>
+            <time hour="19" minute="0"/>
+        </arrive>
+    </flight>
+</airline>

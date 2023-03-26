@@ -28,7 +28,7 @@ import static java.net.HttpURLConnection.HTTP_OK;
  *  – Note that, unlike previous assignments, the web application must support multiple airlines.
  *
  */
-public class AirlineRestClient
+public class AirlineRestClient extends HttpRequestHelper
 {
     private static final String WEB_APP = "airline";
     private static final String SERVLET = "flights";
@@ -51,16 +51,38 @@ public class AirlineRestClient
      */
     public AirlineRestClient( String hostName, int port )
     {
-        this.url = String.format("http://%s:%d/%s/%s", hostName, port, WEB_APP, SERVLET);
-        this.http = new HttpRequestHelper(String.format("http://%s:%d/%s/%s", hostName, port, WEB_APP, SERVLET));
+        super(String.format("http://%s:%d/%s/%s", hostName, port, WEB_APP, SERVLET));
+        this.url = String.format( "http://%s:%d/%s/%s", hostName, port, WEB_APP, SERVLET );
+        //this.url = String.format("http://%s:%d/%s/%s", hostName, port, WEB_APP, SERVLET));
+        //this.http = new HttpRequestHelper(String.format("http://%s:%d/%s/%s", hostName, port, WEB_APP, SERVLET));
 
         // Note to Self: look into {@link https://ordina-jworks.github.io/security/2019/08/14/Using-Lets-Encrypt-Certificates-In-Java.html#automating-the-renewal-process}
         // for HTTPS automagically renewed LetsEncrypt SSL certificates (would have to work flawlessly universally OS-wise to include in Project, though)
 
+        http = null;
     }
+
+//    /**
+//     * Creates a client to the AftFlight Airline REST service running on the given host and port
+//     * @param hostName The name of the host
+//     * @param port The port
+//     */
+//    public AirlineRestClient( String urlString )
+//    {
+//        super(urlString = String.format("http://%s:%d/%s/%s", hostName, port, WEB_APP, SERVLET));
+//
+//        this.url = urlString;
+//
+//        this.http = new HttpRequestHelper(String.format("http://%s:%d/%s/%s", hostName, port, WEB_APP, SERVLET));
+//
+//        // Note to Self: look into {@link https://ordina-jworks.github.io/security/2019/08/14/Using-Lets-Encrypt-Certificates-In-Java.html#automating-the-renewal-process}
+//        // for HTTPS automagically renewed LetsEncrypt SSL certificates (would have to work flawlessly universally OS-wise to include in Project, though)
+//
+//    }
 
     @VisibleForTesting
     AirlineRestClient(HttpRequestHelper http) {
+        super(http.toString());
         this.http = http;
         this.url = http.toString();
     }
@@ -85,18 +107,21 @@ public class AirlineRestClient
      * @throws ParserException If there is a parsing-specific error with the {@code HTTP GET} request parameters!
      */
     public String getFlightEntries(String airline, String src, String dest) throws IOException, ParserException {
-        Response response = http.get(Map.of(AIRLINE_PARAMETER, airline));
+        //Response response = http.get(Map.of(AIRLINE_PARAMETER, airline));
+        Response response = null;//get(this.url, Map.of("airline", airline, "src", src, "dest", dest));
+
         if (src == null || dest == null)
         {
-            response = http.get(Map.of(AIRLINE_PARAMETER, airline));
+            response = get(Map.of(AIRLINE_PARAMETER, airline));
         }
         else
         {
-            response = http.get(Map.of(AIRLINE_PARAMETER, airline, SRC_PARAMETER, src, DEST_PARAMETER, dest));
+            response = get(Map.of(AIRLINE_PARAMETER, airline, SRC_PARAMETER, src, DEST_PARAMETER, dest));
         }
 
         throwExceptionIfNotOkayHttpStatus(response);
-        return response.getContent();
+        String test = response.getContent();
+        return test;
         //String content = response.getContent();
 
         //TextParser parser = new TextParser(new StringReader(content));
@@ -132,13 +157,13 @@ public class AirlineRestClient
      * @throws IOException If there is an error with the {@code HTTP POST} request parameters!
      */
     public String addFlightEntry(String airline, String flightNumber, String src, String depart, String dest, String arrive) throws IOException {
-        Response response = http.post(Map.of(AIRLINE_PARAMETER, airline, FLIGHTNUMBER_PARAMETER, flightNumber, SRC_PARAMETER, src, DEPART_PARAMETER, depart, DEST_PARAMETER, dest, ARRIVE_PARAMETER, arrive));
+        Response response = post(Map.of(AIRLINE_PARAMETER, airline, FLIGHTNUMBER_PARAMETER, flightNumber, SRC_PARAMETER, src, DEPART_PARAMETER, depart, DEST_PARAMETER, dest, ARRIVE_PARAMETER, arrive));
         throwExceptionIfNotOkayHttpStatus(response);
         return response.getContent();
     }
 
     public void removeAllDictionaryEntries() throws IOException {
-        Response response = http.delete(Map.of());
+        Response response = delete(Map.of());
         throwExceptionIfNotOkayHttpStatus(response);
     }
 
@@ -147,6 +172,14 @@ public class AirlineRestClient
         if (code != HTTP_OK) {
             String message = response.getContent();
             throw new RestException(code, message);
+        }
+    }
+
+    static class AirlineRestException extends RuntimeException
+    {
+        AirlineRestException(int httpstatus)
+        {
+            super("Beep boop, HTTP Status: " + httpstatus);
         }
     }
 

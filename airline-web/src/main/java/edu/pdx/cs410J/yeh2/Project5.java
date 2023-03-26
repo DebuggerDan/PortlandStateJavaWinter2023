@@ -708,8 +708,8 @@ public class Project5 {
                 //System.out.println(message);
 
                 try {
-                    File parchment = File.createTempFile("parchment", ".xml");
-                    parchment.deleteOnExit();
+                    File parchment = new File("parchment.xml");//("parchment", ".xml");
+                    //parchment.deleteOnExit();
 
                     try (FileWriter fw = new FileWriter(parchment);
                          PrintWriter quill = new PrintWriter(fw)) {
@@ -721,6 +721,7 @@ public class Project5 {
                     PrettyPrinter scribe = new PrettyPrinter(null, false);
                     scribe.dump(lufthansa);
                     System.out.println(scribe.getPlottedPrint());
+
                 } catch (ParserException e4) {
                     error("[AftFlight] Error while parsing the XML file: " + e4.getMessage());
                     return;

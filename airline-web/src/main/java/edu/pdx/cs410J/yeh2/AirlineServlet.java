@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.text.ParseException;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -43,7 +44,7 @@ public class AirlineServlet extends HttpServlet {
     static final String ARRIVE_PARAMETER = "arrive";
     
     //private final Map<String, String> aftflight = new HashMap<>();
-    private final Map<String, Airline> aftflight = new HashMap<String, Airline>();
+    private final Map<String, Airline> aftflight = new HashMap<>();
 
     /**
      * Handles an {@code HTTP GET} request from a client by writing the <code>Flight</code>s of the
@@ -56,12 +57,13 @@ public class AirlineServlet extends HttpServlet {
     @Override
     protected void doGet( HttpServletRequest request, HttpServletResponse response ) throws IOException
     {
-        response.setContentType("application/xml");
+        response.setContentType("text/plain");
 
         String airline = getParameter( AIRLINE_PARAMETER, request );
         // In the same naming-themery scheme of 'lufthansa', but for a plane that is super duper fast - via the speed of the Inter(WW)Webz
         String src = getParameter( SRC_PARAMETER, request );
         String dest = getParameter( DEST_PARAMETER, request );
+        Airline concorde = null;
 
         // Input Validation [Project #5] 5.) - If airline-name is not specified, use the <code>missingRequiredParameter</code> function!
         if (airline == null)
@@ -172,7 +174,25 @@ public class AirlineServlet extends HttpServlet {
                 errorRequiredParameter(response, e2.getMessage());
             }
 
-            writeSpecificFlights(airline, src, dest, response);
+            concorde = writeSpecificFlights(airline, src, dest, response);
+
+            if (concorde == null)
+            {
+                //usage("Uh oh, looks like the airline, '" + airline + "', was not found in our airline-names database!");
+                errorRequiredParameter(response, AIRLINE_PARAMETER);
+                // Graceful Exit: If the airline was not found in AirlineNames!
+                return;
+            }
+//            else
+//            {
+            PrintWriter pw = response.getWriter();
+            XmlDumper xp = new XmlDumper(pw, null, null);
+
+            xp.dump(concorde);
+            pw.flush();
+
+            response.setStatus(HttpServletResponse.SC_OK);
+            //}
         }
 
 //        if (word != null) {
@@ -334,13 +354,14 @@ public class AirlineServlet extends HttpServlet {
      * The text of the message is formatted with {@link XmlDumper}
      * @see Project5
      */
-    private void writeFlights(String airline, HttpServletResponse response) throws IOException {
-        Airline lufthansa = this.aftflight.get(airline);
+    private Airline writeFlights(String airline, HttpServletResponse response) throws IOException {
+        //Airline lufthansa = this.aftflight.get(airline);
+        Airline lufthansa = getAirline(airline);
+        Airline concorde = null;
 
         if (lufthansa == null)
         {
             response.sendError(HttpServletResponse.SC_NOT_FOUND, "Unable to find the airline named: '" + airline + "'!");
-
         }
         else
         {
@@ -353,9 +374,18 @@ public class AirlineServlet extends HttpServlet {
             pw.flush();
             pw.close();
             response.setStatus(HttpServletResponse.SC_OK);
+
+            concorde = new Airline(airline);
+            Collection<Flight> airport = lufthansa.getFlights();
+
+            for (Flight runway : airport)
+            {
+                concorde.addFlight(runway);
+            }
         }
 
         //pw.flush();
+        return concorde;
     }
 
     /**
@@ -368,8 +398,10 @@ public class AirlineServlet extends HttpServlet {
      * The text of the message is formatted with {@link XmlDumper}
      * @see Project5
      */
-    private void writeSpecificFlights(String airline, String src, String dest, HttpServletResponse response) throws IOException {
-        Airline lufthansa = this.aftflight.get(airline);
+    private Airline writeSpecificFlights(String airline, String src, String dest, HttpServletResponse response) throws IOException {
+        Airline lufthansa = getAirline(airline);//this.aftflight.get(airline);
+        Airline concorde = null;
+
         if (src != null && dest != null)
         {
             String localSrc = new String(src);
@@ -392,6 +424,7 @@ public class AirlineServlet extends HttpServlet {
         }
         else
         {
+
             //PrintWriter pw = response.getWriter();
             PrintWriter pw = response.getWriter();
             //Map<String, Airline> airlineFlights = Map.of(airline, lufthansa);
@@ -401,10 +434,22 @@ public class AirlineServlet extends HttpServlet {
             pw.flush();
             pw.close();
 
-            response.setStatus(HttpServletResponse.SC_OK);
+            concorde = new Airline(airline);
+
+            Collection<Flight> flights = lufthansa.getFlights();
+            for (Flight runway : flights)
+            {
+                if (runway.getSource().equals(src) && runway.getDestination().equals(dest))
+                {
+                    concorde.addFlight(runway);
+                }
+            }
+
+            //response.setStatus(HttpServletResponse.SC_OK);
         }
 
         //pw.flush();
+        return concorde;
     }
 
 //    /**

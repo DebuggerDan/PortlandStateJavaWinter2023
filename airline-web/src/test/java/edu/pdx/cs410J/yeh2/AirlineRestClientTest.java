@@ -8,6 +8,7 @@ import java.io.IOException;
 import java.io.StringWriter;
 import java.util.Map;
 
+import static org.hamcrest.CoreMatchers.containsString;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
 import static org.mockito.ArgumentMatchers.eq;
@@ -36,5 +37,15 @@ public class AirlineRestClientTest {
     new TextDumper(writer).dump(dictionary);
 
     return new HttpRequestHelper.Response(writer.toString());
+  }
+
+  /**
+   * "Beep boop, ATC to Pilot, you are cleared for landing"
+   */
+  @Test
+  void testAirlineRestException() {
+    int httpStatus = 404;
+    AirlineRestClient.AirlineRestException exception = new AirlineRestClient.AirlineRestException(httpStatus);
+    assertThat(exception.getMessage(), containsString("Beep boop, HTTP Status: " + httpStatus));
   }
 }
