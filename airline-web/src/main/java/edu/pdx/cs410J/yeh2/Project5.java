@@ -718,7 +718,7 @@ public class Project5 {
                     }
 
                     // DEBUG for XML output
-                    //System.out.println(message);
+                    System.out.println(message);
 
                     //lufthansa = XmlParser.parsley(parchment);
 
